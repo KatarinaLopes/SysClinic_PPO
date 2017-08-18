@@ -1,12 +1,52 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        
+        <c:if test="${controllerPaciente.pacienteLogado != null}">
+            <script>
+                location.href = "home_paciente.xhtml";
+            </script>
+        
+        </c:if>
+        
+
+        <h:form id="loginForm">
+
+            <p:poll>
+                <p:messages/>
+            </p:poll>
+            
+            <p:panelGrid columns="2">
+
+                <p:inputText id="nregistro" type="number" value="#{nregistro}" 
+                             placeholder="Nº de registro" required="true"
+                             requiredMessage="Campo obrigatório!"/>
+
+                <p:message for="nregistro"/>
+
+                <p:password id="senha" value="#{senha}" placeholder="Senha"
+                            required="true" 
+                            requiredMessage="Campo obrigatório!"/>
+
+                <p:message for="senha"/>
+
+            </p:panelGrid>
+
+            <p:commandButton value="OK" 
+                             action="#{controllerPaciente.fazerLogin(nregistro, senha)}"
+                             update=":loginForm"/>
+            
+            <h:link value="Cadastre-se!" outcome="cadastro_paciente.xhtml"/>
+            <p:spacer/>            
+            <h:link value="Acessar intranet" outcome="login_intranet.xhtml"/>
+        </h:form>
     </h:body>
 </html>
 
