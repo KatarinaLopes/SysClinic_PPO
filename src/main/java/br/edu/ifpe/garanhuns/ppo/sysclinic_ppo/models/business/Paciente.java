@@ -44,7 +44,7 @@ public class Paciente {
     @Column
     private String email;
     
-    @Column(nullable = false, length = 14)
+    @Column(nullable = false, unique=true, length = 14)
     private String cpf;
     
     @Column(nullable = false)

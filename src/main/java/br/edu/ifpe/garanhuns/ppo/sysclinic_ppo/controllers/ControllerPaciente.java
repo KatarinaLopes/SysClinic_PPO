@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -50,8 +51,24 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     @Override
-    public void cadastrar(Paciente c) {
+    @Deprecated
+    public void cadastrar(Paciente c){
+        
+    }
+    
+    public String cadastrar(Paciente c, String senha) {
+        //System.out.println(c.getSenha());
+        
+        if(!c.getSenha().equals(senha)){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("As senhas não correspondem"));
+            return null;
+        }
+        
+        c.setDataAdmissao(new Date(System.currentTimeMillis()));
+        
         pacientes.persistir(c);
+        
+        return "login_paciente.xhtml";
     }
 
     @Override
