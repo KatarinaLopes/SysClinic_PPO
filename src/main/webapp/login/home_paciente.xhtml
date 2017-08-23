@@ -17,11 +17,18 @@
 
         <h:form id="principalForm">
 
-            Hello <h:outputText value="#{controllerPaciente.pacienteLogado.nome}"/>
+            Olá, <h:outputText value="#{controllerPaciente.pacienteLogado.nome}"/>!
 
             <p:commandButton value="Sair" 
                              action="#{controllerPaciente.fazerLogout()}"
                              update=":principalForm"/>
+            
+            <br/>
+            <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/><br/>
+            <h:link value="Apresentar agendamentos já feitos" outcome="agendamentos_feitos.xhtml"/><br/>
+            <h:link value="Agendamentos pendentes" outcome="agendamentos_pendentes.xhtml"/><br/>
+            <h:link value="Alterar informações pessoais" outcome="informacoes_pessoais.xhtml"/><br/>
+            <h:link value="Sugestões/Opiniões" outcome="sugestoes.xhtml"/>
 
         </h:form>
     </h:body>
