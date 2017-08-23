@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -53,36 +54,40 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @Override
     @Deprecated
-    public void cadastrar(Paciente c){
-        
+    public void cadastrar(Paciente c) {
+
     }
-    
-    public boolean validarPaciente(Paciente c, String senha){
-        if(!Validador.validarCpf(c.getCpf())){
+
+    public boolean validarPaciente(Paciente c, String senha) {
+        if (!Validador.validarCpf(c.getCpf())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("CPF inválido"));
             return false;
         }
-        
-        if(!c.getSenha().equals(senha)){
+
+        if (!c.getSenha().equals(senha)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("As senhas não correspondem"));
             return false;
         }
-         
+
         return true;
     }
-    
+
     public String cadastrar(Paciente c, String senha) {
         //System.out.println(c.getSenha());
-        
-        if(!validarPaciente(c, senha)){
+
+        if (!validarPaciente(c, senha)) {
             return null;
         }
-        
-        
+
         c.setDataAdmissao(new Date(System.currentTimeMillis()));
-        
-        pacientes.persistir(c);
-        
+
+        try {
+            pacientes.persistir(c);
+        } catch (ConstraintViolationException cve) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("O CPF informado já está cadastrado!"));
+            return null;
+        }
+
         return "login_paciente.xhtml";
     }
 
@@ -113,11 +118,12 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
                 HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                         getExternalContext().getSession(true);
 
+                //s.setMaxInactiveInterval(30000);
                 s.setAttribute("pacienteLogado", pacienteLogado);
 
                 return "home_paciente.xhtml";
             }
-            
+
         } catch (IndexOutOfBoundsException e) {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage("O login está incorreto"));
@@ -128,14 +134,14 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
         return null;
     }
-    
-    public String fazerLogout(){
+
+    public String fazerLogout() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        
+
         s.removeAttribute("pacienteLogado");
-        
+
         pacienteLogado = null;
-        
+
         return "login_paciente.xhtml";
     }
 }

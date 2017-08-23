@@ -15,6 +15,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.boot.registry.internal.BootstrapServiceRegistryImpl;
 import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -50,11 +51,11 @@ public class HibernateUtil {
         return myself;
     }
 
-    public void persist(Object o){
+    public void persist(Object o) throws ConstraintViolationException{
         
         Transaction tr = null;
         
-        try{
+        //try{
             Session s = sessionFactory.openSession();
             tr = s.beginTransaction();
             
@@ -63,9 +64,9 @@ public class HibernateUtil {
             tr.commit();
             
             s.close();
-        }catch(HibernateException he){
-            System.err.println("Could not operate on session: " + he);
-        }
+        //}catch(HibernateException he){
+            //System.err.println("Could not operate on session: " + he);
+        //}
     }
 
     //"Prepared statement"
