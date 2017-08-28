@@ -5,7 +5,9 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -24,10 +26,28 @@ public class HibernateUtilTest {
     public void testGetInstance() {
     }
 
+    /*
+    Testado, funcionando
     @Test
     public void deveTestarPersist() {
+        int tamanho = HibernateUtil.getInstance().recover("from Paciente").
+                size();
         
-    }
+        Paciente p = new Paciente(0, new Date(System.currentTimeMillis()), 
+                "PacienteTeste", "M", new Date(System.currentTimeMillis()), 
+                "(88)9-9999-9999", null, null, "666.666.666-66", "123", 
+                new LinkedList<Agendamento>());
+        
+        HibernateUtil.getInstance().persist(p);
+        
+        int tamanhoNovo = HibernateUtil.getInstance().recover("from Paciente").
+                size();
+        
+        assertEquals(++tamanho, tamanhoNovo);
+        
+        
+        
+    }*/
 
     //Foram criados Pacientes via SQL. Na época, eram 4.
     @Test
@@ -36,7 +56,7 @@ public class HibernateUtilTest {
         List<Paciente> listaPacientes = HibernateUtil.getInstance().
                 recover("from Paciente");
         
-        assertEquals(4, listaPacientes.size());
+        assertEquals(6, listaPacientes.size());
         
     }
     
@@ -63,7 +83,7 @@ public class HibernateUtilTest {
     }*/
 
     @Test
-    public void testUpdate() {
+    public void deveTestarUpdate() {
     }
 
     @Test

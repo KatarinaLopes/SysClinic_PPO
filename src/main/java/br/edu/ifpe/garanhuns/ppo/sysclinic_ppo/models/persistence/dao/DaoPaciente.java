@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Katarina
  */
-public class DaoPaciente implements DaoGenerico<Paciente, Integer>{
+public class DaoPaciente implements DaoGenerico<Paciente, Integer> {
 
     @Override
     public void persistir(Paciente c) {
@@ -24,14 +24,14 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer>{
     @Override
     public Paciente recuperar(Integer i) {
         Paciente p;
-        
-        try{
+
+        try {
             p = (Paciente) HibernateUtil.getInstance().
-                recover("from Paciente where id=" + i).get(0);
-        }catch(IndexOutOfBoundsException e){
+                    recover("from Paciente where id=" + i).get(0);
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        
+
         return p;
     }
 
@@ -47,6 +47,15 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer>{
 
     @Override
     public List recuperarTodos() {
-        return HibernateUtil.getInstance().recover("from Paciente");
+        List pacientes;
+
+        try {
+            pacientes = HibernateUtil.getInstance().recover("from Paciente");
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+        
+        return pacientes;
+
     }
 }
