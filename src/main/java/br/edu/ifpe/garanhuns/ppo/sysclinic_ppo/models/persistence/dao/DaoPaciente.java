@@ -26,6 +26,13 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer>{
         return (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id=" + i).get(0);
     }
+    
+    @Override
+    public Paciente recuperarPorAtributo(String atributo, String value){
+        
+        return (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where cpf=" + "'" + value + "'").get(0);
+    }
 
     @Override
     public void atualizar(Paciente c) {

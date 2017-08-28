@@ -106,11 +106,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         pacientesCadastrados = pacientes.recuperarTodos();
     }
 
-    public String fazerLogin(int login, String senha) {
+    public String fazerLogin(String login, String senha) {
         Paciente p = null;
 
         try {
-            p = (Paciente) pacientes.recuperar(login);
+            p = (Paciente) pacientes.recuperarPorAtributo("cpf", login);
 
             if (p.getSenha().equals(senha)) {
                 pacienteLogado = p;

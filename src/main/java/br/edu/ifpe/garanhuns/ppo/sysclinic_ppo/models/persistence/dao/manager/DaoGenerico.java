@@ -15,6 +15,7 @@ public interface DaoGenerico <C, I> {
     
     public abstract void persistir(C c);
     public abstract C recuperar(I i);
+    public abstract C recuperarPorAtributo(String atributo, String value);
     public abstract void atualizar(C c);
     public abstract void deletar(C c);
     public abstract List recuperarTodos();
