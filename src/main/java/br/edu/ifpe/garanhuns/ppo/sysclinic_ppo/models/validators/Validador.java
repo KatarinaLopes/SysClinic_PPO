@@ -19,7 +19,7 @@ public class Validador {
         
         cpfNovo = cpf.replace(".", "").replace("-", "");
         
-        System.err.println(cpfNovo);
+        //System.err.println(cpfNovo);
         
         if(cpfNovo.length() != 11){
             return false;
@@ -58,7 +58,7 @@ public class Validador {
         return digito1 == iCpf[9] && digito2 == iCpf[10];
     }
     
-    public static boolean validarTelefone(String telefone){
+    /*public static boolean validarTelefone(String telefone){
         
         return telefone.matches("^\\([0-9]{2}\\) 9\\-[2-9][0-9]{3}\\-[0-9]{4}");
         
@@ -75,5 +75,5 @@ public class Validador {
         Date dataAtual = new Date(System.currentTimeMillis());
         
         return dataAtual.getTime() - dataNascimento.getTime() < 568036800000L;
-    }
+    }*/
 }

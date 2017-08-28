@@ -97,7 +97,7 @@ public class HibernateUtil {
         }
     }*/
     
-    public List recover(String hql){
+    public List recover(String hql) throws IndexOutOfBoundsException{
         Session s = null;
         
         try{

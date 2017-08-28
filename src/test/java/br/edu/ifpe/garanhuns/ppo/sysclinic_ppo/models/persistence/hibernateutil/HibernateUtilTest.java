@@ -5,6 +5,9 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -22,11 +25,34 @@ public class HibernateUtilTest {
     }
 
     @Test
-    public void testPersist() {
+    public void deveTestarPersist() {
     }
 
+    //Foram criados Pacientes via SQL. Na época, eram 4.
     @Test
-    public void testRecover() {
+    public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho4() {
+        
+        List<Paciente> listaPacientes = HibernateUtil.getInstance().
+                recover("from Paciente");
+        
+        assertEquals(4, listaPacientes.size());
+        
+    }
+    
+    @Test
+    public void deveTestarRecoverRetornandoPacienteComId1(){
+        Paciente p = (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where id = 1").get(0);
+        
+        assertEquals(1, p.getId());
+    }
+    
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void deveTestarRecoverPassandoIdInexistenteRetornando0(){
+        Paciente p = (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where id = 100").get(0);
+        
+        assertNull(p);
     }
 
     @Test
