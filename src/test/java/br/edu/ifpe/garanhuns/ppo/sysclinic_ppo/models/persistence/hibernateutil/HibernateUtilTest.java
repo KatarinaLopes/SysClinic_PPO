@@ -10,6 +10,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -48,8 +49,18 @@ public class HibernateUtilTest {
         
         
     }*/
+    
+    @Test(expected = ConstraintViolationException.class)
+    public void deveTestarPersistRetornandoConstraintViolationException(){
+        HibernateUtil.getInstance().persist(new Paciente(0, 
+                new Date(System.currentTimeMillis()), "NaoDevePersistir", "M", 
+                new Date(System.currentTimeMillis()), "(88)9-9999-9999", null, 
+                null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
+    }
 
-    //Foram criados Pacientes via SQL. Na época, eram 4.
+    /*
+    Testado, funcionando
+    Foram criados Pacientes via SQL. Na época, eram 6.
     @Test
     public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho4() {
         
@@ -58,7 +69,7 @@ public class HibernateUtilTest {
         
         assertEquals(6, listaPacientes.size());
         
-    }
+    }*/
     
     @Test
     public void deveTestarRecoverRetornandoPacienteComId1(){
@@ -82,9 +93,21 @@ public class HibernateUtilTest {
                 recover("count from Paciente").get(0);
     }*/
 
-    @Test
+    /*@Test
     public void deveTestarUpdate() {
-    }
+        
+        Paciente pacienteRecuperado = (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where id = 1").get(0);
+        
+        pacienteRecuperado.setNome("NovoPacienteTeste");
+        
+        HibernateUtil.getInstance().update(pacienteRecuperado);
+        
+        Paciente novo = (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where id = 1").get(0);
+        
+        assertEquals("NovoPacienteTeste", novo.getNome());
+    }*/
 
     @Test
     public void testDelete() {
