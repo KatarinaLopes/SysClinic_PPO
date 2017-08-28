@@ -26,6 +26,7 @@ public class HibernateUtilTest {
 
     @Test
     public void deveTestarPersist() {
+        
     }
 
     //Foram criados Pacientes via SQL. Na época, eram 4.
@@ -54,6 +55,12 @@ public class HibernateUtilTest {
         
         assertNull(p);
     }
+    
+    /*@Test
+    public void deveTestarRecoverRetornandoQuantidadeDeRegistros(){
+        int quantidade = (Integer) HibernateUtil.getInstance().
+                recover("count from Paciente").get(0);
+    }*/
 
     @Test
     public void testUpdate() {
