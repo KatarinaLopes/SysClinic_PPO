@@ -50,7 +50,7 @@ public class HibernateUtilTest {
         
     }*/
     
-    @Test(expected = ConstraintViolationException.class)
+    /*@Test(expected = ConstraintViolationException.class)
     public void deveTestarPersistRetornandoConstraintViolationException(){
         HibernateUtil.getInstance().persist(new Paciente(0, 
                 new Date(System.currentTimeMillis()), "NaoDevePersistir", "M", 
@@ -71,7 +71,7 @@ public class HibernateUtilTest {
         
     }*/
     
-    @Test
+    /*@Test
     public void deveTestarRecoverRetornandoPacienteComId1(){
         Paciente p = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
@@ -91,9 +91,9 @@ public class HibernateUtilTest {
     public void deveTestarRecoverRetornandoQuantidadeDeRegistros(){
         int quantidade = (Integer) HibernateUtil.getInstance().
                 recover("count from Paciente").get(0);
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void deveTestarUpdate() {
         
         Paciente pacienteRecuperado = (Paciente) HibernateUtil.getInstance().

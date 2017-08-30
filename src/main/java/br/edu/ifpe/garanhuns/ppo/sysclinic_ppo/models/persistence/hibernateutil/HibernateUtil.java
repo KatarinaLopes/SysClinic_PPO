@@ -113,7 +113,16 @@ public class HibernateUtil {
 
     public void update(Object o) {
         Transaction t = null;
-
+        
+        //Se a sessão é aberta, tem que ser fechada
+        
+        try{
+            sessionFactory.close();
+        }catch(HibernateException he){
+        
+        }
+        
+        
         try {
             Session s = sessionFactory.openSession();
             t = s.beginTransaction();
