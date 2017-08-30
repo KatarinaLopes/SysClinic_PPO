@@ -62,7 +62,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
                     "O funcionário já foi cadastrado! Se deseja alterá-lo, "
                     + "vá para a <h:link value='Alterar paciente' outcome:'alterar_paciente.xhtml'",
-                    "Qualquer coisa"));
+                    null));
             
             return null;
         }
