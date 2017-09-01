@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -55,7 +56,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
 
     public String cadastrar(Funcionario c, String senha) {
-        if(c.getSenha() != senha){
+        if(!Validacoes.validarSenhas(c.getSenha(), senha)){
             FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, 
                             "As senhas não correspondem", null));

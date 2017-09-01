@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
  *
  * @author Katarina
  */
-public class Validador {
+public class Validacoes {
     
     public static boolean validarCpf(String cpf){
         String cpfNovo;
@@ -57,6 +57,12 @@ public class Validador {
         
         return digito1 == iCpf[9] && digito2 == iCpf[10];
     }
+    
+    
+    public static boolean validarSenhas(String senha, String confirmacao){
+        return senha.equals(confirmacao);
+    }
+    
     
     /*public static boolean validarTelefone(String telefone){
         
