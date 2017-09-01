@@ -83,4 +83,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     public void deletar(Funcionario f) {
         funcionarios.deletar(f);
     }
+    
+    public String logout(){
+        return "login_intranet.xhtml";
+    }
 }

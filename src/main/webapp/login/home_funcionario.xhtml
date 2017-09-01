@@ -1,30 +1,37 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        
+
         Bem vindo(a), <h:outputText value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
-        
-        <br/><br/>
-        
-        <h:link value="Exibir agendamentos para hoje" outcome="agendamentos_hoje.xhtml"/>
-        <br/>
-        <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/>
-        <br/>
-        <h:link value="Cadastrar novo paciente" outcome="cadastro_paciente.xhtml"/>
-        <br/>
-        <h:link value="Exibir pacientes cadastrados" outcome="pacientes_cadastrados.xhtml"/>
-        <br/>
-        <h:link value="Exibir próximos agendamentos" outcome="agendamentos_pendentes.xhtml"/>
-        <br/>
-        <h:link value="Exibir agendamentos feitos" outcome="agendamentos_feitos.xhtml"/>
-        <br/>
-        <h:link value="Exibir médicos" outcome="apresentar_medicos.xhtml"/>
-        
+
+        <h:form id="funcionarioPrincipalForm">
+
+            <p:commandButton value="Logout" action="#{controllerFuncionario.logout()}"
+                             update=":funcionarioPrincipalForm"/>
+
+            <br/><br/>
+
+            <h:link value="Exibir agendamentos para hoje" outcome="agendamentos_hoje.xhtml"/>
+            <br/>
+            <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/>
+            <br/>
+            <h:link value="Cadastrar novo paciente" outcome="cadastro_paciente.xhtml"/>
+            <br/>
+            <h:link value="Exibir pacientes cadastrados" outcome="pacientes_cadastrados.xhtml"/>
+            <br/>
+            <h:link value="Exibir próximos agendamentos" outcome="agendamentos_pendentes.xhtml"/>
+            <br/>
+            <h:link value="Exibir agendamentos feitos" outcome="agendamentos_feitos.xhtml"/>
+            <br/>
+            <h:link value="Exibir médicos" outcome="apresentar_medicos.xhtml"/>
+
+        </h:form>
     </h:body>
 </html>
 

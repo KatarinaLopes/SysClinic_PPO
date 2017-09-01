@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Bem vindo(a), <h:outputText value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
+
+        <h:form id="administradorPrincipalForm">
+
+            <p:commandButton value="Logout" action="#{controllerFuncionario.logout()}"
+                             update=":administradorPrincipalForm"/>
+
+            <br/><br/>
+
+            <h:link value="Cadastrar novo funcionário" 
+                    outcome="cadastro_funcionario.xhtml"/>
+            <br/>
+            <h:link value="Apresentar funcionários cadastrados" 
+                    outcome="apresentar_funcionarios.xhtml"/>
+            <br/>
+            <h:link value="Cadastrar novo médico" 
+                    outcome="cadastro_medico.xhtml"/>
+            <br/>
+            <h:link value="Exibir médicos cadastrados" 
+                    outcome="apresentar_medicos.xhtml"/>
+            <br/>
+            <h:link value="Alterar informações pessoais" 
+                    outcome="apresentar_funcionarios.xhtml"/>
+        </h:form>
+    </h:body>
+</html>
+
