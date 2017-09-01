@@ -35,6 +35,19 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @ManagedProperty("#{pacientes}")
     private List<Paciente> pacientesCadastrados;
+    
+    @ManagedProperty("#{pacienteSelecionado}")
+    private Paciente pacienteSelecionado;
+
+    public Paciente getPacienteSelecionado() {
+        return pacienteSelecionado;
+    }
+
+    public void setPacienteSelecionado(Paciente pacienteSelecionado) {
+        this.pacienteSelecionado = pacienteSelecionado;
+    }
+    
+    
 
     public Paciente getPacienteLogado() {
         return pacienteLogado;

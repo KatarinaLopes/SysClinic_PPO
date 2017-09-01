@@ -55,19 +55,24 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
 
     public String cadastrar(Funcionario c, String senha) {
+        if(c.getSenha() != senha){
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, 
+                            "As senhas não correspondem", null));
+            return null;
+        }
 
         try {
             funcionarios.persistir(c);
         } catch (ConstraintViolationException cve) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                    "O funcionário já foi cadastrado! Se deseja alterá-lo, "
-                    + "vá para a <h:link value='Alterar paciente' outcome:'alterar_paciente.xhtml'",
+                    "O funcionário já foi cadastrado!",
                     null));
             
             return null;
         }
         
-        return "apresentar-funcionarios.xhtml";
+        return "apresentar_funcionarios.xhtml";
     }
 
     @Override

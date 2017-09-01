@@ -23,7 +23,7 @@ public class HibernateUtilTest {
     public HibernateUtilTest() {
     }
 
-    @Test
+    /*@Test
     public void testGetInstance() {
     }
 
@@ -92,7 +92,7 @@ public class HibernateUtilTest {
         int quantidade = (Integer) HibernateUtil.getInstance().
                 recover("count from Paciente").get(0);
     }
-
+*
     @Test
     public void deveTestarUpdate() {
         
@@ -104,11 +104,12 @@ public class HibernateUtilTest {
         HibernateUtil.getInstance().update(pacienteRecuperado);
         
         Paciente novo = (Paciente) HibernateUtil.getInstance().
-                recover("from Paciente where id = 1").get(0);
+                recover("from Paciente where id = 1");
         
         assertEquals("NovoPacienteTeste", novo.getNome());
-    }*/
+    }
 
+    /*
     @Test
     public void testDelete() {
     }
@@ -116,5 +117,5 @@ public class HibernateUtilTest {
     @Test
     public void testMain() {
     }
-    
+    */
 }

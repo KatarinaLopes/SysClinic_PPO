@@ -1,12 +1,106 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:form id="apresentarPacientesForm">
+            Pacientes cadastrados
+            
+            <p:dataTable id="apresentarPacientes" var="paciente" 
+                         value="#{controllerPaciente.pacientesCadastrados}" 
+                         rowKey="#{paciente.id}" selectionMode="single"
+                         paginator="true" resizableColumns="true" 
+                         selection="#{controllerPaciente.pacienteSelecionado}">
+            
+                <p:column headerText="Registro">
+                    <h:outputText value="#{paciente.id}"/>
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{paciente.nome}"/>
+                </p:column>
+                <p:column headerText="Data de Admissão">
+                    <h:outputText value="#{paciente.dataAdmissao}"/>
+                </p:column>
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{paciente.telefoneContato}"/>
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{paciente.email}"/>
+                </p:column>
+                <p:column headerText="Operações">
+                    <p:commandButton id="visualizarPaciente" value="Visualizar"
+                                     update=":apresentarPacientesForm"
+                                     oncomplete="PF('widVisualizarPaciente').show()">
+                        <f:setPropertyActionListener value="#{paciente}"
+                                                     target="#{controllerPaciente.
+                                                         pacienteSelecionado}"/>
+                    </p:commandButton>
+                                     
+                </p:column>
+            </p:dataTable>
+            
+            <p:dialog id="dialVisualizarPaciente" 
+                      widgetVar="widVisualizarPaciente" visible="false"
+                      modal="true" 
+                      header="#{controllerPaciente.pacienteSelecionado.nome}">
+                <h:form id="dialVisualizarPacienteForm">
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Registro"/>
+                        <h:outputText 
+                            value="
+                            #{controllerPaciente.pacienteSelecionado.id}"/>
+                        
+                        <h:outputText value="Data de admissão"/>
+                        <h:outputText 
+                            value="
+                            #{controllerPaciente.
+                              pacienteSelecionado.dataAdmissao}"/>
+                        
+                        <h:outputText value="Nome"/>
+                        <h:outputText value="
+                                      #{controllerPaciente.
+                                        pacienteSelecionado.nome}"/>
+                        
+                        <h:outputText value="Sexo"/>
+                        <h:outputText value="#{
+                                      controllerPaciente.
+                                          pacienteSelecionado.sexo}"/>
+                        
+                        <h:outputText value="Data de nascimento"/>
+                        <h:outputText value="
+                                      #{controllerPaciente.
+                                        pacienteSelecionado.dataNascimento}"/>
+                        
+                        <h:outputText value="Telefone para contato"/>
+                        <h:outputText value="#{
+                                      controllerPaciente.
+                                          pacienteSelecionado.
+                                          telefoneContato}"/>
+                        
+                        <h:outputText value="Celular"/>
+                        <h:outputText value="
+                                      #{controllerPaciente.
+                                        pacienteSelecionado.celular}"/>
+                        
+                        <h:outputText value="Email"/>
+                        <h:outputText value="
+                                      #{controllerPaciente.
+                                        pacienteSelecionado.email}"/>
+                        
+                        <h:outputText value="CPF"/>
+                        <h:outputText value="
+                                      #{controllerPaciente.
+                                        pacienteSelecionado.cpf}"/>
+                    </p:panelGrid>
+                </h:form>
+                          
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>
 
