@@ -29,6 +29,7 @@ public class HibernateUtil {
 
     private Configuration cfg;
     private SessionFactory sessionFactory;
+    private Session s;
 
     private static HibernateUtil myself = null;
 
@@ -39,9 +40,23 @@ public class HibernateUtil {
             sessionFactory = cfg.configure("hibernate.cfg.xml").
                     buildSessionFactory(new StandardServiceRegistryBuilder()
                             .applySettings(cfg.getProperties()).build());
+            s = sessionFactory.openSession();
         } catch (HibernateException th) {
             System.err.println("Failed to create SessionFactory" + th);
         }
+    }
+
+    private Session getSession() {
+        String a = new String();
+
+        try {
+            s.close();
+        } catch (HibernateException he) {
+
+        } finally {
+            s = sessionFactory.openSession();
+        }
+        return s;
     }
 
     public static HibernateUtil getInstance() {
@@ -51,21 +66,19 @@ public class HibernateUtil {
         return myself;
     }
 
-    public void persist(Object o) throws ConstraintViolationException{
-        
-        Transaction tr = null;
-        
-        //try{
-            Session s = sessionFactory.openSession();
-            tr = s.beginTransaction();
-            
-            s.save(o);
-            
-            tr.commit();
-            
-            s.close();
+    public void persist(Object o) throws ConstraintViolationException {
+
+        Transaction t = getSession().getTransaction();
+
+        t.begin();
+
+        s.save(o);
+
+        t.commit();
+
+        //s.close();
         //}catch(HibernateException he){
-            //System.err.println("Could not operate on session: " + he);
+        //System.err.println("Could not operate on session: " + he);
         //}
     }
 
@@ -96,50 +109,31 @@ public class HibernateUtil {
             return null;
         }
     }*/
-    
-    public List recover(String hql) throws IndexOutOfBoundsException{
-        Session s = null;
-        
-        try{
-            s = sessionFactory.openSession();
-        }catch(HibernateException he){
-            System.err.println("Could not open session: " + he);
-        }
-        
-        Query query = s.createQuery(hql);
-        
+    public List recover(String hql) throws IndexOutOfBoundsException {
+        Query query = null;
+
+        query = getSession().createQuery(hql);
+
         return query.list();
+
     }
 
     public void update(Object o) {
-        Transaction t = null;
-        
         //Se a sessão é aberta, tem que ser fechada
-        
-        try{
-            sessionFactory.close();
-        }catch(HibernateException he){
-        
-        }
-        
-        
-        try {
-            Session s = sessionFactory.openSession();
-            t = s.beginTransaction();
 
-            t.begin();
+        String a = new String();
+        //s = sessionFactory.openSession();
 
-            s.update(o);
+        Transaction t = getSession().getTransaction();
 
-            t.commit();
-            
-            s.close();
-        } catch (HibernateException he) {
+        t.begin();
 
-            System.err.println("Could not execute update operation" + he);
-        }
+        s.update(o);
+
+        t.commit();
+        //getSession().close();
     }
-    
+
     /*public void update(Object o) {
         Transaction tr = null;
         Session s = null;
@@ -161,23 +155,14 @@ public class HibernateUtil {
         
         
     }*/
-
     public void delete(Object o) {
-        Transaction t = null;
+        Transaction t = getSession().getTransaction();
 
-        try {
-            Session s = sessionFactory.openSession();
-            t = s.beginTransaction();
+        t.begin();
 
-            t.begin();
+        s.delete(o);
 
-            s.delete(o);
-
-            t.commit();
-        } catch (HibernateException he) {
-
-            System.err.println("Could not execute delete operation" + he);
-        }
+        t.commit();
 
     }
 
@@ -185,7 +170,6 @@ public class HibernateUtil {
         SchemaExport se = new SchemaExport(new Configuration().configure("hibernate.cfg.xml"));
         se.create(true, true);
     }*/
-
     public static void main(String[] args) {
         SchemaExport se = new SchemaExport(new Configuration().configure());
         se.create(true, true);

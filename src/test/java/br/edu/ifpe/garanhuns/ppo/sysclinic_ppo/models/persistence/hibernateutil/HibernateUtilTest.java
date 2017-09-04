@@ -20,23 +20,24 @@ import static org.junit.Assert.*;
  */
 public class HibernateUtilTest {
     
+    private static int tamanho = 6;
+    
     public HibernateUtilTest() {
     }
 
     /*@Test
     public void testGetInstance() {
-    }
+    }*/
 
-    /*
-    Testado, funcionando
+/* 
     @Test
     public void deveTestarPersist() {
-        int tamanho = HibernateUtil.getInstance().recover("from Paciente").
+        int tamanhoAnterior = HibernateUtil.getInstance().recover("from Paciente").
                 size();
         
         Paciente p = new Paciente(0, new Date(System.currentTimeMillis()), 
                 "PacienteTeste", "M", new Date(System.currentTimeMillis()), 
-                "(88)9-9999-9999", null, null, "666.666.666-66", "123", 
+                "(88)9-9999-9999", null, null, "888.888.888-88", "123", 
                 new LinkedList<Agendamento>());
         
         HibernateUtil.getInstance().persist(p);
@@ -44,13 +45,13 @@ public class HibernateUtilTest {
         int tamanhoNovo = HibernateUtil.getInstance().recover("from Paciente").
                 size();
         
-        assertEquals(++tamanho, tamanhoNovo);
+        assertEquals(++tamanhoAnterior, tamanhoNovo);
         
-        
+        tamanho++;
         
     }*/
     
-    /*@Test(expected = ConstraintViolationException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void deveTestarPersistRetornandoConstraintViolationException(){
         HibernateUtil.getInstance().persist(new Paciente(0, 
                 new Date(System.currentTimeMillis()), "NaoDevePersistir", "M", 
@@ -58,11 +59,8 @@ public class HibernateUtilTest {
                 null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
     }
 
-    /*
-    Testado, funcionando
-    Foram criados Pacientes via SQL. Na época, eram 6.
-    @Test
-    public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho4() {
+    /*@Test
+    public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho() {
         
         List<Paciente> listaPacientes = HibernateUtil.getInstance().
                 recover("from Paciente");
@@ -71,7 +69,7 @@ public class HibernateUtilTest {
         
     }*/
     
-    /*@Test
+    @Test
     public void deveTestarRecoverRetornandoPacienteComId1(){
         Paciente p = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
@@ -87,12 +85,6 @@ public class HibernateUtilTest {
         assertNull(p);
     }
     
-    /*@Test
-    public void deveTestarRecoverRetornandoQuantidadeDeRegistros(){
-        int quantidade = (Integer) HibernateUtil.getInstance().
-                recover("count from Paciente").get(0);
-    }
-*
     @Test
     public void deveTestarUpdate() {
         
@@ -104,18 +96,31 @@ public class HibernateUtilTest {
         HibernateUtil.getInstance().update(pacienteRecuperado);
         
         Paciente novo = (Paciente) HibernateUtil.getInstance().
-                recover("from Paciente where id = 1");
+                recover("from Paciente where id = 1").get(0);
         
         assertEquals("NovoPacienteTeste", novo.getNome());
     }
 
-    /*
-    @Test
+    /*@Test()
     public void testDelete() {
-    }
+        
+        String s = new String();
+       
+        Paciente p = 
+                (Paciente) 
+                HibernateUtil.
+                        getInstance().
+                        recover("from Paciente where id = 9").get(0);
+        
+        HibernateUtil.getInstance().delete(p);
+        
+        Paciente p1 = (Paciente) HibernateUtil.getInstance().recover("from Paciente where id = 9").get(0);
+        
+        assertNotNull(p1);
+        
+    }*/
 
     @Test
     public void testMain() {
     }
-    */
 }
