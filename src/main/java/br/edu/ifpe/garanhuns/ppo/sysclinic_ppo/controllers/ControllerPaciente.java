@@ -40,13 +40,21 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     private Paciente pacienteSelecionado;
 
     public Paciente getPacienteSelecionado() {
-        return pacienteSelecionado;
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        if(session.getAttribute("pacienteSelecionado") == null){
+        
+            return pacienteSelecionado;
+        }
+        
+        return (Paciente) session.getAttribute("pacienteSelecionado");
     }
 
     public void setPacienteSelecionado(Paciente pacienteSelecionado) {
         this.pacienteSelecionado = pacienteSelecionado;
+        
     }
-    
     
 
     public Paciente getPacienteLogado() {
@@ -157,5 +165,15 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         pacienteLogado = null;
 
         return "login_paciente.xhtml";
+    }
+    
+    public String selecionarPaciente(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        session.setAttribute("pacienteSelecionado", pacienteSelecionado);
+        
+        return "info_paciente.xhtml";
+        
     }
 }
