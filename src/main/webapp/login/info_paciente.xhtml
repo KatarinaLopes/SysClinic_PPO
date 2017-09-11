@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -11,8 +13,90 @@
                                             nome}"/> - registro <h:outputText value=
                                    "#{controllerPaciente.pacienteSelecionado.
                                       id}"/>
+            <br/>
+            <h:link value="Página anterior" 
+                    outcome="pacientes_cadastrados.xhtml"/>
+
+            <p:panelGrid columns="2">
+                <h:outputText value="Registro"/>
+                <p:inputText id="registro" disabled="true" 
+                             value="
+                             #{controllerPaciente.pacienteSelecionado.id}"/>
+
+
+                <h:outputText value="Nome"/> 
+                <p:inputText id="nome" class="alteravel" maxlength="70" 
+                             placeholder="Ex.: Maria da Silva" required="true"
+                             requiredMessage="Campo obrigatório" 
+                             value="#{controllerPaciente.pacienteSelecionado.
+                                      nome}"/>
+
+                <h:outputText value="Sexo"/>
+                <p:selectOneRadio value="#{controllerPaciente.
+                                           pacienteSelecionado.sexo}" id="sexo"
+                                  required="true" disabled="true" 
+                                  class="alteravel"
+                                  requiredMessage="Campo obrigatório">
+                    <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                </p:selectOneRadio>
+
+                <h:outputText value="Data de nascimento"/>
+                <p:calendar id="dataNascimento" class="alteravel"
+                            value="#{controllerPaciente.
+                                     pacienteSelecionado.dataNascimento}"
+                            pattern="dd-MM-yyyy" disabled="true"
+                            placeholder="dd-mm-aaaa" required="true" 
+                            requiredMessage="Campo obrigatório"
+                            maxdate="today"/>
+
+                <h:outputText value="Telefone para contato"/>
+                <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
+                             value="#{controllerPaciente.
+                                      pacienteSelecionado.telefoneContato}"
+                             placeholder="(99)9999-9999" required="true"
+                             disabled="true" class="alteravel"
+                             requiredMessage="Campo obrigatório"/>
+
+                <h:outputText value="Celular"/>
+                <p:inputMask id="celular" mask="(99)9-9999-9999" 
+                             class="alteravel"
+                             placeholder="(99)9-9999-9999" disabled="true"
+                             value="#{controllerPaciente.
+                                      pacienteSelecionado.celular}"/>
+
+                <h:outputText value="Email"/>
+                <p:inputText id="email" value="#{controllerPaciente.
+                                                 pacienteSelecionado.email}"
+                             placeholder="email@email.com" disabled="true"
+                             class="alteravel"/>
+
+                <h:outputText value="CPF"/>
+                <p:inputMask id="cpf" mask="999.999.999-99" class="alteravel"
+                             value="#{controllerPaciente.
+                                      pacienteSelecionado.cpf}" disabled="true"
+                             required="true"
+                             requiredMessage="Campo obrigatório"/>                
+
+            </p:panelGrid>
+
+            <p:commandButton value="Alterar" 
+                             onclick="javascript:alterarFormulario()"/>
 
         </h:form>
+
+        <script>
+            
+            var alterarFormulario = function(){
+                
+              var inputs = document.getElementsByClassName("alteravel");
+              
+              inputs[2].disabled = false;
+                
+            };
+
+        </script>
+
     </h:body>
 </html>
 

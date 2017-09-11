@@ -17,7 +17,8 @@
                          value="#{controllerPaciente.pacientesCadastrados}" 
                          rowKey="#{paciente.id}" selectionMode="single"
                          paginator="true" resizableColumns="true" 
-                         selection="#{controllerPaciente.pacienteSelecionado}">
+                         selection="#{controllerPaciente.pacienteSelecionado}"
+                         >
                 <p:column headerText="Registro">
                     <p:commandLink value="#{paciente.id}" action="#{controllerPaciente.selecionarPaciente()}"/>
                 </p:column>
@@ -37,7 +38,6 @@
 
             </p:dataTable>
 
-            <h:link value="Visualizar" outcome="info_paciente.xhtml"/>
         </h:form>
     </h:body>
 </html>
