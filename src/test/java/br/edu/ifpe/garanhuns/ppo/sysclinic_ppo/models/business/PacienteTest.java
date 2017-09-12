@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class PacienteTest {
    
         int tamanhoInicial = paciente.getAgendamentos().size();
         
-        assertEquals(2, tamanhoInicial, 0);
+        assertEquals(0, tamanhoInicial, 0);
         
         paciente.realizarAgendamento(agendamento);
         
@@ -76,4 +77,13 @@ public class PacienteTest {
         
         assertNotNull(agendamentoRecuperado);
     }
+    
+    /*@Test
+    public void deveTestarPassarAgendamentoComDataNula(){
+        Agendamento agendamento = new 
+        Agendamento(0, null, "M", new Medico(), true, "Volta");
+        
+        paciente.realizarAgendamento(agendamento);
+                
+    }*/
 }

@@ -158,7 +158,7 @@ public class Paciente {
     }
 
     public void realizarAgendamento(Agendamento agendamento) {
-
+    
         if (agendamento == null) {
             throw new IllegalArgumentException();
         }
