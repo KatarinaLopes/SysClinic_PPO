@@ -29,7 +29,7 @@ public class HibernateUtilTest {
     public void testGetInstance() {
     }*/
 
-/* 
+    /*
     @Test
     public void deveTestarPersist() {
         int tamanhoAnterior = HibernateUtil.getInstance().recover("from Paciente").
@@ -49,25 +49,25 @@ public class HibernateUtilTest {
         
         tamanho++;
         
-    }*/
+    }
     
     @Test(expected = ConstraintViolationException.class)
     public void deveTestarPersistRetornandoConstraintViolationException(){
         HibernateUtil.getInstance().persist(new Paciente(0, 
                 new Date(System.currentTimeMillis()), "NaoDevePersistir", "M", 
                 new Date(System.currentTimeMillis()), "(88)9-9999-9999", null, 
-                null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
+                null, "888.888.888-88", "123", new LinkedList<Agendamento>()));
     }
 
-    /*@Test
+    @Test
     public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho() {
         
         List<Paciente> listaPacientes = HibernateUtil.getInstance().
                 recover("from Paciente");
         
-        assertEquals(6, listaPacientes.size());
+        assertEquals(1, listaPacientes.size());
         
-    }*/
+    }
     
     @Test
     public void deveTestarRecoverRetornandoPacienteComId1(){
@@ -83,6 +83,15 @@ public class HibernateUtilTest {
                 recover("from Paciente where id = 100").get(0);
         
         assertNull(p);
+    }
+    
+    @Test
+    public void deveTestarRecoverViaSimpleQueryComparandoTamanho(){
+        int tamanho = HibernateUtil.getInstance().
+                recoverViaSimpleQuery("select * from paciente").
+                size();
+        
+        assertEquals(8, tamanho);
     }
     
     @Test

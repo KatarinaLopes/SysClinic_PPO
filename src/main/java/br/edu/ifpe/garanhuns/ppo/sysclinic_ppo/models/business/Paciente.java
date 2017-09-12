@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,35 +23,36 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Paciente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataAdmissao;
-    
+
     @Column(nullable = false, length = 70)
     private String nome;
     @Column(nullable = false, length = 1)
     private String sexo;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @Column(nullable = false, length = 16)
     private String telefoneContato;
     @Column(length = 16)
     private String celular;
     @Column
     private String email;
-    
-    @Column(nullable = false, unique=true, length = 14)
+
+    @Column(nullable = false, unique = true, length = 14)
     private String cpf;
-    
+
     @Column(nullable = false)
     private String senha;
-    
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
     @Deprecated
@@ -154,5 +156,14 @@ public class Paciente {
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
-    
+
+    public void realizarAgendamento(Agendamento agendamento) {
+
+        if (agendamento == null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.agendamentos.add(agendamento);
+        
+    }
 }

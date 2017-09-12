@@ -117,6 +117,15 @@ public class HibernateUtil {
         return query.list();
 
     }
+    
+    public List recoverViaSimpleQuery(String sql) 
+            throws IndexOutOfBoundsException {
+        
+        Query query = getSession().createSQLQuery(sql);
+        
+        return query.list();
+        
+    }
 
     public void update(Object o) {
         //Se a sessão é aberta, tem que ser fechada
