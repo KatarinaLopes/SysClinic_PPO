@@ -56,6 +56,14 @@
                         <f:setPropertyActionListener value="#{funcionario}"
                                                      target="#{controllerFuncionario.funcionarioSelecionado}"/>
                     </p:commandButton>
+                    
+                    <p:commandButton value="Excluir" 
+                                     update=":apresentarFuncionariosForm">
+                        <f:setPropertyActionListener value="#{funcionario}"
+                                                     target="#{controllerFuncionario.funcionarioSelecionado}"/>
+                        <p:confirm 
+                            message="Deseja realmente excluir este contato?"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
 
@@ -200,6 +208,15 @@
             </h:form>
 
         </p:dialog>
+        
+        <p:confirmDialog global="true" id="confirmDialog" visible="false">
+            <p:commandButton value="Sim" action="#{controllerFuncionario.
+                                                   deletar(
+                                                   controllerFuncionario.
+                                                   funcionarioSelecionado)}"/>
+            <p:commandButton value="Não"/>
+            
+        </p:confirmDialog>
     </h:body>
 </html>
 
