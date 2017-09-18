@@ -209,12 +209,15 @@
 
         </p:dialog>
         
-        <p:confirmDialog global="true" id="confirmDialog" visible="false">
+        <p:confirmDialog global="true" id="confirmDialog" visible="false"
+                         widgetVar="widConfirmDialog">
             <p:commandButton value="Sim" action="#{controllerFuncionario.
                                                    deletar(
                                                    controllerFuncionario.
-                                                   funcionarioSelecionado)}"/>
-            <p:commandButton value="Não"/>
+                                                   funcionarioSelecionado)}"
+                             oncomplete="PF('widConfirmDialog').hide()"/>
+            <p:commandButton value="Não" 
+                             oncomplete="PF('widConfirmDialog').hide()"/>
             
         </p:confirmDialog>
     </h:body>
