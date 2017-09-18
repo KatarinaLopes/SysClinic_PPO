@@ -40,11 +40,20 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     private Paciente pacienteSelecionado;
 
     public Paciente getPacienteSelecionado() {
-        return pacienteSelecionado;
+        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        return (Paciente) s.getAttribute("pacienteSelecionado");
     }
 
     public void setPacienteSelecionado(Paciente pacienteSelecionado) {
         this.pacienteSelecionado = pacienteSelecionado;
+        
+        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().
+                getSession(true);
+        
+        s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
     }
     
     
