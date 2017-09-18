@@ -10,6 +10,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncion
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -30,7 +31,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     @ManagedProperty(value = "#{funcionarioLogado}")
     private Funcionario funcionarioLogado;
 
-    @ManagedProperty(value = "#{funcionarios}")
+    @ManagedProperty(value = "#{funcionariosRegistrados}")
     private List<Funcionario> funcionariosRegistrados;
 
     public Funcionario getFuncionarioLogado() {
@@ -88,6 +89,11 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     public void deletar(Funcionario f) {
         funcionarios.deletar(f);
+    }
+    
+    @PostConstruct    
+    public void recuperarTodos(){
+        funcionariosRegistrados = funcionarios.recuperarTodos();
     }
     
     public String logout(){

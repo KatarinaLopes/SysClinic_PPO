@@ -44,7 +44,7 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer>{
 
     @Override
     public List recuperarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return HibernateUtil.getInstance().recover("from Funcionario");
     }
     
 }
