@@ -33,6 +33,9 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     @ManagedProperty(value = "#{funcionariosRegistrados}")
     private List<Funcionario> funcionariosRegistrados;
+    
+    @ManagedProperty(value = "#{funcionarioSelecionado}")
+    private Funcionario funcionarioSelecionado;
 
     public Funcionario getFuncionarioLogado() {
         return funcionarioLogado;
@@ -50,6 +53,15 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         this.funcionariosRegistrados = funcionariosRegistrados;
     }
 
+    public Funcionario getFuncionarioSelecionado() {
+        return funcionarioSelecionado;
+    }
+
+    public void setFuncionarioSelecionado(Funcionario funcionarioSelecionado) {
+        this.funcionarioSelecionado = funcionarioSelecionado;
+    }
+
+    
     @Deprecated
     @Override
     public void cadastrar(Funcionario c) {
