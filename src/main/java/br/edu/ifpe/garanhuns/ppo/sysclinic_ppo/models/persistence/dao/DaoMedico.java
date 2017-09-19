@@ -29,7 +29,8 @@ public class DaoMedico implements DaoGenerico<Medico, Integer>{
 
     @Override
     public Medico recuperarPorAtributo(String atributo, String value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
+//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -44,7 +45,7 @@ public class DaoMedico implements DaoGenerico<Medico, Integer>{
 
     @Override
     public List recuperarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return HibernateUtil.getInstance().recover("from Medico");
     }
     
 }
