@@ -5,10 +5,13 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -25,8 +28,11 @@ public class ControllerMedico {
     
     private final DaoGenerico daoMedico = new DaoMedico();
     
-    @ManagedProperty("#{'medicosRegistrados'}")
+    @ManagedProperty("#{medicosRegistrados}")
     private List medicosRegistrados;
+    
+    @ManagedProperty("#{horarios}")
+    private List<Horario> horarios = new ArrayList();
 
     public List getMedicosRegistrados() {
         return medicosRegistrados;
@@ -35,9 +41,26 @@ public class ControllerMedico {
     public void setMedicosRegistrados(List medicosRegistrados) {
         this.medicosRegistrados = medicosRegistrados;
     }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
     
     
-    public String cadastrar(Medico c) {
+    public String cadastrar(Medico c, String conselho, int numero) {
+        String numeroString = String.valueOf(numero);
+        
+        String conselhoMedico = conselho + " " + numeroString;
+        
+        
+        System.out.println(conselhoMedico);
+        
+        c.setConselho(conselhoMedico);
+        
         daoMedico.persistir(c);
         
         return "apresentar_medicos.xhtml";
@@ -60,5 +83,9 @@ public class ControllerMedico {
     @PostConstruct
     public void recuperarTodos(){
         medicosRegistrados = daoMedico.recuperarTodos();
+    }
+    
+    public void salvarHorario(String dia, Date inicio, Date fim){
+        horarios.add(new Horario(dia, inicio, fim));
     }
 }

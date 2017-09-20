@@ -50,7 +50,7 @@ public class HibernateUtilTest {
         tamanho++;
         
     }*/
-    
+    /*
     @Test(expected = ConstraintViolationException.class)
     public void deveTestarPersistRetornandoConstraintViolationException(){
         HibernateUtil.getInstance().persist(new Paciente(0, 
@@ -68,14 +68,14 @@ public class HibernateUtilTest {
         assertEquals(6, listaPacientes.size());
         
     }*/
-    
+    /*
     @Test
     public void deveTestarRecoverRetornandoPacienteComId1(){
         Paciente p = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
         
         assertEquals(1, p.getId());
-    }
+    }*/
     
     @Test(expected = IndexOutOfBoundsException.class)
     public void deveTestarRecoverPassandoIdInexistenteRetornando0(){
@@ -85,6 +85,7 @@ public class HibernateUtilTest {
         assertNull(p);
     }
     
+    /*
     @Test
     public void deveTestarUpdate() {
         
