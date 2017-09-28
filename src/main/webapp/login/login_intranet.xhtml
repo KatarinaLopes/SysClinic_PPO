@@ -2,12 +2,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        
+        <c:if test="${controllerFuncionario.funcionarioLogado != null}">
+            <c:if test="${controllerFuncionario.funcionarioLogado.
+                          administrador}">
+                <script>
+                    location.href = "home_admin.xhtml";
+                </script>
+       
+            </c:if>
+            
+            <script>
+                location.href = "home_funcionario.xhtml";
+            </script>
+        </c:if>
+        
+        
         <h:form id="loginFuncionarioForm">
+            
+            <p:poll>
+                <p:messages/>
+            </p:poll>
+            
             <p:panelGrid columns="3">
                 <h:outputText value="Matrícula"/>
                 <p:inputText id="campoMatricula" type="number"
@@ -16,7 +38,7 @@
                              requiredMessage="Campo obrigatório"/>
                 <p:message for="campoMatricula"/>
                 
-                <h:inputText value="Senha"/>
+                <h:outputText value="Senha"/>
                 <p:inputText id="campoSenha" value="#{senha}" required="true"
                              requiredMessage="Campo obrigatório"/>
                 <p:message for="campoSenha"/>

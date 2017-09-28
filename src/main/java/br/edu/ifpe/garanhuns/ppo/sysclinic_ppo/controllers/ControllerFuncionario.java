@@ -149,6 +149,13 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
     
     public String logout(){
+        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        funcionarioLogado = null;
+        
+        ses.removeAttribute("funcionarioLogado");
+        
         return "login_intranet.xhtml";
     }
 }

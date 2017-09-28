@@ -2,11 +2,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        
+        <c:if test="${controllerFuncionario.funcionarioLogado == null}">
+            <script>
+                location.href = "login_intranet.xhtml";
+            </script>
+        </c:if>
+        
+        <c:if test="${controllerFuncionario.funcionarioLogado.administrador}">
+            <script>
+                location.href = "home_admin.xhtml;";
+            </script>
+        </c:if>
 
         Bem vindo(a), <h:outputText value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
 
