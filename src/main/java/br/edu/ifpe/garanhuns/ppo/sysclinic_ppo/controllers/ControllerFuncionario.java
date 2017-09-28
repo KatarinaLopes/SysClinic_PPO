@@ -10,12 +10,14 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncion
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
@@ -106,6 +108,44 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     @PostConstruct    
     public void recuperarTodos(){
         funcionariosRegistrados = funcionarios.recuperarTodos();
+    }
+    
+    public String fazerLogin(Integer login, String senha){
+        try{
+            Funcionario func = (Funcionario) funcionarios.
+                    recuperarPorAtributo("matricula", String.valueOf(login));
+            
+            if(func.getSenha().equals(senha)){
+                funcionarioLogado = func;
+                
+                HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
+                        getExternalContext().getSession(true);
+                
+                sess.setAttribute("funcionarioLogado", funcionarioLogado);
+                
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL, 
+                                "A senha está incorreta", null));
+                return null;
+            }
+            
+            return alternarLogin(func);
+        }catch(IndexOutOfBoundsException ie){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage
+        (FacesMessage.SEVERITY_FATAL, 
+                "Esta matrícula não está cadastrada no sistema", null));
+        }
+        
+        return null;
+    }
+    
+    private String alternarLogin(Funcionario f){
+        if(f.isAdministrador()){
+            return "home_admin.xhtml";
+        }
+        
+        return "home_funcionario.xhtml";
     }
     
     public String logout(){
