@@ -5,8 +5,12 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
@@ -15,6 +19,22 @@ import static org.junit.Assert.*;
 public class ValidacoesTest {
     
     public ValidacoesTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
@@ -71,5 +91,121 @@ public class ValidacoesTest {
         boolean r = Validacoes.validarSenhas("123", "1234");
         
         assertFalse(r);
+    }
+
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneCorreto8digitosRetornandoTrue() {
+        boolean resultado = Validacoes.validarTelefone("(99)9999-9999");
+        
+        assertTrue(resultado);
+    }
+    
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneCorreto9digitosRetornandoTrue(){
+        boolean resultado = Validacoes.validarTelefone("(99)9-9999-9999");
+        
+        assertTrue(resultado);
+    }
+    
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneErrado8digitosRetornandoFalse(){
+        boolean resultado = Validacoes.validarTelefone("(99)1235-1234");
+        
+        assertFalse(resultado);
+    }
+    
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneErrado9digitosRetornandoFalse(){
+        boolean res1 = Validacoes.validarTelefone("(99)8-9999-9999");
+        
+        assertFalse(res1);
+        
+        boolean res2 = Validacoes.validarTelefone("(99)9-1234-3455");
+        
+        assertFalse(res2);
+    }
+    
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneSemCaracteresRetornandoFalse(){
+        boolean r1 = Validacoes.validarTelefone("9999999999");
+        
+        assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarTelefone("99999999999");
+        
+        assertFalse(r2);
+    }
+    
+    @Test
+    public void deveTestarValidarTelefonePassandoTelefoneComTamanhoErradoRetornandoFalse(){
+        boolean r1 = Validacoes.validarTelefone("9999999999999");
+        
+        assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarTelefone("999999999999999");
+        
+        assertFalse(r2);
+        
+        boolean r3 = Validacoes.validarTelefone("(99)9-9999-999");
+        
+        assertFalse(r3);
+        
+        boolean r4 = Validacoes.validarTelefone("(99)9999-999");
+        
+        assertFalse(r4);
+    }
+    
+    @Test
+    public void deveTestarValidarNomePassandoNomeValidoRetornandoTrue(){
+        boolean r1 = Validacoes.validarNome("Katarina Lopes");
+        
+        assertTrue(r1);
+        
+        boolean r2 = Validacoes.validarNome("Recepcionista");
+        
+        assertTrue(r2);
+        
+    }
+    
+    @Test
+    public void deveTestarValidarNomePassandoNomeInvalidoRetornandoFalse(){
+        boolean r1 = Validacoes.validarNome("M4ria K4t4rina");
+        
+        assertFalse(r1);
+        
+        
+    }
+   
+    @Test
+    public void deveTestarValidarSexoPassandoSexoValidoRetornandoTrue(){
+        boolean r1 = Validacoes.validarSexo("F");
+        
+        assertTrue(r1);
+        
+        boolean r2 = Validacoes.validarSexo("M");
+        
+        assertTrue(r2);
+    }
+    
+    @Test
+    public void deveTestarValidarSexoPassandoSexoInvalidoRetornandoFalse(){
+        boolean r1 = Validacoes.validarSexo("");
+        
+        assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarSexo("1");
+        
+        assertFalse(r2);
+        
+        boolean r3 = Validacoes.validarSexo("a");
+        
+        assertFalse(r3);
+    }
+    
+    @Test
+    public void deveTestarValidarEmailPassandoEmailValidoRetornandoTrue(){
+        boolean r1 = Validacoes.validarEmail("email@email.com");
+        
+        assertTrue(r1);
     }
 }
