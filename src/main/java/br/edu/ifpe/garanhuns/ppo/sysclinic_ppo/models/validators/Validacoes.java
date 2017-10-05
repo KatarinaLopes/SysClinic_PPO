@@ -15,9 +15,14 @@ import javax.faces.bean.ManagedBean;
 public class Validacoes {
 
     public static boolean validarCpf(String cpf) {
+
         String cpfNovo;
 
-        cpfNovo = cpf.replace(".", "").replace("-", "");
+        try {
+            cpfNovo = cpf.replace(".", "").replace("-", "");
+        } catch (NullPointerException ex) {
+            return false;
+        }
 
         //System.err.println(cpfNovo);
         if (cpfNovo.length() != 11) {
@@ -58,46 +63,55 @@ public class Validacoes {
     }
 
     public static boolean validarSenhas(String senha, String confirmacao) {
-        return senha.equals(confirmacao);
+        try {
+            return senha.equals(confirmacao);
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
 
     public static boolean validarTelefone(String telefone) {
-        switch (telefone.length()) {
-            case 13:
-                return telefone.
-                        matches("^\\([0-9]{2}\\)[2-9][0-9]{3}\\-[0-9]{4}");
-            case 15:
 
-                return telefone.
-                        matches("^\\([0-9]{2}\\)9\\-[2-9][0-9]{3}\\-[0-9]{4}");
+        String regex = "^\\([0-9]{2}\\)[2-9][0-9]{3}\\-[0-9]{4}";
+
+        try {
+            if (telefone.length() == 15) {
+                regex = "^\\([0-9]{2}\\)9\\-[2-9][0-9]{3}\\-[0-9]{4}";
+            }
+        } catch (NullPointerException ex) {
+            return false;
         }
 
-        return false;
+        return telefone.matches(regex);
 
     }
 
     //Ainda não foi testado
-    public static boolean validarNome(String nome){
-        
-        String novoNome = nome.replace(" ", "");
-        
-        String[] numeros = {"1","2","3","4","5","6","7","8","9","0"};
-        
-        for (String numero : numeros) {
-            if(novoNome.contains(numero)){
-                return false;
-            }
+    public static boolean validarNome(String nome) {
+
+        //Regex da internet
+        try {
+            return nome.matches("[a-zA-Z\\sà-ùÀ-Ù]{0,}");
+        } catch (NullPointerException ex) {
+            return false;
         }
-        
-        return true;
     }
 
-    public static boolean validarSexo(String sexo){
-        
-        return sexo.equals("F") || sexo.equals("M");
+    public static boolean validarSexo(String sexo) {
+
+        try {
+            return sexo.equals("F") || sexo.equals("M");
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
-    
-    
-    /*public static boolean validarEmail(String email){
-    }*/
+
+    public static boolean validarEmail(String email) {
+        try {
+            return email.matches("[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.].[a-zA-"
+                    + "Z0-9.]{1,}");
+        } catch (NullPointerException ex) {
+            return false;
+        }
+    }
 }

@@ -77,6 +77,10 @@ public class ValidacoesTest {
         boolean r = Validacoes.validarCpf("123U");
         
         assertFalse(r);
+        
+        boolean r1 = Validacoes.validarCpf(null);
+        
+        assertFalse(r1);
     }
     
     @Test
@@ -91,6 +95,14 @@ public class ValidacoesTest {
         boolean r = Validacoes.validarSenhas("123", "1234");
         
         assertFalse(r);
+        
+        boolean r1 = Validacoes.validarSenhas(null, "123");
+        
+        assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarSenhas("123", null);
+        
+        assertFalse(r2);
     }
 
     @Test
@@ -153,6 +165,10 @@ public class ValidacoesTest {
         boolean r4 = Validacoes.validarTelefone("(99)9999-999");
         
         assertFalse(r4);
+        
+        boolean r5 = Validacoes.validarTelefone(null);
+        
+        assertFalse(r5);
     }
     
     @Test
@@ -165,6 +181,10 @@ public class ValidacoesTest {
         
         assertTrue(r2);
         
+        boolean r3 = Validacoes.validarNome("João da Silva Prado");
+        
+        assertTrue(r3);
+        
     }
     
     @Test
@@ -172,6 +192,10 @@ public class ValidacoesTest {
         boolean r1 = Validacoes.validarNome("M4ria K4t4rina");
         
         assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarNome(null);
+        
+        assertFalse(r2);
         
         
     }
@@ -200,6 +224,13 @@ public class ValidacoesTest {
         boolean r3 = Validacoes.validarSexo("a");
         
         assertFalse(r3);
+        
+        boolean r4 = Validacoes.validarSexo("ADnf");
+        
+        assertFalse(r4);
+        
+        boolean r5 = Validacoes.validarSexo(null);
+        
     }
     
     @Test
@@ -207,5 +238,25 @@ public class ValidacoesTest {
         boolean r1 = Validacoes.validarEmail("email@email.com");
         
         assertTrue(r1);
+        
+        boolean r2 = Validacoes.validarEmail("e.m-a_il@email.ext.ext1.com.br");
+        
+        assertTrue(r2);
     }
+    
+    @Test
+    public void deveTestarValidarEmailPassandoEmailInvalidoRetornandoFalse(){
+        boolean r1 = Validacoes.validarEmail("");
+        
+        assertFalse(r1);
+        
+        boolean r2 = Validacoes.validarEmail("and.dfnjf");
+        
+        assertFalse(r2);
+        
+        boolean r3 = Validacoes.validarEmail(null);
+        
+        assertFalse(r3);
+    }
+    
 }
