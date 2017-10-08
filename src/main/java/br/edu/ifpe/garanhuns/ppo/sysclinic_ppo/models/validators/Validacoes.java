@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 
@@ -114,4 +115,14 @@ public class Validacoes {
             return false;
         }
     }
+    
+    /*public static boolean validarCrm(String crm){
+        try{
+            return crm.matches("[0-9]{3,9}/CRM-[AC,AL,AM,AP,BA,CE,DF,ES,GO,MA,"
+                    + "MG,MS,MT,PA,PB,PE,PI,PR,RJ,RN,RO,RR,RS,SC,SE,SP,TO,]");
+        }catch(NullPointerException ex){
+            return false;
+        }
+    }*/
+    
 }

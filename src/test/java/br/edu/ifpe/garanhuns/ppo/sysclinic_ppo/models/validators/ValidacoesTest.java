@@ -267,4 +267,11 @@ public class ValidacoesTest {
         assertFalse(r3);
     }
     
+    /*
+    @Test
+    public void drfe(){
+        boolean r1 = Validacoes.validarCrm("1234/CRM-PE");
+        
+        assertTrue(r1);
+    }*/
 }

@@ -19,7 +19,7 @@
             <h:link value="Ir para a página de login" outcome="login_paciente.xhtml"/>
 
             <p:poll>
-                <p:messages/>
+                <p:messages id="sjbd"/>
             </p:poll>
 
             <p:panelGrid columns="3">
@@ -29,7 +29,7 @@
                              requiredMessage="Campo obrigatório" 
                              value="#{builderPaciente.nome}">
                 </p:inputText>
-                <p:message for="nome"/>
+                <p:message id="messageNome" for="nome"/>
 
                 <h:outputText value="Sexo"/>
                 <p:selectOneRadio value="#{builderPaciente.sexo}" id="sexo"
