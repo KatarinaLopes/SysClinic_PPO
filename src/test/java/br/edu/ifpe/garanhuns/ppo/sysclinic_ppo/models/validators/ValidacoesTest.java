@@ -74,13 +74,21 @@ public class ValidacoesTest {
     
     @Test
     public void deveTestarValidarCpfPassandoCpfInvalidoContendoCaracteresRetornandoFalse(){
-        boolean r = Validacoes.validarCpf("123U");
+        boolean r = Validacoes.validarCpf("123.123.dge-sU");
         
         assertFalse(r);
         
         boolean r1 = Validacoes.validarCpf(null);
         
         assertFalse(r1);
+        
+    }
+    
+    @Test
+    public void edvd(){
+        boolean resultados = Validacoes.validarCpf("DEHfsrcdcdc");
+        
+        assertFalse(resultados);
     }
     
     @Test

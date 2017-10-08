@@ -28,7 +28,7 @@ public class Validacoes {
         if (cpfNovo.length() != 11) {
             return false;
         }
-        if (cpfNovo.toLowerCase().matches("\\[a\\-z\\]")) {
+        if (cpfNovo.matches("[0-9]{0,}[a-zA-ZÀ-ú]{1,}")) {
             return false;
         }
 
