@@ -30,7 +30,7 @@ public class HibernateUtilTest {
     }*/
 
  
-    @Test
+    /*@Test
     public void deveTestarPersist() {
         int tamanhoAnterior = HibernateUtil.getInstance().recover("from Paciente").
                 size();
@@ -120,7 +120,7 @@ public class HibernateUtilTest {
         
         //assertNotNull(p1);
         
-    }
+    }*/
 
     @Test
     public void testMain() {

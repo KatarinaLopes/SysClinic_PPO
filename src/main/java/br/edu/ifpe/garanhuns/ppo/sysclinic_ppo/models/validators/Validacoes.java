@@ -119,7 +119,7 @@ public class Validacoes {
     /*public static boolean validarCrm(String crm){
         try{
             return crm.matches("[0-9]{3,9}/CRM-[AC,AL,AM,AP,BA,CE,DF,ES,GO,MA,"
-                    + "MG,MS,MT,PA,PB,PE,PI,PR,RJ,RN,RO,RR,RS,SC,SE,SP,TO,]");
+                    + "MG,MS,MT,PA,PB,PE,PI,PR,RJ,RN,RO,RR,RS,SC,SE,SP,TO]");
         }catch(NullPointerException ex){
             return false;
         }

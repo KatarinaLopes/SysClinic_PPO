@@ -15,35 +15,68 @@ import java.security.NoSuchAlgorithmException;
  * @author Katarina
  */
 public class Operacoes {
-   
-    public static String criptografarSenha(String senha) 
-            throws NoSuchAlgorithmException, UnsupportedEncodingException{
+
+    public static String criptografarSenha(String senha)
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest mess = MessageDigest.getInstance("SHA-256");
         byte[] criptografados = mess.digest(senha.getBytes("UTF-8"));
-        
+
         StringBuilder string = new StringBuilder();
-        
+
         for (byte criptografado : criptografados) {
-            
+
             string.append(String.format("%02X", 0xFF & criptografado));
-            
+
         }
-        
+
         return string.toString();
     }
-    
-    /*public static String validarPaciente(Paciente p){
-        if(!Validacoes.validarNome(p.getNome())){
+
+    public static String validarPaciente(Paciente p, String confirmacaoSenha) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (p.getDataAdmissao() == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!Validacoes.validarNome(p.getNome())) {
             return "Nome inválido";
         }
-        if(!Validacoes.validarSexo(p.getSexo())){
-            
+
+        if (!Validacoes.validarSexo(p.getSexo())) {
+            return "Sexo inválido";
+        }
+
+        if (!Validacoes.validarTelefone(p.getTelefoneContato())) {
+            return "Telefone inválido";
+        }
+
+        if (p.getCelular() == null) {
+            return null;
+        }
+
+        if (p.getEmail() == null) {
+            return null;
+        }
+
+        if (!Validacoes.validarCpf(p.getCpf())) {
+            return "CPF inválido";
+        }
+
+        if (p.getAgendamentos() == null) {
+            return "Lista de agendamentos inválida";
+        }
+        
+        if(!Validacoes.validarSenhas(p.getSenha(), confirmacaoSenha)){
+            return "Senha inválida";
         }
         
         return null;
-    }*/
-    
-    public static void main(String[] args) throws NoSuchAlgorithmException, 
+    }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException,
             UnsupportedEncodingException {
         System.out.println(Operacoes.criptografarSenha("1"));
     }
