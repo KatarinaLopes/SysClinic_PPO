@@ -24,7 +24,7 @@
         </c:if>
         
         
-        <h:form id="loginFuncionarioForm">
+        <h:form id="form-login-funcionario">
             
             <p:poll>
                 <p:messages/>
@@ -49,7 +49,7 @@
             <p:commandButton value="Login" action="#{controllerFuncionario.
                                                      fazerLogin(matricula, 
                                                      senha)}" 
-                             update=":loginFuncionarioForm" process="@all"/>
+                             update=":form-login-funcionario" process="@all"/>
         </h:form>
     </h:body>
 </html>

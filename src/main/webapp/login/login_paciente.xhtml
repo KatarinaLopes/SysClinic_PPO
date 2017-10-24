@@ -17,7 +17,7 @@
         </c:if>
         
 
-        <h:form id="form-login">
+        <h:form id="form-login-paciente">
 
             <p:poll>
                 <p:messages/>
@@ -41,7 +41,7 @@
 
             <p:commandButton value="OK" 
                              action="#{controllerPaciente.fazerLogin(nregistro, senha)}"
-                             update=":form-login"/>
+                             update=":form-login-paciente"/>
             
             <h:link value="Cadastre-se!" outcome="cadastro_paciente.xhtml"/>
             <p:spacer/>            
