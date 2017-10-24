@@ -10,10 +10,10 @@
     </h:head>
     <h:body>
 
-        <h:form id="apresentarPacientesForm">
+        <h:form id="form-apresentar-pacientes">
             Pacientes cadastrados 
 
-            <p:dataTable id="apresentarPacientes" var="paciente" 
+            <p:dataTable id="table-apresentar-pacientes" var="paciente" 
                          value="#{controllerPaciente.pacientesCadastrados}" 
                          rowKey="#{paciente.id}" selectionMode="single"
                          paginator="true" resizableColumns="true">
@@ -35,18 +35,18 @@
                 </p:column>
                 <p:column>
 
-                    <p:commandButton id="visualizarPaciente" value="Visualizar" 
-                                     update=":apresentarPacientesForm :dialVisualizarPacienteForm"
-                                     oncomplete="PF('widVisualizarPaciente').show()">
+                    <p:commandButton id="btn-visualizar-paciente" value="Visualizar" 
+                                     update=":form-apresentar-pacientes :dial-visualizar-paciente"
+                                     oncomplete="PF('wid-dial-visualizar-paciente').show()">
                         <f:setPropertyActionListener value="#{paciente}" 
                                                      target="#{controllerPaciente.
                                                                pacienteSelecionado}"/>
                     </p:commandButton>
 
-                    <p:commandButton id="alterarPaciente" value="Alterar"
-                                     update=":apresentarPacientesForm 
-                                     :alterarPacienteDialForm"
-                                     oncomplete="PF('widAlterarPaciente').show()">
+                    <p:commandButton id="btn-alterar-paciente" value="Alterar"
+                                     update=":form-apresentar-pacientes 
+                                     :form-dial-alterar-paciente"
+                                     oncomplete="PF('wid-dial-alterar-paciente').show()">
                         <f:setPropertyActionListener value="#{paciente}"
                                                      target="#{controllerPaciente.pacienteSelecionado}"/>
                     </p:commandButton>
@@ -54,11 +54,11 @@
             </p:dataTable>
 
         </h:form>
-        <p:dialog id="dialVisualizarPaciente" 
-                  widgetVar="widVisualizarPaciente" visible="false"
+        <p:dialog id="dial-visualizar-paciente" 
+                  widgetVar="wid-dial-visualizar-paciente" visible="false"
                   modal="true" 
                   header="Visualizar paciente">
-            <h:form id="dialVisualizarPacienteForm">
+            <h:form id="form-dial-visualizar-paciente">
                 <p:panelGrid columns="2">
                     <h:outputText value="Registro"/>
                     <h:outputText 
@@ -111,11 +111,11 @@
 
         </p:dialog>
 
-        <p:dialog id="dialAlterarPaciente" 
+        <p:dialog id="dial-alterar-paciente" 
                   header="Alterar paciente"
                   modal="true" visible="false" 
-                  widgetVar="widAlterarPaciente">
-            <h:form id='alterarPacienteDialForm'>
+                  widgetVar="wid-dial-alterar-paciente">
+            <h:form id='form-dial-alterar-paciente'>
 
                 <p:panelGrid columns="3">
                     <h:outputText value="Nome"/> 
@@ -191,9 +191,9 @@
                                            atualizar
                                            (controllerPaciente.
                                            pacienteSelecionado)}"
-                                 update=":apresentarPacientesForm"
+                                 update=":form-apresentar-pacientes"
                                  oncomplete="
-                                 PF('widAlterarPaciente').hide()"/>
+                                 PF('wid-dial-alterar-paciente').hide()"/>
             </h:form>
 
         </p:dialog>

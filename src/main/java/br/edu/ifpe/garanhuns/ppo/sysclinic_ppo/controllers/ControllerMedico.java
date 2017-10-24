@@ -37,6 +37,9 @@ public class ControllerMedico {
     @ManagedProperty("#{horarios}")
     private List<Horario> horarios = new ArrayList();
 
+    //@ManagedProperty("#{horarioSelecionado}")
+    private Horario horarioSelecionado = new Horario(); 
+    
     public List getMedicosRegistrados() {
         return medicosRegistrados;
     }
@@ -98,5 +101,11 @@ public class ControllerMedico {
     
     public void salvarHorario(String dia, Date inicio, Date fim){
         horarios.add(new Horario(dia, inicio, fim));
+    }
+    
+    public void excluirHorario(Horario h){
+        System.out.println("antes");
+        horarios.remove(h);
+        System.out.println("depois");
     }
 }
