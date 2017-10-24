@@ -15,13 +15,13 @@
             </script>
         </c:if>
 
-        <h:form id="principalForm">
+        <h:form id="form-principal-paciente">
 
             Olá, <h:outputText value="#{controllerPaciente.pacienteLogado.nome}"/>!
 
             <p:commandButton value="Sair" 
                              action="#{controllerPaciente.fazerLogout()}"
-                             update=":principalForm"/>
+                             update=":form-principal-paciente"/>
             
             <br/>
             <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/><br/>
