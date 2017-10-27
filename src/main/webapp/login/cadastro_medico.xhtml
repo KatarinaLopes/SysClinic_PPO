@@ -10,6 +10,7 @@
     <h:body>
         <h:form id="cadastroMedicosForm">
 
+<<<<<<< Updated upstream
             <p:poll>
                 <p:messages/>
             </p:poll>
@@ -131,13 +132,195 @@
                     
                 </p:tab>
             </p:accordionPanel>
+=======
+            <p:panelGrid columns="4">
+                <h:outputText value="Nome"/> 
+                <p:inputText id="nome" maxlength="70" 
+                             placeholder="Ex.: Maria da Silva" required="true"
+                             requiredMessage="Campo obrigatório" 
+                             value="#{builderMedico.nome}">
+                </p:inputText>
+                <p:message for="nome"/>
+                <p:spacer/>
+
+                <h:outputText value="Matrícula"/>
+                <p:inputText id="matricula" type="number" required="true" 
+                             requiredMessage="Campo obrigatório"
+                             value="#{builderMedico.matricula}"/>
+                <p:message for="matricula"/>
+                <p:spacer/>
+
+                <h:outputText value="Data de Admissão"/>
+                <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
+                            maxdate="today" required="true" 
+                            requiredMessage="Campo obrigatório"
+                            value="#{builderMedico.dataAdmissao}"/>
+                <p:message for="dataAdmissao"/>
+                <p:spacer/>
+
+                <h:outputText value="Especialidade"/>
+                <p:inputText id="especialidade" required="true" 
+                             requiredMessage="Campo obrigatório"
+                             value="#{builderMedico.especialidade}"/>
+                <p:message for="especialidade"/>
+                <p:spacer/>
+
+                <h:outputText value="Conselho"/>
+                <p:inputText id="conselho" required="true" 
+                             requiredMessage="Campo obrigatório"
+                             placeholder="Conselho"
+                             value="#{conselho}"/>
+                <p:inputText id="numeracao" type="number" required="true"
+                             requiredMessage="Campo obrigatório"
+                             placeholder="Número"
+                             value="#{numero}"/>
+                <p:spacer/>
+
+                <h:outputText value="Sexo"/>
+                <p:selectOneRadio value="#{builderMedico.sexo}" id="sexo"
+                                  required="true" 
+                                  requiredMessage="Campo obrigatório">
+                    <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                </p:selectOneRadio>
+                <p:message for="sexo"/>
+                <p:spacer/>
+
+                <h:outputText value="Telefone para contato"/>
+                <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
+                             value="#{builderMedico.telefone}"
+                             placeholder="(99)9999-9999" required="true" 
+                             requiredMessage="Campo obrigatório"/>
+                <p:message for="telefoneContato"/>
+                <p:spacer/>
+
+                <h:outputText value="Email"/>
+                <p:inputText id="email" value="#{builderMedico.email}"
+                             placeholder="email@email.com"/>
+                <p:message for="email"/>
+                <p:spacer/>
+
+                <p:separator/>
+
+            </p:panelGrid>
+
+            Horários
+
+            <p:dataTable id="horariosTabela" var="horario" 
+                         value="#{controllerMedico.horarios}"
+                         rowKey="#{horario.dia}" selectionMode="single">
+                <p:column headerText="Dia">
+                    <h:outputText value="#{horario.dia}"/>
+                </p:column>
+                <p:column headerText="Horário inicial">
+                    <h:outputFormat value="#{horario.horarioInicial}">
+                        <f:convertDateTime type="time" timeStyle="short" 
+                                           timeZone="#{initParam.timezone}"/>
+                    </h:outputFormat>
+                </p:column>
+                <p:column headerText="Horário final">
+                    <h:outputText value="#{horario.horarioFinal}">
+                        <f:convertDateTime type="time" timeStyle="short"
+                                           timeZone="#{initParam.timezone}"/>
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Editar" 
+                                     update=":alterarHorarioForm"
+                                     oncomplete="PF('widEditarHorarioDial').show()">
+                        <f:setPropertyActionListener value="#{horario}" 
+                                                     target="#{controllerMedico.horarioSelecionado}"/>
+                    </p:commandButton>
+                    
+                    <p:commandButton value="Excluir"
+                                     update=
+                                     ":cadastroMedicosForm:horariosTabela">
+                        <f:setPropertyActionListener value="#{horario}"
+                                                     target="#{controllerMedico.horarioSelecionado}"/>
+                        <p:confirm message="Deseja realmente excluir este horário?"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+
+            <p:commandButton value="Adicionar"
+                             oncomplete="PF('widHorariosDial').show()"/>
+
+
+>>>>>>> Stashed changes
 
             <p:commandButton value="Cadastrar" 
                              action="#{controllerMedico.cadastrar(
                                        builderMedico.build(), conselho, 
                                        numero)}"
                              update=":cadastroMedicosForm"/>
+
         </h:form>
+<<<<<<< Updated upstream
+=======
+        <p:dialog closable="true" draggable="false" dynamic="true" 
+                  header="Definir horários" id="horariosDialog" modal="true" 
+                  resizable="false" responsive="true" visible="false" 
+                  widgetVar="widHorariosDial">
+            <h:form id="horariosForm">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Dia da semana"/>
+                    <p:inputText id="dia" value="#{dia}"/>
+                    <p:message for="dia"/>
+
+                    <h:outputText value="Início"/>
+                    <p:calendar id="inicio" value="#{horarioInicial}" 
+                                pattern="HH:mm"
+                                timeOnly="true"/>
+                    <p:message for="inicio"/>
+
+                    <h:outputText value="Fim"/>
+                    <p:calendar id="fim" value="#{horarioFinal}" 
+                                pattern="HH:mm"
+                                timeOnly="true"/>
+                    <p:message for="fim"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Salvar" 
+                                 action="#{controllerMedico.salvarHorario
+                                           (dia, horarioInicial, horarioFinal)}"
+                                 update=":horariosForm
+                                 :cadastroMedicosForm:horariosTabela"
+                                 oncomplete="PF('widHorariosDial').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Editar horário" closable="true" draggable="false"
+                  id="editarHorarioDial" modal="true"
+                  responsive="true" visible="false" 
+                  widgetVar="widEditarHorarioDial">
+            <h:form id="alterarHorarioForm">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Dia da semana"/>
+                    <p:inputText id="diaSemana" 
+                                 value="#{controllerMedico.
+                                          horarioSelecionado.dia}"/>
+                    <p:messages/>
+
+                    <h:outputText value="Horário Inicial"/>
+                    <p:inputText value="#{controllerMedico.horarioSelecionado.
+                                          horarioInicial}"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <p:confirmDialog global="true" id="dial-confirmar-excluir" 
+                         visible="false" widgetVar="wid-dial-confirmar-excluir">
+            <p:commandButton value="Sim" action="#{controllerMedico.
+                                                   excluirHorario(
+                                                   controllerMedico.
+                                                   horarioSelecionado)}"
+                             oncomplete="PF('wid-dial-confirm-excluir').hide()"/>
+            
+            <p:commandButton value="Não" 
+                             oncomplete="PF('wid-dial-confirm-excluir').hide()"/>
+        </p:confirmDialog>
+>>>>>>> Stashed changes
     </h:body>
 </html>
 
