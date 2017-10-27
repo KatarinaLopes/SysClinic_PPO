@@ -123,7 +123,6 @@
             <p:commandButton value="Adicionar"
                              oncomplete="PF('widHorariosDial').show()"/>
 
-
             <p:commandButton value="Cadastrar" 
                              action="#{controllerMedico.cadastrar(
                                        builderMedico.build(), conselho, 
@@ -188,10 +187,11 @@
                                                    controllerMedico.
                                                    horarioSelecionado)}"
                              oncomplete="PF('wid-dial-confirm-excluir').hide()"/>
-
+            
             <p:commandButton value="Não" 
                              oncomplete="PF('wid-dial-confirm-excluir').hide()"/>
         </p:confirmDialog>
+
     </h:body>
 </html>
 
