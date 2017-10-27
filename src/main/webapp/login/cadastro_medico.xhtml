@@ -10,7 +10,6 @@
     <h:body>
         <h:form id="cadastroMedicosForm">
 
-
             <p:panelGrid columns="4">
                 <h:outputText value="Nome"/> 
                 <p:inputText id="nome" maxlength="70" 
@@ -132,7 +131,6 @@
                              update=":cadastroMedicosForm"/>
 
         </h:form>
-
         <p:dialog closable="true" draggable="false" dynamic="true" 
                   header="Definir horários" id="horariosDialog" modal="true" 
                   resizable="false" responsive="true" visible="false" 
@@ -183,7 +181,6 @@
                 </p:panelGrid>
             </h:form>
         </p:dialog>
-
         <p:confirmDialog global="true" id="dial-confirmar-excluir" 
                          visible="false" widgetVar="wid-dial-confirmar-excluir">
             <p:commandButton value="Sim" action="#{controllerMedico.
