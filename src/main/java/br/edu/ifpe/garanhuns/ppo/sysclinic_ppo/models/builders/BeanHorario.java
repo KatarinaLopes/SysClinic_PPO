@@ -47,7 +47,7 @@ public class BeanHorario implements BuilderGenerico<Horario>{
 
     @Override
     public Horario build() {
-        return new Horario(diaDaSemana, horarioInicial, horarioFinal);
+        return new Horario(diaDaSemana, horarioInicial, horarioFinal, 0);
     }
     
     

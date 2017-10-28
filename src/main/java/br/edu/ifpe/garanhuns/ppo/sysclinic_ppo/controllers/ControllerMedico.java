@@ -29,7 +29,7 @@ public class ControllerMedico {
     private final DaoGenerico daoMedico = new DaoMedico();
     
     @ManagedProperty("#{medicosRegistrados}")
-    private List medicosRegistrados;
+    private List<Medico> medicosRegistrados;
     
     @ManagedProperty("#{medicosRegistrados}")
     private Medico medicoSelecionado;
@@ -109,7 +109,7 @@ public class ControllerMedico {
     }
     
     public void salvarHorario(String dia, Date inicio, Date fim){
-        horarios.add(new Horario(dia, inicio, fim));
+        horarios.add(new Horario(dia, inicio, fim, 0));
     }
     
     public void excluirHorario(Horario h){

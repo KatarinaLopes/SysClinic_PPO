@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -146,5 +147,9 @@ public class Medico {
 
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
+    }
+    
+    public List pegarDatasLivres(){
+        return null;
     }
 }

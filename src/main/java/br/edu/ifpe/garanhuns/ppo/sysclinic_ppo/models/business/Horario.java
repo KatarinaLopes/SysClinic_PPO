@@ -24,15 +24,19 @@ public class Horario {
     private Date horarioInicial;
     @Temporal(TemporalType.TIME)
     private Date horarioFinal;
+    
+    private int agendamentos;
 
     @Deprecated
     public Horario() {
     }
 
-    public Horario(String dia, Date horarioInicial, Date horarioFinal) {
+    public Horario(String dia, Date horarioInicial, Date horarioFinal, 
+            int agendamentos) {
         this.dia = dia;
         this.horarioInicial = horarioInicial;
         this.horarioFinal = horarioFinal;
+        this.agendamentos = agendamentos;
     }
 
     public String getDia() {
@@ -58,5 +62,14 @@ public class Horario {
     public void setHorarioFinal(Date horarioFinal) {
         this.horarioFinal = horarioFinal;
     }
+
+    public int getAgendamentos() {
+        return agendamentos;
+    }
+
+    public void setAgendamentos(int agendamentos) {
+        this.agendamentos = agendamentos;
+    }
+    
     
 }

@@ -8,19 +8,40 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        <p:panelGrid columns="3">
-            <h:outputText value="Paciente"/>
-            <p:selectOneMenu filter="true" id="paciente" required="true" 
-                             placeholder="Selecione o paciente"
-                             value="">
-                <f:selectItems var="paciente" 
-                               value="#{controllerPaciente.
-                                        pacientesCadastrados}"
-                               itemLabel="#{paciente.nome} - #{paciente.cpf}"
-                               itemValue="#{paciente}"/>
-            </p:selectOneMenu>
-        </p:panelGrid>
+        <h:form id="form-agendamento-consultas">
+            Hello from Facelets
+            <p:panelGrid columns="3">
+                <h:outputText value="Paciente"/>
+                <p:selectOneMenu filter="true" id="paciente" required="true" 
+                                 placeholder="Selecione o paciente"
+                                 value="#{builderAgendamento.paciente}"
+                                 requiredMessage="Campo obrigatório">
+                    <f:selectItems var="paciente" 
+                                   value="#{controllerPaciente.
+                                            pacientesCadastrados}"
+                                   itemLabel="#{paciente.nome} - #{paciente.cpf}"
+                                   itemValue="#{paciente}"/>
+                </p:selectOneMenu>
+                <p:message for="paciente"/>
+                
+                <h:outputText value="Médico"/>
+                <p:selectOneMenu filter="true" id="medico" 
+                                 placeholder="Médicos" required="true" 
+                                 requiredMessage="Campo obrigatório" 
+                                 value="#{builderAgendamento.medico}">
+                    <f:selectItems var="medico" value="#{controllerMedico.
+                                                         medicosRegistrados}"
+                                   itemLabel="#{medico.nome} - #{medico.
+                                                especialidade}"
+                                   itemValue="#{medico}"/>
+                </p:selectOneMenu>
+                <p:message for="medico"/>
+               
+                <h:outputText value="Data prevista"/>
+                <p:calendar mindate="today"/>
+                
+            </p:panelGrid>
+        </h:form>
     </h:body>
 </html>
 
