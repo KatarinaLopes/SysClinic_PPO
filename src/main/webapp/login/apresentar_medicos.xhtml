@@ -63,6 +63,16 @@
                         <p:confirm 
                             message="Deseja realmente excluir este médico?"/>
                     </p:commandButton>
+                    
+                    <p:commandButton value="Horários" 
+                                     update=":apresentarMedicosForm
+                                     :apresentarHorariosDialForm"
+                                     oncomplete="PF('widDialHorario').show()">
+                        <f:setPropertyActionListener value="#{medico}"
+                                                     target="#{
+                                                     controllerMedico.
+                                                         medicoSelecionado}"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
 
@@ -87,6 +97,10 @@
                     <h:outputText value="
                                   #{controllerMedico.medicoSelecionado.nome}"/>
                     
+                    <h:outputText value="Sexo"/>
+                    <h:outputText value="#{controllerMedico.medicoSelecionado.
+                                           sexo}"/>
+                    
                     <h:outputText value="Conselho"/>
                     <h:outputText value="#{
                                   controllerMedico.medicoSelecionado.
@@ -105,12 +119,8 @@
                     <h:outputText value="
                                   #{controllerFuncionario.
                                     funcionarioSelecionado.email}"/>
-
-                    <h:outputText value="Administrador"/>
-                    <h:outputText value="
-                                  #{controllerFuncionario.
-                                    funcionarioSelecionado.administrador}"/>
                 </p:panelGrid>
+                
             </h:form>
 
         </p:dialog>
@@ -125,16 +135,16 @@
                     <h:outputText value="Matrícula"/>
                     <p:inputText id="matricula" required="true" 
                                  requiredMessage="Campo obrigatório"
-                                 value="#{controllerFuncionario.
-                                          funcionarioSelecionado.matricula}"/>
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          matricula}"/>
                     <p:message for="matricula"/>
                     
                     <h:outputText value="Data de admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
                                 maxdate="today" required="true"
                                 requiredMessage="Campo obrigatório"
-                                value="#{controllerFuncionario.
-                                         funcionarioSelecionado.dataAdmissao}"/>
+                                value="#{controllerMedico.medicoSelecionado.
+                                         dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
                     
                     <h:outputText value="Nome"/> 
@@ -142,15 +152,13 @@
                                  placeholder="Ex.: Maria da Silva" required="true"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{
-                                 controllerFuncionario.funcionarioSelecionado.
-                                     nome}">
+                                 controllerMedico.medicoSelecionado.nome}">
                     </p:inputText>
                     <p:message for="nome"/>
 
                     <h:outputText value="Sexo"/>
                     <p:selectOneRadio value="#{
-                                      controllerFuncionario.
-                                          funcionarioSelecionado.sexo}" 
+                                      controllerMedico.medicoSelecionado.sexo}" 
                                       id="sexo"
                                       required="true" 
                                       requiredMessage="Campo obrigatório">
@@ -159,63 +167,86 @@
                     </p:selectOneRadio>
                     <p:message for="sexo"/>
 
-                    <h:outputText value="Cargo"/>
-                    <p:inputText id="cargo" 
+                    <h:outputText value="Conselho"/>
+                    <p:inputText id="conselho" 
                                 value="#{
-                                controllerFuncionario.
-                                    funcionarioSelecionado.cargo}"
+                                controllerMedico.medicoSelecionado.conselho}"
                                 required="true" 
                                 requiredMessage="Campo obrigatório"/>
-                    <p:message for="cargo"/>
+                    <p:message for="conselho"/>
 
+                    
+                    <h:outputText value="Especialidade"/>
+                    <p:inputText id="especialidade" value="#{controllerMedico.
+                                                             medicoSelecionado.
+                                                             especialidade}"/>
+                    <p:message for="especialidade"/>
+                    
                     <h:outputText value="Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
                                  value="#{
-                                 controllerFuncionario.
-                                     funcionarioSelecionado.telefone}"
+                                 controllerMedico.medicoSelecionado.telefone}"
                                  placeholder="(99)9999-9999" required="true" 
                                  requiredMessage="Campo obrigatório"/>
                     <p:message for="telefoneContato"/>
 
                     <h:outputText value="Email"/>
                     <p:inputText id="email" value="#{
-                                 controllerFuncionario.funcionarioSelecionado.
-                                     email}"
+                                 controllerMedico.medicoSelecionado.email}"
                                  placeholder="email@email.com"/>
                     <p:message for="email"/>
 
-                    <p:selectBooleanCheckbox id="administrador" 
-                                             itemLabel="É um administrador"
-                                             value="#{controllerFuncionario.
-                                                      funcionarioSelecionado.
-                                                      administrador}"/>
-                    <p:spacer/><p:spacer/>
+                    
 
                 </p:panelGrid>
 
                 <p:commandButton value="Alterar" 
-                                 action="#{controllerFuncionario.
-                                           atualizar
-                                           (controllerFuncionario.
-                                           funcionarioSelecionado)}"
-                                 update=":apresentarFuncionariosForm"
+                                 action="#{controllerMedico.
+                                           atualizar(controllerMedico.
+                                           medicoSelecionado)}"
+                                 update=":apresentarMedicosForm 
+                                 :alterarMedicoDialForm"
                                  oncomplete="
-                                 PF('widAlterarFuncionario').hide()"/>
+                                 PF('widAlterarMedico').hide()"/>
             </h:form>
 
         </p:dialog>
         
         <p:confirmDialog global="true" id="confirmDialog" visible="false"
                          widgetVar="widConfirmDialog">
-            <p:commandButton value="Sim" action="#{controllerFuncionario.
+            <p:commandButton value="Sim" action="#{controllerMedico.
                                                    deletar(
-                                                   controllerFuncionario.
-                                                   funcionarioSelecionado)}"
+                                                   controllerMedico.
+                                                   medicoSelecionado)}"
                              oncomplete="PF('widConfirmDialog').hide()"/>
             <p:commandButton value="Não" 
                              oncomplete="PF('widConfirmDialog').hide()"/>
             
         </p:confirmDialog>
+        
+        <p:dialog id="dialHorario" header="Horários" modal="true" 
+                  visible="false" widgetVar="widDialHorario">
+            <h:form id="apresentarHorariosDialForm">
+                <p:dataTable id="horarios" var="horario" 
+                             value="#{controllerMedico.
+                                      medicoSelecionado.horarios}" 
+                             rowKey="#{horarios.dia}">
+                
+                    <p:column headerText="Dia">
+                        <h:outputText value="#{horario.dia}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Horário inicial">
+                        <h:outputText value="#{horario.horarioInicial}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Horário final">
+                        <h:outputText value="#{horario.horarioFinal}"/>
+                    </p:column>
+                
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 

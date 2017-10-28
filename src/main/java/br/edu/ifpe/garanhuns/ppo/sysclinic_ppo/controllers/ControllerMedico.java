@@ -34,12 +34,12 @@ public class ControllerMedico {
     @ManagedProperty("#{medicosRegistrados}")
     private Medico medicoSelecionado;
     
-    @ManagedProperty("#{horarios}")
+    //@ManagedProperty("#{horarios}")
     private List<Horario> horarios = new ArrayList();
 
     //@ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado = new Horario(); 
-    
+
     public List getMedicosRegistrados() {
         return medicosRegistrados;
     }
@@ -63,6 +63,15 @@ public class ControllerMedico {
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
     }
+
+    public Horario getHorarioSelecionado() {
+        return horarioSelecionado;
+    }
+
+    public void setHorarioSelecionado(Horario horarioSelecionado) {
+        this.horarioSelecionado = horarioSelecionado;
+    }
+    
     
     
     public String cadastrar(Medico c, String conselho, int numero) {

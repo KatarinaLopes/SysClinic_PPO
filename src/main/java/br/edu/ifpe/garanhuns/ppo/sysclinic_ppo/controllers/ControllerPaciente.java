@@ -81,6 +81,20 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     public boolean validarPaciente(Paciente c, String senha) {
+        if(!Validacoes.validarNome(c.getNome())){
+            FacesContext.getCurrentInstance().addMessage(
+                    ":cadastroPacienteForm:messageNome", 
+                    new FacesMessage("Nome inválido"));
+            return false;
+        }
+        
+        if(!(Validacoes.validarSexo(c.getSexo()))){
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage("Sexo inválido"));
+            
+            return false;
+        }
+        
         if (!Validacoes.validarCpf(c.getCpf())) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("CPF inválido"));
             return false;

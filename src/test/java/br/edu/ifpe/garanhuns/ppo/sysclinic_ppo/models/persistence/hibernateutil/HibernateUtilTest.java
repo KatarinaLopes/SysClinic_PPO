@@ -19,107 +19,114 @@ import static org.junit.Assert.*;
  * @author Katarina
  */
 public class HibernateUtilTest {
-    
-    private static int tamanho = 6;
-    
+
+    private static int tamanho;
+    //private Paciente p = null;
+
     public HibernateUtilTest() {
     }
 
     /*@Test
     public void testGetInstance() {
     }*/
-
-/* 
     @Test
     public void deveTestarPersist() {
-        int tamanhoAnterior = HibernateUtil.getInstance().recover("from Paciente").
+
+        tamanho = HibernateUtil.getInstance().recover("from Paciente").
                 size();
-        
-        Paciente p = new Paciente(0, new Date(System.currentTimeMillis()), 
-                "PacienteTeste", "M", new Date(System.currentTimeMillis()), 
-                "(88)9-9999-9999", null, null, "888.888.888-88", "123", 
+
+        String cpf = "145.121.333-" + tamanho;
+
+        Paciente p = new Paciente(0, new Date(System.currentTimeMillis()),
+                "PacienteTeste", "M", new Date(System.currentTimeMillis()),
+                "(88)9-9999-9999", null, null, cpf, "123",
                 new LinkedList<Agendamento>());
-        
+
         HibernateUtil.getInstance().persist(p);
-        
+
         int tamanhoNovo = HibernateUtil.getInstance().recover("from Paciente").
                 size();
-        
-        assertEquals(++tamanhoAnterior, tamanhoNovo);
-        
-        tamanho++;
-        
-    }*/
-    /*
-    @Test(expected = ConstraintViolationException.class)
-    public void deveTestarPersistRetornandoConstraintViolationException(){
-        HibernateUtil.getInstance().persist(new Paciente(0, 
-                new Date(System.currentTimeMillis()), "NaoDevePersistir", "M", 
-                new Date(System.currentTimeMillis()), "(88)9-9999-9999", null, 
-                null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
+
+        assertEquals(++tamanho, tamanhoNovo);
+
     }
 
-    /*@Test
+    @Test(expected = ConstraintViolationException.class)
+    public void deveTestarPersistRetornandoConstraintViolationException() {
+        HibernateUtil.getInstance().persist(new Paciente(0,
+                new Date(System.currentTimeMillis()), "NaoDevePersistir", "M",
+                new Date(System.currentTimeMillis()), "(88)9-9999-9999", null,
+                null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
+
+        HibernateUtil.getInstance().persist(new Paciente(0,
+                new Date(System.currentTimeMillis()), "NaoDevePersistir", "M",
+                new Date(System.currentTimeMillis()), "(88)9-9999-9999", null,
+                null, "111.111.111-11", "123", new LinkedList<Agendamento>()));
+
+    }
+
+    @Test
     public void deveTestarRecoverRetornandoListaDeRegistrosEVerificandoOTamanho() {
-        
+
         List<Paciente> listaPacientes = HibernateUtil.getInstance().
                 recover("from Paciente");
-        
-        assertEquals(6, listaPacientes.size());
-        
-    }*/
-    /*
+
+        assertEquals(tamanho, listaPacientes.size());
+
+    }
+
     @Test
-    public void deveTestarRecoverRetornandoPacienteComId1(){
+    public void deveTestarRecoverRetornandoPacienteComId1() {
         Paciente p = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
-        
+
         assertEquals(1, p.getId());
-    }*/
-    
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
-    public void deveTestarRecoverPassandoIdInexistenteRetornando0(){
+    public void deveTestarRecoverPassandoIdInexistenteRetornando0() {
         Paciente p = (Paciente) HibernateUtil.getInstance().
-                recover("from Paciente where id = 100").get(0);
-        
+                recover("from Paciente where id = 1000").get(0);
+
         assertNull(p);
     }
-    
-    /*
+
     @Test
     public void deveTestarUpdate() {
-        
+
         Paciente pacienteRecuperado = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
-        
-        pacienteRecuperado.setNome("NovoPacienteTeste");
-        
+
+        pacienteRecuperado.setNome("NovoPacienteTeste" + tamanho);
+
         HibernateUtil.getInstance().update(pacienteRecuperado);
-        
+
         Paciente novo = (Paciente) HibernateUtil.getInstance().
                 recover("from Paciente where id = 1").get(0);
         
-        assertEquals("NovoPacienteTeste", novo.getNome());
+
+        assertEquals("NovoPacienteTeste" + tamanho, novo.getNome());
+
     }
 
-    /*@Test()
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testDelete() {
-        
-        String s = new String();
-       
+
+        String nome = "NovoPacienteTeste" + tamanho;
         Paciente p = 
                 (Paciente) 
                 HibernateUtil.
                         getInstance().
-                        recover("from Paciente where id = 9").get(0);
-        
+                        recover("from Paciente where nome like '%Test'")
+                        .get(tamanho);
+
         HibernateUtil.getInstance().delete(p);
-        
-        Paciente p1 = (Paciente) HibernateUtil.getInstance().recover("from Paciente where id = 9").get(0);
-        
-        assertNotNull(p1);
-        
-    }*/
+
+        Paciente p1 = (Paciente) HibernateUtil.getInstance().
+                recover("from Paciente where nome like '%Test'").get(tamanho);
+
+        //assertNotNull(p1);
+    }
 
     @Test
     public void testMain() {
