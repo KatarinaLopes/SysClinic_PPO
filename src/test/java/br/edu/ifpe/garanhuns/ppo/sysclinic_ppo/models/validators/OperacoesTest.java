@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Katarina
  */
 public class OperacoesTest {
-
+    
     public OperacoesTest() {
     }
 
@@ -103,7 +103,7 @@ public class OperacoesTest {
         
         assertEquals(null, msg);
         
-        paciente.setCelular("(99)9-9999-9999");
+        paciente.setCelular("(99)99999-9999");
         paciente.setEmail(null);
         
         msg = Operacoes.validarPaciente(paciente, "123");
@@ -139,13 +139,26 @@ public class OperacoesTest {
         
     }
     
+    @Test
     public void deveTestarValidarPacienteComDadosIncorretos(){
         Paciente paciente = new Paciente(0, new Date(System.currentTimeMillis()), 
                 "N0m3", "F", new Date(System.currentTimeMillis()), 
-                "(99)9999-9999", "(99)9-9999-9999", "email@email.com", 
+                "(99)9999-9999", "(99)99999-9999", "email@email.com", 
                 "111.111.111-11", "123", new ArrayList<Agendamento>());
         
         String msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Nome inválido", msg);
+        
+        paciente.setNome(" ");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Nome inválido", msg);
+        
+        paciente.setNome("");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
         
         assertEquals("Nome inválido", msg);
         
@@ -157,6 +170,18 @@ public class OperacoesTest {
         assertEquals("Sexo inválido", msg);
         
         paciente.setSexo("1");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Sexo inválido", msg);
+        
+        paciente.setSexo("");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Sexo inválido", msg);
+        
+        paciente.setSexo(" ");
         
         msg = Operacoes.validarPaciente(paciente, "123");
         
@@ -181,12 +206,49 @@ public class OperacoesTest {
         
         assertEquals("Telefone inválido", msg);
         
+        paciente.setTelefoneContato("");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Telefone inválido", msg);
+        
+        paciente.setTelefoneContato(" ");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Telefone inválido", msg);
+        
         paciente.setTelefoneContato("(99)9999-9999");
-        paciente.setCelular("(99)9999-9999");
+        paciente.setCelular("(999999-9999");
         
         msg = Operacoes.validarPaciente(paciente, "123");
         
         assertEquals("Celular inválido", msg);
+        
+        paciente.setCelular("");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Celular inválido", msg);
+        
+        paciente.setCelular(" ");
+        
+        msg = Operacoes.validarPaciente(paciente, "123");
+        
+        assertEquals("Celular inválido", msg);
+    }
+    
+    @Test
+    public void deveTestarValidarPacientePassandoPacienteValidoRetornandoNull(){
+        Paciente paciente = new Paciente(0, new Date(), "Nome Nome", "F",
+                new Date(), "(99)9999-9999", "(99)99999-9999", 
+                "email@email.com", "111.111.111-11", "123", 
+                new ArrayList<Agendamento>());
+        
+        String mens = Operacoes.validarPaciente(paciente, "123");
+        
+        assertNull(mens);
+        
     }
 
     @Test

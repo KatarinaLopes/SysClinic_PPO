@@ -14,6 +14,10 @@ import javax.faces.bean.ManagedBean;
  * @author Katarina
  */
 public class Validacoes {
+    
+    /*private Validacoes(){
+        
+    }*/
 
     public static boolean validarCpf(String cpf) {
 
@@ -73,25 +77,23 @@ public class Validacoes {
 
     public static boolean validarTelefone(String telefone) {
 
-        String regex = "^\\([0-9]{2}\\)[2-9][0-9]{3}\\-[0-9]{4}";
-
         try {
-            if (telefone.length() == 15) {
-                regex = "^\\([0-9]{2}\\)9\\-[2-9][0-9]{3}\\-[0-9]{4}";
-            }
+            return telefone.
+                    matches("^\\([0-9]{2}\\)[2-9][0-9]{3,4}\\-[0-9]{4}");
         } catch (NullPointerException ex) {
             return false;
         }
-
-        return telefone.matches(regex);
 
     }
 
     //Ainda não foi testado
     public static boolean validarNome(String nome) {
-
-        //Regex da internet
         try {
+            if (nome.equals("") || nome.equals(" ")) {
+                return false;
+            }
+            //Regex da internet
+
             return nome.matches("[a-zA-Z\\sà-ùÀ-Ù]{0,}");
         } catch (NullPointerException ex) {
             return false;
@@ -115,7 +117,7 @@ public class Validacoes {
             return false;
         }
     }
-    
+
     /*public static boolean validarCrm(String crm){
         try{
             return crm.matches("[0-9]{3,9}/CRM-[AC,AL,AM,AP,BA,CE,DF,ES,GO,MA,"
@@ -124,5 +126,4 @@ public class Validacoes {
             return false;
         }
     }*/
-    
 }

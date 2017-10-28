@@ -122,7 +122,7 @@ public class ValidacoesTest {
     
     @Test
     public void deveTestarValidarTelefonePassandoTelefoneCorreto9digitosRetornandoTrue(){
-        boolean resultado = Validacoes.validarTelefone("(99)9-9999-9999");
+        boolean resultado = Validacoes.validarTelefone("(99)99999-9999");
         
         assertTrue(resultado);
     }
@@ -274,4 +274,13 @@ public class ValidacoesTest {
         
         assertTrue(r1);
     }*/
+    
+    @Test
+    public void verComoTirarARiscaVermelha(){
+        Validacoes v = null;
+        
+        v = new Validacoes();
+        
+        assertNotNull(v);
+    }
 }

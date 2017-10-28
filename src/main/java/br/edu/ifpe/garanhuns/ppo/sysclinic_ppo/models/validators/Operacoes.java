@@ -55,6 +55,8 @@ public class Operacoes {
 
         if (p.getCelular() == null) {
             return null;
+        }else if(!Validacoes.validarTelefone(p.getCelular())){
+            return "Celular inválido";
         }
 
         if (p.getEmail() == null) {
@@ -76,8 +78,4 @@ public class Operacoes {
         return null;
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
-        System.out.println(Operacoes.criptografarSenha("1"));
-    }
 }
