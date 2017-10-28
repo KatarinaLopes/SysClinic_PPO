@@ -57,5 +57,6 @@ public class Horario {
 
     public void setHorarioFinal(Date horarioFinal) {
         this.horarioFinal = horarioFinal;
-    }    
+    }
+
 }

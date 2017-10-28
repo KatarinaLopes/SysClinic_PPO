@@ -21,6 +21,7 @@ public class BeanHorario implements BuilderGenerico<Horario>{
     private Date horarioInicial;
     private Date horarioFinal;
 
+
     public int getDiaDaSemana() {
         return diaDaSemana;
     }

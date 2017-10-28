@@ -163,9 +163,7 @@ public class Medico {
     public void setAgendamento(List<Agendamento> agendamento) {
         this.agendamento = agendamento;
     }
-    
-    
-    
+        
     public List pegarDatasLivres(){
         return null;
     }
