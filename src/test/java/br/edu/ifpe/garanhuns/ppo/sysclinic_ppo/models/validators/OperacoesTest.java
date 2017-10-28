@@ -43,6 +43,12 @@ public class OperacoesTest {
 
     @Test
     public void testCriptografarSenha() throws Exception {
+        String senha = "123";
+        
+        String cript = Operacoes.criptografarSenha(senha);
+        
+        assertNotEquals("senha", cript);
+        
     }
 
     @Test(expected = IllegalArgumentException.class)
