@@ -3,50 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
+package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Katarina
  */
-@Entity
-public class Agendamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@ManagedBean
+@RequestScoped
+public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
     private int id;
-    @Temporal(TemporalType.DATE)
     private Date dataPrevista;
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Paciente paciente;
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Medico medico;
-    private boolean realizada;
-
-    @Deprecated
-    public Agendamento() {
-    }
-
-    public Agendamento(int id, Date dataPrevista, Paciente paciente, Medico medico, boolean realizada) {
-        this.id = id;
-        this.dataPrevista = dataPrevista;
-        this.paciente = paciente;
-        this.medico = medico;
-        this.realizada = realizada;
-    }
+    private boolean realizada = false;
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDataPrevista() {
@@ -80,5 +64,11 @@ public class Agendamento {
     public void setRealizada(boolean realizada) {
         this.realizada = realizada;
     }
-       
+
+    @Override
+    public Agendamento build() {
+        return new Agendamento(id, dataPrevista, paciente, medico, realizada);
+    }
+    
+    
 }
