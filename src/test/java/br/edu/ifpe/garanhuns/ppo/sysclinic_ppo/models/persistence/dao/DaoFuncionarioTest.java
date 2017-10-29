@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,6 +23,7 @@ import static org.junit.Assert.*;
 public class DaoFuncionarioTest {
     
     private DaoFuncionario daoFuncionario;
+    private static int tamanho;
     
     public DaoFuncionarioTest() {
     }
@@ -43,11 +45,11 @@ public class DaoFuncionarioTest {
     public void tearDown() {
     }
 
-   /* @Test
+    @Test(expected = ConstraintViolationException.class)
     public void devePersistir() {
-        int tamanhoAntigo = daoFuncionario.recuperarTodos().size();
+        tamanho = daoFuncionario.recuperarTodos().size();
         
-        Funcionario funcionario = new Funcionario(0, 12345, 
+        Funcionario funcionario = new Funcionario(0, 12345+tamanho, 
                 new Date(System.currentTimeMillis()), "FuncionarioTest", "F", 
                 null, "(99)9999-9999", "CargoTeste", false, "123");
         
@@ -55,43 +57,74 @@ public class DaoFuncionarioTest {
         
         int tamanhoNovo = daoFuncionario.recuperarTodos().size();
         
-        assertEquals(++tamanhoAntigo, tamanhoNovo);
+        assertEquals(++tamanho, tamanhoNovo);
+        
+        daoFuncionario.persistir(funcionario);
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void deveTestarRecuperar() {
-        Funcionario funcionarioExistente = daoFuncionario.recuperar(2);
+        Funcionario funcionarioExistente = daoFuncionario.recuperar(1);
         
         assertNotNull(funcionarioExistente);
         
-        Funcionario funcionarioNaoExistente = daoFuncionario.recuperar(100);
+        Funcionario funcionarioNaoExistente = daoFuncionario.recuperar(1000);
+        
+        assertNull(funcionarioNaoExistente);
     }
 
     @Test
     public void testRecuperarPorAtributo() {
+        
+        Funcionario funcionario = daoFuncionario.recuperarPorAtributo("nome", 
+                "FuncionarioTest");
+        
+        assertNotNull(funcionario);
+        
+        funcionario = daoFuncionario.recuperarPorAtributo("nome", "vsg2");
+        
+        assertNull(funcionario);
+        
+        int valor = tamanho;
+        
+        funcionario = daoFuncionario.recuperarPorAtributo("matricula", 
+                12345+(valor-1));
+        
+        assertNotNull(funcionario);
+        
+        funcionario = daoFuncionario.recuperarPorAtributo("matricula", 000);
+        
+        assertNull(funcionario);
     }
 
     @Test
     public void testAtualizar() {
-        Funcionario funcionarioAntigo = daoFuncionario.recuperar(2);
+        Funcionario funcionarioAntigo = daoFuncionario.recuperar(1);
         
         funcionarioAntigo.setNome("FuncionarioTesteUpdate");
         
         daoFuncionario.atualizar(funcionarioAntigo);
         
-        Funcionario funcionarioNovo = daoFuncionario.recuperar(2);
+        Funcionario funcionarioNovo = daoFuncionario.recuperar(1);
         
         assertEquals("FuncionarioTesteUpdate", funcionarioNovo.getNome());
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    @Test
     public void testDeletar() {
-        Funcionario funcionarioAntigo = daoFuncionario.recuperar(2);
+        int valor = tamanho;
+        
+        Funcionario funcionarioAntigo = (Funcionario) daoFuncionario.
+                recuperarTodos().get(valor-1);
+        
+        int id = funcionarioAntigo.getId();
         
         daoFuncionario.deletar(funcionarioAntigo);
         
-        Funcionario funcionarioNovo = daoFuncionario.recuperar(2);
-    }*/
+        Funcionario funcionarioNovo = daoFuncionario.recuperar(id);
+        
+        assertNull(funcionarioNovo);
+    }
 
     @Test
     public void testRecuperarTodos() {

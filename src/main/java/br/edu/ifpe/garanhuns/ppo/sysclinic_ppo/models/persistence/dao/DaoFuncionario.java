@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Katarina
  */
-public class DaoFuncionario implements DaoGenerico<Funcionario, Integer>{
+public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
 
     @Override
     public void persistir(Funcionario c) {
@@ -23,13 +23,28 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer>{
 
     @Override
     public Funcionario recuperar(Integer i) {
-        return (Funcionario) HibernateUtil.getInstance().recover("from Funcionario where id = " + i).get(0);
+        try {
+            return (Funcionario) HibernateUtil.getInstance().
+                    recover("from Funcionario where id = " + i).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     @Override
-    public Funcionario recuperarPorAtributo(String atributo, String value) {
-        return (Funcionario) HibernateUtil.getInstance().recover("from Funcionario where " + atributo + 
-                " = " + value).get(0);
+    public Funcionario recuperarPorAtributo(String atributo, Object value) {
+        try {
+            if (value.getClass() == String.class) {
+                return (Funcionario) HibernateUtil.getInstance().
+                        recover("from Funcionario where " + atributo + " = '" + value + "'").get(0);
+            }
+
+            return (Funcionario) HibernateUtil.getInstance().
+                    recover("from Funcionario where " + atributo + " = " + value).
+                    get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     @Override
@@ -44,7 +59,11 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer>{
 
     @Override
     public List recuperarTodos() {
-        return HibernateUtil.getInstance().recover("from Funcionario");
+        try {
+            return HibernateUtil.getInstance().recover("from Funcionario");
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
-    
+
 }

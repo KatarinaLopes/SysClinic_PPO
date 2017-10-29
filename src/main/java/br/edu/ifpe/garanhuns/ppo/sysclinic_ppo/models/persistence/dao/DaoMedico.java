@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Katarina
  */
-public class DaoMedico implements DaoGenerico<Medico, Integer>{
+public class DaoMedico implements DaoGenerico<Medico, Integer> {
 
     @Override
     public void persistir(Medico c) {
@@ -23,14 +23,32 @@ public class DaoMedico implements DaoGenerico<Medico, Integer>{
 
     @Override
     public Medico recuperar(Integer i) {
-        return (Medico) HibernateUtil.getInstance().
-                recover("from Medico where id = " + i).get(0);
+        try {
+            return (Medico) HibernateUtil.getInstance().
+                    recover("from Medico where id = " + i).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
-    @Override
+    /*@Override
     public Medico recuperarPorAtributo(String atributo, String value) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-//To change body of generated methods, choose Tools | Templates.
+        return null;
+    }*/
+    public Medico recuperarPorAtributo(String atributo, Object value) {
+        try {
+
+            if (value.getClass() == String.class) {
+
+                return (Medico) HibernateUtil.getInstance().
+                        recover("from Medico where " + atributo + " = '" + value + "'").get(0);
+            }
+            return (Medico) HibernateUtil.getInstance().
+                    recover("from Medico where " + atributo + " = " + value + "").get(0);
+
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     @Override
@@ -45,7 +63,11 @@ public class DaoMedico implements DaoGenerico<Medico, Integer>{
 
     @Override
     public List recuperarTodos() {
-        return HibernateUtil.getInstance().recover("from Medico");
+        try {
+            return HibernateUtil.getInstance().recover("from Medico");
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
-    
+
 }

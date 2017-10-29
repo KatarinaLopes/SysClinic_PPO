@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -15,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * @author Katarina
  */
 public class Operacoes {
-
+    
     public static String criptografarSenha(String senha)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest mess = MessageDigest.getInstance("SHA-256");
@@ -74,6 +75,12 @@ public class Operacoes {
         if(!Validacoes.validarSenhas(p.getSenha(), confirmacaoSenha)){
             return "Senha inválida";
         }
+        
+        return null;
+    }
+
+
+    public static String validarFuncionario(Funcionario f) {
         
         return null;
     }

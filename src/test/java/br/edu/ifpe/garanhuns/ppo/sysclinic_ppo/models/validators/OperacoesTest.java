@@ -6,6 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.ArrayList;
 import java.util.Date;
@@ -255,6 +256,29 @@ public class OperacoesTest {
         
         assertNull(mens);
         
+    }
+    
+    @Test
+    public void deveTestarValidarFuncionarioRetornandoNull(){
+        Funcionario funcionario = new Funcionario(0, 1234, new Date(), "Nome", 
+                "F", 
+                "email@email.com", "(99)9999-9999", "Cargo", true, "123");
+        
+        String msg = Operacoes.validarFuncionario(funcionario);
+        
+        assertNull(msg);
+    }
+    
+    @Test
+    public void deveTestarValidarFuncionarioValidandoNomeNuloRetornandoErro(){
+        
+    }
+    
+    @Test
+    public void testarClasse(){
+        Operacoes operacoes = new Operacoes();
+        
+        assertNotNull(operacoes);
     }
 
     @Test

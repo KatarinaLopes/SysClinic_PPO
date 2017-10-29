@@ -34,12 +34,24 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer> {
 
         return p;
     }
-    
+
     @Override
-    public Paciente recuperarPorAtributo(String atributo, String value){
-        
-        return (Paciente) HibernateUtil.getInstance().
-                recover("from Paciente where cpf=" + "'" + value + "'").get(0);
+    public Paciente recuperarPorAtributo(String atributo, Object value) {
+        try {
+
+            if (value.getClass() == String.class) {
+                return (Paciente) HibernateUtil.getInstance().
+                        recover
+        ("from Paciente where " + atributo + "='" + value + "'").get(0);
+            }
+
+            return (Paciente) HibernateUtil.getInstance().
+                    recover("from Paciente where " + atributo + "=" + value)
+                    .get(0);
+
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     @Override
@@ -61,7 +73,7 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer> {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        
+
         return pacientes;
 
     }
