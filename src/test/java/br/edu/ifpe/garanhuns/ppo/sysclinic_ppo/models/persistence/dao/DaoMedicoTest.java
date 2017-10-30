@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
@@ -55,7 +56,7 @@ public class DaoMedicoTest {
         Medico medico = new Medico(0, 123 + tamanho,
                 new Date(System.currentTimeMillis()), "MedicoTeste", "M", null,
                 "(99)9999-9999", "CREMEPE 000" + tamanho, "EspecialidadeTeste",
-                new ArrayList<Horario>());
+                new ArrayList<Horario>(), new ArrayList<Agendamento>());
 
         daoMedico.persistir(medico);
 

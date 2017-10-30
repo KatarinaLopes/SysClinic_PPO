@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import java.util.Date;
@@ -34,6 +35,8 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     private String especialidade;
   
     private List<Horario> horarios;
+    
+    private List<Agendamento> agendamentos;
 
     public int getId() {
         return id;
@@ -115,10 +118,19 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
         this.horarios = horarios;
     }
 
+    public List<Agendamento> getAgendamentos() {
+        return agendamentos;
+    }
+
+    public void setAgendamentos(List<Agendamento> agendamentos) {
+        this.agendamentos = agendamentos;
+    }
+   
+
     @Override
     public Medico build() {
         return new Medico(id, matricula, dataAdmissao, nome, sexo, email, 
-                telefone, conselho, especialidade, horarios);
+                telefone, conselho, especialidade, horarios, agendamentos);
     }
     
     

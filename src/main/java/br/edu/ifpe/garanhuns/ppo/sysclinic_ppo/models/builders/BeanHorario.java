@@ -17,15 +17,15 @@ import javax.faces.bean.RequestScoped;
 @ManagedBean
 @RequestScoped
 public class BeanHorario implements BuilderGenerico<Horario>{
-    private String diaDaSemana;
+    private int diaDaSemana;
     private Date horarioInicial;
     private Date horarioFinal;
 
-    public String getDiaDaSemana() {
+    public int getDiaDaSemana() {
         return diaDaSemana;
     }
 
-    public void setDiaDaSemana(String diaDaSemana) {
+    public void setDiaDaSemana(int diaDaSemana) {
         this.diaDaSemana = diaDaSemana;
     }
 
@@ -47,7 +47,7 @@ public class BeanHorario implements BuilderGenerico<Horario>{
 
     @Override
     public Horario build() {
-        return new Horario(diaDaSemana, horarioInicial, horarioFinal, 0);
+        return new Horario(diaDaSemana, horarioInicial, horarioFinal);
     }
     
     

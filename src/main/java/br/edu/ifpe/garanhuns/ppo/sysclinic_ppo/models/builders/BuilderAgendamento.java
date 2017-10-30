@@ -67,7 +67,7 @@ public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
 
     @Override
     public Agendamento build() {
-        return new Agendamento(id, dataPrevista, paciente, medico, realizada);
+        return new Agendamento(id, dataPrevista, paciente, medico, 0, realizada);
     }
     
     
