@@ -45,10 +45,9 @@ public class MedicoTest {
 
     @Test
     public void deveTestarPegarDatasLivres(){
-        Horario h = new Horario("Seg", new Date(3600000), new Date(7200000),0);
-        Horario h1 = new Horario("Ter", new Date(3600000), new Date(7200000),2);
-        Horario h2 = new Horario("Sex", new Date(3600000), new Date(7200000),
-                15);
+        Horario h = new Horario(1, new Date(3600000), new Date(7200000));
+        Horario h1 = new Horario(2, new Date(3600000), new Date(7200000));
+        Horario h2 = new Horario(5, new Date(3600000), new Date(7200000));
         
         List<Horario> horarios = new ArrayList<>();
         

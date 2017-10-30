@@ -52,11 +52,17 @@ public class Medico {
     @ElementCollection
     private List<Horario> horarios;
     
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Agendamento> agendamento;
+    
     @Deprecated
     public Medico() {
     }   
 
-    public Medico(int id, int matricula, Date dataAdmissao, String nome, String sexo, String email, String telefone, String conselho, String especialidade, List<Horario> horarios) {
+    public Medico(int id, int matricula, Date dataAdmissao, String nome, 
+            String sexo, String email, String telefone, String conselho, 
+            String especialidade, List<Horario> horarios, 
+            List<Agendamento> agendamentos) {
         this.id = id;
         this.matricula = matricula;
         this.dataAdmissao = dataAdmissao;
@@ -67,6 +73,7 @@ public class Medico {
         this.conselho = conselho;
         this.especialidade = especialidade;
         this.horarios = horarios;
+        this.agendamento = agendamentos;
     }
 
     public int getId() {
@@ -148,6 +155,16 @@ public class Medico {
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
     }
+
+    public List<Agendamento> getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(List<Agendamento> agendamento) {
+        this.agendamento = agendamento;
+    }
+    
+    
     
     public List pegarDatasLivres(){
         return null;
