@@ -23,6 +23,7 @@ public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
     private Date dataPrevista;
     private Paciente paciente;
     private Medico medico;
+    private int periodo;
     private boolean realizada = false;
 
     public int getId() {
@@ -65,6 +66,15 @@ public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
         this.realizada = realizada;
     }
 
+    public int getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(int periodo) {
+        this.periodo = periodo;
+    }
+    
+    
     @Override
     public Agendamento build() {
         return new Agendamento(id, dataPrevista, paciente, medico, 0, realizada);

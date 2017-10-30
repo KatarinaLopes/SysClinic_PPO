@@ -125,14 +125,11 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
-   
-
+    
     @Override
     public Medico build() {
         return new Medico(id, matricula, dataAdmissao, nome, sexo, email, 
                 telefone, conselho, especialidade, horarios, agendamentos);
     }
-    
-    
-    
+   
 }
