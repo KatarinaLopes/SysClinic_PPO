@@ -38,7 +38,8 @@
                 <p:message for="medico"/>
                
                 <h:outputText value="Data prevista"/>
-                <p:calendar mindate="today"/>
+                <p:calendar mindate="today" value="#{builderAgendamento.
+                                                     dataPrevista}"/>
                 
             </p:panelGrid>
         </h:form>

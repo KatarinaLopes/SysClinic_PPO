@@ -31,17 +31,19 @@ public class Agendamento {
     private Paciente paciente;
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     private Medico medico;
+    private int periodo;
     private boolean realizada;
 
     @Deprecated
     public Agendamento() {
     }
 
-    public Agendamento(int id, Date dataPrevista, Paciente paciente, Medico medico, boolean realizada) {
+    public Agendamento(int id, Date dataPrevista, Paciente paciente, Medico medico, int periodo, boolean realizada) {
         this.id = id;
         this.dataPrevista = dataPrevista;
         this.paciente = paciente;
         this.medico = medico;
+        this.periodo = periodo;
         this.realizada = realizada;
     }
 
@@ -73,6 +75,14 @@ public class Agendamento {
         this.medico = medico;
     }
 
+    public int getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(int periodo) {
+        this.periodo = periodo;
+    }
+    
     public boolean isRealizada() {
         return realizada;
     }

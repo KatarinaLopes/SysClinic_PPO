@@ -12,11 +12,13 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.component.calendar.Calendar;
 
 /**
  *
@@ -99,8 +101,8 @@ public class ControllerMedico {
         medicosRegistrados = daoMedico.recuperarTodos();
     }
     
-    public void salvarHorario(String dia, Date inicio, Date fim){
-        horarios.add(new Horario(dia, inicio, fim, 0));
+    public void salvarHorario(int dia, Date inicio, Date fim){
+        horarios.add(new Horario(dia, inicio, fim));
     }
     
     public void excluirHorario(Horario h){
@@ -108,4 +110,5 @@ public class ControllerMedico {
         horarios.remove(h);
         System.out.println("depois");
     }
+    
 }

@@ -5,7 +5,9 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,34 +24,35 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Paciente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataAdmissao;
-    
+
     @Column(nullable = false, length = 70)
     private String nome;
     @Column(nullable = false, length = 1)
     private String sexo;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @Column(nullable = false, length = 16)
     private String telefoneContato;
     @Column(length = 16)
     private String celular;
     @Column
     private String email;
-    
-    @Column(nullable = false, unique=true, length = 14)
+
+    @Column(nullable = false, unique = true, length = 14)
     private String cpf;
-    
+
     @Column(nullable = false)
     private String senha;
-    
+
     @OneToMany
     private List<Agendamento> agendamentos;
 
@@ -154,5 +157,29 @@ public class Paciente {
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
-    
+
+    public void incluirAgendamento(Date data, Medico medico, int periodo) {
+        int quantidade = 0;
+
+        for (Agendamento agendamento : medico.getAgendamento()) {
+            if (agendamento.getDataPrevista() == data
+                    && agendamento.getPeriodo() == periodo) {
+                quantidade++;
+            }
+        }
+
+        Horario horario = medico.getHorarios().get(periodo - 1);
+
+        if (horario.getDia() == data.getDay() && quantidade < 15) {
+
+            agendamentos.add(new Agendamento(0, data, this, medico,
+                    periodo, false));
+
+        } else {
+
+            throw new IllegalArgumentException();
+        }
+
+    }
+
 }
