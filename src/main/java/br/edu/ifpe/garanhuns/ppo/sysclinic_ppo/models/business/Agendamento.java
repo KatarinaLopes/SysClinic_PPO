@@ -90,5 +90,5 @@ public class Agendamento {
     public void setRealizada(boolean realizada) {
         this.realizada = realizada;
     }
-       
+    
 }

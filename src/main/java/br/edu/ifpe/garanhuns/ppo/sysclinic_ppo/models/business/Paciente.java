@@ -5,6 +5,8 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -156,30 +158,6 @@ public class Paciente {
 
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
-    }
-
-    public void incluirAgendamento(Date data, Medico medico, int periodo) {
-        int quantidade = 0;
-
-        for (Agendamento agendamento : medico.getAgendamento()) {
-            if (agendamento.getDataPrevista() == data
-                    && agendamento.getPeriodo() == periodo) {
-                quantidade++;
-            }
-        }
-
-        Horario horario = medico.getHorarios().get(periodo - 1);
-
-        if (horario.getDia() == data.getDay() && quantidade < 15) {
-
-            agendamentos.add(new Agendamento(0, data, this, medico,
-                    periodo, false));
-
-        } else {
-
-            throw new IllegalArgumentException();
-        }
-
     }
 
 }
