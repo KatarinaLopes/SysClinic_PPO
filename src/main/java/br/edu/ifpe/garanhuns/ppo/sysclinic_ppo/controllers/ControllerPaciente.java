@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.util.Date;
 import java.util.List;
@@ -81,41 +82,27 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     public boolean validarPaciente(Paciente c, String senha) {
-        if(!Validacoes.validarNome(c.getNome())){
-            FacesContext.getCurrentInstance().addMessage(
-                    ":cadastroPacienteForm:messageNome", 
-                    new FacesMessage("Nome inválido"));
-            return false;
+        String msg = Operacoes.validarPaciente(c, senha);
+        
+        if(msg == null){
+            return true;
         }
         
-        if(!(Validacoes.validarSexo(c.getSexo()))){
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage("Sexo inválido"));
-            
-            return false;
-        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
         
-        if (!Validacoes.validarCpf(c.getCpf())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("CPF inválido"));
-            return false;
-        }
-
-        if (!Validacoes.validarSenhas(c.getSenha(), senha)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("As senhas não correspondem"));
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     public String cadastrar(Paciente c, String senha) {
         //System.out.println(c.getSenha());
-
+        
+        c.setDataAdmissao(new Date(System.currentTimeMillis()));
+        
         if (!validarPaciente(c, senha)) {
           return null;
         }
 
-        c.setDataAdmissao(new Date(System.currentTimeMillis()));
+        //c.setDataAdmissao(new Date(System.currentTimeMillis()));
 
         try {
             pacientes.persistir(c);

@@ -62,6 +62,7 @@ public class Operacoes {
 
         if (p.getEmail() == null) {
             return null;
+        }else{
         }
 
         if (!Validacoes.validarCpf(p.getCpf())) {
