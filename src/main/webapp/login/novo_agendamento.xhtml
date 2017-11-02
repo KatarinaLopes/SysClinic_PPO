@@ -15,25 +15,27 @@
             Hello from Facelets
             <p:panelGrid columns="3">
                 <h:outputText value="Paciente"/>
-                <p:selectOneMenu filter="true" id="paciente" required="true" 
+                <p:selectOneMenu filter="true" id="pacienteDesejado" 
+                                 required="true" 
                                  placeholder="Selecione o paciente"
-                                 value="#{builderAgendamento.paciente}"
-                                 requiredMessage="Campo obrigatório">
+                                 value="#{beanAgendamento.paciente}"
+                                 requiredMessage="Campo obrigatório"
+                                 converter="pacientesConverter">
                     <f:selectItems var="paciente" 
-                                   value="#{controllerPaciente.
-                                            pacientesCadastrados}"
+                                   value="#{beanAgendamento.pacientes}"
                                    itemLabel="#{paciente.nome} - #{paciente.cpf}"
                                    itemValue="#{paciente}"/>
                 </p:selectOneMenu>
-                <p:message for="paciente"/>
+                <p:message for="pacienteDesejado"/>
 
                 <h:outputText value="Médico"/>
                 <p:selectOneMenu filter="true" id="medico" 
                                  placeholder="Médicos" required="true" 
                                  requiredMessage="Campo obrigatório" 
-                                 value="#{builderAgendamento.medico}">
-                    <f:selectItems var="medico" value="#{controllerMedico.
-                                                         medicosRegistrados}"
+                                 value="#{beanAgendamento.medico}"
+                                 converter="medicosConverter">
+                    <f:selectItems var="medico" value="#{beanAgendamento.
+                                                         medicos}"
                                    itemLabel="#{medico.nome} - #{medico.
                                                 especialidade}"
                                    itemValue="#{medico}"/>
@@ -46,16 +48,18 @@
 
                 <h:outputText value="Data prevista"/>
                 <p:calendar mindate="today"
-                            value="#{builderAgendamento.
+                            value="#{beanAgendamento.
                                      dataPrevista}"/>
                 
-                <p:selectOneMenu>
-                    <f:selectItems var="periodos" 
-                                   value="#{builderAgendamento.medico.horarios}"
-                                   itemLabel="#{periodos.horarioInicial}"/>
-                </p:selectOneMenu>
 
             </p:panelGrid>
+            
+            <p:commandButton value="Confirmar" action="#{controllerPaciente.
+                                                         incluirAgendamento
+                                                         (beanAgendamento.
+                                                         build())}"
+                             update="@all"/>
+            
         </h:form>
 
     </h:body>

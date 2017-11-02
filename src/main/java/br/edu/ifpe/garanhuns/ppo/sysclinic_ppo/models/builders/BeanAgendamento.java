@@ -5,12 +5,18 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
@@ -18,7 +24,7 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean
 @RequestScoped
-public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
+public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     private int id;
     private Date dataPrevista;
     private Paciente paciente;
@@ -26,6 +32,16 @@ public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
     private int periodo;
     private boolean realizada = false;
 
+    @ManagedProperty("#{pacienteService}")
+    private PacienteService pacienteService;
+    
+    private List<Paciente> pacientes;
+    
+    @ManagedProperty("#{medicoService}")
+    private MedicoService medicoService;
+    
+    private List<Medico> medicos;
+    
     public int getId() {
         return id;
     }
@@ -72,6 +88,47 @@ public class BuilderAgendamento implements BuilderGenerico<Agendamento>{
 
     public void setPeriodo(int periodo) {
         this.periodo = periodo;
+    }
+
+    public PacienteService getPacienteService() {
+        return pacienteService;
+    }
+
+    public void setPacienteService(PacienteService pacienteService) {
+        this.pacienteService = pacienteService;
+    }
+
+    public List<Paciente> getPacientes() {
+        return pacientes;
+    }
+
+    public void setPacientes(List<Paciente> pacientes) {
+        this.pacientes = pacientes;
+    }
+
+    public MedicoService getMedicoService() {
+        return medicoService;
+    }
+
+    public void setMedicoService(MedicoService medicoService) {
+        this.medicoService = medicoService;
+    }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
+    }
+    
+    
+    
+    @PostConstruct
+    public void init(){
+        pacientes = pacienteService.getPacientesCadastrados();
+        
+        medicos = medicoService.getMedicosCadastrados();
     }
     
     
