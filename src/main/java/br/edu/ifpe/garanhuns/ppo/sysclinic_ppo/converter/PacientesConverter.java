@@ -28,7 +28,7 @@ public class PacientesConverter implements Converter{
                     get("pacienteService");
             System.out.println(Integer.parseInt(value));
             return service.getPacientesCadastrados().
-                    get(Integer.parseInt(value));
+                    get(Integer.parseInt(value) - 1);
         }
         
         return null;

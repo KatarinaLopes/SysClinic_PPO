@@ -22,12 +22,15 @@ public class MedicosConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        System.out.println("1");
         if (value != null && value.trim().length() > 0) {
+            System.out.println("2");
             MedicoService service = (MedicoService) context.
                     getExternalContext().getApplicationMap().
                     get("medicoService");
+            System.out.println(value);
             return service.getMedicosCadastrados()
-                    .get(0);
+                    .get(Integer.parseInt(value) - 1);
         }
 
         return null;
