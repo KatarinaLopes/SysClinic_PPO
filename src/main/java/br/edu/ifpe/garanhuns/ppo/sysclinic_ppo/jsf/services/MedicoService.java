@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import java.util.List;
@@ -22,6 +23,8 @@ public class MedicoService {
     
     private List<Medico> medicos;
 
+    private List<Horario> horarios;
+    
     public List<Medico> getMedicosCadastrados() {
         return medicos;
     }
@@ -31,6 +34,25 @@ public class MedicoService {
         medicos = new DaoMedico().recuperarTodos();
     }
     
+    public void carregarHorarios(Medico m){
+        horarios = m.getHorarios();
+    }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
     
     
 }

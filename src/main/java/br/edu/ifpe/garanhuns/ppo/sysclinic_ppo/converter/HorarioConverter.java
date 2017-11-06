@@ -6,8 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.converter;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,30 +16,29 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Katarina
  */
-@FacesConverter("medicosConverter")
-public class MedicosConverter implements Converter {
+@FacesConverter("horariosConverter")
+public class HorarioConverter implements Converter{
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        System.out.println("1");
-        if (value != null) {
-            System.out.println("2");
+        if(value != null && !value.isEmpty()){
             MedicoService service = (MedicoService) context.
-                    getExternalContext().getApplicationMap().
-                    get("medicoService");
-            System.out.println(value);
-            return service.getMedicosCadastrados()
-                    .get(Integer.parseInt(value) - 2);
+                    getExternalContext().
+                    getApplicationMap().get("medicoService");
+            
+            return service.getHorarios().get(Integer.parseInt(value) - 1);
+        }else{
+            return null;
         }
-
-        return null;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if(value != null){
-            return String.valueOf(((Medico) value).getId());
-        }
-        return null;
+       if(value != null){
+           return String.valueOf(((Horario) value).getHorarioInicial());
+       }
+       
+       return null;
     }
+    
 }

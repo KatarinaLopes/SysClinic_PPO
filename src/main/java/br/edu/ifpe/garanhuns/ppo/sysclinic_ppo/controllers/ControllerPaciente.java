@@ -176,5 +176,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         System.out.println(a.getMedico().getNome());
         System.out.println(a.getDataPrevista());
         
+        //a.getPaciente().incluirAgendamento(a.getDataPrevista(), a.getMedico(), 1);
+        
     }
 }

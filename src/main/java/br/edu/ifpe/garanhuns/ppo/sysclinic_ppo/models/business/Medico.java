@@ -5,9 +5,11 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -24,7 +26,8 @@ import javax.persistence.TemporalType;
  * @author Katarina
  */
 @Entity
-public class Medico {
+public class Medico implements Serializable{
+    
     @Id
     @GeneratedValue
     private int id;
@@ -164,6 +167,32 @@ public class Medico {
         this.agendamento = agendamento;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + this.id;
+        hash = 61 * hash + this.matricula;
+        hash = 61 * hash + Objects.hashCode(this.conselho);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Medico other = (Medico) obj;
+        return true;
+    }
+
+    
+    
     public List pegarDatasLivres(){
         return null;
     }

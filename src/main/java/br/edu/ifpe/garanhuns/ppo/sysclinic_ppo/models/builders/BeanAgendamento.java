@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
@@ -41,6 +42,8 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     private MedicoService medicoService;
     
     private List<Medico> medicos;
+    
+    private List<Horario> horarios;
     
     public int getId() {
         return id;
@@ -121,16 +124,29 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     public void setMedicos(List<Medico> medicos) {
         this.medicos = medicos;
     }
-    
-    
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
     
     @PostConstruct
     public void init(){
         pacientes = pacienteService.getPacientesCadastrados();
         
         medicos = medicoService.getMedicosCadastrados();
+        
+        horarios = medicoService.getHorarios();
     }
+
     
+    public void carregarHorarios(Medico m){
+        System.out.println(m);
+        horarios = m.getHorarios();
+    }
     
     @Override
     public Agendamento build() {

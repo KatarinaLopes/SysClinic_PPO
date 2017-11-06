@@ -39,27 +39,37 @@
                                    itemLabel="#{medico.nome} - #{medico.
                                                 especialidade}"
                                    itemValue="#{medico}"/>
+
+                    <p:ajax event="change" 
+                            listener="#{beanAgendamento.
+                                        carregarHorarios(beanAgendamento.
+                                        medico)}" 
+                            update=":form-agendamento-consultas:sb"/>
+
                 </p:selectOneMenu>
                 <p:message for="medico"/>
-
-
-
 
 
                 <h:outputText value="Data prevista"/>
                 <p:calendar mindate="today"
                             value="#{beanAgendamento.
                                      dataPrevista}"/>
-                
 
+
+                <p:selectOneMenu id="sb" converter="horariosConverter">
+                    <f:selectItems value="#{beanAgendamento.medico.horarios}"
+                                   var="periodo" 
+                                   itemLabel="#{periodo.horarioInicial}"/>
+                </p:selectOneMenu>
             </p:panelGrid>
-            
+
+
             <p:commandButton value="Confirmar" action="#{controllerPaciente.
                                                          incluirAgendamento
                                                          (beanAgendamento.
                                                          build())}"
                              update="@all"/>
-            
+
         </h:form>
 
     </h:body>
