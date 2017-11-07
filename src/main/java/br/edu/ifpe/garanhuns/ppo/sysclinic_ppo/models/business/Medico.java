@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -52,7 +53,7 @@ public class Medico implements Serializable{
     @Column(nullable = false, length = 20)
     private String especialidade;
     
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Horario> horarios;
     
     @OneToMany(cascade = CascadeType.ALL)
