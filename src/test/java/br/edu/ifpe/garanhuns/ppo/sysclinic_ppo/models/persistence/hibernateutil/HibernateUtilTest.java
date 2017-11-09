@@ -28,7 +28,7 @@ public class HibernateUtilTest {
 
     /*@Test
     public void testGetInstance() {
-    }*/
+    }
     @Test
     public void deveTestarPersist() {
 
@@ -130,5 +130,5 @@ public class HibernateUtilTest {
 
     @Test
     public void testMain() {
-    }
+    }*/
 }

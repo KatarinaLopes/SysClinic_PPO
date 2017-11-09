@@ -30,7 +30,7 @@ public class MedicosConverter implements Converter {
                     get("medicoService");
             System.out.println(value);
             return service.getMedicosCadastrados()
-                    .get(Integer.parseInt(value) - 1);
+                    .get(0).getId();
         }
 
         return null;

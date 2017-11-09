@@ -40,7 +40,7 @@
                                                 especialidade}"
                                    itemValue="#{medico}"/>
 
-                    <p:ajax event="blur" 
+                    <p:ajax event="change" 
                             listener="#{beanAgendamento.
                                         carregarHorarios(beanAgendamento.
                                         medico)}" 
@@ -54,8 +54,9 @@
                 <p:calendar mindate="today"
                             value="#{beanAgendamento.
                                      dataPrevista}"/>
+                <p:spacer/>
 
-
+                <h:outputText value="Período/Horário de início"/>
                 <p:selectOneMenu id="sb" converter="horariosConverter">
                     <f:selectItems value="#{beanAgendamento.medico.horarios}"
                                    var="periodo" 

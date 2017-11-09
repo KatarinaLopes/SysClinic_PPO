@@ -44,6 +44,8 @@ public class DaoFuncionarioTest {
     @After
     public void tearDown() {
     }
+    
+    /*
 
     @Test(expected = ConstraintViolationException.class)
     public void devePersistir() {
@@ -132,5 +134,5 @@ public class DaoFuncionarioTest {
         
         assertNotNull(funcionarios);
     }
-    
+    */
 }
