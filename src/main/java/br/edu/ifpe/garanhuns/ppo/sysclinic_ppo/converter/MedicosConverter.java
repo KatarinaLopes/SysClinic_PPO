@@ -28,9 +28,12 @@ public class MedicosConverter implements Converter {
             MedicoService service = (MedicoService) context.
                     getExternalContext().getApplicationMap().
                     get("medicoService");
-            System.out.println(value);
-            return service.getMedicosCadastrados()
-                    .get(0).getId();
+            //System.out.println(value);
+            for (Medico medicosCadastrado : service.getMedicosCadastrados()) {
+                if(medicosCadastrado.getId() == Integer.parseInt(value)){
+                    return medicosCadastrado;
+                }
+            }
         }
 
         return null;
