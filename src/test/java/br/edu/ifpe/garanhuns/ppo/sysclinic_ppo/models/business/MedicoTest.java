@@ -37,14 +37,7 @@ public class MedicoTest {
     @Before
     public void setUp() {
         medico = new Medico();
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    @Test
-    public void deveTestarPegarDatasLivres(){
+        
         Horario h = new Horario(1, new Date(3600000), new Date(7200000));
         Horario h1 = new Horario(2, new Date(3600000), new Date(7200000));
         Horario h2 = new Horario(5, new Date(3600000), new Date(7200000));
@@ -56,13 +49,46 @@ public class MedicoTest {
         horarios.add(h2);
         
         medico.setHorarios(horarios);
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    @Test
+    public void deveTestarPegarDatasLivres(){
+                           
+    }
+
+    @Test
+    public void testVerificarSeDataEstaLivre() {
         
-        List<String> dias = new ArrayList();
         
-        //String senha = ""+this.senha+"";
+        Agendamento a = new Agendamento(0, new Date(2017, 11, 13), 
+                new Paciente(),medico,new Date(3600000), false);
+        Agendamento a1 = new Agendamento(0, new Date(2017, 11, 13), 
+                new Paciente(),medico,new Date(3600000), false);
         
+        List agendamentos = new ArrayList();
         
-                                                
+        agendamentos.add(a);
+        agendamentos.add(a1);
+        
+        medico.setAgendamento(agendamentos);
+        
+        boolean resultado = medico.
+                verificarSeDataEstaLivre(new Date(2017, 11, 13));
+        
+        assertFalse(resultado);
+        
+        resultado = medico.verificarSeDataEstaLivre(new Date(2017, 11, 15));
+        
+        assertFalse(resultado);
+        
+        resultado = medico.verificarSeDataEstaLivre(null);
+        
+        assertFalse(resultado);
+                            
     }
     
 }

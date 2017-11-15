@@ -27,8 +27,13 @@ public class PacientesConverter implements Converter{
                     getExternalContext().getApplicationMap().
                     get("pacienteService");
             //System.out.println(service.getPacientesCadastrados().get(0).getId());
-            return service.getPacientesCadastrados().
-                    get(0).getId();
+            for (Paciente pacientesCadastrado :
+                    service.getPacientesCadastrados()) {
+                if(pacientesCadastrado.getId() == Integer.parseInt(value)){
+                    System.out.println(pacientesCadastrado);
+                    return pacientesCadastrado;
+                }        
+            }
         }
         
         return null;

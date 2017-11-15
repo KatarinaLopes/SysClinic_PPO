@@ -6,8 +6,11 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -27,12 +30,12 @@ import javax.persistence.TemporalType;
  * @author Katarina
  */
 @Entity
-public class Medico implements Serializable{
-    
+public class Medico implements Serializable {
+
     @Id
     @GeneratedValue
     private int id;
-    
+
     @Column(nullable = false, unique = true)
     private int matricula;
     @Temporal(TemporalType.DATE)
@@ -41,31 +44,31 @@ public class Medico implements Serializable{
     private String nome;
     @Column(nullable = false, length = 1)
     private String sexo;
-    
+
     private String email;
-    
+
     @Column(nullable = false)
     private String telefone;
 
     @Column(nullable = false, unique = true)
     private String conselho;
-    
+
     @Column(nullable = false, length = 20)
     private String especialidade;
-    
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Horario> horarios;
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Agendamento> agendamento;
-    
+
     @Deprecated
     public Medico() {
-    }   
+    }
 
-    public Medico(int id, int matricula, Date dataAdmissao, String nome, 
-            String sexo, String email, String telefone, String conselho, 
-            String especialidade, List<Horario> horarios, 
+    public Medico(int id, int matricula, Date dataAdmissao, String nome,
+            String sexo, String email, String telefone, String conselho,
+            String especialidade, List<Horario> horarios,
             List<Agendamento> agendamentos) {
         this.id = id;
         this.matricula = matricula;
@@ -192,9 +195,61 @@ public class Medico implements Serializable{
         return true;
     }
 
+    public boolean verificarSeDataEPossivel(Date data) {
+
+        Calendar calendar = new GregorianCalendar();
+
+        calendar.setTime(data);
+        
+        for (Horario horario : horarios) {
+            if(horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)){
+                return true;
+            }
+        }
+        
+        return false;
+
+    }
+
+    public boolean verificarSeDataEstaLivre(Date data) {
+        
+        if(data == null){
+            return false;
+        }
+        
+        if(!verificarSeDataEPossivel(data)){
+            return false;
+        }
+        
+        if (agendamento.isEmpty() || agendamento == null) {
+            return false;
+        }
+
+        int qtde = 0;
+        Date dia = agendamento.get(0).getPeriodo();
+        for (Agendamento agendamento1 : agendamento) {
+
+            if (!agendamento1.isRealizada()
+                    && agendamento1.getDataPrevista().equals(data)
+                    && agendamento1.getPeriodo().equals(dia)) {
+
+                qtde++;
+            }
+
+            dia = agendamento1.getPeriodo();
+        }
+
+        return qtde < 2;
+
+    }
     
-    
-    public List pegarDatasLivres(){
-        return null;
+    public List<Integer> pegarDiasLivres(){
+        List<Integer> dias = new ArrayList();
+        
+        for (Horario horario : horarios) {
+            dias.add(horario.getDia());
+        }
+        
+        return dias;
     }
 }
