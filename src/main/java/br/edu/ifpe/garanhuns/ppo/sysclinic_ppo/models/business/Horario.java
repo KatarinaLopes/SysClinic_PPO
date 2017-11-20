@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -16,7 +17,7 @@ import javax.persistence.TemporalType;
  * @author Katarina
  */
 @Embeddable
-public class Horario {   
+public class Horario implements Serializable{   
     @Column(nullable = false)
     private int dia;
    

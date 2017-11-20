@@ -42,10 +42,9 @@
 
                     <p:ajax event="change" 
                             listener="#{beanAgendamento.
-                                        carregarHorarios
+                                        carregarDias
                                         (beanAgendamento.medico)}"
-                            update=":form-agendamento-consultas:sb
-                            :form-agendamento-consultas:calendar
+                            update=":form-agendamento-consultas:calendar
                             :form-agendamento-consultas:w"
                             />
 
@@ -56,24 +55,24 @@
                 <h:outputText value="Data prevista"/>
                 <p:calendar id="calendar" 
                             beforeShowDay="fridaysDisabled"
-                            disabled="#{beanAgendamento.habilitarData()}" 
                             mindate="today"
-                            value="#{beanAgendamento.
-                                     dataPrevista}"
+                            value="#{beanAgendamento.dataPrevista}"
                             widgetVar="wid-cal">
-                    <p:ajax event="change"
-                            update=":form-agendamento-consultas:calendar
-                            :form-agendamento-consultas:sb" 
-                            />
+                    <p:ajax event="dateSelect" 
+                            listener="#{beanAgendamento.carregarHorarios(beanAgendamento.dataPrevista)}"
+                            update=":form-agendamento-consultas:sb"
+                            partialSubmit="true"/>
                 </p:calendar>
                 <p:spacer/>
 
                 <h:outputText value="Período/Horário de início"/>
-                <p:selectOneMenu id="sb" converter="horariosConverter"
-                                 disabled="#{beanAgendamento.habilitarPeriodo()}">
-                    <f:selectItems value="#{beanAgendamento.medico.horarios}"
+                <p:selectOneMenu id="sb" converter="horariosConverter" 
+                                 value="#{beanAgendamento.periodo}">
+                    <f:selectItems value="#{beanAgendamento.horariosSelecionado}"
                                    var="periodo" 
-                                   itemLabel="#{periodo.horarioInicial}"/>
+                                   itemLabel="#{periodo.dia} - 
+                                   #{periodo.horarioInicial}"
+                                   itemValue="#{periodo}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
 

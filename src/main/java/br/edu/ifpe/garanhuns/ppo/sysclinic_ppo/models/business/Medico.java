@@ -59,7 +59,7 @@ public class Medico implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Horario> horarios;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Agendamento> agendamento;
 
     @Deprecated
@@ -200,27 +200,27 @@ public class Medico implements Serializable {
         Calendar calendar = new GregorianCalendar();
 
         calendar.setTime(data);
-        
+
         for (Horario horario : horarios) {
-            if(horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)){
+            if (horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)) {
                 return true;
             }
         }
-        
+
         return false;
 
     }
 
     public boolean verificarSeDataEstaLivre(Date data) {
-        
-        if(data == null){
+
+        if (data == null) {
             return false;
         }
-        
-        if(!verificarSeDataEPossivel(data)){
+
+        if (!verificarSeDataEPossivel(data)) {
             return false;
         }
-        
+
         if (agendamento.isEmpty() || agendamento == null) {
             return false;
         }
@@ -242,14 +242,30 @@ public class Medico implements Serializable {
         return qtde < 2;
 
     }
-    
-    public List<Integer> pegarDiasLivres(){
+
+    public List<Integer> pegarDiasLivres() {
         List<Integer> dias = new ArrayList();
-        
+
         for (Horario horario : horarios) {
             dias.add(horario.getDia());
         }
-        
+
         return dias;
+    }
+
+    public List<Horario> pegarHorariosLivres(Date data) {
+       
+        Calendar c = new GregorianCalendar();
+        c.setTime(data);
+        int dia = c.get(Calendar.DAY_OF_WEEK) -1;
+        List<Horario> horariosDisponiveis = new ArrayList();
+        
+        for (Horario horario : this.horarios) {
+            if (dia == horario.getDia()) {
+                horariosDisponiveis.add(horario);
+            }
+        }
+        
+        return horariosDisponiveis;
     }
 }

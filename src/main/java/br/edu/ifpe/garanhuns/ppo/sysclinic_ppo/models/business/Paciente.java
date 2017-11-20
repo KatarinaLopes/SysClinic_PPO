@@ -5,14 +5,17 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +28,7 @@ import javax.persistence.TemporalType;
  * @author Katarina
  */
 @Entity
-public class Paciente {
+public class Paciente implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,7 +58,7 @@ public class Paciente {
     @Column(nullable = false)
     private String senha;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Agendamento> agendamentos;
 
     @Deprecated
@@ -158,6 +161,10 @@ public class Paciente {
 
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
+    }
+    
+    public void incluirAgendamento(Agendamento a){
+        agendamentos.add(a);
     }
 
 }

@@ -90,5 +90,9 @@ public class MedicoTest {
         assertFalse(resultado);
                             
     }
-    
+
+    @Test
+    public void testPegarHorariosLivres() {
+    }
+
 }

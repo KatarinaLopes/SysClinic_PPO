@@ -12,6 +12,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import com.google.gson.Gson;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,6 +22,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -49,6 +55,8 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     private List<Integer> dias;
     
     private String diasJson;
+    
+    private List<Horario> horariosSelecionado;
     
     public int getId() {
         return id;
@@ -94,7 +102,9 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
         return periodo;
     }
 
-    public void setPeriodo(Date periodo) {
+    public void setPeriodo(Date periodo) throws ParseException {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        
         this.periodo = periodo;
     }
 
@@ -153,8 +163,16 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     public void setDiasJson(String diasJson) {
         this.diasJson = diasJson;
     }
+
+    public List<Horario> getHorariosSelecionado() {
+        return horariosSelecionado;
+    }
+
+    public void setHorariosSelecionado(List<Horario> horariosSelecionado) {
+        this.horariosSelecionado = horariosSelecionado;
+    }
     
-    
+   
     
     @PostConstruct
     public void init(){
@@ -166,13 +184,28 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     }
 
     
-    public void carregarHorarios(Medico m){
+    public void carregarDias(Medico m){
         System.out.println(m);
         horarios = m.getHorarios();
         dias = m.pegarDiasLivres();
         System.out.println(dias);
         diasJson = pegarDiasLivres();
         System.out.println(diasJson);
+        
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        session.setAttribute("medicoSelecionado", m);
+    }
+    
+    public void carregarHorarios(Date data){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        Medico medicoSelecionado = (Medico) session.getAttribute("medicoSelecionado");
+        
+        horariosSelecionado = medicoService.
+                carregarHorarios(medicoSelecionado, data);
     }
     
     public boolean verificarSeDataEPossivel(Date data){
@@ -184,15 +217,7 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
         return medico == null;
     }
     
-    public boolean habilitarPeriodo(){
-        boolean b = dataPrevista == null;
-        return b;
-    }
-    
-    public void carregarDias(Medico m){
-        dias = m.pegarDiasLivres();
-    }
-    
+        
     public String pegarDiasLivres(){
         Gson jsonParser = new Gson();
         
@@ -202,6 +227,7 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
         
         return jsonDias;
     }
+    
     
     @Override
     public Agendamento build() {

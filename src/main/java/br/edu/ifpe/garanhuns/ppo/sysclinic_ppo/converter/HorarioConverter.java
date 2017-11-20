@@ -26,10 +26,16 @@ public class HorarioConverter implements Converter{
                     getExternalContext().
                     getApplicationMap().get("medicoService");
             
+            
             for (int i = 0; i < service.getHorarios().size(); i++) {
-               if(service.getHorarios().get(Integer.parseInt(value)) != null){
-                   return service.getHorarios().get(Integer.parseInt(value));
+               int posicao = service.getHorarios().indexOf(value);
+               
+               if(posicao != -1){
+                   return service.getHorarios().get(posicao);
                }
+               /*if(service.getHorarios().get(Integer.parseInt(value)) != null){
+                   return service.getHorarios().get(Integer.parseInt(value));
+               }*/
             }
         }
             return null;
