@@ -20,6 +20,7 @@ public class BeanHorario implements BuilderGenerico<Horario>{
     private int diaDaSemana;
     private Date horarioInicial;
     private Date horarioFinal;
+    private int limiteDeAgendamento;
 
 
     public int getDiaDaSemana() {
@@ -46,9 +47,19 @@ public class BeanHorario implements BuilderGenerico<Horario>{
         this.horarioFinal = horarioFinal;
     }
 
+    public int getLimiteDeAgendamento() {
+        return limiteDeAgendamento;
+    }
+
+    public void setLimiteDeAgendamento(int limiteDeAgendamento) {
+        this.limiteDeAgendamento = limiteDeAgendamento;
+    }
+    
+
     @Override
     public Horario build() {
-        return new Horario(diaDaSemana, horarioInicial, horarioFinal);
+        return new Horario(diaDaSemana, horarioInicial, horarioFinal, 
+                limiteDeAgendamento);
     }
     
     

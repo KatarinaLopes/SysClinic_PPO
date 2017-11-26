@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
@@ -110,8 +111,8 @@ public class ControllerMedico {
         medicosRegistrados = daoMedico.recuperarTodos();
     }
     
-    public void salvarHorario(int dia, Date inicio, Date fim){
-        horarios.add(new Horario(dia, inicio, fim));
+    public void salvarHorario(int dia, Date inicio, Date fim, int limite){
+        horarios.add(new Horario(dia, inicio, fim, limite));
     }
     
     public void excluirHorario(Horario h){
@@ -120,5 +121,12 @@ public class ControllerMedico {
         System.out.println("depois");
     }
     
+    public void salvarAgendamento(Agendamento a){
+         Medico medico = a.getMedico();
+         
+         medico.getAgendamento().add(a);
+         
+         atualizar(medico);
+    }
     
 }

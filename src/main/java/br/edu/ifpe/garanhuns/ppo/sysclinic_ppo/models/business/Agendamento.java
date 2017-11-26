@@ -27,9 +27,9 @@ public class Agendamento {
     private int id;
     @Temporal(TemporalType.DATE)
     private Date dataPrevista;
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private Paciente paciente;
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private Medico medico;
     
     @Temporal(TemporalType.TIME)

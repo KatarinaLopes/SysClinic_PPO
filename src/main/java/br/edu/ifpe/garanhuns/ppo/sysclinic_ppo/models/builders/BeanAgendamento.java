@@ -102,9 +102,7 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
         return periodo;
     }
 
-    public void setPeriodo(Date periodo) throws ParseException {
-        DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        
+    public void setPeriodo(Date periodo) throws ParseException {        
         this.periodo = periodo;
     }
 
@@ -231,6 +229,11 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     
     @Override
     public Agendamento build() {
+        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        medico = (Medico) ses.getAttribute("medicoSelecionado");
+        
         return new Agendamento(id, dataPrevista, paciente, medico, periodo, 
                 realizada);
     }

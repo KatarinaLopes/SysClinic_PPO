@@ -37,6 +37,8 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     private List<Horario> horarios;
     
     private List<Agendamento> agendamentos;
+    
+    private int limiteDeAgendamentos;
 
     public int getId() {
         return id;
@@ -126,10 +128,19 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
         this.agendamentos = agendamentos;
     }
 
+    public int getLimiteDeAgendamentos() {
+        return limiteDeAgendamentos;
+    }
+
+    public void setLimiteDeAgendamentos(int limiteDeAgendamentos) {
+        this.limiteDeAgendamentos = limiteDeAgendamentos;
+    }
+
     @Override
     public Medico build() {
         return new Medico(id, matricula, dataAdmissao, nome, sexo, email, 
-                telefone, conselho, especialidade, horarios, agendamentos);
+                telefone, conselho, especialidade, horarios, agendamentos, 
+                limiteDeAgendamentos);
     }
    
 }

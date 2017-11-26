@@ -15,11 +15,11 @@ import javax.persistence.OneToMany;
  *
  * @author Katarina
  */
-@Entity
+//@Entity
 public class Agenda {
-    @Id
+    //@Id
     private int id;
-    @OneToMany(cascade = CascadeType.ALL)
+    //@OneToMany(cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
     @Deprecated

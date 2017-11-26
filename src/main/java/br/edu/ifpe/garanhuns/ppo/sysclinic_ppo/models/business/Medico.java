@@ -66,10 +66,7 @@ public class Medico implements Serializable {
     public Medico() {
     }
 
-    public Medico(int id, int matricula, Date dataAdmissao, String nome,
-            String sexo, String email, String telefone, String conselho,
-            String especialidade, List<Horario> horarios,
-            List<Agendamento> agendamentos) {
+    public Medico(int id, int matricula, Date dataAdmissao, String nome, String sexo, String email, String telefone, String conselho, String especialidade, List<Horario> horarios, List<Agendamento> agendamento, int limiteDeAtendimentos) {
         this.id = id;
         this.matricula = matricula;
         this.dataAdmissao = dataAdmissao;
@@ -80,7 +77,7 @@ public class Medico implements Serializable {
         this.conselho = conselho;
         this.especialidade = especialidade;
         this.horarios = horarios;
-        this.agendamento = agendamentos;
+        this.agendamento = agendamento;
     }
 
     public int getId() {
@@ -210,6 +207,22 @@ public class Medico implements Serializable {
         return false;
 
     }
+    
+    public Horario pegarHorario(Date data){
+        Calendar c = new GregorianCalendar();
+        
+        c.setTime(data);
+        
+        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
+        
+        for (Horario horario : horarios) {
+            if(horario.getDia() == dia){
+                return horario;
+            }
+        }
+        
+        return null;
+    }
 
     public boolean verificarSeDataEstaLivre(Date data) {
 
@@ -226,6 +239,7 @@ public class Medico implements Serializable {
         }
 
         int qtde = 0;
+        int qtdeDeAten = pegarHorario(data).getLimiteDeAgendamentos();
         Date dia = agendamento.get(0).getPeriodo();
         for (Agendamento agendamento1 : agendamento) {
 
@@ -238,15 +252,33 @@ public class Medico implements Serializable {
 
             dia = agendamento1.getPeriodo();
         }
+        
 
-        return qtde < 2;
+        return qtde < qtdeDeAten;
 
+    }
+
+    public boolean verificarSeDiaEstaLivre(int dia) {
+        int qtde = 0;
+        Calendar calendar = new GregorianCalendar();
+
+        for (Agendamento agendamento1 : agendamento) {
+            calendar.setTime(agendamento1.getDataPrevista());
+            if ((calendar.get(Calendar.DAY_OF_WEEK) - 1) == dia) {
+                qtde++;
+            }
+        }
+        
+        int limite = retornarHorario(dia).getLimiteDeAgendamentos();
+
+        return qtde < limite;
     }
 
     public List<Integer> pegarDiasLivres() {
         List<Integer> dias = new ArrayList();
 
         for (Horario horario : horarios) {
+
             dias.add(horario.getDia());
         }
 
@@ -254,18 +286,33 @@ public class Medico implements Serializable {
     }
 
     public List<Horario> pegarHorariosLivres(Date data) {
-       
+
         Calendar c = new GregorianCalendar();
         c.setTime(data);
-        int dia = c.get(Calendar.DAY_OF_WEEK) -1;
+        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
         List<Horario> horariosDisponiveis = new ArrayList();
-        
+
         for (Horario horario : this.horarios) {
+
             if (dia == horario.getDia()) {
-                horariosDisponiveis.add(horario);
+                if (verificarSeDiaEstaLivre(dia)) {
+                    horariosDisponiveis.add(horario);
+                }
             }
         }
-        
+
         return horariosDisponiveis;
+    }
+    
+    public Horario retornarHorario(int dia){
+        for (Horario horario : horarios) {
+            if(horario.getDia() == dia){
+                return horario;
+               
+            }
+            
+        }
+        
+        return null;
     }
 }

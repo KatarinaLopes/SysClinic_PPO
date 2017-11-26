@@ -171,15 +171,24 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return "login_paciente.xhtml";
     }
     
-    public void incluirAgendamento(Agendamento a){
+    public String incluirAgendamento(Agendamento a){
         System.out.println(a.getPaciente().getNome());
         System.out.println(a.getMedico().getNome());
         System.out.println(a.getDataPrevista());
+        
+        System.out.println(a.getPeriodo());
         
         Paciente paciente = a.getPaciente();
         paciente.incluirAgendamento(a);
         
         atualizar(paciente);
+        
+        HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        sess.removeAttribute("medicoSelecionado");
+        
+        return "agendamentos_feitos.xhtml";
         
     }
 }

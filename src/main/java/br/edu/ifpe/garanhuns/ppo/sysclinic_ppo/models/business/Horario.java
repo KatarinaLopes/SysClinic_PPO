@@ -25,17 +25,21 @@ public class Horario implements Serializable{
     private Date horarioInicial;
     @Temporal(TemporalType.TIME)
     private Date horarioFinal;
+    
+    @Column(nullable = false)
+    private int limiteDeAgendamentos;
 
     @Deprecated
     public Horario() {
     }
 
-    public Horario(int dia, Date horarioInicial, Date horarioFinal) {
+    public Horario(int dia, Date horarioInicial, Date horarioFinal, int limiteDeAgendamentos) {
         this.dia = dia;
         this.horarioInicial = horarioInicial;
         this.horarioFinal = horarioFinal;
+        this.limiteDeAgendamentos = limiteDeAgendamentos;
     }
-
+  
     public int getDia() {
         return dia;
     }
@@ -59,4 +63,13 @@ public class Horario implements Serializable{
     public void setHorarioFinal(Date horarioFinal) {
         this.horarioFinal = horarioFinal;
     }    
+
+    public int getLimiteDeAgendamentos() {
+        return limiteDeAgendamentos;
+    }
+
+    public void setLimiteDeAgendamentos(int limiteDeAgendamentos) {
+        this.limiteDeAgendamentos = limiteDeAgendamentos;
+    }
+      
 }

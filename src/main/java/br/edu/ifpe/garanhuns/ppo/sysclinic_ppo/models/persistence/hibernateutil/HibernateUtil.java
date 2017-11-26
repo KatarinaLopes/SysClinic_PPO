@@ -49,6 +49,8 @@ public class HibernateUtil {
     private Session getSession() {
         String a = new String();
 
+        //s.clear();
+        
         try {
             s.close();
         } catch (HibernateException he) {
@@ -128,8 +130,11 @@ public class HibernateUtil {
 
         t.begin();
 
-        s.update(o);
+       // s.
+        
+        //s.update(o);
 
+        s.saveOrUpdate(o);
         t.commit();
         //getSession().close();
     }
