@@ -133,9 +133,12 @@ public class HibernateUtil {
        // s.
         
         //s.update(o);
-
+        
+        
         s.saveOrUpdate(o);
         t.commit();
+        
+        
         //getSession().close();
     }
 

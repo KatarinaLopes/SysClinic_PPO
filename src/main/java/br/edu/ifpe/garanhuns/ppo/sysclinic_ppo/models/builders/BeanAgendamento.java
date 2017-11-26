@@ -99,10 +99,12 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     }
 
     public Date getPeriodo() {
+        System.out.println("periodo chamou get");
         return periodo;
     }
 
-    public void setPeriodo(Date periodo) throws ParseException {        
+    public void setPeriodo(Date periodo) throws ParseException {  
+        System.out.println("periodo chamou set");
         this.periodo = periodo;
     }
 
