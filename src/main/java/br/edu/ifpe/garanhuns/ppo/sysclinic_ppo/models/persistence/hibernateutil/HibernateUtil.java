@@ -10,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.boot.registry.internal.BootstrapServiceRegistryImpl;
@@ -30,6 +31,9 @@ public class HibernateUtil {
     private Configuration cfg;
     private SessionFactory sessionFactory;
     private Session s;
+    
+    //Testando
+    private StatelessSession statelessSession;
 
     private static HibernateUtil myself = null;
 
@@ -68,6 +72,20 @@ public class HibernateUtil {
         return myself;
     }
 
+    public StatelessSession getStatelessSession() {
+        try{
+            statelessSession.close();
+            
+        }catch(NullPointerException ne){
+            
+        }finally{
+            statelessSession = sessionFactory.openStatelessSession();
+        }
+        
+        return statelessSession;
+    }
+
+    
     public void persist(Object o) throws ConstraintViolationException {
 
         Transaction t = getSession().getTransaction();
@@ -126,8 +144,10 @@ public class HibernateUtil {
         String a = new String();
         //s = sessionFactory.openSession();
 
-        Transaction t = getSession().getTransaction();
+       // Transaction t = getSession().getTransaction();
 
+       Transaction t = getStatelessSession().getTransaction();
+       
         t.begin();
 
        // s.
@@ -135,7 +155,10 @@ public class HibernateUtil {
         //s.update(o);
         
         
-        s.saveOrUpdate(o);
+        //s.saveOrUpdate(o);
+        
+        statelessSession.update(o);
+        
         t.commit();
         
         
