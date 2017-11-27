@@ -67,26 +67,32 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
     }
 
     public Date getDataPrevista() {
+        System.out.println("data prevista get");
         return dataPrevista;
     }
 
     public void setDataPrevista(Date dataPrevista) {
+        System.out.println("data prevista set");
         this.dataPrevista = dataPrevista;
     }
 
     public Paciente getPaciente() {
+        System.out.println("paciente get");
         return paciente;
     }
 
     public void setPaciente(Paciente paciente) {
+        System.out.println("paciente set");
         this.paciente = paciente;
     }
 
     public Medico getMedico() {
+        System.out.println("medico get");
         return medico;
     }
 
     public void setMedico(Medico medico) {
+        System.out.println("medico set");
         this.medico = medico;
     }
 
