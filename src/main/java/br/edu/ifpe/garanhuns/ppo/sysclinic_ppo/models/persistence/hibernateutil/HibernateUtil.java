@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -31,7 +32,7 @@ public class HibernateUtil {
     private Configuration cfg;
     private SessionFactory sessionFactory;
     private Session s;
-    
+
     //Testando
     private StatelessSession statelessSession;
 
@@ -54,7 +55,6 @@ public class HibernateUtil {
         String a = new String();
 
         //s.clear();
-        
         try {
             s.close();
         } catch (HibernateException he) {
@@ -73,19 +73,16 @@ public class HibernateUtil {
     }
 
     public StatelessSession getStatelessSession() {
-        try{
+        try {
+            statelessSession = sessionFactory.openStatelessSession();
+        } catch (Exception e) {
             statelessSession.close();
-            
-        }catch(NullPointerException ne){
-            
-        }finally{
             statelessSession = sessionFactory.openStatelessSession();
         }
-        
+
         return statelessSession;
     }
 
-    
     public void persist(Object o) throws ConstraintViolationException {
 
         Transaction t = getSession().getTransaction();
@@ -144,24 +141,24 @@ public class HibernateUtil {
         String a = new String();
         //s = sessionFactory.openSession();
 
-       // Transaction t = getSession().getTransaction();
+        Transaction t = getSession().getTransaction();
+        //Transaction tr = getStatelessSession().getTransaction();
 
-       Transaction t = getStatelessSession().getTransaction();
-       
+        //StatelessSession st = getStatelessSession();
+        
+        //Transaction tr = st.beginTransaction();
+        
         t.begin();
 
-       // s.
-        
-        //s.update(o);
-        
-        
+        // s.
+        s.saveOrUpdate(o);
         //s.saveOrUpdate(o);
-        
-        statelessSession.update(o);
-        
+        //statelessSession.update(o);
+        //s.merge(o);
         t.commit();
         
-        
+        s.clear();
+
         //getSession().close();
     }
 

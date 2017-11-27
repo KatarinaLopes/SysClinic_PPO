@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,8 +30,10 @@ public class Agendamento implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date dataPrevista;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
     
     @Temporal(TemporalType.TIME)

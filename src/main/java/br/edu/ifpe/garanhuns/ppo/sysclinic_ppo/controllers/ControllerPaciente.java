@@ -178,15 +178,21 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         System.out.println(a.getPeriodo());
         
+        System.out.println("antes de pegar paciente");
         Paciente paciente = a.getPaciente();
+        System.out.println("antes de incluir agendamento");
         paciente.incluirAgendamento(a);
         
-        atualizar(paciente);
+        //atualizar(paciente);
         
         HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
         
         sess.removeAttribute("medicoSelecionado");
+        
+        System.out.println("antes de atualizar");
+        
+        atualizar(paciente);
         
         return "agendamentos_feitos.xhtml";
         
