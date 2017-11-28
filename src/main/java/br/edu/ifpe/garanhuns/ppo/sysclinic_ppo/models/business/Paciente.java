@@ -58,14 +58,14 @@ public class Paciente implements Serializable{
     @Column(nullable = false)
     private String senha;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Agendamento> agendamentos;
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //private List<Agendamento> agendamentos;
 
     @Deprecated
     public Paciente() {
     }
 
-    public Paciente(int id, Date dataAdmissao, String nome, String sexo, Date dataNascimento, String telefoneContato, String celular, String email, String cpf, String senha, List<Agendamento> agendamentos) {
+    public Paciente(int id, Date dataAdmissao, String nome, String sexo, Date dataNascimento, String telefoneContato, String celular, String email, String cpf, String senha) {
         this.id = id;
         this.dataAdmissao = dataAdmissao;
         this.nome = nome;
@@ -76,7 +76,7 @@ public class Paciente implements Serializable{
         this.email = email;
         this.cpf = cpf;
         this.senha = senha;
-        this.agendamentos = agendamentos;
+        //this.agendamentos = agendamentos;
     }
 
     public int getId() {
@@ -155,7 +155,7 @@ public class Paciente implements Serializable{
         this.senha = senha;
     }
 
-    public List<Agendamento> getAgendamentos() {
+    /*public List<Agendamento> getAgendamentos() {
         return agendamentos;
     }
 
@@ -165,6 +165,6 @@ public class Paciente implements Serializable{
     
     public void incluirAgendamento(Agendamento a){
         agendamentos.add(a);
-    }
+    }*/
 
 }

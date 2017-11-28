@@ -15,98 +15,29 @@
             Hello from Facelets
             <p:panelGrid columns="3">
                 <h:outputText value="Paciente"/>
-                <p:selectOneMenu filter="true" id="pacienteDesejado" 
-                                 required="true" 
-                                 placeholder="Selecione o paciente"
-                                 value="#{beanAgendamento.paciente}"
-                                 requiredMessage="Campo obrigatório"
-                                 converter="pacientesConverter">
-                    <f:selectItem itemLabel="Selecione..." itemDisabled="true"/>
-                    <f:selectItems var="paciente" 
-                                   value="#{beanAgendamento.pacientes}"
-                                   itemLabel="#{paciente.nome} - #{paciente.cpf}"
+                <p:selectOneMenu converter="pacientesConverter" 
+                                 editable="false" required="true"
+                                 requiredMessage="Campo requerido" 
+                                 value="#{controllerPaciente.agendamento.
+                                          paciente}">
+                    <f:selectItem itemDisabled="true" 
+                                  itemLabel="Selecione..."/>
+                    <f:selectItems value="#{controllerPaciente.
+                                            pacientesCadastrados}"
+                                   var="paciente" 
+                                   itemLabel=
+                                   "#{paciente.nome} - #{paciente.cpf}"
                                    itemValue="#{paciente}"/>
-                </p:selectOneMenu>
-                <p:message for="pacienteDesejado"/>
-
-                <h:outputText value="Médico"/>
-                <p:selectOneMenu filter="true" id="medico" 
-                                 placeholder="Médicos" required="true" 
-                                 requiredMessage="Campo obrigatório" 
-                                 value="#{beanAgendamento.medico}"
-                                 converter="medicosConverter">
-                    <f:selectItem itemLabel="Selecione..." itemDisabled="true"/>                    
-                    <f:selectItems var="medico" value="#{beanAgendamento.
-                                                         medicos}"
-                                   itemLabel="#{medico.nome} - #{medico.
-                                                especialidade}"
-                                   itemValue="#{medico}"/>
-
-                    <p:ajax event="change" 
-                            listener="#{beanAgendamento.
-                                        carregarDias
-                                        (beanAgendamento.medico)}"
-                            update=":form-agendamento-consultas:calendar
-                            :form-agendamento-consultas:w"
-                            />
-
-                </p:selectOneMenu>
-                <p:message for="medico"/>
-
-
-                <h:outputText value="Data prevista"/>
-                <p:calendar id="calendar" 
-                            beforeShowDay="fridaysDisabled"
-                            mindate="today"
-                            value="#{beanAgendamento.dataPrevista}"
-                            widgetVar="wid-cal"
-                            navigator="true" pagedate="true" 
-                            readonlyInput="true" showButtonPanel="true" >
-                    <p:ajax event="dateSelect" 
-                            listener="#{beanAgendamento.carregarHorarios(beanAgendamento.dataPrevista)}"
-                            update=":form-agendamento-consultas:sb"
-                            partialSubmit="true"/>
-                </p:calendar>
-                <p:spacer/>
-
-                <h:outputText value="Período/Horário de início"/>
-                <p:selectOneMenu id="sb" converter="horariosConverter" 
-                                 value="#{beanAgendamento.periodo}">
-                    <f:selectItems value="#{beanAgendamento.horariosSelecionado}"
-                                   var="periodo" 
-                                   itemLabel="#{periodo.dia} - 
-                                   #{periodo.horarioInicial}"
-                                   itemValue="#{periodo}"/>
+                
                 </p:selectOneMenu>
             </p:panelGrid>
-
-            <c:set value="${beanAgendamento.build()}" var="agendamento"/>
-
-            <p:commandButton value="Confirmar" action="#{controllerPaciente.
-                                                         incluirAgendamento
-                                                         (agendamento)}"
-                             update="@all"/>
-
-            <h:outputText id ="w" value="#{beanAgendamento.diasJson}"/>
-        </h:form>
-        
-        <script>
             
-            function fridaysDisabled(date){
-                var day = date.getDay();
-                var days = JSON.parse(document.
-                        getElementById("form-agendamento-consultas:w").
-                        textContent);
-                
-                console.log(days);
-                
-                if($.inArray(day, days) !== -1){
-                    return [true, ''];
-                }
-                
-                return [false, ''];
-            }
-        </script>
+            <p:commandButton value="Incluir" action="#{controllerAgenda.
+                                                       incluirAgendamento(
+                                                       controllerPaciente.
+                                                       agendamento)}" 
+                             update="@all"/>
+        </h:form>
     </h:body>                           
 </html>
 

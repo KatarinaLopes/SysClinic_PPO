@@ -121,12 +121,12 @@ public class ControllerMedico {
         System.out.println("depois");
     }
     
-    public void salvarAgendamento(Agendamento a){
+    /*public void salvarAgendamento(Agendamento a){
          Medico medico = a.getMedico();
          
          medico.getAgendamento().add(a);
          
          atualizar(medico);
-    }
+    }*/
     
 }

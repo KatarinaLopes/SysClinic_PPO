@@ -59,14 +59,14 @@ public class Medico implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Horario> horarios;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Agendamento> agendamento;
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //private List<Agendamento> agendamento;
 
     @Deprecated
     public Medico() {
     }
 
-    public Medico(int id, int matricula, Date dataAdmissao, String nome, String sexo, String email, String telefone, String conselho, String especialidade, List<Horario> horarios, List<Agendamento> agendamento, int limiteDeAtendimentos) {
+    public Medico(int id, int matricula, Date dataAdmissao, String nome, String sexo, String email, String telefone, String conselho, String especialidade, List<Horario> horarios) {
         this.id = id;
         this.matricula = matricula;
         this.dataAdmissao = dataAdmissao;
@@ -77,7 +77,7 @@ public class Medico implements Serializable {
         this.conselho = conselho;
         this.especialidade = especialidade;
         this.horarios = horarios;
-        this.agendamento = agendamento;
+        //this.agendamento = agendamento;
     }
 
     public int getId() {
@@ -160,13 +160,13 @@ public class Medico implements Serializable {
         this.horarios = horarios;
     }
 
-    public List<Agendamento> getAgendamento() {
+    /*public List<Agendamento> getAgendamento() {
         return agendamento;
     }
 
     public void setAgendamento(List<Agendamento> agendamento) {
         this.agendamento = agendamento;
-    }
+    }*/
 
     @Override
     public int hashCode() {
@@ -192,7 +192,7 @@ public class Medico implements Serializable {
         return true;
     }
 
-    public boolean verificarSeDataEPossivel(Date data) {
+   /* public boolean verificarSeDataEPossivel(Date data) {
 
         Calendar calendar = new GregorianCalendar();
 
@@ -206,7 +206,7 @@ public class Medico implements Serializable {
 
         return false;
 
-    }
+    }*/
     
     public Horario pegarHorario(Date data){
         Calendar c = new GregorianCalendar();
@@ -224,7 +224,7 @@ public class Medico implements Serializable {
         return null;
     }
 
-    public boolean verificarSeDataEstaLivre(Date data) {
+    /*public boolean verificarSeDataEstaLivre(Date data) {
 
         if (data == null) {
             return false;
@@ -314,5 +314,5 @@ public class Medico implements Serializable {
         }
         
         return null;
-    }
+    }*/
 }

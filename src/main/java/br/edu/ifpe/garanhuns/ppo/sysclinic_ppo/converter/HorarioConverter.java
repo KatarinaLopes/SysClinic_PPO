@@ -17,37 +17,7 @@ import javax.faces.convert.FacesConverter;
  * @author Katarina
  */
 @FacesConverter("horariosConverter")
-public class HorarioConverter implements Converter{
+public class HorarioConverter {//implements Converter{
 
-    @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if(value != null && !value.isEmpty()){
-            MedicoService service = (MedicoService) context.
-                    getExternalContext().
-                    getApplicationMap().get("medicoService");
-            
-            
-            for (int i = 0; i < service.getHorarios().size(); i++) {
-               int posicao = service.getHorarios().indexOf(value);
-               
-               if(posicao != -1){
-                   return service.getHorarios().get(posicao);
-               }
-               /*if(service.getHorarios().get(Integer.parseInt(value)) != null){
-                   return service.getHorarios().get(Integer.parseInt(value));
-               }*/
-            }
-        }
-            return null;
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-       if(value != null){
-           return String.valueOf(((Horario) value).getHorarioInicial());
-       }
-       
-       return null;
-    }
     
 }

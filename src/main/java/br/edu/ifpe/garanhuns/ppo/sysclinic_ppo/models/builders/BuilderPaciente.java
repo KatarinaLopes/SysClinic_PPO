@@ -118,7 +118,7 @@ public class BuilderPaciente implements BuilderGenerico<Paciente>{
     
     @Override
     public Paciente build() {
-        return new Paciente(id, dataAdmissao, nome, sexo, dataNascimento, telefoneContato, celular, email, cpf, senha, agendamentos);
+        return new Paciente(id, dataAdmissao, nome, sexo, dataNascimento, telefoneContato, celular, email, cpf, senha);
     }
     
 }

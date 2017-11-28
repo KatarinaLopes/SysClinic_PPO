@@ -151,8 +151,8 @@ public class HibernateUtil {
         t.begin();
 
         // s.
-        s.saveOrUpdate(o);
         //s.saveOrUpdate(o);
+        s.update(o);
         //statelessSession.update(o);
         //s.merge(o);
         t.commit();

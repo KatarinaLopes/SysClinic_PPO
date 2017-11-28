@@ -1,0 +1,411 @@
+[33mcommit 72da0af1a26be99744233060a4a6628b410c85a0[m[33m ([m[1;36mHEAD -> [m[1;32mAgendamento-consultas[m[33m, [m[1;32mrefazer-pagina[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Nov 27 10:34:07 2017 -0300
+
+    Não resolveu problema com a exceção
+
+[33mcommit 6e166a54aa0b17a6a3777133e945bc499d2388c6[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Nov 27 10:27:20 2017 -0300
+
+    Stateless não tinha resolvido (não salvava no banco); alterado o back end de agendamento (chave composta) e até agora, funcionando
+
+[33mcommit ddfd0e90b3e00aa7a27bbff66b60665a7e0772f2[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Nov 26 15:33:57 2017 -0300
+
+    Aparentemente resolvido com o uso de uma stateless session do hibernate (ainda precisa tirar dúvidas); Ainda testando o uso
+
+[33mcommit 75c903d1cd23674692ffa8190cf0561d5e4162b2[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Nov 26 15:15:33 2017 -0300
+
+    NonUniqueObjectException não foi resolvida
+
+[33mcommit 4537a619df9dfe1efb3a82627070753e3f43c522[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Nov 26 12:20:45 2017 -0300
+
+    Está fazendo o agendamento, mas não está salvando os períodos
+
+[33mcommit 47f1a79484036743f4ac13886dec07fca37f8f0b[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Nov 20 19:11:52 2017 -0300
+
+    Cruzamento datas, médicos e horários ok, precisa fazer testes
+
+[33mcommit 1a5f434a93b70053efe29be1eca1810915fbc698[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Nov 15 19:55:40 2017 -0300
+
+    Consegui fazer a parte das datas (mostrar apenas datas selecionadas)
+
+[33mcommit 4d5134b44a46f413b29590e1b69d278d113dffc3[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Nov 9 21:07:30 2017 -0300
+
+    Problema realmente resolvido - converter medico
+
+[33mcommit c50056f0034b25c0cc59f18403ca78f1e19107cc[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Nov 9 10:09:44 2017 -0300
+
+    Problema com index out of bounds em medicos resolvido, mas está retornando id
+
+[33mcommit 8ce6b0bfc3fdc55dfdf996782ab313debf05338c[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Nov 7 09:46:18 2017 -0300
+
+    Adicionado fetch type eager para coleção de horarios em médico
+
+[33mcommit e76b4c077f0bbad30e8ad8f31d62759eb70a3513[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Nov 5 22:33:14 2017 -0300
+
+    Estudando funcionamento dos converters
+
+[33mcommit e047bbe61a900ff56b5d76e8f589feb4fda7ec2b[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Nov 3 22:17:48 2017 -0300
+
+    Feitas algumas alterações nos Converters; Configuração no xml para ajustar acesso em outros computadores
+
+[33mcommit 166bbe510f08de37f5504866a792a1ad2e6b82e3[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Nov 2 14:44:00 2017 -0300
+
+    Selecionando paciente e médico adequadamente, mas está dando problema com o tamanho da lista
+
+[33mcommit 866091771146e0ec567f7af757f3023fb6f009d6[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 30 18:56:55 2017 -0300
+
+    Sem internet, preciso estudar ajax; mudando para fazer estilos da págin
+
+[33mcommit 27048196722815d0ff7b5ac703960924532c03dc[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 30 10:09:29 2017 -0300
+
+    Sem sucesso
+
+[33mcommit 5ea7e237144d7f4c4e136475d2af51d95db2279a[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 30 08:58:54 2017 -0300
+
+    Tentando fazer algoritmo para salvar agendamentos; o método que estou construindo precisa ser refatorado (usando TDD)
+
+[33mcommit 84eaceefd239886de43f7145551dc804be95687d[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 28 17:08:11 2017 -0300
+
+    Tentando fazer página de agendamento; tentando descobrir como fazer aparecer somente datas disponíveis
+
+[33mcommit 2d00518bc4dbc9cce00751c79d3e3f7d5b4baea0[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Oct 27 09:29:19 2017 -0300
+
+    Conflitos entre Controller de Médico e página de agendamentos resolvidos, esqueci de tirar mudanças do stash antes de fazer alterações
+
+[33mcommit 17bdfebbfe75ae335aac00438d03f34d0a6d3ec7[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 30 10:12:28 2017 -0300
+
+    Fazendo rebase com master, resolvendo conflitos
+
+[33mcommit 323174bfa1766bee1ad3c5519bd5650c71622abc[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 30 08:58:54 2017 -0300
+
+    Tentando fazer algoritmo para salvar agendamentos; o método que estou construindo precisa ser refatorado (usando TDD)
+
+[33mcommit 5641c2666cadcded983c64042514119742b54503[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 28 17:08:11 2017 -0300
+
+    Tentando fazer página de agendamento; tentando descobrir como fazer aparecer somente datas disponíveis
+
+[33mcommit aab487a17a79d3b95b149e6d64da719ae4baa8c2[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Oct 27 09:29:19 2017 -0300
+
+    Conflitos entre Controller de Médico e página de agendamentos resolvidos, esqueci de tirar mudanças do stash antes de fazer alterações
+
+[33mcommit cec3b733b36a401d325fcf43d4763695dd346808[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Oct 27 09:26:07 2017 -0300
+
+    Iniciado desenvolvimento de agendamento de consultas, já descobri como fazer aparecer uma lista em listbox
+
+[33mcommit f2497bd31ed08315f8bb3a3f213fe598e3114930[m[33m ([m[1;32majustar_validacoes[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Oct 31 14:19:23 2017 -0300
+
+    Aplicando métodos de validação
+
+[33mcommit b72f35d2e3315c153877d65cb07b462c1d74cee4[m[33m ([m[1;32mRefatorar_validações[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Oct 29 17:57:26 2017 -0300
+
+    Testes com Daos atualizados, em 80% completos; Testes com Operacoes em 100%
+
+[33mcommit 8dc36cf4657e646e0a577dd7836c8abf7ac87ebd[m[33m ([m[1;32mmaster[m[33m, [m[1;32mFazer-estilos-css[m[33m)[m
+Merge: 40160e6 7017a0e
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 28 19:25:03 2017 -0300
+
+    Merge do branch Refatorar_validacoes; conflito por ser branch antigo resolvido
+
+[33mcommit 7017a0eab4d4a50e5ee7217764ac81465e147164[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 28 19:06:45 2017 -0300
+
+    Atualizando testes; 173,81% HibernateUtil testada, está pedindo para testar a sessionFactory
+
+[33mcommit 762085579a8e764a27037a0dd87834bc9eb31241[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 28 18:20:02 2017 -0300
+
+    Atualizando testes; 100% Validacoes testadas
+
+[33mcommit 40160e6d65b921b02dcac9759eae44b98aa400a8[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Oct 24 10:40:23 2017 -0300
+
+    Página home_paciente refatorada
+
+[33mcommit 7944ed2e3835fedea51449006a399a5e5e34dfdc[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Oct 24 10:38:53 2017 -0300
+
+    Página login_intranet refatorada
+
+[33mcommit 0e0d08e47e5cd4155d02dc92ac6fa4a45c28f477[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Oct 24 10:36:03 2017 -0300
+
+    Página login_paciente refatorada
+
+[33mcommit e45d81149865d739c2f694e5c9c273c38a5d99de[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Oct 24 10:33:04 2017 -0300
+
+    Página pacientes_cadastrados refatorada
+
+[33mcommit dc4e725ad47593d35506b466b051d536417c6ba7[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Oct 11 14:11:34 2017 -0300
+
+    Fazendo testes para validação de pacientes com TDD
+
+[33mcommit 49df80f1293f7d150788c9a200565c31a4378c01[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 9 09:50:44 2017 -0300
+
+    Valores dos testes com HibernateUtil atualizados
+
+[33mcommit 265b7f70725148d1624f0a37b29bef44ecacc21a[m[33m ([m[1;31morigin/Refatorar_validações[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 7 23:26:15 2017 -0300
+
+    Tentando fazer criptografia de senha
+
+[33mcommit 082ddf4ff87228efa73242d06bbab3800f967cb1[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sat Oct 7 23:21:41 2017 -0300
+
+    Adicionado plugin JaCoCo; teste com validação de CPF complementado
+
+[33mcommit ec77c88b2add050feb96ff9f61a2829a95a54f93[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Oct 5 09:25:38 2017 -0300
+
+    Validação de email ok; regex testadas no site regex pal
+
+[33mcommit fa62ffafa270a779364997159be4f3d5bf298eb1[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Oct 2 11:25:44 2017 -0300
+
+    Validações em curso, falta validar outros e ajeitar no controller
+
+[33mcommit 6817eac111a7cc32bba360af4cea035f7b597df1[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Sep 28 15:11:53 2017 -0300
+
+    Página de login ok; Fazendo página de exibição de médicos; Refatorar após terminar essa Sprint
+
+[33mcommit 28ecd7c28dfa4ec6df9b15ed1dc9ff5680b3bd0f[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Sep 27 22:35:27 2017 -0300
+
+    Antes do commit anterior, pulei a parte de médico e fui para login de funcionários; A ponte entre administrador e funcionário foi feita; redirecionamentos entre páginas estão ok
+
+[33mcommit a4043171ac91c932243ce1ec890d5267066d100a[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Sep 27 22:13:05 2017 -0300
+
+    Redirecionamento feito; falta corrigir os acessos
+
+[33mcommit cea54f8fc9d933b8e2c1454e9f19b7f87259c051[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Sep 20 09:58:07 2017 -0300
+
+    Cadastrando no banco, precisa de ajustes na página ainda
+
+[33mcommit 42c9aff2d7586ba5de76d7463a74d9d33be86d0b[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Sep 19 12:02:31 2017 -0300
+
+    Backend feito
+
+[33mcommit 5ddd1f87da70e7c3af2ea40071db687514fa84e0[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Tue Sep 19 10:45:13 2017 -0300
+
+    Sprint III iniciada; backend (models) de médico iniciado
+
+[33mcommit 007c5ae2a99b64c19619f364bf82f52b941643d3[m[33m ([m[1;32mHeranca_com_medico[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 18 11:08:16 2017 -0300
+
+    Diálogo resolvido
+
+[33mcommit 2fd5257eac73162333cc8a50ac9d2033e00fe056[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 18 11:06:03 2017 -0300
+
+    Excluir ok, falta tratar diálogo (fazer desaparecer)
+
+[33mcommit 4f6cb9c179c3ede71cfb72c5fa328ff3561dfe06[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 18 10:52:03 2017 -0300
+
+    Atualizar ok
+
+[33mcommit 720868c8a56f73d7fecc4dda7904ba0e0944a0ab[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 18 10:18:37 2017 -0300
+
+    Iniciado o desenvolvimento da página de funcionário; Apresentação ok, relacionar botões e diálogos
+
+[33mcommit 93eca568a1bfbc10bf73df68e6ecfc253f6a9937[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 18 09:49:55 2017 -0300
+
+    Refatorado
+
+[33mcommit 2ecf8b864fb639e6fb863b90a61577853913b1e2[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Sep 17 22:23:16 2017 -0300
+
+    Atualizar e visualizar ok, bindings corretos; Há algo estranho no visualizar do id 1: mostrando data completa, com horas; Precisa refatorar
+
+[33mcommit 08c3216f31c5691ebe599dee800ec8b5491944ed[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 4 09:54:14 2017 -0300
+
+    Visualizar Paciente ok
+
+[33mcommit 3a5b900caea22cf6f861d3858117bd4819270826[m[33m ([m[1;31morigin/testesComHibernateUtil[m[33m, [m[1;32mtestesComHibernateUtil[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Sep 4 08:57:25 2017 -0300
+
+    Testes com HibernateUtil ok, comentados são os que foram testasdos e funcionaram mas quebrariam o depois (cadastro - CVE e delete); Classe alterada, acho que tá ok
+
+[33mcommit a4b90ab4df26153218e869c2c31511998e1e61f6[m[33m ([m[1;31morigin/validacoes[m[33m, [m[1;32mvalidacoes[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Sep 1 11:10:35 2017 -0300
+
+    Validações ok, na verdade foi perda de tempo
+
+[33mcommit 048de1c249a2d96e05d0610311fbb2fa27548640[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Sep 1 10:52:38 2017 -0300
+
+    Cadastro de funcionários ok; fazer alterações no controller para validar
+
+[33mcommit 3115dfd146bbcf2590e7530d881f54d70411e21f[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Sep 1 08:41:13 2017 -0300
+
+    Página principal de admin ok
+
+[33mcommit ccd485620387a4bc41df7acba85260315243e62c[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Aug 30 20:22:18 2017 -0300
+
+    Frontend default feito; ver como lidar com código repetido no controller
+
+[33mcommit 2678d08da41c6c166007a0765f89373c9243d2be[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Aug 30 20:08:14 2017 -0300
+
+    Sprint II iniciada; backend de Funcionario ok, precisa testar
+
+[33mcommit c43791625af2bf1c5a91b2e952c9a7acce78a4a8[m
+Merge: c92fc60 8489733
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 19:59:31 2017 -0300
+
+    Merge branch 'testeCpf'
+    
+    Login agora sendo feito por CPF e não por registro
+
+[33mcommit 848973393a386801aacbd01d60b3e2d10f045a71[m[33m ([m[1;31morigin/testeCpf[m[33m, [m[1;32mtesteCpf[m[33m)[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 19:58:40 2017 -0300
+
+    Fazendo login por CPF
+
+[33mcommit c92fc608aaf5da9feaa3f184fa3a514b3c13bbe3[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 19:42:29 2017 -0300
+
+    Teste com constraintViolationException ok; Falha ao testar update - não atualiza dados
+
+[33mcommit 40cdb87f6766955356e394dcfec183fd5419f87a[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 19:14:10 2017 -0300
+
+    Testes atualizados com HibernateUtil; esquecer o 'select count' do animal de três patas
+
+[33mcommit 27f89d1ef64cf7c850af1dd78936ba9e41f4bd1c[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 18:57:33 2017 -0300
+
+    DAO de Paciente alterado para tratar IndexOutOfBoundsException em recovers; Tentando fazer teste com select count em hql, sem internet nem livros pra pesquisar sintaxe
+
+[33mcommit 5aff4af88bd5a114ccc1308ecf254fe429459a6c[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Mon Aug 28 18:47:13 2017 -0300
+
+    Atualizando testes com o Validador e HibernateUtil
+
+[33mcommit 01d740ee28cdba588ce56754bd00d040f2b8bd25[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Aug 23 09:35:21 2017 -0300
+
+    Links para página principal adicionados, CPF duplicado tratado: ver se está correto
+
+[33mcommit 6eb66dad4fbe58485fac39c2b7c0379d4b784928[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Wed Aug 23 09:11:06 2017 -0300
+
+    Página principal de paciente ok; ver pendências no Trello
+
+[33mcommit 2b55edd9097836c4e50834ee0f4ed605e101e2df[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Sun Aug 20 22:41:51 2017 -0300
+
+    Página de cadastro criada e cadastrando no banco
+
+[33mcommit 40e543f007eafb38f117fff4d87974dc3754c580[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Fri Aug 18 16:36:33 2017 -0300
+
+    Página de login pronta
+
+[33mcommit 4ce22ee4fe6684c52e2a99174f177b2677a931c5[m
+Author: KatarinaLopes <katarinalopesc@gmail.com>
+Date:   Thu Aug 17 19:13:16 2017 -0300
+
+    Backend default para Paciente ok

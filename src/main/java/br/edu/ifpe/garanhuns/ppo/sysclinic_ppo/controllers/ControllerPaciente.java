@@ -5,13 +5,19 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
+import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.hibernate.Hibernate;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
@@ -41,6 +48,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     @ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
+    
+    private Agendamento agendamento = new Agendamento();
+    
+    @ManagedProperty("#{pacienteService}")
+    private PacienteService pacienteService;
 
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -77,6 +89,23 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         this.pacientesCadastrados = pacientesCadastrados;
     }
 
+    public Agendamento getAgendamento() {
+        return agendamento;
+    }
+
+    public void setAgendamento(Agendamento agendamento) {
+        this.agendamento = agendamento;
+    }
+
+    public PacienteService getPacienteService() {
+        return pacienteService;
+    }
+
+    public void setPacienteService(PacienteService pacienteService) {
+        this.pacienteService = pacienteService;
+    }
+      
+    
     @Override
     @Deprecated
     public void cadastrar(Paciente c) {
@@ -129,7 +158,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @PostConstruct
     public void recuperarTodos() {
-        pacientesCadastrados = pacientes.recuperarTodos();
+        //pacientesCadastrados = pacientes.recuperarTodos();
+        
+        pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }
 
     public String fazerLogin(String login, String senha) {
@@ -171,30 +202,15 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return "login_paciente.xhtml";
     }
     
-    public String incluirAgendamento(Agendamento a){
-        System.out.println(a.getPaciente().getNome());
-        System.out.println(a.getMedico().getNome());
-        System.out.println(a.getDataPrevista());
+    /*public String incluirAgendamento(){
         
-        System.out.println(a.getPeriodo());
+        Paciente p = recuperar(1);
         
-        System.out.println("antes de pegar paciente");
-        Paciente paciente = a.getPaciente();
-        System.out.println("antes de incluir agendamento");
-        paciente.incluirAgendamento(a);
+        p.incluirAgendamento(agendamento);
         
-        //atualizar(paciente);
-        
-        HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-        
-        sess.removeAttribute("medicoSelecionado");
-        
-        System.out.println("antes de atualizar");
-        
-        atualizar(paciente);
+        atualizar(p);
         
         return "agendamentos_feitos.xhtml";
-        
-    }
+    }*/
+    
 }

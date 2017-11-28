@@ -19,7 +19,7 @@ import javax.faces.convert.FacesConverter;
 
 @FacesConverter("pacientesConverter")
 public class PacientesConverter implements Converter{
-
+    
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if(value != null && value.trim().length() > 0){
@@ -46,5 +46,6 @@ public class PacientesConverter implements Converter{
         }
         return null;
     }
+    
     
 }

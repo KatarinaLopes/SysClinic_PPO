@@ -11,10 +11,13 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import com.google.gson.Gson;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,94 +35,48 @@ import org.primefaces.event.SelectEvent;
  */
 @ManagedBean
 @RequestScoped
-public class BeanAgendamento implements BuilderGenerico<Agendamento>{
-    private int id;
-    private Date dataPrevista;
+public class BeanAgendamento implements BuilderGenerico<Agendamento>, 
+        Serializable {
     private Paciente paciente;
-    private Medico medico;
-    private Date periodo;
-    private boolean realizada = false;
-
-    @ManagedProperty("#{pacienteService}")
-    private PacienteService pacienteService;
+    private Medico medico = new Medico();
+    private Date dataPrevista = new Date();
+    private Date periodoInicial = new Date();
     
     private List<Paciente> pacientes;
     
-    @ManagedProperty("#{medicoService}")
-    private MedicoService medicoService;
-    
-    private List<Medico> medicos;
-    
-    private List<Horario> horarios;
-    
-    private List<Integer> dias;
-    
-    private String diasJson;
-    
-    private List<Horario> horariosSelecionado;
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getDataPrevista() {
-        System.out.println("data prevista get");
-        return dataPrevista;
-    }
-
-    public void setDataPrevista(Date dataPrevista) {
-        System.out.println("data prevista set");
-        this.dataPrevista = dataPrevista;
-    }
+    @ManagedProperty("#{pacienteService}")
+    private PacienteService pacienteService;
 
     public Paciente getPaciente() {
-        System.out.println("paciente get");
         return paciente;
     }
 
     public void setPaciente(Paciente paciente) {
-        System.out.println("paciente set");
         this.paciente = paciente;
     }
 
     public Medico getMedico() {
-        System.out.println("medico get");
         return medico;
     }
 
     public void setMedico(Medico medico) {
-        System.out.println("medico set");
         this.medico = medico;
     }
 
-    public boolean isRealizada() {
-        return realizada;
+    public Date getDataPrevista() {
+        return dataPrevista;
     }
 
-    public void setRealizada(boolean realizada) {
-        this.realizada = realizada;
+    public void setDataPrevista(Date dataPrevista) {
+        this.dataPrevista = dataPrevista;
     }
 
-    public Date getPeriodo() {
-        System.out.println("periodo chamou get");
-        return periodo;
+    public Date getPeriodoInicial() {
+        return periodoInicial;
     }
 
-    public void setPeriodo(Date periodo) throws ParseException {  
-        System.out.println("periodo chamou set");
-        this.periodo = periodo;
-    }
-
-    public PacienteService getPacienteService() {
-        return pacienteService;
-    }
-
-    public void setPacienteService(PacienteService pacienteService) {
-        this.pacienteService = pacienteService;
+    public void setPeriodoInicial(Date periodoInicial) {
+        this.periodoInicial = periodoInicial;
     }
 
     public List<Paciente> getPacientes() {
@@ -130,120 +87,30 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>{
         this.pacientes = pacientes;
     }
 
-    public MedicoService getMedicoService() {
-        return medicoService;
+    public PacienteService getPacienteService() {
+        return pacienteService;
     }
 
-    public void setMedicoService(MedicoService medicoService) {
-        this.medicoService = medicoService;
+    public void setPacienteService(PacienteService pacienteService) {
+        this.pacienteService = pacienteService;
     }
-
-    public List<Medico> getMedicos() {
-        return medicos;
-    }
-
-    public void setMedicos(List<Medico> medicos) {
-        this.medicos = medicos;
-    }
-
-    public List<Horario> getHorarios() {
-        return horarios;
-    }
-
-    public void setHorarios(List<Horario> horarios) {
-        this.horarios = horarios;
-    }
-
-    public List<Integer> getDias() {
-        return dias;
-    }
-
-    public void setDias(List<Integer> dias) {
-        this.dias = dias;
-    }
-
-    public String getDiasJson() {
-        return diasJson;
-    }
-
-    public void setDiasJson(String diasJson) {
-        this.diasJson = diasJson;
-    }
-
-    public List<Horario> getHorariosSelecionado() {
-        return horariosSelecionado;
-    }
-
-    public void setHorariosSelecionado(List<Horario> horariosSelecionado) {
-        this.horariosSelecionado = horariosSelecionado;
-    }
-    
-   
     
     @PostConstruct
     public void init(){
         pacientes = pacienteService.getPacientesCadastrados();
-        
-        medicos = medicoService.getMedicosCadastrados();
-        
-        horarios = medicoService.getHorarios();
     }
+    
 
-    
-    public void carregarDias(Medico m){
-        System.out.println(m);
-        horarios = m.getHorarios();
-        dias = m.pegarDiasLivres();
-        System.out.println(dias);
-        diasJson = pegarDiasLivres();
-        System.out.println(diasJson);
-        
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-        
-        session.setAttribute("medicoSelecionado", m);
-    }
-    
-    public void carregarHorarios(Date data){
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-        
-        Medico medicoSelecionado = (Medico) session.getAttribute("medicoSelecionado");
-        
-        horariosSelecionado = medicoService.
-                carregarHorarios(medicoSelecionado, data);
-    }
-    
-    public boolean verificarSeDataEPossivel(Date data){
-        
-        return medico.verificarSeDataEPossivel(data);
-    }
-    
-    public boolean habilitarData(){
-        return medico == null;
-    }
-    
-        
-    public String pegarDiasLivres(){
-        Gson jsonParser = new Gson();
-        
-        String jsonDias = jsonParser.toJson(dias);
-        
-        System.out.println(dias);
-        
-        return jsonDias;
-    }
-    
-    
     @Override
     public Agendamento build() {
-        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
+        /*medico.setConselho("CREMEPE 1236");
+        medico.setEspecialidade("especialidade");
+        medico.setNome("Nome");
+        medico.setSexo("M");
+        medico.setTelefone("(99)99999-9999");*/
         
-        medico = (Medico) ses.getAttribute("medicoSelecionado");
-        
-        return new Agendamento(id, dataPrevista, paciente, medico, periodo, 
-                realizada);
+        return new Agendamento(0, dataPrevista, paciente, medico, 
+                periodoInicial, false);
     }
     
     

@@ -64,8 +64,7 @@ public class OperacoesTest {
     public void deveTestarValidarPacientecomDataDeAdmissaoIncorreta() {
         Paciente paciente = new Paciente(0, null, "Nome", "F",
                 new Date(System.currentTimeMillis()), "(99)9999-9999",
-                "(99)9-9999-9999", "email@email", "111.111.111-11", "123",
-                new ArrayList<Agendamento>());
+                "(99)9-9999-9999", "email@email", "111.111.111-11", "123");
 
         String msg = Operacoes.validarPaciente(paciente, "123");
 
@@ -76,8 +75,7 @@ public class OperacoesTest {
         Paciente paciente = new Paciente(0,
                 new Date(System.currentTimeMillis()), null, "F",
                 new Date(System.currentTimeMillis()), "(99)9999-9999",
-                "(99)9-9999-9999", "email@email.com", "111.111.111-11", "123",
-                new ArrayList<Agendamento>());
+                "(99)9-9999-9999", "email@email.com", "111.111.111-11", "123");
 
         String msg = Operacoes.validarPaciente(paciente, "123");
 
@@ -125,13 +123,13 @@ public class OperacoesTest {
         assertEquals("CPF inválido", msg);
         
         paciente.setCpf("111.111.111-11");
-        paciente.setAgendamentos(null);
+        //paciente.setAgendamentos(null);
         
         msg = Operacoes.validarPaciente(paciente, "123");
         
-        assertEquals("Lista de agendamentos inválida", msg);
+        //assertEquals("Lista de agendamentos inválida", msg);
         
-        paciente.setAgendamentos(new ArrayList<Agendamento>());
+        //paciente.setAgendamentos(new ArrayList<Agendamento>());
         paciente.setSenha(null);
         
         msg = Operacoes.validarPaciente(paciente, "123");
@@ -151,7 +149,7 @@ public class OperacoesTest {
         Paciente paciente = new Paciente(0, new Date(System.currentTimeMillis()), 
                 "N0m3", "F", new Date(System.currentTimeMillis()), 
                 "(99)9999-9999", "(99)99999-9999", "email@email.com", 
-                "111.111.111-11", "123", new ArrayList<Agendamento>());
+                "111.111.111-11", "123");
         
         String msg = Operacoes.validarPaciente(paciente, "123");
         
@@ -249,8 +247,7 @@ public class OperacoesTest {
     public void deveTestarValidarPacientePassandoPacienteValidoRetornandoNull(){
         Paciente paciente = new Paciente(0, new Date(), "Nome Nome", "F",
                 new Date(), "(99)9999-9999", "(99)99999-9999", 
-                "email@email.com", "111.111.111-11", "123", 
-                new ArrayList<Agendamento>());
+                "email@email.com", "111.111.111-11", "123");
         
         String mens = Operacoes.validarPaciente(paciente, "123");
         

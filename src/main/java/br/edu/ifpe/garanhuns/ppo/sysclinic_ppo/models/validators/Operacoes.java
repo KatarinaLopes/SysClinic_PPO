@@ -69,9 +69,9 @@ public class Operacoes {
             return "CPF inválido";
         }
 
-        if (p.getAgendamentos() == null) {
+        /*if (p.getAgendamentos() == null) {
             return "Lista de agendamentos inválida";
-        }
+        }*/
         
         if(!Validacoes.validarSenhas(p.getSenha(), confirmacaoSenha)){
             return "Senha inválida";

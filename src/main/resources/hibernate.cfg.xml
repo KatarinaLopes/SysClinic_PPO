@@ -51,5 +51,6 @@ Contributor(s):
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento"/>
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario"/>
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico"/>
+    <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda"/>
   </session-factory>
 </hibernate-configuration>

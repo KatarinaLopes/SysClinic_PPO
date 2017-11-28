@@ -5,29 +5,43 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author Katarina
  */
-//@Entity
-public class Agenda {
-    //@Id
+@Entity
+public class Agenda implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    //@OneToMany(cascade = CascadeType.ALL)
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Medico medico;
+    
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
     @Deprecated
     public Agenda() {
     }
-    
-    public Agenda(int id, List<Agendamento> agendamentos) {
+
+    public Agenda(int id, Medico medico, List<Agendamento> agendamentos) {
         this.id = id;
+        this.medico = medico;
         this.agendamentos = agendamentos;
     }
 
@@ -39,6 +53,14 @@ public class Agenda {
         this.id = id;
     }
 
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+    
     public List<Agendamento> getAgendamentos() {
         return agendamentos;
     }
@@ -47,5 +69,115 @@ public class Agenda {
         this.agendamentos = agendamentos;
     }
     
+    public boolean verificarSeDataEPossivel(Date data) {
+
+        Calendar calendar = new GregorianCalendar();
+
+        calendar.setTime(data);
+
+        for (Horario horario : medico.getHorarios()) {
+            if (horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+    
+    public boolean verificarSeDataEstaLivre(Date data) {
+
+        if (data == null) {
+            return false;
+        }
+
+        if (!verificarSeDataEPossivel(data)) {
+            return false;
+        }
+
+        if (agendamentos.isEmpty() || agendamentos == null) {
+            return false;
+        }
+
+        int qtde = 0;
+        int qtdeDeAten = medico.pegarHorario(data).getLimiteDeAgendamentos();
+        Date dia = agendamentos.get(0).getPeriodo();
+        for (Agendamento agendamento1 : agendamentos) {
+
+            if (!agendamento1.isRealizada()
+                    && agendamento1.getDataPrevista().equals(data)
+                    && agendamento1.getPeriodo().equals(dia)) {
+
+                qtde++;
+            }
+
+            dia = agendamento1.getPeriodo();
+        }
+        
+
+        return qtde < qtdeDeAten;
+
+    }
+
+    public boolean verificarSeDiaEstaLivre(int dia) {
+        int qtde = 0;
+        Calendar calendar = new GregorianCalendar();
+
+        for (Agendamento agendamento1 : agendamentos) {
+            calendar.setTime(agendamento1.getDataPrevista());
+            if ((calendar.get(Calendar.DAY_OF_WEEK) - 1) == dia) {
+                qtde++;
+            }
+        }
+        
+        int limite = retornarHorario(dia).getLimiteDeAgendamentos();
+
+        return qtde < limite;
+    }
+
+    public List<Integer> pegarDiasLivres() {
+        List<Integer> dias = new ArrayList();
+
+        for (Horario horario : medico.getHorarios()) {
+
+            dias.add(horario.getDia());
+        }
+
+        return dias;
+    }
+
+    public List<Horario> pegarHorariosLivres(Date data) {
+
+        Calendar c = new GregorianCalendar();
+        c.setTime(data);
+        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
+        List<Horario> horariosDisponiveis = new ArrayList();
+
+        for (Horario horario : medico.getHorarios()) {
+
+            if (dia == horario.getDia()) {
+                if (verificarSeDiaEstaLivre(dia)) {
+                    horariosDisponiveis.add(horario);
+                }
+            }
+        }
+
+        return horariosDisponiveis;
+    }
+    
+    public Horario retornarHorario(int dia){
+        for (Horario horario : medico.getHorarios()) {
+            if(horario.getDia() == dia){
+                return horario;
+               
+            }
+            
+        }
+        
+        return null;
+    }
+    
+    public void adicionarAgendamento(Agendamento a){
+    }
     
 }
