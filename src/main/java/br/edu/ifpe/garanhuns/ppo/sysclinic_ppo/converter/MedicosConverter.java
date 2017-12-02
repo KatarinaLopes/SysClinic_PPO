@@ -18,5 +18,32 @@ import javax.faces.convert.FacesConverter;
  * @author Katarina
  */
 @FacesConverter("medicosConverter")
-public class MedicosConverter {// implements Converter {
+public class MedicosConverter implements Converter {
+    
+    @Override
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        System.out.println("1");
+        if (value != null) {
+            System.out.println("2");
+            MedicoService service = (MedicoService) context.
+                    getExternalContext().getApplicationMap().
+                    get("medicoService");
+            //System.out.println(value);
+            for (Medico medicosCadastrado : service.getMedicosCadastrados()) {
+                if(medicosCadastrado.getId() == Integer.parseInt(value)){
+                    return medicosCadastrado;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, Object value) {
+        if(value != null){
+            return String.valueOf(((Medico) value).getId());
+        }
+        return null;
+    }
 }

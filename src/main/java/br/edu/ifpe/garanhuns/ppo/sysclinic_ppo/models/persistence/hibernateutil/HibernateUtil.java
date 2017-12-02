@@ -56,12 +56,19 @@ public class HibernateUtil {
 
         //s.clear();
         try {
+            //s = sessionFactory.openSession();
             s.close();
-        } catch (HibernateException he) {
+        } catch (Exception he) {
 
         } finally {
+            //s.close();
             s = sessionFactory.openSession();
+            //s.
+            //s.clear();
         }
+        
+        //s = sessionFactory.openSession();
+        
         return s;
     }
 
@@ -85,6 +92,8 @@ public class HibernateUtil {
 
     public void persist(Object o) throws ConstraintViolationException {
 
+        //s.close();
+        
         Transaction t = getSession().getTransaction();
 
         t.begin();
@@ -127,6 +136,8 @@ public class HibernateUtil {
         }
     }*/
     public List recover(String hql) throws IndexOutOfBoundsException {
+        //s.close();
+        
         Query query = null;
 
         query = getSession().createQuery(hql);
@@ -137,7 +148,9 @@ public class HibernateUtil {
 
     public void update(Object o) {
         //Se a sessão é aberta, tem que ser fechada
-
+        //s.close();
+        //s.clear();
+        
         String a = new String();
         //s = sessionFactory.openSession();
 
@@ -149,16 +162,17 @@ public class HibernateUtil {
         //Transaction tr = st.beginTransaction();
         
         t.begin();
-
         // s.
         //s.saveOrUpdate(o);
         s.update(o);
         //statelessSession.update(o);
         //s.merge(o);
+        
         t.commit();
         
-        s.clear();
+        //s.clear();
 
+        //s.close();
         //getSession().close();
     }
 
@@ -184,6 +198,9 @@ public class HibernateUtil {
         
     }*/
     public void delete(Object o) {
+        
+        //s.close();
+                
         Transaction t = getSession().getTransaction();
 
         t.begin();
@@ -191,7 +208,8 @@ public class HibernateUtil {
         s.delete(o);
 
         t.commit();
-
+        
+        //s.close();
     }
 
     /*public void exportSchema() {

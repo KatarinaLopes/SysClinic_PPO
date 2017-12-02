@@ -22,4 +22,39 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class MedicoService {
     
+    private List<Medico> medicos;
+
+    private List<Horario> horarios;
+    
+    public List<Medico> getMedicosCadastrados() {
+        return medicos;
+    }
+
+    @PostConstruct
+    public void setMedicos() {
+        medicos = new DaoMedico().recuperarTodos();
+    }
+    
+    public List<Horario> carregarHorarios(Medico m, Date data){
+        System.out.println(data + "a" + m);
+        horarios = m.pegarHorariosLivres(data);
+        return horarios;
+    }
+
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
+    }
+    
 }

@@ -16,13 +16,12 @@
             <p:panelGrid columns="3">
                 <h:outputText value="Paciente"/>
                 <p:selectOneMenu converter="pacientesConverter" 
-                                 editable="false" required="true"
+                                 editable="false" id="paciente" required="true"
                                  requiredMessage="Campo requerido" 
-                                 value="#{controllerPaciente.agendamento.
-                                          paciente}">
+                                 value="#{paciente}">
                     <f:selectItem itemDisabled="true" 
                                   itemLabel="Selecione..."/>
-                    <f:selectItems value="#{controllerPaciente.
+                    <f:selectItems value="#{pacienteService.
                                             pacientesCadastrados}"
                                    var="paciente" 
                                    itemLabel=
@@ -30,13 +29,13 @@
                                    itemValue="#{paciente}"/>
                 
                 </p:selectOneMenu>
+                <p:message for="paciente"/>
+                
             </p:panelGrid>
             
             <p:commandButton value="Incluir" action="#{controllerAgenda.
-                                                       incluirAgendamento(
-                                                       controllerPaciente.
-                                                       agendamento)}" 
-                             update="@all"/>
+                                                       incluirAgendamento()}" 
+                             update=":form-agendamento-consultas"/>
         </h:form>
     </h:body>                           
 </html>

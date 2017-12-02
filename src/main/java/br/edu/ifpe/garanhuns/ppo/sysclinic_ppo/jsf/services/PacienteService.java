@@ -16,7 +16,7 @@ import javax.faces.bean.ManagedBean;
  *
  * @author Katarina
  */
-@ManagedBean(name = "pacienteService", eager = true)
+@ManagedBean(name = "pacienteService")
 @ApplicationScoped
 public class PacienteService {
     

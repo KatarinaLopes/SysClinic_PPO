@@ -272,7 +272,7 @@ public class Medico implements Serializable {
         int limite = retornarHorario(dia).getLimiteDeAgendamentos();
 
         return qtde < limite;
-    }
+    }*/
 
     public List<Integer> pegarDiasLivres() {
         List<Integer> dias = new ArrayList();
@@ -295,15 +295,15 @@ public class Medico implements Serializable {
         for (Horario horario : this.horarios) {
 
             if (dia == horario.getDia()) {
-                if (verificarSeDiaEstaLivre(dia)) {
+                //if (verificarSeDiaEstaLivre(dia)) {
                     horariosDisponiveis.add(horario);
-                }
+                //}
             }
         }
 
         return horariosDisponiveis;
     }
-    
+    /*
     public Horario retornarHorario(int dia){
         for (Horario horario : horarios) {
             if(horario.getDia() == dia){

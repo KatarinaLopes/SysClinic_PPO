@@ -52,7 +52,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     private Agendamento agendamento = new Agendamento();
     
     @ManagedProperty("#{pacienteService}")
-    private PacienteService pacienteService;
+    private static PacienteService pacienteService;
 
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -84,10 +84,10 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     public List<Paciente> getPacientesCadastrados() {
         return pacientesCadastrados;
     }
-
-    public void setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
+/*
+    public syvoid setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
         this.pacientesCadastrados = pacientesCadastrados;
-    }
+    }*/
 
     public Agendamento getAgendamento() {
         return agendamento;
@@ -97,13 +97,14 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         this.agendamento = agendamento;
     }
 
-    public PacienteService getPacienteService() {
+    public static PacienteService getPacienteService() {
         return pacienteService;
     }
 
-    public void setPacienteService(PacienteService pacienteService) {
+    /*public void setPacienteService(PacienteService pacienteService) {
         this.pacienteService = pacienteService;
-    }
+    }*/
+    
       
     
     @Override
@@ -158,9 +159,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @PostConstruct
     public void recuperarTodos() {
-        //pacientesCadastrados = pacientes.recuperarTodos();
+        pacientesCadastrados = pacientes.recuperarTodos();
         
-        pacientesCadastrados = pacienteService.getPacientesCadastrados();
+        //pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }
 
     public String fazerLogin(String login, String senha) {

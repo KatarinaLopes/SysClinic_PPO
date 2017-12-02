@@ -29,7 +29,9 @@ public class DaoAgenda implements DaoGenerico<Agenda, Integer>{
 
     @Override
     public Agenda recuperarPorAtributo(String atributo, Object value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (Agenda) HibernateUtil.getInstance().
+                recover("from Agenda where " + atributo + " = " + value).
+                get(0);
     }
 
     @Override

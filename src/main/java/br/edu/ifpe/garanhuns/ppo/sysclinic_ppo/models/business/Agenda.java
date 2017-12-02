@@ -135,6 +135,7 @@ public class Agenda implements Serializable{
         return qtde < limite;
     }
 
+    /*
     public List<Integer> pegarDiasLivres() {
         List<Integer> dias = new ArrayList();
 
@@ -156,14 +157,14 @@ public class Agenda implements Serializable{
         for (Horario horario : medico.getHorarios()) {
 
             if (dia == horario.getDia()) {
-                if (verificarSeDiaEstaLivre(dia)) {
+                //if (verificarSeDiaEstaLivre(dia)) {
                     horariosDisponiveis.add(horario);
-                }
+                //}
             }
         }
 
         return horariosDisponiveis;
-    }
+    }*/
     
     public Horario retornarHorario(int dia){
         for (Horario horario : medico.getHorarios()) {
