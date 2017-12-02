@@ -13,22 +13,14 @@
     <h:body>      
         <h:form id="form-agendamento-consultas">
             Hello from Facelets
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="4">
                 <h:outputText value="Paciente"/>
-                <p:selectOneMenu converter="pacientesConverter" 
-                                 editable="false" id="paciente" required="true"
-                                 requiredMessage="Campo requerido" 
-                                 value="#{paciente}">
-                    <f:selectItem itemDisabled="true" 
-                                  itemLabel="Selecione..."/>
-                    <f:selectItems value="#{pacienteService.
-                                            pacientesCadastrados}"
-                                   var="paciente" 
-                                   itemLabel=
-                                   "#{paciente.nome} - #{paciente.cpf}"
-                                   itemValue="#{paciente}"/>
-                
-                </p:selectOneMenu>
+                <p:inputText disabled="false" id="paciente" required="true" 
+                             requiredMessage="Campo obrigatório" 
+                             value="#{controllerAgenda.agendamento.paciente}">
+                    <p:ajax event="click" 
+                            oncomplete="PF('wid-dial-paciente').show()"/>
+                </p:inputText>
                 <p:message for="paciente"/>
                 
             </p:panelGrid>
@@ -37,6 +29,13 @@
                                                        incluirAgendamento()}" 
                              update=":form-agendamento-consultas"/>
         </h:form>
+        
+        <p:dialog closable="true" closeOnEscape="true" draggable="true" 
+                  dynamic="true" header="Selecionar paciente" 
+                  id="dial-paciente" modal="true" responsive="true" 
+            visible="false" widgetVar="wid-dial-paciente">
+                      Hello!
+        </p:dialog>
     </h:body>                           
 </html>
 
