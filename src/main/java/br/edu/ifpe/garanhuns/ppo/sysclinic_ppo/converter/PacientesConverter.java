@@ -13,6 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -24,35 +25,23 @@ public class PacientesConverter implements Converter{
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        System.out.println(value + " rnhf " + component);
+        
+        //System.out.println(value);
         
         if(value != null && value.trim().length() > 0){
             
-            System.out.println(value);
-            PacienteService service = (PacienteService) context.
-                    getExternalContext().getApplicationMap().
-                    get("pacienteService");
+            HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
+                    getExternalContext().getSession(true);
             
-            List<Paciente> pacientes = new ArrayList();
+            List<Paciente> pacientes = (List<Paciente>) 
+                    s.getAttribute("pacientesCadastrados");
             
-            pacientes.add(new Paciente());
-            pacientes.add(new Paciente());
-            
-            Paciente selecionado = null;
-            
-            //System.out.println(service.getPacientesCadastrados().get(0).getId());
-            for (Paciente pacientesCadastrado : pacientes) {
-                if(pacientesCadastrado.getId() == Integer.parseInt(value)){
-                    System.out.println(pacientesCadastrado);
-                    selecionado = pacientesCadastrado;
-                }        
+            for (Paciente paciente : pacientes) {
+                if(paciente.getId() == Integer.parseInt(value)){
+                    return paciente;
+                }
             }
             
-            /*Paciente p = service.getPacientesCadastrados().get(0);
-            
-            return p;*/
-            
-            return selecionado;
         }
         
         return null;
@@ -60,6 +49,8 @@ public class PacientesConverter implements Converter{
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
+        //System.out.println(value);
+        
         if(value != null){
             return String.valueOf(((Paciente) value).getId());
         }

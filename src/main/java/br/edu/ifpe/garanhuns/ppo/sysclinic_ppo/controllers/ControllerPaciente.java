@@ -18,6 +18,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import com.google.gson.Gson;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -44,15 +45,10 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     private Paciente pacienteLogado;
 
     @ManagedProperty("#{pacientes}")
-    private List<Paciente> pacientesCadastrados;
+    private List<Paciente> pacientesCadastrados = new ArrayList();
     
     @ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
-    
-    private Agendamento agendamento = new Agendamento();
-    
-    @ManagedProperty("#{pacienteService}")
-    private static PacienteService pacienteService;
 
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -84,28 +80,10 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     public List<Paciente> getPacientesCadastrados() {
         return pacientesCadastrados;
     }
-/*
-    public syvoid setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
-        this.pacientesCadastrados = pacientesCadastrados;
-    }*/
-
-    public Agendamento getAgendamento() {
-        return agendamento;
-    }
-
-    public void setAgendamento(Agendamento agendamento) {
-        this.agendamento = agendamento;
-    }
-
-    public static PacienteService getPacienteService() {
-        return pacienteService;
-    }
-
-    /*public void setPacienteService(PacienteService pacienteService) {
-        this.pacienteService = pacienteService;
-    }*/
     
-      
+    public void setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
+        this.pacientesCadastrados = pacientesCadastrados;
+    }
     
     @Override
     @Deprecated
@@ -160,6 +138,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     @PostConstruct
     public void recuperarTodos() {
         pacientesCadastrados = pacientes.recuperarTodos();
+        
+        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        s.setAttribute("pacientesCadastrados", pacientesCadastrados);
         
         //pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }

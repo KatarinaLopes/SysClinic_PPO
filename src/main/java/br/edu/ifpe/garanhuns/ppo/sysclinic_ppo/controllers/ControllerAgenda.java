@@ -27,6 +27,7 @@ public class ControllerAgenda implements ControllerGenerico<Agenda, Integer> {
 
     private DaoGenerico agendas = new DaoAgenda();
     
+    @ManagedProperty("#{agendamento}")
     private Agendamento agendamento = new Agendamento();
     
     private List<Horario> horarios;
@@ -59,11 +60,16 @@ public class ControllerAgenda implements ControllerGenerico<Agenda, Integer> {
     }
    
     public Agendamento getAgendamento() {
+        //System.out.println(agendamento.getPaciente().getNome());
+        
         return agendamento;
     }
 
     public void setAgendamento(Agendamento agendamento) {
-        this.agendamento = agendamento;
+       
+        
+        this.agendamento = agendamento; 
+        //System.out.println(agendamento.getPaciente().getNome());
     }
     
     public void carregarDias(Medico m){

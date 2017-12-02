@@ -35,24 +35,22 @@ import org.primefaces.event.SelectEvent;
  */
 @ManagedBean
 @RequestScoped
-public class BeanAgendamento implements BuilderGenerico<Agendamento>, 
-        Serializable {
-    private Paciente paciente;
+public class BeanAgendamento implements BuilderGenerico<Agendamento> {
+    private Paciente paciente = new Paciente();
     private Medico medico = new Medico();
     private Date dataPrevista = new Date();
     private Date periodoInicial = new Date();
-    
-    private List<Paciente> pacientes;
-    
-    @ManagedProperty("#{pacienteService}")
-    private PacienteService pacienteService;
 
     public Paciente getPaciente() {
+        //System.out.println(paciente);
+        
         return paciente;
     }
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+        
+        //System.out.println(paciente);
     }
 
     public Medico getMedico() {
@@ -79,36 +77,8 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento>,
         this.periodoInicial = periodoInicial;
     }
 
-    public List<Paciente> getPacientes() {
-        return pacientes;
-    }
-
-    public void setPacientes(List<Paciente> pacientes) {
-        this.pacientes = pacientes;
-    }
-
-    public PacienteService getPacienteService() {
-        return pacienteService;
-    }
-
-    public void setPacienteService(PacienteService pacienteService) {
-        this.pacienteService = pacienteService;
-    }
-    
-    @PostConstruct
-    public void init(){
-        pacientes = pacienteService.getPacientesCadastrados();
-    }
-    
-
     @Override
     public Agendamento build() {
-        /*medico.setConselho("CREMEPE 1236");
-        medico.setEspecialidade("especialidade");
-        medico.setNome("Nome");
-        medico.setSexo("M");
-        medico.setTelefone("(99)99999-9999");*/
-        
         return new Agendamento(0, dataPrevista, paciente, medico, 
                 periodoInicial, false);
     }
