@@ -20,17 +20,17 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class PacienteService {
     
-    private List<Paciente> pacientesCadastrados;
+    /*private List<Paciente> pacientesCadastrados;
     
     @PostConstruct
     public void recuperarTodos() {
-        pacientesCadastrados = new DaoPaciente().recuperarTodos();
+        //pacientesCadastrados = new DaoPaciente().recuperarTodos();
     }
 
     public List<Paciente> getPacientesCadastrados() {
         return pacientesCadastrados;
     }
-    
+    */
         
     
 }

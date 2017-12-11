@@ -13,6 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,17 +33,17 @@ public class Agenda implements Serializable{
     @OneToOne(cascade = CascadeType.ALL)
     private Medico medico;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Agendamento> agendamentos;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Agendamento> agendamentos = new ArrayList<>();
 
     @Deprecated
     public Agenda() {
     }
 
-    public Agenda(int id, Medico medico, List<Agendamento> agendamentos) {
+    public Agenda(int id, Medico medico) {
         this.id = id;
         this.medico = medico;
-        this.agendamentos = agendamentos;
+        //this.agendamentos = agendamentos;
     }
 
     public int getId() {
@@ -179,6 +180,8 @@ public class Agenda implements Serializable{
     }
     
     public void adicionarAgendamento(Agendamento a){
+        
+        agendamentos.add(a);
     }
     
 }

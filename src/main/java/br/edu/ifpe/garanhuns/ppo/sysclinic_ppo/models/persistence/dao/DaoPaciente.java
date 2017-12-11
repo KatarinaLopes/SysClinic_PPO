@@ -23,16 +23,14 @@ public class DaoPaciente implements DaoGenerico<Paciente, Integer> {
 
     @Override
     public Paciente recuperar(Integer i) {
-        Paciente p;
+        // p;
 
         try {
-            p = (Paciente) HibernateUtil.getInstance().
+            return (Paciente) HibernateUtil.getInstance().
                     recover("from Paciente where id=" + i).get(0);
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-
-        return p;
     }
 
     @Override

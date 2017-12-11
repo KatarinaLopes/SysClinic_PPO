@@ -10,69 +10,64 @@
         <title>Facelet Title</title>
     </h:head>
 
-    <h:body>      
+
+
+
+    <h:body> 
         <h:form id="form-agendamento-consultas">
+            <p:messages>
+                <p:poll/>
+            </p:messages>
             Hello from Facelets
-            <p:panelGrid columns="4">
+            <p:panelGrid columns="3">
                 <h:outputText value="Paciente"/>
-                <p:inputText id="paciente" required="true" 
-                             requiredMessage="Campo obrigatório" 
-                             value="#{beanAgendamento.paciente.nome}">
-                    <p:ajax event="click" 
-                            oncomplete="PF('wid-dial-paciente').show()"/>
-
+                <p:inputText id="paciente" 
+                             value="#{paciente}">
+                            
                 </p:inputText>
-                <p:message for="paciente"/>
-
+                <p:commandButton value="Selecionar" 
+                                 oncomplete="PF('wid-dial-paciente').show()"/>
+                
+                <h:outputText value="Médico"/>
+                <p:inputText id="medico" 
+                             value="#{matricula}">
+                </p:inputText>
             </p:panelGrid>
 
-            <p:commandButton value="Incluir" action="#{controllerAgenda.
-                                                       incluirAgendamento()}" 
+            <p:commandButton value="Incluir" 
+                             action="#{controllerAgenda.
+                                       incluirAgendamento(id_paciente, 
+                                       matricula)}" 
                              update=":form-agendamento-consultas"/>
 
 
+            <p:dialog closable="true" draggable="true" dynamic="true" 
+                      header="Selecionar pacientes" id="dial-pacientes" 
+                      modal="true" resizable="true" responsive="true" 
+                visible="false" widgetVar="wid-dial-paciente">
+                <h:form id="form-dial-paciente">
+                    <p:dataTable id="table-dial-pacientes" paginator="true"
+                                 value="#{controllerPaciente.
+                                          pacientesCadastrados}" 
+                                 var="paciente">
+                        <p:column headerText="CPF">
+                            <h:outputText value="#{paciente.cpf}"/>
+                        </p:column>
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{paciente.nome}"/>
+                        </p:column>
+                        <p:column headerText="Data de nascimento">
+                            <h:outputText value="#{paciente.dataNascimento}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Selecionar"/> 
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:dialog>
 
         </h:form>
-        <p:dialog closable="true" closeOnEscape="true" draggable="true" 
-                  dynamic="true" header="Selecionar paciente" 
-                  id="dial-paciente" modal="true" responsive="true" 
-                  visible="false" widgetVar="wid-dial-paciente">
 
-            <h:form id="form-dial-paciente">
-
-                <p:dataTable id="tabela-dial-pacientes" paginator="false"
-                             resizableColumns="true"
-                             value="#{controllerPaciente.pacientesCadastrados}"
-                             var="paciente">
-
-
-                    <p:column headerText="Cadastro">
-                        <h:outputText value="#{paciente.id}"/>
-                    </p:column>
-
-                    <p:column headerText="Nome">
-                        <h:outputText value="#{paciente.nome}"/>
-                    </p:column>
-
-                    <p:column headerText="CPF">
-                        <h:outputText value="#{paciente.cpf}"/>
-                    </p:column>
-
-                    <p:column>
-                        <p:commandButton value="Selecionar" 
-                                         oncomplete=
-                                         "PF('wid-dial-paciente').hide()"
-                                      update=":form-dial-paciente
-                                      :form-agendamento-consultas:paciente">
-                            <f:setPropertyActionListener 
-                                value="#{paciente}"
-                                target="#{beanAgendamento.paciente}"/>
-                        </p:commandButton>
-
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-        </p:dialog>
     </h:body>                           
 </html>
 

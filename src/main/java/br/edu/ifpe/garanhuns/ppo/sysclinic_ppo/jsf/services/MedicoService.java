@@ -22,7 +22,7 @@ import javax.faces.bean.ManagedBean;
 @ApplicationScoped
 public class MedicoService {
     
-    private List<Medico> medicos;
+    /*private List<Medico> medicos;
 
     private List<Horario> horarios;
     
@@ -55,6 +55,6 @@ public class MedicoService {
 
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
-    }
+    }*/
     
 }

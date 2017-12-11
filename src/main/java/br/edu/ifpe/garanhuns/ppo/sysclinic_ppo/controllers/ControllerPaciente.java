@@ -47,7 +47,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     @ManagedProperty("#{pacientes}")
     private List<Paciente> pacientesCadastrados = new ArrayList();
     
-    @ManagedProperty("#{pacienteSelecionado}")
+    //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
 
     public Paciente getPacienteSelecionado() {
@@ -196,5 +196,33 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         return "agendamentos_feitos.xhtml";
     }*/
+    
+    public void procurarPaciente(String cpf){
+        
+        //System.out.println(1);
+        
+        //Paciente p = null;
+        
+        //System.out.println(2 + " dg " + p);
+        
+        for (Paciente pacientesCadastrado : pacientesCadastrados) {
+            
+          //  System.out.println(3);
+            
+            if(pacientesCadastrado.getCpf().equals(cpf)){
+                //System.out.println(4);
+                
+                return;
+                
+            }
+            
+        }
+        
+                  
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                                    "Paciente não cadastrado ou CPF "
+                                            + "inválido"));
+        
+    }
     
 }

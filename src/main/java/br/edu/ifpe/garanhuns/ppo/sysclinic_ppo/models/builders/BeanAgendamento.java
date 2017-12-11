@@ -36,10 +36,12 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean
 @RequestScoped
 public class BeanAgendamento implements BuilderGenerico<Agendamento> {
-    private Paciente paciente = new Paciente();
+    private Paciente paciente= new Paciente();
     private Medico medico = new Medico();
     private Date dataPrevista = new Date();
     private Date periodoInicial = new Date();
+    
+    private Paciente pacienteSelecionado;
 
     public Paciente getPaciente() {
         //System.out.println(paciente);
@@ -50,7 +52,9 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento> {
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
         
-        //System.out.println(paciente);
+        pacienteSelecionado = this.paciente;
+        
+        System.out.println(paciente + " d " + this.paciente);
     }
 
     public Medico getMedico() {
@@ -79,9 +83,15 @@ public class BeanAgendamento implements BuilderGenerico<Agendamento> {
 
     @Override
     public Agendamento build() {
-        return new Agendamento(0, dataPrevista, paciente, medico, 
+        /*HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        Paciente selecionado = (Paciente) sess.getAttribute("paciente");*/
+        
+        System.out.println(pacienteSelecionado);
+        
+        return new Agendamento(0, dataPrevista, pacienteSelecionado, medico, 
                 periodoInicial, false);
     }
-    
     
 }

@@ -43,7 +43,7 @@ public class ControllerMedico {
     //@ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado = new Horario(); 
 
-    public List getMedicosRegistrados() {
+    public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
     }
 

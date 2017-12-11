@@ -29,11 +29,11 @@ public class MedicosConverter implements Converter {
                     getExternalContext().getApplicationMap().
                     get("medicoService");
             //System.out.println(value);
-            for (Medico medicosCadastrado : service.getMedicosCadastrados()) {
+            /*for (Medico medicosCadastrado : service.getMedicosCadastrados()) {
                 if(medicosCadastrado.getId() == Integer.parseInt(value)){
                     return medicosCadastrado;
                 }
-            }
+            }*/
         }
 
         return null;
