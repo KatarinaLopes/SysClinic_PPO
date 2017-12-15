@@ -98,7 +98,7 @@ public class HibernateUtil {
 
         t.begin();
 
-        s.save(o);
+        s.persist(o);
 
         t.commit();
 
@@ -135,6 +135,9 @@ public class HibernateUtil {
             return null;
         }
     }*/
+    
+    
+    
     public List recover(String hql) throws IndexOutOfBoundsException {
         //s.close();
         
@@ -211,6 +214,7 @@ public class HibernateUtil {
         
         //s.close();
     }
+    
 
     /*public void exportSchema() {
         SchemaExport se = new SchemaExport(new Configuration().configure("hibernate.cfg.xml"));

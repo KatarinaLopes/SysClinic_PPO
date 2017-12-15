@@ -14,6 +14,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class ControllerAgenda implements ControllerGenerico<Agenda, Integer> {
 
-    private DaoGenerico agendas = new DaoAgenda();
+    private DaoAgenda agendas = new DaoAgenda();
 
     @ManagedProperty("#{agendamento}")
     private Agendamento agendamento = new Agendamento();
@@ -96,17 +97,10 @@ public class ControllerAgenda implements ControllerGenerico<Agenda, Integer> {
         return jsonDias;
     }
 
-    public String incluirAgendamento(int idPaciente, int id) {
-
-        List<Agenda> agendasRecuperadas = recuperarTodos();
-                
-        for (Agenda agendasRecuperada : agendasRecuperadas) {
-            if(agendasRecuperada.getMedico().getId() == id){
-                
-            }
-        }
+    public String incluirAgendamento(int idPaciente) {
         
-        return null;
+        
+        return "agendamentos_hoje.xhtml";
     }
 
 }

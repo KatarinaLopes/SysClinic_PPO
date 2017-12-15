@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
@@ -40,6 +41,8 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     
     private int limiteDeAgendamentos;
 
+    private Agenda ag;
+    
     public int getId() {
         return id;
     }
@@ -139,7 +142,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     @Override
     public Medico build() {
         return new Medico(id, matricula, dataAdmissao, nome, sexo, email, 
-                telefone, conselho, especialidade, horarios);
+                telefone, conselho, especialidade, horarios,ag);
     }
    
 }

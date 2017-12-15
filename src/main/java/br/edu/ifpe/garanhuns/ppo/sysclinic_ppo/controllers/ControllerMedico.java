@@ -8,8 +8,10 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import java.util.ArrayList;
 import java.util.Date;
@@ -129,4 +131,18 @@ public class ControllerMedico {
          atualizar(medico);
     }*/
     
+    public String salvarAgendamento(int idMedico){
+       
+        Medico m = recuperar(idMedico);
+        
+        Paciente p = new DaoPaciente().recuperar(1);
+        
+        Agendamento a = new Agendamento(0, new Date(), p, m, new Date(), true);
+        
+        m.getAgenda().adicionarAgendamento(a);
+       
+        atualizar(m);
+        
+        return "agendamentos_hoje.xhtml";
+    }
 }

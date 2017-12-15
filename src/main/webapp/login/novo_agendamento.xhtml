@@ -21,50 +21,17 @@
             Hello from Facelets
             <p:panelGrid columns="3">
                 <h:outputText value="Paciente"/>
-                <p:inputText id="paciente" 
-                             value="#{paciente}">
+                <p:inputText id="id" 
+                             value="#{paciente}"/>
                             
-                </p:inputText>
                 <p:commandButton value="Selecionar" 
                                  oncomplete="PF('wid-dial-paciente').show()"/>
-                
-                <h:outputText value="Médico"/>
-                <p:inputText id="medico" 
-                             value="#{matricula}">
-                </p:inputText>
             </p:panelGrid>
 
             <p:commandButton value="Incluir" 
-                             action="#{controllerAgenda.
-                                       incluirAgendamento(id_paciente, 
-                                       matricula)}" 
+                             action="#{controllerMedico.
+                                       salvarAgendamento(paciente)}" 
                              update=":form-agendamento-consultas"/>
-
-
-            <p:dialog closable="true" draggable="true" dynamic="true" 
-                      header="Selecionar pacientes" id="dial-pacientes" 
-                      modal="true" resizable="true" responsive="true" 
-                visible="false" widgetVar="wid-dial-paciente">
-                <h:form id="form-dial-paciente">
-                    <p:dataTable id="table-dial-pacientes" paginator="true"
-                                 value="#{controllerPaciente.
-                                          pacientesCadastrados}" 
-                                 var="paciente">
-                        <p:column headerText="CPF">
-                            <h:outputText value="#{paciente.cpf}"/>
-                        </p:column>
-                        <p:column headerText="Nome">
-                            <h:outputText value="#{paciente.nome}"/>
-                        </p:column>
-                        <p:column headerText="Data de nascimento">
-                            <h:outputText value="#{paciente.dataNascimento}"/>
-                        </p:column>
-                        <p:column>
-                            <p:commandButton value="Selecionar"/> 
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-            </p:dialog>
 
         </h:form>
 

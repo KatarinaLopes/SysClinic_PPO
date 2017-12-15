@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,14 +25,9 @@ import javax.persistence.OneToOne;
  *
  * @author Katarina
  */
-@Entity
+@Embeddable
 public class Agenda implements Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    private Medico medico;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Agendamento> agendamentos = new ArrayList<>();
@@ -40,28 +36,6 @@ public class Agenda implements Serializable{
     public Agenda() {
     }
 
-    public Agenda(int id, Medico medico) {
-        this.id = id;
-        this.medico = medico;
-        //this.agendamentos = agendamentos;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Medico getMedico() {
-        return medico;
-    }
-
-    public void setMedico(Medico medico) {
-        this.medico = medico;
-    }
-    
     public List<Agendamento> getAgendamentos() {
         return agendamentos;
     }
@@ -69,8 +43,10 @@ public class Agenda implements Serializable{
     public void setAgendamentos(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
+
     
-    public boolean verificarSeDataEPossivel(Date data) {
+    
+    /*public boolean verificarSeDataEPossivel(Date data) {
 
         Calendar calendar = new GregorianCalendar();
 
@@ -165,7 +141,7 @@ public class Agenda implements Serializable{
         }
 
         return horariosDisponiveis;
-    }*/
+    }
     
     public Horario retornarHorario(int dia){
         for (Horario horario : medico.getHorarios()) {
@@ -177,7 +153,7 @@ public class Agenda implements Serializable{
         }
         
         return null;
-    }
+    }*/
     
     public void adicionarAgendamento(Agendamento a){
         

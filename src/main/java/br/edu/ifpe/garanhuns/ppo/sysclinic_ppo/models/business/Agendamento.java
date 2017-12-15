@@ -30,10 +30,10 @@ public class Agendamento implements Serializable{
     @Temporal(TemporalType.DATE)
     private Date dataPrevista;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "paciente_id", nullable = false)
+    //@JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "medico_id", nullable = false)
+    //@JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
     
     @Temporal(TemporalType.TIME)
