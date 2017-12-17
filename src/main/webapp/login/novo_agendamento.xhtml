@@ -25,12 +25,15 @@
                              value="#{paciente}"/>
                             
                 <p:commandButton value="Selecionar" 
-                                 oncomplete="PF('wid-dial-paciente').show()"/>
+                                 oncomplete="PF('wid-dial-paciente').show()"/> 
+                
+                <h:outputText value="Médico"/>
+                <p:inputText id="idMedico" value="#{idMedico}"/>
             </p:panelGrid>
 
             <p:commandButton value="Incluir" 
                              action="#{controllerMedico.
-                                       salvarAgendamento(paciente)}" 
+                                       salvarAgendamento(paciente, idMedico)}" 
                              update=":form-agendamento-consultas"/>
 
         </h:form>

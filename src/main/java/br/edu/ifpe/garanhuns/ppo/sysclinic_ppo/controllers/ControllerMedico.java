@@ -13,6 +13,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncion
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.component.calendar.Calendar;
 
 /**
@@ -131,18 +133,32 @@ public class ControllerMedico {
          atualizar(medico);
     }*/
     
-    public String salvarAgendamento(int idMedico){
+    
+    public Medico procurarMedico(int id){
+        for (Medico medicosRegistrado : medicosRegistrados) {
+            if(medicosRegistrado.getId() == id){
+                return medicosRegistrado;
+            }
+        }
+        
+        return null;
+    }
+    
+    public String salvarAgendamento(int idPaciente, int idMedico){
        
-        Medico m = recuperar(idMedico);
+        Medico m = procurarMedico(idMedico);
         
-        Paciente p = new DaoPaciente().recuperar(1);
+        System.out.println(m);
         
-        Agendamento a = new Agendamento(0, new Date(), p, m, new Date(), true);
+        Paciente p = new ControllerPaciente().procurarPaciente(idPaciente);
         
-        m.getAgenda().adicionarAgendamento(a);
-       
+        System.out.println(p);
+        
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, new Date(), p, 
+                m, new Date(), true));
+        
         atualizar(m);
         
-        return "agendamentos_hoje.xhtml";
+        return "home_admin.xhtml";
     }
 }

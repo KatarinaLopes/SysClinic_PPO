@@ -35,7 +35,7 @@ import org.hibernate.exception.ConstraintViolationException;
  *
  * @author Katarina
  */
-@ManagedBean
+@ManagedBean(name="controllerPaciente", eager = true)
 @SessionScoped
 public class ControllerPaciente implements ControllerGenerico<Paciente, Integer> {
 
@@ -218,6 +218,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             
         }
         
+        
                   
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                                     "Paciente não cadastrado ou CPF "
@@ -225,4 +226,16 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
     }
     
+    public Paciente procurarPaciente(int id){
+        recuperarTodos();
+        
+        for (Paciente pacientesCadastrado : pacientesCadastrados) {
+            if(pacientesCadastrado.getId() == id){
+                return pacientesCadastrado;
+            }
+            
+        }
+        
+        return null;
+    }
 }
