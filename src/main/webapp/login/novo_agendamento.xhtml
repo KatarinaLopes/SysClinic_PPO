@@ -35,7 +35,8 @@
                     <p:ajax event="blur" 
                             listener="#{controllerMedico.
                                         retornarDiasLivres(idMedico)}"
-                            update=":form-agendamento-consultas:horarios"/>
+                            update=":form-agendamento-consultas:horarios
+                            :form-agendamento-consultas:dataPrevista"/>
                 </p:inputText>
                 <p:commandButton value="Selecionar" oncomplete=""/>
                 <p:message for="idMedico"/>
@@ -43,19 +44,35 @@
                 <h:outputText value="Data prevista"/>
                 <p:calendar beforeShowDay="pegarDatasLivres" id="dataPrevista" 
                             mindate="today"
-                            readonlyInput="true" required="true"
+                            readonlyInput="true" required="false"
                             requiredMessage="Campo obrigatório"
-                            value="#{dataPrevista}"/>
+                            value="#{dataPrevista}">
+                    <p:ajax event="dateSelect" 
+                            listener="#{controllerMedico.carregarHorariosLivres
+                                        (dataPrevista, idMedico)}"
+                            update=":form-agendamento-consultas:periodos"/> 
+                </p:calendar>
                 <p:message for="dataPrevista"/>
                 <h:outputText/>
                 
+                <h:outputText value="Horário de início"/>
+                <p:selectOneMenu converter="horariosConverter" filter="true" 
+                                 filterMatchMode="contains" id="periodos" 
+                                 value="#{periodoSelecionado}">
+                    <f:selectItem itemLabel="Selecione..." 
+                                  itemDisabled="true"/>
+                    <f:selectItems value="#{controllerMedico.horariosLivres}"
+                                   var="periodo" 
+                                   itemLabel="#{periodo.horarioInicial}" 
+                                   itemValue="#{periodo}"/>
+                </p:selectOneMenu>
                 
             </p:panelGrid>
             
             <p:commandButton value="Incluir" 
                              action="#{controllerMedico.
                                        salvarAgendamento(idPaciente, idMedico, 
-                                       dataPrevista)}" 
+                                       dataPrevista, periodoSelecionado)}" 
                              update=":form-agendamento-consultas"/>
             <h:outputText id="horarios" 
                            value="#{controllerMedico.diasDisponiveis}"/>

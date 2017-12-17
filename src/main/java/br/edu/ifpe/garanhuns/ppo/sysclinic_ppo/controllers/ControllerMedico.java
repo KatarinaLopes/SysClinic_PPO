@@ -53,10 +53,13 @@ public class ControllerMedico {
     
     private String diasDisponiveis;
 
+    //@ManagedProperty("#{horariosLivres}")
+    private List<Horario> horariosLivres = new ArrayList();
+    
     public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
     }
-
+    
     public void setMedicosRegistrados(List medicosRegistrados) {
         this.medicosRegistrados = medicosRegistrados;
     }
@@ -92,6 +95,15 @@ public class ControllerMedico {
     public void setDiasDisponiveis(String diasDisponiveis) {
         this.diasDisponiveis = diasDisponiveis;
     }
+
+    public List<Horario> getHorariosLivres() {
+        return horariosLivres;
+    }
+
+    public void setHorariosLivres(List<Horario> horariosLivres) {
+        this.horariosLivres = horariosLivres;
+    }
+    
     
     public String cadastrar(Medico c, String conselho, int numero) {
         String numeroString = String.valueOf(numero);
@@ -156,8 +168,8 @@ public class ControllerMedico {
         return null;
     }
     
-    public String salvarAgendamento(int idPaciente, int idMedico, Date data) 
-            throws ParseException{
+    public String salvarAgendamento(int idPaciente, int idMedico, Date data, 
+            Horario periodo) {
        
         Medico m = procurarMedico(idMedico);
         
@@ -170,7 +182,7 @@ public class ControllerMedico {
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         
         m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
-                new Date(), true));
+                periodo.getHorarioInicial(), true));
         
         atualizar(m);
         
@@ -198,5 +210,13 @@ public class ControllerMedico {
         diasDisponiveis = gson.toJson(m.pegarDiasLivres());
         
         System.out.println("4");
+    }
+    
+    public void carregarHorariosLivres(Date data, int idM){
+        Medico m = procurarMedico(1);
+        
+        System.out.println(idM + " d " + data);
+        
+        horariosLivres = m.pegarHorariosLivres(data);
     }
 }
