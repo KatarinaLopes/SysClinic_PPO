@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.primefaces.component.calendar.Calendar;
 
 /**
@@ -182,7 +183,7 @@ public class ControllerMedico {
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         
         m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
-                periodo.getHorarioInicial(), true));
+                periodo.getHorarioInicial(), false));
         
         atualizar(m);
         
@@ -209,13 +210,20 @@ public class ControllerMedico {
         
         diasDisponiveis = gson.toJson(m.pegarDiasLivres());
         
+        HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
+        
+        sess.setAttribute("medicoAgendamento", m);
+        
         System.out.println("4");
     }
     
     public void carregarHorariosLivres(Date data, int idM){
-        Medico m = procurarMedico(1);
+        Medico m = (Medico) ((HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true)).
+                getAttribute("medicoAgendamento");
         
-        System.out.println(idM + " d " + data);
+        System.out.println(m + " d " + data);
         
         horariosLivres = m.pegarHorariosLivres(data);
     }
