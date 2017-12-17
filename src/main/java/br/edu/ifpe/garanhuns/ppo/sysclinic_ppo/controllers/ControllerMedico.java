@@ -15,6 +15,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPacient
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import com.google.gson.Gson;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -153,7 +156,8 @@ public class ControllerMedico {
         return null;
     }
     
-    public String salvarAgendamento(int idPaciente, int idMedico){
+    public String salvarAgendamento(int idPaciente, int idMedico, Date data) 
+            throws ParseException{
        
         Medico m = procurarMedico(idMedico);
         
@@ -161,10 +165,12 @@ public class ControllerMedico {
         
         Paciente p = new ControllerPaciente().procurarPaciente(idPaciente);
         
-        System.out.println(p);
+        //System.out.println(p + " je " + data);
         
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, new Date(), p, 
-                m, new Date(), true));
+        //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
+                new Date(), true));
         
         atualizar(m);
         

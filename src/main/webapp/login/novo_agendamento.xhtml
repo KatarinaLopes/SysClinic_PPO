@@ -44,14 +44,20 @@
                 <p:calendar beforeShowDay="pegarDatasLivres" id="dataPrevista" 
                             mindate="today"
                             readonlyInput="true" required="true"
-                            requiredMessage="Campo obrigatório"/>
+                            requiredMessage="Campo obrigatório"
+                            value="#{dataPrevista}"/>
+                <p:message for="dataPrevista"/>
+                <h:outputText/>
+                
+                
             </p:panelGrid>
             
             <p:commandButton value="Incluir" 
                              action="#{controllerMedico.
-                                       salvarAgendamento(idPaciente, idMedico)}" 
+                                       salvarAgendamento(idPaciente, idMedico, 
+                                       dataPrevista)}" 
                              update=":form-agendamento-consultas"/>
-            <h:outputText id="horarios"
+            <h:outputText id="horarios" 
                            value="#{controllerMedico.diasDisponiveis}"/>
         </h:form>
 
