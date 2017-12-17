@@ -14,6 +14,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,6 +47,8 @@ public class ControllerMedico {
 
     //@ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado = new Horario(); 
+    
+    private String diasDisponiveis;
 
     public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
@@ -78,8 +81,14 @@ public class ControllerMedico {
     public void setHorarioSelecionado(Horario horarioSelecionado) {
         this.horarioSelecionado = horarioSelecionado;
     }
-    
-    
+
+    public String getDiasDisponiveis() {
+        return diasDisponiveis;
+    }
+
+    public void setDiasDisponiveis(String diasDisponiveis) {
+        this.diasDisponiveis = diasDisponiveis;
+    }
     
     public String cadastrar(Medico c, String conselho, int numero) {
         String numeroString = String.valueOf(numero);
@@ -160,5 +169,28 @@ public class ControllerMedico {
         atualizar(m);
         
         return "home_admin.xhtml";
+    }
+    
+    /**
+     * Adiciona ao atributo diasDisponiveis os dias da semana (representados
+     * por números) disponíveis para o médico, como Json, para ser lido pela 
+     * página
+     * @param m
+     * @return 
+     */
+    public void retornarDiasLivres(int idM){
+        System.out.println("1");
+        
+        Medico m = procurarMedico(idM);
+        
+        System.out.println(m);
+        
+        Gson gson = new Gson();
+        
+        System.out.println("3");
+        
+        diasDisponiveis = gson.toJson(m.pegarDiasLivres());
+        
+        System.out.println("4");
     }
 }

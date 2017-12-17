@@ -223,6 +223,9 @@ public class Medico implements Serializable {
 
     }*/
     
+    /**
+     * Retorna o horario correspondente à data
+    */
     public Horario pegarHorario(Date data){
         Calendar c = new GregorianCalendar();
         

@@ -19,25 +19,58 @@
                 <p:poll/>
             </p:messages>
             Hello from Facelets
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="4">
                 <h:outputText value="Paciente"/>
-                <p:inputText id="id" 
-                             value="#{paciente}"/>
-                            
+                <p:inputText id="paciente" 
+                             value="#{idPaciente}" required="true"
+                             requiredMessage="Campo obrigatório"/>
+                
                 <p:commandButton value="Selecionar" 
                                  oncomplete="PF('wid-dial-paciente').show()"/> 
+                <p:message for="paciente"/>
                 
                 <h:outputText value="Médico"/>
-                <p:inputText id="idMedico" value="#{idMedico}"/>
+                <p:inputText id="idMedico" value="#{idMedico}" required="true"
+                             requiredMessage="Campo obrigatório">
+                    <p:ajax event="blur" 
+                            listener="#{controllerMedico.
+                                        retornarDiasLivres(idMedico)}"
+                            update=":form-agendamento-consultas:horarios"/>
+                </p:inputText>
+                <p:commandButton value="Selecionar" oncomplete=""/>
+                <p:message for="idMedico"/>
+                
+                <h:outputText value="Data prevista"/>
+                <p:calendar beforeShowDay="pegarDatasLivres" id="dataPrevista" 
+                            mindate="today"
+                            readonlyInput="true" required="true"
+                            requiredMessage="Campo obrigatório"/>
             </p:panelGrid>
-
+            
             <p:commandButton value="Incluir" 
                              action="#{controllerMedico.
-                                       salvarAgendamento(paciente, idMedico)}" 
+                                       salvarAgendamento(idPaciente, idMedico)}" 
                              update=":form-agendamento-consultas"/>
-
+            <h:outputText id="horarios"
+                           value="#{controllerMedico.diasDisponiveis}"/>
         </h:form>
 
+        <script>
+            
+            
+            function pegarDatasLivres(dia){
+                var diaDaSemana = dia.getDay();
+                var arrayComparacao = JSON.parse(document.
+                    getElementById("form-agendamento-consultas:horarios").
+                    textContent);
+            
+                if($.inArray(diaDaSemana, arrayComparacao) !== -1){
+                    return [true, ''];
+                }
+                
+                return [false, ''];
+            }
+        </script>
     </h:body>                           
 </html>
 
