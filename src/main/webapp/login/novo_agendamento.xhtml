@@ -33,7 +33,7 @@
                 <p:commandButton value="Selecionar" 
                                  oncomplete="PF('wid-dial-paciente').show()"
                                  rendered="#{controllerPaciente.
-                                             pacienteLogado == null}"/> 
+                                             pacienteLogado == null}"/>                 
                 <p:message for="paciente" 
                            rendered="#{controllerPaciente.
                                        pacienteLogado == null}"/>
@@ -51,7 +51,8 @@
                 <p:message for="idMedico"/>
                 
                 <h:outputText value="Data prevista"/>
-                <p:calendar beforeShowDay="pegarDatasLivres" id="dataPrevista" 
+                <p:calendar beforeShowDay="pegarDatasLivres" 
+                            id="dataPrevista" 
                             mindate="today"
                             readonlyInput="true" required="false"
                             requiredMessage="Campo obrigatório"

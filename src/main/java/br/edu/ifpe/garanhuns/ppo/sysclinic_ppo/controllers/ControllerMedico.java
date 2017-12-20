@@ -90,7 +90,11 @@ public class ControllerMedico {
     }
 
     public String getDiasDisponiveis() {
-        return diasDisponiveis;
+        String dias = diasDisponiveis;
+        
+        diasDisponiveis = null;
+        
+        return dias;
     }
 
     public void setDiasDisponiveis(String diasDisponiveis) {
