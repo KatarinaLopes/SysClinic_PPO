@@ -190,6 +190,20 @@ public class ControllerMedico {
         return "home_admin.xhtml";
     }
     
+    public String salvarAgendamento(int idMedico, Date data, Horario periodo){
+        
+        Medico m = procurarMedico(idMedico);
+        
+        Paciente p = (Paciente) ((HttpSession) FacesContext.
+                getCurrentInstance().
+                getExternalContext().getSession(true)).getAttribute("pacienteLogado");
+        
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
+                periodo.getHorarioInicial(), false));
+        
+        return "home_paciente.xhtml";
+    }
+    
     /**
      * Adiciona ao atributo diasDisponiveis os dias da semana (representados
      * por números) disponíveis para o médico, como Json, para ser lido pela 

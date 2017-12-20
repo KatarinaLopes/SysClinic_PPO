@@ -18,16 +18,25 @@
             <p:messages>
                 <p:poll/>
             </p:messages>
+                       
             Hello from Facelets
             <p:panelGrid columns="4">
-                <h:outputText value="Paciente"/>
+                <h:outputText value="Paciente" 
+                              rendered="#{controllerPaciente.
+                                          pacienteLogado == null}"/>
                 <p:inputText id="paciente" 
+                             rendered="#{controllerPaciente.
+                                         pacienteLogado == null}" 
                              value="#{idPaciente}" required="true"
                              requiredMessage="Campo obrigatório"/>
                 
                 <p:commandButton value="Selecionar" 
-                                 oncomplete="PF('wid-dial-paciente').show()"/> 
-                <p:message for="paciente"/>
+                                 oncomplete="PF('wid-dial-paciente').show()"
+                                 rendered="#{controllerPaciente.
+                                             pacienteLogado == null}"/> 
+                <p:message for="paciente" 
+                           rendered="#{controllerPaciente.
+                                       pacienteLogado == null}"/>
                 
                 <h:outputText value="Médico"/>
                 <p:inputText id="idMedico" value="#{idMedico}" required="true"
@@ -72,8 +81,18 @@
             <p:commandButton value="Incluir" 
                              action="#{controllerMedico.
                                        salvarAgendamento(idPaciente, idMedico, 
-                                       dataPrevista, periodoSelecionado)}" 
+                                       dataPrevista, periodoSelecionado)}"
+                             rendered="#{controllerPaciente.
+                                         pacienteLogado == null}"
                              update=":form-agendamento-consultas"/>
+            <p:commandButton value="Incluir"
+                             action="#{controllerMedico.
+                                       salvarAgendamento(idMedico, data, 
+                                       periodo)}"
+                             rendered="#{controllerPaciente.
+                                         pacienteLogado != null}"
+                             update=":form-agendamento-consultas"/>
+            
             <h:outputText id="horarios" 
                            value="#{controllerMedico.diasDisponiveis}"/>
         </h:form>
@@ -93,6 +112,9 @@
                 
                 return [false, ''];
             }
+            
+            
+            function 
         </script>
     </h:body>                           
 </html>
