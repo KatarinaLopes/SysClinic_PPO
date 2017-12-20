@@ -41,7 +41,7 @@
                 <h:outputText value="Médico"/>
                 <p:inputText id="idMedico" value="#{idMedico}" required="true"
                              requiredMessage="Campo obrigatório">
-                    <p:ajax event="blur" 
+                    <p:ajax event="change" 
                             listener="#{controllerMedico.
                                         retornarDiasLivres(idMedico)}"
                             update=":form-agendamento-consultas:horarios
@@ -87,8 +87,8 @@
                              update=":form-agendamento-consultas"/>
             <p:commandButton value="Incluir"
                              action="#{controllerMedico.
-                                       salvarAgendamento(idMedico, data, 
-                                       periodo)}"
+                                       salvarAgendamento(idMedico, dataPrevista, 
+                                       periodoSelecionado)}"
                              rendered="#{controllerPaciente.
                                          pacienteLogado != null}"
                              update=":form-agendamento-consultas"/>
@@ -113,8 +113,6 @@
                 return [false, ''];
             }
             
-            
-            function 
         </script>
     </h:body>                           
 </html>

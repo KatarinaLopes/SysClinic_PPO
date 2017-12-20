@@ -200,6 +200,8 @@ public class ControllerMedico {
         
         m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
                 periodo.getHorarioInicial(), false));
+         
+        atualizar(m);
         
         return "home_paciente.xhtml";
     }
