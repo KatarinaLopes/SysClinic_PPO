@@ -57,6 +57,8 @@ public class ControllerMedico {
     //@ManagedProperty("#{horariosLivres}")
     private List<Horario> horariosLivres = new ArrayList();
     
+    private List<Agendamento> agendamentosConcluidos = new ArrayList<>();
+    
     public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
     }
@@ -108,6 +110,14 @@ public class ControllerMedico {
     public void setHorariosLivres(List<Horario> horariosLivres) {
         this.horariosLivres = horariosLivres;
     }
+
+    public List<Agendamento> getAgendamentosConcluidos() {
+        return agendamentosConcluidos;
+    }
+
+    public void setAgendamentosConcluidos(List<Agendamento> agendamentosConcluidos) {
+        this.agendamentosConcluidos = agendamentosConcluidos;
+    }  
     
     
     public String cadastrar(Medico c, String conselho, int numero) {
@@ -142,6 +152,7 @@ public class ControllerMedico {
     @PostConstruct
     public void recuperarTodos(){
         medicosRegistrados = daoMedico.recuperarTodos();
+        agendamentosConcluidos = retornarAgendamentosConcluidos();
     }
     
     public void salvarHorario(int dia, Date inicio, Date fim, int limite){
@@ -246,5 +257,16 @@ public class ControllerMedico {
         System.out.println(m + " d " + data);
         
         horariosLivres = m.pegarHorariosLivres(data);
+    }
+    
+    public List<Agendamento> retornarAgendamentosConcluidos(){
+        List<Agendamento> agendamentosConcluidos = new ArrayList<>();
+        
+        for (Medico medicosRegistrado : medicosRegistrados) {
+            agendamentosConcluidos.addAll(medicosRegistrado.getAgenda().
+                    retornarAgendamentosConcluidos());
+        }
+        
+        return agendamentosConcluidos;
     }
 }

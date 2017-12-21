@@ -147,7 +147,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             Funcionario func = (Funcionario) funcionarios.
                     recuperarPorAtributo("matricula", String.valueOf(login));
 
-            if (func.getSenha().equals(criptografarSenha(senha))) {
+            if (func.getSenha().equals((senha))) {
                 funcionarioLogado = func;
 
                 HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().

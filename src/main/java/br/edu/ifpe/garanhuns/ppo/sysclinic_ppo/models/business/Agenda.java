@@ -159,5 +159,16 @@ public class Agenda implements Serializable{
         
         agendamentos.add(a);
     }
-    
+  
+    public List<Agendamento> retornarAgendamentosConcluidos(){
+        List<Agendamento> agendamentosConcluidos = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(agendamento.isRealizada() == true){
+                agendamentosConcluidos.add(agendamento);
+            }
+        }
+        
+        return agendamentosConcluidos;
+    }
 }
