@@ -37,32 +37,34 @@ import org.primefaces.component.calendar.Calendar;
 @ManagedBean
 @SessionScoped
 public class ControllerMedico {
-    
+
     private final DaoGenerico daoMedico = new DaoMedico();
-    
+
     @ManagedProperty("#{medicosRegistrados}")
     private List<Medico> medicosRegistrados;
-    
+
     @ManagedProperty("#{medicosRegistrados}")
     private Medico medicoSelecionado;
-    
+
     //@ManagedProperty("#{horarios}")
     private List<Horario> horarios = new ArrayList();
 
     //@ManagedProperty("#{horarioSelecionado}")
-    private Horario horarioSelecionado = new Horario(); 
-    
+    private Horario horarioSelecionado = new Horario();
+
     private String diasDisponiveis;
 
     //@ManagedProperty("#{horariosLivres}")
     private List<Horario> horariosLivres = new ArrayList();
-    
+
     private List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-    
+
+    private Agendamento agendamentoSelecionado = new Agendamento();
+
     public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
     }
-    
+
     public void setMedicosRegistrados(List medicosRegistrados) {
         this.medicosRegistrados = medicosRegistrados;
     }
@@ -74,7 +76,7 @@ public class ControllerMedico {
     public void setMedicoSelecionado(Medico medicoSelecionado) {
         this.medicoSelecionado = medicoSelecionado;
     }
-    
+
     public List<Horario> getHorarios() {
         return horarios;
     }
@@ -93,9 +95,9 @@ public class ControllerMedico {
 
     public String getDiasDisponiveis() {
         String dias = diasDisponiveis;
-        
+
         diasDisponiveis = null;
-        
+
         return dias;
     }
 
@@ -112,59 +114,65 @@ public class ControllerMedico {
     }
 
     public List<Agendamento> getAgendamentosConcluidos() {
+        //agendamentosConcluidos = retornarAgendamentosConcluidos();
+        
         return agendamentosConcluidos;
     }
 
     public void setAgendamentosConcluidos(List<Agendamento> agendamentosConcluidos) {
         this.agendamentosConcluidos = agendamentosConcluidos;
-    }  
-    
-    
+    }
+
+    public Agendamento getAgendamentoSelecionado() {
+        return agendamentoSelecionado;
+    }
+
+    public void setAgendamentoSelecionado(Agendamento agendamentoSelecionado) {
+        this.agendamentoSelecionado = agendamentoSelecionado;
+    }
+
     public String cadastrar(Medico c, String conselho, int numero) {
         String numeroString = String.valueOf(numero);
-        
+
         String conselhoMedico = conselho + " " + numeroString;
-        
-        
+
         System.out.println(conselhoMedico);
-        
+
         c.setConselho(conselhoMedico);
-        
+
         daoMedico.persistir(c);
-        
+
         return "apresentar_medicos.xhtml";
     }
-    
-    
+
     public Medico recuperar(Integer i) {
         return (Medico) daoMedico.recuperar(i);
     }
 
-    
     public void atualizar(Medico c) {
         daoMedico.atualizar(c);
     }
-    
-    public void deletar(Medico c){
+
+    public void deletar(Medico c) {
         daoMedico.deletar(c);
     }
-    
+
     @PostConstruct
-    public void recuperarTodos(){
+    public void recuperarTodos() {
         medicosRegistrados = daoMedico.recuperarTodos();
-        agendamentosConcluidos = retornarAgendamentosConcluidos();
+        //agendamentosConcluidos = retornarAgendamentosConcluidos();
     }
-    
-    public void salvarHorario(int dia, Date inicio, Date fim, int limite){
+
+    public void salvarHorario(int dia, Date inicio, Date fim, int limite) {
         horarios.add(new Horario(dia, inicio, fim, limite));
     }
-    
-    public void excluirHorario(Horario h){
+
+    public void excluirHorario(Horario h) {
         System.out.println("antes");
         horarios.remove(h);
         System.out.println("depois");
     }
-    
+
     /*public void salvarAgendamento(Agendamento a){
          Medico medico = a.getMedico();
          
@@ -172,101 +180,114 @@ public class ControllerMedico {
          
          atualizar(medico);
     }*/
-    
-    
-    public Medico procurarMedico(int id){
+    public Medico procurarMedico(int id) {
         for (Medico medicosRegistrado : medicosRegistrados) {
-            if(medicosRegistrado.getId() == id){
+            if (medicosRegistrado.getId() == id) {
                 return medicosRegistrado;
             }
         }
-        
+
         return null;
     }
-    
-    public String salvarAgendamento(int idPaciente, int idMedico, Date data, 
+
+    public String salvarAgendamento(int idPaciente, int idMedico, Date data,
             Horario periodo) {
-       
+
         Medico m = procurarMedico(idMedico);
-        
+
         System.out.println(m);
-        
+
         Paciente p = new ControllerPaciente().procurarPaciente(idPaciente);
-        
+
         //System.out.println(p + " je " + data);
-        
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m,
                 periodo.getHorarioInicial(), false));
-        
+
         atualizar(m);
-        
+
         return "home_admin.xhtml";
     }
-    
-    public String salvarAgendamento(int idMedico, Date data, Horario periodo){
-        
+
+    public String salvarAgendamento(int idMedico, Date data, Horario periodo) {
+
         Medico m = procurarMedico(idMedico);
-        
+
         Paciente p = (Paciente) ((HttpSession) FacesContext.
                 getCurrentInstance().
                 getExternalContext().getSession(true)).getAttribute("pacienteLogado");
-        
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m, 
+
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m,
                 periodo.getHorarioInicial(), false));
-         
+
         atualizar(m);
-        
+
         return "home_paciente.xhtml";
     }
-    
+
     /**
-     * Adiciona ao atributo diasDisponiveis os dias da semana (representados
-     * por números) disponíveis para o médico, como Json, para ser lido pela 
-     * página
+     * Adiciona ao atributo diasDisponiveis os dias da semana (representados por
+     * números) disponíveis para o médico, como Json, para ser lido pela página
+     *
      * @param m
-     * @return 
+     * @return
      */
-    public void retornarDiasLivres(int idM){
+    public void retornarDiasLivres(int idM) {
         System.out.println("1");
-        
+
         Medico m = procurarMedico(idM);
-        
+
         System.out.println(m);
-        
+
         Gson gson = new Gson();
-        
+
         System.out.println("3");
-        
+
         diasDisponiveis = gson.toJson(m.pegarDiasLivres());
-        
+
         HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
-        
+
         sess.setAttribute("medicoAgendamento", m);
-        
+
         System.out.println("4");
     }
-    
-    public void carregarHorariosLivres(Date data, int idM){
+
+    public void carregarHorariosLivres(Date data, int idM) {
         Medico m = (Medico) ((HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true)).
                 getAttribute("medicoAgendamento");
-        
+
         System.out.println(m + " d " + data);
-        
+
         horariosLivres = m.pegarHorariosLivres(data);
     }
-    
-    public List<Agendamento> retornarAgendamentosConcluidos(){
-        List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-        
-        for (Medico medicosRegistrado : medicosRegistrados) {
-            agendamentosConcluidos.addAll(medicosRegistrado.getAgenda().
-                    retornarAgendamentosConcluidos());
+
+    public List<Agendamento> retornarAgendamentosConcluidos() {
+
+        Paciente p = (Paciente) ((HttpSession) FacesContext.
+                getCurrentInstance().
+                getExternalContext().getSession(true)).
+                getAttribute("pacienteLogado");
+
+        List<Agendamento> agendamentosConclidos = new ArrayList<>();
+
+        if (p != null) {
+            for (Medico medicosRegistrado : medicosRegistrados) {
+                agendamentosConclidos.addAll(medicosRegistrado.
+                        getAgenda().
+                        retornarAgendamentosConcluidosPacientes(p));
+            }
+
+        } else {
+
+            for (Medico medicosRegistrado : medicosRegistrados) {
+                agendamentosConclidos.addAll(medicosRegistrado.getAgenda().
+                        retornarAgendamentosConcluidos());
+            }
         }
         
-        return agendamentosConcluidos;
+        return agendamentosConclidos;
+
     }
 }
