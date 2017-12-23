@@ -37,7 +37,8 @@
                     <h:outputText value="#{agendamento.dataPrevista}"/>
                 </p:column>
                 <p:column headerText="Operações">
-                    <p:commandButton value="Visualizar" oncomplete=""
+                    <p:commandButton value="Visualizar" 
+                                     oncomplete="PF('wid-dial-').show()"
                                      update=
                                      "form-visualizar-agentamentos-concluidos">
                         <f:setPropertyActionListener 
@@ -47,6 +48,57 @@
                 </p:column>
             </p:dataTable>                        
         </h:form>
-    </h:body>
+        
+        <p:dialog closable="false" dynamic="true" id="dial-t" visible="false"
+            widgetVar="wid-dial-">
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Id"/>
+                    <h:outputText value="#{controllerMedico.
+                                          agendamentoSelecionado.id}"/>
+                    <h:outputText rendered="#{controllerFuncionario.funcionarioLogado != null}"
+                                  value="Nome do paciente"/>
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado != null}"
+                                  value="#{controllerMedico.
+                                          agendamentoSelecionado.paciente.
+                                          nome}"/>
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado != null}"
+                                  value="Número de registro do paciente"/>
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado != null}" 
+                                  value="#{controllerMedico.
+                                          agendamentoSelecionado.paciente.
+                                          id}"/>
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado!= null}"
+                                  value="CPF do paciente"/>
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado != null}"
+                                  value="#{controllerMedico.
+                                          agendamentoSelecionado.paciente.
+                                          cpf}"/>
+                    <h:outputText value="Nome do médico"/>
+                    <h:outputText value="#{controllerMedico.
+                                          agendamentoSelecionado.medico.
+                                          nome}"/>
+                    <h:outputText value="Conselho"/>
+                    <h:outputText value="#{controllerMedico.
+                                          agendamentoSelecionado.medico.
+                                          conselho}"/>
+                    <h:outputText value="Data de realização"/>
+                    <h:outputText value="#{controllerMedico.
+                                          agendamentoSelecionado.
+                                          dataPrevista}"/>
+                    <h:outputText value="Horário de início"/>
+                    <h:outputText value="#{controllerMedico.
+                                           agendamentoSelecionado.periodo}"/>
+            </p:panelGrid>
+                <p:commandButton value="Fechar" 
+                                 oncomplete="PF(1wid-dial-).hide()"/>
+            </h:form>
+        </p:dialog>
+    </h:body>   
 </html>
 
