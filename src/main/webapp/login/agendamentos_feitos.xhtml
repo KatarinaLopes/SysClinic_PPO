@@ -38,7 +38,7 @@
                 </p:column>
                 <p:column headerText="Operações">
                     <p:commandButton value="Visualizar" 
-                                     oncomplete="PF('wid-dial-').show()"
+                                     oncomplete="PF('wid-dial-feitos').show()"
                                      update=
                                      "form-visualizar-agentamentos-concluidos">
                         <f:setPropertyActionListener 
@@ -49,8 +49,9 @@
             </p:dataTable>                        
         </h:form>
         
-        <p:dialog closable="false" dynamic="true" id="dial-t" visible="false"
-            widgetVar="wid-dial-">
+        <p:dialog closable="true" dynamic="true" id="dial-feitos" modal="true"
+                  visible="false"
+            widgetVar="wid-dial-feitos">
             <h:form id="form">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>
@@ -96,7 +97,7 @@
                                            agendamentoSelecionado.periodo}"/>
             </p:panelGrid>
                 <p:commandButton value="Fechar" 
-                                 oncomplete="PF(1wid-dial-).hide()"/>
+                                 oncomplete="PF(1wid-dial-feitos).hide()"/>
             </h:form>
         </p:dialog>
     </h:body>   
