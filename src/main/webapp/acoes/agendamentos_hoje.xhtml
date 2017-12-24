@@ -24,7 +24,7 @@
                 </p:column>
                 <p:column headerText="Paciente" 
                           rendered="#{controllerPaciente.
-                                      pacienteLogado != null}">
+                                      pacienteLogado == null}">
                     <h:outputText value="#{agendamento.paciente.nome} - 
                                   #{agendamento.paciente.cpf}"/>
                 </p:column>
