@@ -14,8 +14,11 @@
             <h1>Agendamentos para hoje</h1>
         
         <h:link value="Voltar à página principal" outcome="home_paciente.xhtml"/>
-
-        <p:dataTable id="tabela_pendentes" paginator="true" 
+            
+            <h:link value="Fazer novo agendamento" 
+                    outcome="novo_agendamento.xhtml"/>
+            
+            <p:dataTable id="tabela_pendentes" paginator="true" 
                          value="#{controllerMedico.
                                   retornarAgendamentosPendentes()}"
                          var="agendamento">
