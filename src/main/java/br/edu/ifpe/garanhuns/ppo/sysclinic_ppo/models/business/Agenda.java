@@ -186,4 +186,30 @@ public class Agenda implements Serializable {
         
         return pacientesAgendados;
     }
+
+    public List<Agendamento> retornarAgendamentosPendentesPacientes(
+            Paciente p){
+        List<Agendamento> agendamentosPendentes = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(!agendamento.isRealizada() && agendamento.getPaciente().
+                    getId() == p.getId()){
+                agendamentosPendentes.add(agendamento);
+            }
+        }
+        
+        return agendamentosPendentes;
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(){
+        List<Agendamento> agendamentosPendentes = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(!agendamento.isRealizada()){
+                agendamentosPendentes.add(agendamento);
+            }
+        }
+        
+        return agendamentosPendentes;
+    }
 }

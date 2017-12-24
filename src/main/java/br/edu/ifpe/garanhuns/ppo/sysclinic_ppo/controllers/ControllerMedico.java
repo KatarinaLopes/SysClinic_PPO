@@ -188,4 +188,27 @@ public class ControllerMedico implements Serializable{
         atualizar(medico);
         
     }
+    
+    /*public List<Agendamento> retornarAgendamentosPendentes(){
+        Paciente p = (Paciente) ((HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true)).
+                getAttribute("pacienteLogado");
+        
+        List<Agendamento> agendamentosPendentes = new ArrayList<>();
+        
+        if(p != null){
+            for (Medico medicosRegistrado : medicosRegistrados) {
+                agendamentosPendentes.addAll(medicosRegistrado.getAgenda().
+                        retornarAgendamentosPendentesPacientes(p));
+            }
+        }else{
+            for (Medico medicosRegistrado : medicosRegistrados) {
+                agendamentosPendentes.addAll(medicosRegistrado.getAgenda().
+                        retornarAgendamentosPendentes());
+            }
+        }
+        
+        return agendamentosPendentes;
+    }*/
+    
 }
