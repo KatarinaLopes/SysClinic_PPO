@@ -26,9 +26,8 @@ import javax.persistence.OneToOne;
  * @author Katarina
  */
 @Embeddable
-public class Agenda implements Serializable{
-    
-    
+public class Agenda implements Serializable {
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Agendamento> agendamentos = new ArrayList<>();
 
@@ -44,8 +43,6 @@ public class Agenda implements Serializable{
         this.agendamentos = agendamentos;
     }
 
-    
-    
     /*public boolean verificarSeDataEPossivel(Date data) {
 
         Calendar calendar = new GregorianCalendar();
@@ -154,35 +151,58 @@ public class Agenda implements Serializable{
         
         return null;
     }*/
-    
-    public void adicionarAgendamento(Agendamento a){
-        
+    public void adicionarAgendamento(Agendamento a) {
+
         agendamentos.add(a);
     }
-  
-    public List<Agendamento> retornarAgendamentosConcluidos(){
+
+    public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.isRealizada() == true){
+            if (agendamento.isRealizada() == true) {
                 agendamentosConcluidos.add(agendamento);
             }
         }
-        
+
         return agendamentosConcluidos;
     }
-    
-    public List<Agendamento> retornarAgendamentosConcluidosPacientes
-        (Paciente p){
+
+    public List<Agendamento> retornarAgendamentosConcluidosPacientes(Paciente p) {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.isRealizada() && 
-                    agendamento.getPaciente().getId() == p.getId()){
+            if (agendamento.isRealizada()
+                    && agendamento.getPaciente().getId() == p.getId()) {
                 agendamentosConcluidos.add(agendamento);
             }
         }
-        
+
         return agendamentosConcluidos;
+    }
+
+    public List<Agendamento> retornarAgendamentosPendentesPacientes(Paciente p){
+        List<Agendamento> agendamentosPendentes = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(!agendamento.isRealizada() && agendamento.getPaciente().
+                    getId() == p.getId()){
+                agendamentosPendentes.add(agendamento);
+            }
+        }
+        
+        return agendamentosPendentes;
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(){
+        List<Agendamento> agendamentosPendentes = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(!agendamento.isRealizada()){
+                agendamentosPendentes.add(agendamento);
+            }
+        }
+        
+        return agendamentosPendentes;
     }
 }
