@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
@@ -60,6 +61,10 @@ public class DaoMedico implements DaoGenerico<Medico, Integer> {
     @Override
     public void deletar(Medico c) {
         HibernateUtil.getInstance().delete(c);
+    }
+    
+    public void deletarAgendamento(Agendamento a){
+        HibernateUtil.getInstance().delete(a);
     }
 
     @Override

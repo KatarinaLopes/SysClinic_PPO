@@ -173,6 +173,8 @@ public class HibernateUtil {
 
         //s.close();
         //getSession().close();
+        
+        System.out.println("a");
     }
 
     /*public void update(Object o) {

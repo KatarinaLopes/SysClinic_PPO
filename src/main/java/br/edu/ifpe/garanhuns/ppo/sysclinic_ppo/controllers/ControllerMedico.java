@@ -42,6 +42,8 @@ public class ControllerMedico implements Serializable{
 
     private List<Horario> horariosLivres;
 
+    private List<Agendamento> agendamentosPendentes = new ArrayList<>();
+
     private Agendamento agendamentoSelecionado;
     
     private final MedicoManager medicoManager;
@@ -92,7 +94,17 @@ public class ControllerMedico implements Serializable{
     public void setHorariosLivres(List<Horario> horariosLivres) {
         this.horariosLivres = horariosLivres;
     }
-  
+
+    public List<Agendamento> getAgendamentosPendentes() {
+        //agendamentosConcluidos = retornarAgendamentosConcluidos();
+        
+        return agendamentosPendentes;
+    }
+
+    public void setAgendamentosPendentes(List<Agendamento> agendamentosConcluidos) {
+        this.agendamentosPendentes = agendamentosConcluidos;
+    }
+
     public Agendamento getAgendamentoSelecionado() {
         return agendamentoSelecionado;
     }
@@ -145,7 +157,7 @@ public class ControllerMedico implements Serializable{
         medicoManager.deletar(c);
     }
 
-    public List<Medico> recuperarTodos() {
+        public List<Medico> recuperarTodos() {
         return medicoManager.recuperarTodos();
    }
 
@@ -210,5 +222,18 @@ public class ControllerMedico implements Serializable{
         
         return agendamentosPendentes;
     }*/
+    
+    public void excluirAgendamento(Agendamento a){
+        
+        System.out.println("sjdhb " + a);
+        
+        Medico m = recuperar(1);
+        
+        m.getAgenda().getAgendamentos().remove(a);
+        
+        System.err.println("whg");
+        
+        atualizar(m);
+    }
     
 }
