@@ -20,7 +20,8 @@
                     outcome="novo_agendamento.xhtml"/>
             
             <p:dataTable id="tabela_pendentes" paginator="true" 
-                         value="#{controllerMedico.agendamentosPendentes}"
+                         value="#{controllerMedico.
+                                  retornarAgendamentosPendentes()}"
                          var="agendamento">
                 <p:column headerText="Id">
                     <h:outputText value="#{agendamento.id}"/>
@@ -39,11 +40,16 @@
                     <h:outputText value="#{agendamento.dataPrevista}"/>
                 </p:column>
                 <p:column headerText="Operações">
-                    <p:commandButton value="Alterar"/>
+                    <p:commandButton value="Alterar" 
+                                 oncomplete="PF('wid-dial-atualizar').show()">
+                        <f:setPropertyActionListener
+                            target="#{controllerMedico.agendamentoSelecionado}"
+                            value="#{agendamento}"/>
+                    </p:commandButton>
                     <p:commandButton value="Excluir" 
                                   oncomplete="PF('wid-dial-excluir').show()"
                                      update=
-                                     "form-visualizar-agendamentos-pendentes">
+                                     ":form-visualizar-agendamentos-pendentes">
                         <f:setPropertyActionListener 
                             target="#{controllerMedico.agendamentoSelecionado}"
                             value="#{agendamento}"/>
@@ -55,13 +61,41 @@
                              visible="false" widgetVar="wid-dial-excluir">
                 <p:commandButton 
                     value="Sim" 
-                                 action="#{controllerMedico.
-                                           excluirAgendamento(controllerMedico.
-                                           agendamentoSelecionado)}"
-                           oncomplete="PF('wid-dial-excluir').hide()"/>
-                
+                   action="#{controllerMedico.
+                              excluirAgendamento(controllerMedico.
+                              agendamentoSelecionado)}"
+                    oncomplete="PF('wid-dial-excluir').hide()"
+                    update="@all"/>
+
                 <p:commandButton value="Não"
-                           oncomplete="PF('wid-dial-excluir').hide()"/>
+                                 oncomplete="PF('wid-dial-excluir').hide()"/>
+            </p:dialog>
+
+            <p:dialog header="Atualizar informações do agendamento" 
+                      modal="true" visible="false" 
+                      widgetVar="wid-dial-atualizar">
+                <h:form id="form-atualizar">
+                    <p:panelGrid columns="4">
+                        <h:outputText 
+                            rendered="#{controllerPaciente.
+                                        pacienteLogado == null}"
+                            value="Paciente"/>
+                        <p:inputText 
+                            id='idPaciente'
+                            rendered="#{controllerPaciente.
+                                        pacienteLogado == null}"
+                            value="#{idPaciente}"/>
+                        <p:commandButton 
+                            rendered="#{controllerPaciente.
+                                        pacienteLogado == null}"
+                            value="Selecionar"/>
+                        <p:message for="idPaciente"/>
+                        
+                        <h:outputText value="Médico"/>
+                        <p:inputText id='idMedico' value="#{medico}"/>
+                    </p:panelGrid>
+                    
+                </h:form>
             </p:dialog>
         </h:form>
     </h:body>

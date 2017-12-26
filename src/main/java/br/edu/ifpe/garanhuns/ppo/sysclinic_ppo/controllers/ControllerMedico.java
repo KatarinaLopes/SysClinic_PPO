@@ -154,10 +154,11 @@ public class ControllerMedico implements Serializable{
     }
 
     public void deletar(Medico c) {
+
         medicoManager.deletar(c);
     }
 
-        public List<Medico> recuperarTodos() {
+      public List<Medico> recuperarTodos() {
         return medicoManager.recuperarTodos();
    }
 
