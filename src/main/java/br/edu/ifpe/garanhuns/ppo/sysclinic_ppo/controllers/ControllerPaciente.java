@@ -162,7 +162,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
                 //s.setMaxInactiveInterval(30000);
                 s.setAttribute("pacienteLogado", pacienteLogado);
 
-                return "home_paciente.xhtml";
+                
+                
+                return "/restricted/home_paciente.xhtml";
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -183,7 +185,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
         pacienteLogado = null;
 
-        return "login_paciente.xhtml";
+        return "../login_paciente.xhtml";
     }
     
     /*public String incluirAgendamento(){
