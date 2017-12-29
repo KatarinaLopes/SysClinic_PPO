@@ -164,7 +164,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
                 
                 
-                return "/restricted/home_paciente.xhtml";
+                return "home_paciente.xhtml";
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -179,13 +179,14 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     public String fazerLogout() {
-        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
+                getExternalContext().getSession(true);
 
         s.removeAttribute("pacienteLogado");
 
         pacienteLogado = null;
 
-        return "../login_paciente.xhtml";
+        return "login_paciente.xhtml";
     }
     
     /*public String incluirAgendamento(){

@@ -31,6 +31,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/login_paciente.xhtml</welcome-file>
+        <welcome-file>faces/restricted/login_paciente.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

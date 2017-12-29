@@ -120,13 +120,17 @@ public class LoginFilter implements Filter {
                         getContextPath();
                 
                 ((HttpServletResponse) response).
-                     sendRedirect(contextPath + "/login/login_paciente.xhtml");
+                     sendRedirect(contextPath + "login_paciente.xhtml");
             
             }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then
             // rethrow the problem after that.
+            
+            response.getOutputStream().print("Você não está autorizado a "
+                    + "acessar esta página!");
+            
             problem = t;
             t.printStackTrace();
         }
