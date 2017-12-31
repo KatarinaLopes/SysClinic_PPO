@@ -16,6 +16,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/restricted/*</url-pattern>
     </filter-mapping>
+    <listener>
+        <description>ServletContextListener, HttpSessionListener</description>
+        <listener-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.sessionutil.NewServletListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -23,7 +27,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -31,6 +35,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/restricted/login_paciente.xhtml</welcome-file>
+        <welcome-file>login_paciente.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

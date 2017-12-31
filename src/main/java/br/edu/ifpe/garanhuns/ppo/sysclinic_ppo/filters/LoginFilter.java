@@ -5,10 +5,13 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Enumeration;
 import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,6 +19,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,10 +28,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
+@WebFilter
 public class LoginFilter implements Filter {
     
     private static final boolean debug = true;
 
+    private int processing;
+    
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -45,23 +52,19 @@ public class LoginFilter implements Filter {
         // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-        /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-         */
+        // such as the parameters
+     
+        String patual = ((HttpServletRequest) request).getRequestURL().
+                substring(0);
+        
+        if(patual.contains("home_paciente.xhtml")){
+            processing = 0;
+        }else if(patual.contains("login_paciente.xhtml")){
+            processing = 1;
+        }else{
+            processing = -1;
+        }
+ 
     }    
     
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
@@ -83,10 +86,10 @@ public class LoginFilter implements Filter {
 	}
          */
         // For example, a filter might append something to the response.
-        /*
+        
 	PrintWriter respOut = new PrintWriter(response.getWriter());
 	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
+         
     }
 
     /**
@@ -110,19 +113,37 @@ public class LoginFilter implements Filter {
         
         Throwable problem = null;
         
+        //Paciente logado = ((HttpServletRequest) request).getSession().
+        //      getAttribute("pacienteLogado");
+        
         try {
-            if(((HttpSession) FacesContext.getCurrentInstance().
-                    getExternalContext().getSession(true)).
-                    getAttribute("pacienteLogado") != null){
-                chain.doFilter(request, response);
-            }else{
-                String contextPath = ((HttpServletRequest) request).
-                        getContextPath();
-                
-                ((HttpServletResponse) response).
-                     sendRedirect(contextPath + "login_paciente.xhtml");
+            HttpSession sess = ((HttpServletRequest) request).getSession(true);
             
+            Paciente logado = (Paciente) sess.getAttribute("pacienteLogado");
+            
+            switch(processing){
+                case 0:
+                    if(logado != null){
+                        chain.doFilter(request, response);
+                    }else{
+                        
+                        ((HttpServletResponse) response).
+                                sendRedirect("../login_paciente.xhtml");
+                    }
+                    break;
+                case 1:
+                    if(logado == null){
+                        chain.doFilter(request, response);
+                    }else{
+                        String path = ((HttpServletRequest) request).
+                                getContextPath();
+                        
+                        ((HttpServletResponse) response).
+                              sendRedirect("/restricted/home_paciente.xhtml");
+                    }
             }
+            
+            
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then
@@ -244,6 +265,10 @@ public class LoginFilter implements Filter {
     
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);        
+    }
+    
+    public boolean isReadyToLogin(Paciente p){
+        return p != null;
     }
     
 }

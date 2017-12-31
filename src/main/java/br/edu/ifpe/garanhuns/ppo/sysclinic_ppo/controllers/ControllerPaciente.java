@@ -164,7 +164,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
                 
                 
-                return "home_paciente.xhtml";
+                return "restricted/home_paciente.xhtml";
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -185,6 +185,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         s.removeAttribute("pacienteLogado");
 
         pacienteLogado = null;
+        
+        String p = FacesContext.getCurrentInstance().getExternalContext().
+                getRealPath("");
 
         return "login_paciente.xhtml";
     }
