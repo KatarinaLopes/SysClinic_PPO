@@ -150,6 +150,15 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         //pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }
 
+    /**
+     * Procura um paciente com o login especificado e compara a senha, se este
+     * existir. Se for bem sucedida, inclui na sessão. Senão, retorna uma 
+     * mensagem de erro via FacesContext
+     * @param login
+     * @param senha
+     * @return Página principal se for bem sucedida.
+     * @return null se não for
+     */
     public String fazerLogin(String login, String senha) {
         Paciente p = null;
 
@@ -167,7 +176,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
                 
                 
-                return "/restricted/pacientes/home_paciente.xhtml?faces-redirect=true";
+                return "/pacientes/home_paciente.xhtml?faces-redirect=true";
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -181,21 +190,18 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return null;
     }
 
+    /**
+     * Retira o paciente logado da sessão
+     * @return página de login
+     */
     public String fazerLogout() {
-        System.out.println("1");
         
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
-
-        System.out.println("2");
         
         s.removeAttribute("pacienteLogado");
-
-        System.out.println("3");
         
         pacienteLogado = null;
-        
-        System.out.println("4");
         
         return "/login_paciente.xhtml?faces-redirect=true";
     }

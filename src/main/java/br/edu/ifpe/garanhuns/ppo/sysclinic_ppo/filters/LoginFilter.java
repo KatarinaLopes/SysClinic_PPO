@@ -110,6 +110,7 @@ public class LoginFilter implements Filter {
         //doBeforeProcessing(request, response);
 
         Throwable problem = null;
+        String path = ((HttpServletRequest) request).getContextPath();
 
         //Paciente logado = ((HttpServletRequest) request).getSession().
         //      getAttribute("pacienteLogado");
@@ -118,16 +119,13 @@ public class LoginFilter implements Filter {
 
             Paciente logado = (Paciente) sess.getAttribute("pacienteLogado");
 
-            if (logado != null) {
+            if (logado != null && ((HttpServletRequest) request).
+                    getRequestURI().endsWith("login_paciente.xhtml")) {
                 chain.doFilter(request, response);
-            } else {
-
-                String path = ((HttpServletRequest) request).getContextPath();
+            } else {               
 
                 ((HttpServletResponse) response).
                       sendRedirect(path + "/login_paciente.xhtml");
-                //((HttpServletResponse) response).getOutputStream().
-                  //      print(path);
             }
 
         } catch (Throwable t) {
@@ -135,8 +133,7 @@ public class LoginFilter implements Filter {
             // we still want to execute our after processing, and then
             // rethrow the problem after that.
 
-            response.getOutputStream().print("Você não está autorizado a "
-                    + "acessar esta página!");
+            response.getOutputStream().print("Ocorreu um erro!");
 
             problem = t;
             t.printStackTrace();

@@ -14,7 +14,7 @@
     </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern>/restricted/pacientes/*</url-pattern>
+        <url-pattern>/pacientes/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <listener>
