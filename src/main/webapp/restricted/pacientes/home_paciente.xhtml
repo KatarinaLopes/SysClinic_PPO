@@ -10,13 +10,13 @@
     </h:head>
     <h:body>
 
-        <h:form id="form-principal-paciente">
+        <h:form id="form-principal">
 
             Olá, sr(a). <h:outputText value="#{controllerPaciente.pacienteLogado.nome}"/>!
 
             <p:commandButton value="Sair" 
                              action="#{controllerPaciente.fazerLogout()}"
-                             update=":form-principal-paciente"/>
+                             ajax="false" update="form-principal"/>
             
             <br/>
             <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/><br/>

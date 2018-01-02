@@ -18,9 +18,12 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import com.google.gson.Gson;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -164,7 +167,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
                 
                 
-                return "restricted/home_paciente.xhtml";
+                return "/restricted/pacientes/home_paciente.xhtml?faces-redirect=true";
             }
 
         } catch (IndexOutOfBoundsException e) {
@@ -179,17 +182,22 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     public String fazerLogout() {
+        System.out.println("1");
+        
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
 
+        System.out.println("2");
+        
         s.removeAttribute("pacienteLogado");
 
+        System.out.println("3");
+        
         pacienteLogado = null;
         
-        String p = FacesContext.getCurrentInstance().getExternalContext().
-                getRealPath("");
-
-        return "login_paciente.xhtml";
+        System.out.println("4");
+        
+        return "/login_paciente.xhtml?faces-redirect=true";
     }
     
     /*public String incluirAgendamento(){

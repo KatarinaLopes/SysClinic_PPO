@@ -43,10 +43,9 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ppo_schema?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ppo_schema_test?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">1234</property>
-    
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente"/>
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento"/>
     <mapping class="br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario"/>
