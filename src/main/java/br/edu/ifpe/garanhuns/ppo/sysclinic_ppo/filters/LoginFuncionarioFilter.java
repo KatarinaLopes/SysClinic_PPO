@@ -120,12 +120,17 @@ public class LoginFuncionarioFilter implements Filter {
             Funcionario logado = (Funcionario) sess.
                     getAttribute("funcionarioLogado");
 
-            if (logado != null) {
+            if (logado != null && !logado.isAdministrador()) {
 
                 chain.doFilter(request, response);
             } else {
                 String path = ((HttpServletRequest) request).getContextPath();
-
+                
+                if(logado != null){
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + 
+                                    "/administrador/home_admin.xhtml");
+                }
                 ((HttpServletResponse) response).
                         sendRedirect(path + "/login_intranet.xhtml");
             }
