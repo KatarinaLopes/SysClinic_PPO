@@ -108,23 +108,33 @@ public class LoginPacienteFilter implements Filter {
         }
 
         //doBeforeProcessing(request, response);
-
         Throwable problem = null;
         String path = ((HttpServletRequest) request).getContextPath();
 
+        HttpSession sess = ((HttpServletRequest) request).getSession(true);
         //Paciente logado = ((HttpServletRequest) request).getSession().
         //      getAttribute("pacienteLogado");
         try {
-            HttpSession sess = ((HttpServletRequest) request).getSession(true);
 
             Paciente logado = (Paciente) sess.getAttribute("pacienteLogado");
 
             if (logado != null) {
                 chain.doFilter(request, response);
-            } else {               
+            } else {
 
-                ((HttpServletResponse) response).
-                      sendRedirect(path + "/login_paciente.xhtml");
+                boolean existeFuncionarioLogado = sess.
+                        getAttribute("funcionarioLogado") != null;
+
+                if (existeFuncionarioLogado) {
+
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + 
+                                    "/funcionarios/home_funcionario.xhtml");
+                } else {
+
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + "/login_paciente.xhtml");
+                }
             }
 
         } catch (Throwable t) {
