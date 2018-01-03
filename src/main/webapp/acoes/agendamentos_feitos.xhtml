@@ -18,7 +18,8 @@
                 rendered="#{controllerFuncionario.funcionarioLogado != null}" 
                     value="Voltar à página principal"
                     outcome="/funcionarios/home_funcionario.xhtml"/>
-            <h:link value="Fazer novo agendamento" outcome="novo_agendamento.xhtml"/>
+            <h:link value="Fazer novo agendamento" 
+                    outcome="novo_agendamento.xhtml"/>
             <p:dataTable id="tabela_concluidos" paginator="true" 
                          
                          value="#{controllerMedico.
