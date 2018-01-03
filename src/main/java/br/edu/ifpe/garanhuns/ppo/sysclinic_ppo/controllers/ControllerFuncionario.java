@@ -173,7 +173,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     private String alternarLogin(Funcionario f) {
         if (f.isAdministrador()) {
-            return "/funcionarios/home_admin.xhtml?faces-redirect=true";
+            return "/administrador/home_admin.xhtml?faces-redirect=true";
         }
 
         return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
