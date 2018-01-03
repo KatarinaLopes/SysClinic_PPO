@@ -8,23 +8,14 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <c:if test="${controllerFuncionario.funcionarioLogado == null}">
-            <script>
-                location.href = "login_intranet.xhtml";
-            </script>
-        </c:if>
-        <c:if test="${!controllerFuncionario.funcionarioLogado.administrador}">
-            <script>
-                location.href = "home_funcionario.xhtml";
-            </script>
-        </c:if>
         
         Bem vindo(a), <h:outputText value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
 
-        <h:form id="administradorPrincipalForm">
+        <h:form id="form-principal-administrador">
 
-            <p:commandButton value="Logout" action="#{controllerFuncionario.logout()}"
-                             update=":administradorPrincipalForm"/>
+            <p:commandButton value="Logout" 
+                             action="#{controllerFuncionario.logout()}"
+                             update="form-principal-administrador"/>
 
             <br/><br/>
 

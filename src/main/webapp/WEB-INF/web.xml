@@ -9,12 +9,21 @@
         <param-value>client</param-value>
     </context-param>
     <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters.LoginFilter</filter-class>
+        <filter-name>LoginPacienteFilter</filter-name>
+        <filter-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters.LoginPacienteFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
+        <filter-name>LoginPacienteFilter</filter-name>
         <url-pattern>/pacientes/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter>
+        <filter-name>LoginFuncionarioFilter</filter-name>
+        <filter-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters.LoginFuncionarioFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFuncionarioFilter</filter-name>
+        <url-pattern>/funcionarios/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <listener>

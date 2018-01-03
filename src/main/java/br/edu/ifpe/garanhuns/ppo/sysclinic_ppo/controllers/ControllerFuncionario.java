@@ -173,10 +173,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     private String alternarLogin(Funcionario f) {
         if (f.isAdministrador()) {
-            return "home_admin.xhtml";
+            return "/funcionarios/home_admin.xhtml?faces-redirect=true";
         }
 
-        return "home_funcionario.xhtml";
+        return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
     }
 
     public String logout() {
@@ -187,6 +187,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
         ses.removeAttribute("funcionarioLogado");
 
-        return "login_intranet.xhtml";
+        return "/login_intranet.xhtml?faces-redirect=true";
     }
 }

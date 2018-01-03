@@ -6,13 +6,11 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Enumeration;
-import javax.faces.context.FacesContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -28,48 +26,53 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
-@WebFilter
-public class LoginFilter implements Filter {
+@WebFilter(filterName = "LoginFuncionarioFilter", 
+        urlPatterns = {"/funcionarios/*"}, 
+        dispatcherTypes = {DispatcherType.REQUEST})
+public class LoginFuncionarioFilter implements Filter {
 
     private static final boolean debug = true;
-
-    private int processing;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
 
-    public LoginFilter() {
+    public LoginFuncionarioFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("LoginFilter:DoBeforeProcessing");
+            log("LoginFuncionarioFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.
         // For example, a logging filter might log items on the request object,
-        // such as the parameters
-        String patual = ((HttpServletRequest) request).getRequestURL().
-                substring(0);
-
-        if (patual.contains("home_paciente.xhtml")) {
-            processing = 0;
-        } else if (patual.contains("login_paciente.xhtml")) {
-            processing = 1;
-        } else {
-            processing = -1;
-        }
-
+        // such as the parameters.
+        /*
+	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
+	    String name = (String)en.nextElement();
+	    String values[] = request.getParameterValues(name);
+	    int n = values.length;
+	    StringBuffer buf = new StringBuffer();
+	    buf.append(name);
+	    buf.append("=");
+	    for(int i=0; i < n; i++) {
+	        buf.append(values[i]);
+	        if (i < n-1)
+	            buf.append(",");
+	    }
+	    log(buf.toString());
+	}
+         */
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("LoginFilter:DoAfterProcessing");
+            log("LoginFuncionarioFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -85,9 +88,10 @@ public class LoginFilter implements Filter {
 	}
          */
         // For example, a filter might append something to the response.
-        PrintWriter respOut = new PrintWriter(response.getWriter());
-        respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-
+        /*
+	PrintWriter respOut = new PrintWriter(response.getWriter());
+	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
+         */
     }
 
     /**
@@ -104,37 +108,31 @@ public class LoginFilter implements Filter {
             throws IOException, ServletException {
 
         if (debug) {
-            log("LoginFilter:doFilter()");
+            log("LoginFuncionarioFilter:doFilter()");
         }
 
-        //doBeforeProcessing(request, response);
+        doBeforeProcessing(request, response);
 
         Throwable problem = null;
-        String path = ((HttpServletRequest) request).getContextPath();
-
-        //Paciente logado = ((HttpServletRequest) request).getSession().
-        //      getAttribute("pacienteLogado");
         try {
             HttpSession sess = ((HttpServletRequest) request).getSession(true);
 
-            Paciente logado = (Paciente) sess.getAttribute("pacienteLogado");
+            Funcionario logado = (Funcionario) sess.
+                    getAttribute("funcionarioLogado");
 
-            if (logado != null && ((HttpServletRequest) request).
-                    getRequestURI().endsWith("login_paciente.xhtml")) {
+            if (logado != null) {
+
                 chain.doFilter(request, response);
-            } else {               
+            } else {
+                String path = ((HttpServletRequest) request).getContextPath();
 
                 ((HttpServletResponse) response).
-                      sendRedirect(path + "/login_paciente.xhtml");
+                        sendRedirect(path + "/login_intranet.xhtml");
             }
-
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then
             // rethrow the problem after that.
-
-            response.getOutputStream().print("Ocorreu um erro!");
-
             problem = t;
             t.printStackTrace();
         }
@@ -183,7 +181,7 @@ public class LoginFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("LoginFilter:Initializing filter");
+                log("LoginFuncionarioFilter:Initializing filter");
             }
         }
     }
@@ -194,9 +192,9 @@ public class LoginFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("LoginFilter()");
+            return ("LoginFuncionarioFilter()");
         }
-        StringBuffer sb = new StringBuffer("LoginFilter(");
+        StringBuffer sb = new StringBuffer("LoginFuncionarioFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
@@ -248,10 +246,6 @@ public class LoginFilter implements Filter {
 
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);
-    }
-
-    public boolean isReadyToLogin(Paciente p) {
-        return p != null;
     }
 
 }
