@@ -119,8 +119,7 @@ public class LoginPacienteFilter implements Filter {
 
             Paciente logado = (Paciente) sess.getAttribute("pacienteLogado");
 
-            if (logado != null && !((HttpServletRequest) request).
-                    getRequestURI().endsWith("login_paciente.xhtml")) {
+            if (logado != null) {
                 chain.doFilter(request, response);
             } else {               
 
