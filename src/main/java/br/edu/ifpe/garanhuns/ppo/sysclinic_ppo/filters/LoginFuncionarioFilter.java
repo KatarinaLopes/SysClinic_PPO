@@ -112,11 +112,10 @@ public class LoginFuncionarioFilter implements Filter {
         }
 
         doBeforeProcessing(request, response);
-
+        HttpSession sess = ((HttpServletRequest) request).getSession(true);
         Throwable problem = null;
         try {
-            HttpSession sess = ((HttpServletRequest) request).getSession(true);
-
+            
             Funcionario logado = (Funcionario) sess.
                     getAttribute("funcionarioLogado");
 
@@ -125,6 +124,15 @@ public class LoginFuncionarioFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
                 String path = ((HttpServletRequest) request).getContextPath();
+                
+                boolean existePacienteLogado = 
+                        sess.getAttribute("pacienteLogado") != null;
+                
+                if(existePacienteLogado){
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + 
+                                    "/pacientes/home_paciente.xhtml");
+                }
                 
                 if(logado != null){
                     ((HttpServletResponse) response).
