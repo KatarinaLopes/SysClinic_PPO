@@ -119,7 +119,10 @@ public class LoginFuncionarioFilter implements Filter {
             Funcionario logado = (Funcionario) sess.
                     getAttribute("funcionarioLogado");
 
-            if (logado != null && !logado.isAdministrador()) {
+            if (logado != null && 
+                    (!logado.isAdministrador() || 
+                    ((HttpServletRequest) request).getRequestURI().
+                            endsWith("apresentar_medicos.xhtml"))) {
 
                 chain.doFilter(request, response);
             } else {
