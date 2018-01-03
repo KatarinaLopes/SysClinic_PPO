@@ -8,7 +8,12 @@
     <h:body>
         Hello from Facelets
         
-        <h:link value="Voltar à página principal" outcome="home_paciente.xhtml"/>
+        <h:link rendered="#{controllerPaciente.pacienteLogado != null}"
+                value="Voltar à página principal" 
+                outcome="/pacientes/home_paciente.xhtml"/>
+        <h:link rendered="#{controllerFuncionario.funcionarioLogado != null}"
+                value="Voltar à página principal"
+                outcome="/funcionarios/home_funcionario.xhtml"/>
     </h:body>
 </html>
 
