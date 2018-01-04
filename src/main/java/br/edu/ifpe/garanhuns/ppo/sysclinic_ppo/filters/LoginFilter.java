@@ -5,11 +5,13 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -25,7 +27,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = {"/login/*"})
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/login/*"},
+        dispatcherTypes = DispatcherType.REQUEST)
 public class LoginFilter implements Filter {
     
     private static final boolean debug = true;
@@ -108,7 +111,7 @@ public class LoginFilter implements Filter {
             log("LoginFilter:doFilter()");
         }
         
-        doBeforeProcessing(request, response);
+        //doBeforeProcessing(request, response);
         
         Throwable problem = null;
         
@@ -119,14 +122,23 @@ public class LoginFilter implements Filter {
             Paciente pacienteLogado = (Paciente) session.
                     getAttribute("pacienteLogado");
             
-            if(pacienteLogado == null){
+            Funcionario funcionarioLogado = (Funcionario) session.
+                    getAttribute("funcionarioLogado");
+            
+            if(funcionarioLogado == null){
             
                 chain.doFilter(request, response);
             }else{
                 String path = ((HttpServletRequest) request).getContextPath();
                 
+                if(pacienteLogado != null){
                 ((HttpServletResponse) response).sendRedirect(path + 
                         "/pacientes/home_paciente.xhtml");
+                }else if(funcionarioLogado != null){
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + 
+                                    "/funcionarios/home_funcionario.xhtml");
+                }
             }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
