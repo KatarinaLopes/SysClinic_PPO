@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -26,24 +25,23 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
-@WebFilter(filterName = "RaizFilter", urlPatterns = {"/*"}, 
-        dispatcherTypes = DispatcherType.REQUEST)
-public class RaizFilter implements Filter {
-
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/login/*"})
+public class LoginFilter implements Filter {
+    
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-
-    public RaizFilter() {
-    }
-
+    
+    public LoginFilter() {
+    }    
+    
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("RaizFilter:DoBeforeProcessing");
+            log("LoginFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -66,12 +64,12 @@ public class RaizFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }
-
+    }    
+    
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("RaizFilter:DoAfterProcessing");
+            log("LoginFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -105,32 +103,31 @@ public class RaizFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-
-        if (debug) {
-            log("RaizFilter:doFilter()");
-        }
-
-        doBeforeProcessing(request, response);
-
-        Throwable problem = null;
-        try {
-            HttpSession sess = ((HttpServletRequest) request).getSession(true);
-
         
-               chain.doFilter(request, response);
-            //} else {
-              //  String path = ((HttpServletRequest) request).getContextPath();
-                //String uri = null;
+        if (debug) {
+            log("LoginFilter:doFilter()");
+        }
+        
+        doBeforeProcessing(request, response);
+        
+        Throwable problem = null;
+        
+        HttpSession session = ((HttpServletRequest) request).getSession(true);
+        
+        try {
+            
+            Paciente pacienteLogado = (Paciente) session.
+                    getAttribute("pacienteLogado");
+            
+            if(pacienteLogado == null){
+            
+                chain.doFilter(request, response);
+            }else{
+                String path = ((HttpServletRequest) request).getContextPath();
                 
-                /*if(existePacienteLogado != null){
-                    uri = "/pacientes/home_pacientes.xhtml";
-                }else if(existeFuncionarioLogado){
-                    uri = "/funcionarios/home_funcionarios.xhtml";
-                }*/
-                
-                //((HttpServletResponse) response).sendRedirect(path + uri);
-
-            //}
+                ((HttpServletResponse) response).sendRedirect(path + 
+                        "/pacientes/home_paciente.xhtml");
+            }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then
@@ -138,7 +135,7 @@ public class RaizFilter implements Filter {
             problem = t;
             t.printStackTrace();
         }
-
+        
         doAfterProcessing(request, response);
 
         // If there was a problem, we want to rethrow it if it is
@@ -173,17 +170,17 @@ public class RaizFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {
+    public void destroy() {        
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {
+    public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {
-                log("RaizFilter:Initializing filter");
+            if (debug) {                
+                log("LoginFilter:Initializing filter");
             }
         }
     }
@@ -194,27 +191,27 @@ public class RaizFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("RaizFilter()");
+            return ("LoginFilter()");
         }
-        StringBuffer sb = new StringBuffer("RaizFilter(");
+        StringBuffer sb = new StringBuffer("LoginFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
     }
-
+    
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
+        String stackTrace = getStackTrace(t);        
+        
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
+                PrintWriter pw = new PrintWriter(ps);                
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
+                pw.print(stackTrace);                
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -231,7 +228,7 @@ public class RaizFilter implements Filter {
             }
         }
     }
-
+    
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -245,9 +242,9 @@ public class RaizFilter implements Filter {
         }
         return stackTrace;
     }
-
+    
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);
+        filterConfig.getServletContext().log(msg);        
     }
-
+    
 }

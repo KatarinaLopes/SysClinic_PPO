@@ -133,7 +133,7 @@ public class LoginPacienteFilter implements Filter {
                 } else {
 
                     ((HttpServletResponse) response).
-                            sendRedirect(path + "/login_paciente.xhtml");
+                            sendRedirect(path + "/login/login_paciente.xhtml");
                 }
             }
 

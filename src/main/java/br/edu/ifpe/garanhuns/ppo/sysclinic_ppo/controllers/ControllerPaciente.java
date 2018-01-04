@@ -203,7 +203,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         pacienteLogado = null;
         
-        return "/login_paciente.xhtml?faces-redirect=true";
+        return "/login/login_paciente.xhtml?faces-redirect=true";
     }
     
     /*public String incluirAgendamento(){

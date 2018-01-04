@@ -141,7 +141,7 @@ public class LoginAdministradorFilter implements Filter {
                 }
                 
                 ((HttpServletResponse) response).
-                        sendRedirect(path + "/login_intranet.xhtml");
+                        sendRedirect(path + "/login/login_intranet.xhtml");
             }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,

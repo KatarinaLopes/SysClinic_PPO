@@ -187,6 +187,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
         ses.removeAttribute("funcionarioLogado");
 
-        return "/login_intranet.xhtml?faces-redirect=true";
+        return "/login/login_intranet.xhtml?faces-redirect=true";
     }
 }

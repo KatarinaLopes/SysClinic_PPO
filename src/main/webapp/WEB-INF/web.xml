@@ -26,15 +26,6 @@
         <url-pattern>/funcionarios/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-    <filter>
-        <filter-name>RaizFilter</filter-name>
-        <filter-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.filters.RaizFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RaizFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
     <listener>
         <description>ServletContextListener, HttpSessionListener</description>
         <listener-class>br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.sessionutil.NewServletListener</listener-class>
@@ -54,6 +45,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login_paciente.xhtml</welcome-file>
+        <welcome-file>login/login_paciente.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
