@@ -126,6 +126,8 @@ public class AcoesFilter implements Filter {
                     pacienteLogado != null;
             
             if ((pacienteLogado == null && ((HttpServletRequest) request).
+                    getRequestURI().endsWith("cadastro_paciente.xhtml")) || 
+                    (pacienteLogado != null && !((HttpServletRequest) request).
                     getRequestURI().endsWith("cadastro_paciente.xhtml")) ||
                     funcionarioLogado != null) {
 
