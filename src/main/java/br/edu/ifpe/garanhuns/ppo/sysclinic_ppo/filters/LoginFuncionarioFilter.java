@@ -26,8 +26,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
-@WebFilter(filterName = "LoginFuncionarioFilter", 
-        urlPatterns = {"/funcionarios/*"}, 
+@WebFilter(filterName = "LoginFuncionarioFilter",
+        urlPatterns = {"/funcionarios/*"},
         dispatcherTypes = {DispatcherType.REQUEST})
 public class LoginFuncionarioFilter implements Filter {
 
@@ -115,35 +115,34 @@ public class LoginFuncionarioFilter implements Filter {
         HttpSession sess = ((HttpServletRequest) request).getSession(true);
         Throwable problem = null;
         try {
-            
+
             Funcionario logado = (Funcionario) sess.
                     getAttribute("funcionarioLogado");
 
-            if (logado != null && 
-                    (!logado.isAdministrador() || 
-                    ((HttpServletRequest) request).getRequestURI().
+            if (logado != null
+                    && (!logado.isAdministrador()
+                    || ((HttpServletRequest) request).getRequestURI().
                             endsWith("apresentar_medicos.xhtml"))) {
 
                 chain.doFilter(request, response);
             } else {
                 String path = ((HttpServletRequest) request).getContextPath();
-                
-                boolean existePacienteLogado = 
-                        sess.getAttribute("pacienteLogado") != null;
-                
-                if(existePacienteLogado){
+
+                boolean existePacienteLogado
+                        = sess.getAttribute("pacienteLogado") != null;
+
+                if (existePacienteLogado) {
                     ((HttpServletResponse) response).
-                            sendRedirect(path + 
-                                    "/pacientes/home_paciente.xhtml");
-                }
-                
-                if(logado != null){
+                            sendRedirect(path
+                                    + "/pacientes/home_paciente.xhtml");
+                } else if (logado != null) {
                     ((HttpServletResponse) response).
-                            sendRedirect(path + 
-                                    "/administrador/home_admin.xhtml");
+                            sendRedirect(path
+                                    + "/administrador/home_admin.xhtml");
+                } else {
+                    ((HttpServletResponse) response).
+                            sendRedirect(path + "/login/login_intranet.xhtml");
                 }
-                ((HttpServletResponse) response).
-                        sendRedirect(path + "/login/login_intranet.xhtml");
             }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
