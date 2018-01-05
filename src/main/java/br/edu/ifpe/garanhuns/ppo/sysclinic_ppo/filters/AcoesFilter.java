@@ -122,9 +122,12 @@ public class AcoesFilter implements Filter {
             Funcionario funcionarioLogado = (Funcionario) sess.
                     getAttribute("funcionarioLogado");
 
-            if ((funcionarioLogado != null ^ pacienteLogado != null) || 
-                    ((HttpServletRequest) request).getRequestURI().
-                            endsWith("cadastro_paciente.xhtml")) {
+            boolean existeLogado = funcionarioLogado != null || 
+                    pacienteLogado != null;
+            
+            if ((pacienteLogado == null && ((HttpServletRequest) request).
+                    getRequestURI().endsWith("cadastro_paciente.xhtml")) ||
+                    funcionarioLogado != null) {
 
                 chain.doFilter(request, response);
             }else{
