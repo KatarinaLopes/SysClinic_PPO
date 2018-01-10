@@ -10,7 +10,7 @@
     </h:head>
     <h:body>
         
-        <h:form id="apresentarFuncionariosForm">
+        <h:form id="form-apresentar-funcionarios">
             Funcionários cadastrados 
 
             <p:dataTable id="apresentarFuncionarios" var="funcionario" 
@@ -42,37 +42,37 @@
                 <p:column>
 
                     <p:commandButton value="Visualizar" 
-                                     update=":apresentarFuncionariosForm :dialVisualizarFuncionarioForm"
-                                     oncomplete="PF('widVisualizarFuncionario').show()">
+                                     update=":form-apresentar-funcionarios 
+                                     :dial-visualizar-funcionario"
+                                     oncomplete="PF('wid-dial-visualizar-funcionario').show()">
                         <f:setPropertyActionListener value="#{funcionario}" 
                                                      target="#{controllerFuncionario.
                                                     funcionarioSelecionado}"/>
                     </p:commandButton>
 
                     <p:commandButton value="Alterar"
-                                     update=":apresentarFuncionariosForm 
-                                     :alterarFuncionarioDialForm"
-                                     oncomplete="PF('widAlterarFuncionario').show()">
+                                     update=":form-apresentar-funcionarios 
+                                     :dial-form-alterar-funcionario"
+                                     oncomplete="PF('wid-dial-alterar-funcionario').show()">
                         <f:setPropertyActionListener value="#{funcionario}"
                                                      target="#{controllerFuncionario.funcionarioSelecionado}"/>
                     </p:commandButton>
                     
                     <p:commandButton value="Excluir" 
-                                     update=":apresentarFuncionariosForm">
+                                     update=":form-apresentar-funcionarios"
+                                     oncomplete="PF('wid-dial-confirm').show()">
                         <f:setPropertyActionListener value="#{funcionario}"
                                                      target="#{controllerFuncionario.funcionarioSelecionado}"/>
-                        <p:confirm 
-                            message="Deseja realmente excluir este contato?"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
 
         </h:form>
-        <p:dialog id="dialVisualizarFuncionario" 
-                  widgetVar="widVisualizarFuncionario" visible="false"
+        <p:dialog id="dial-visualizar-funcionario" 
+                  widgetVar="wid-dial-visualizar-funcionario" visible="false"
                   modal="true" 
                   header="Visualizar funcionário">
-            <h:form id="dialVisualizarFuncionarioForm">
+            <h:form id="dial-form-visualizar-funcionarios">
                 <p:panelGrid columns="2">
                     <h:outputText value="Matrícula"/>
                     <h:outputText 
@@ -122,8 +122,8 @@
         <p:dialog id="dialAlterarFuncionario" 
                   header="Alterar funcionário"
                   modal="true" visible="false" 
-                  widgetVar="widAlterarFuncionario">
-            <h:form id='alterarFuncionarioDialForm'>
+                  widgetVar="wid-dial-alterar-funcionario">
+            <h:form id='dial-form-alterar-funcionario'>
 
                 <p:panelGrid columns="3">
                     <h:outputText value="Matrícula"/>
@@ -202,24 +202,24 @@
                                            atualizar
                                            (controllerFuncionario.
                                            funcionarioSelecionado)}"
-                                 update=":apresentarFuncionariosForm"
+                                 update=":form-apresentar-funcionarios"
                                  oncomplete="
-                                 PF('widAlterarFuncionario').hide()"/>
+                                 PF('wid-dial-alterar-funcionario').hide()"/>
             </h:form>
 
         </p:dialog>
         
-        <p:confirmDialog global="true" id="confirmDialog" visible="false"
-                         widgetVar="widConfirmDialog">
+        <p:dialog id="confirmDialog" visible="false"
+                         widgetVar="wid-dial-confirm">
             <p:commandButton value="Sim" action="#{controllerFuncionario.
-                                                   deletar(
-                                                   controllerFuncionario.
+                                          deletar(controllerFuncionario.
                                                    funcionarioSelecionado)}"
-                             oncomplete="PF('widConfirmDialog').hide()"/>
+                             oncomplete="PF('wid-dial-confirm').hide()"/>
             <p:commandButton value="Não" 
-                             oncomplete="PF('widConfirmDialog').hide()"/>
+                             oncomplete="PF('wid-dial-confirm').hide()"/>
             
-        </p:confirmDialog>
+        </p:dialog>
+            
     </h:body>
 </html>
 

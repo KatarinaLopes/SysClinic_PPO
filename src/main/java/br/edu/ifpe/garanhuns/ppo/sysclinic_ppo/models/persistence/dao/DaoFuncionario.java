@@ -66,4 +66,22 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
         }
     }
 
+    public boolean podeExcluir(Funcionario f){
+        
+        int qtdeFuncionario = 0;
+        int qtdeAdministrador = 0;
+        
+        List<Funcionario> funcionarios = recuperarTodos();
+        
+        for (Funcionario funcionario : funcionarios) {
+            if(funcionario.isAdministrador()){
+                qtdeAdministrador++;
+            }else{
+                qtdeFuncionario++;
+            }
+        }
+        
+        return f.isAdministrador() ? qtdeAdministrador > 1 : 
+                qtdeFuncionario > 1;
+    }
 }

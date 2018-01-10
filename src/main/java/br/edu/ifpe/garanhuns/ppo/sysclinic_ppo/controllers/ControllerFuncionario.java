@@ -33,7 +33,7 @@ import org.hibernate.exception.ConstraintViolationException;
 @SessionScoped
 public class ControllerFuncionario implements ControllerGenerico<Funcionario, Integer> {
 
-    private DaoGenerico funcionarios = new DaoFuncionario();
+    private DaoFuncionario funcionarios = new DaoFuncionario();
 
     @ManagedProperty(value = "#{funcionarioLogado}")
     private Funcionario funcionarioLogado;
@@ -102,12 +102,12 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             return null;
         }
 
-        try {
+        /*try {
             String s = criptografarSenha(senha);
             c.setSenha(s);
         } catch (NullPointerException ex) {
             return null;
-        }
+        }*/
 
         try {
 
@@ -133,8 +133,19 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         funcionarios.atualizar(c);
     }
 
+    /**
+     * Exclui um funcionário do banco de dados
+     * @param f representando funcionário a ser excluído
+     */
     public void deletar(Funcionario f) {
-        funcionarios.deletar(f);
+        
+        if (funcionarios.podeExcluir(f)) {
+            funcionarios.deletar(f);
+        } else {
+            System.err.println("else");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Impossível excluir funcionário"));
+        }
     }
 
     @PostConstruct
@@ -188,5 +199,23 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         ses.removeAttribute("funcionarioLogado");
 
         return "/login/login_intranet.xhtml?faces-redirect=true";
+    }
+
+    public boolean podeExcluirFuncionario(Funcionario f) {
+        int qtdeFuncionario = 0;
+        int qtdeAdministrador = 0;
+
+        System.out.println(f);
+        
+        for (Funcionario funcionariosRegistrado : funcionariosRegistrados) {
+            if (funcionariosRegistrado.isAdministrador()) {
+                qtdeAdministrador++;
+            } else {
+                qtdeFuncionario++;
+            }
+        }
+
+        return f.isAdministrador() ? qtdeAdministrador > 1
+                : qtdeFuncionario > 1;
     }
 }
