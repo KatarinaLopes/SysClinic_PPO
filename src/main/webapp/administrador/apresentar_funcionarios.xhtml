@@ -14,7 +14,7 @@
             Funcionários cadastrados 
 
             <p:dataTable id="apresentarFuncionarios" var="funcionario" 
-                         value="#{controllerFuncionario.funcionariosRegistrados}" 
+                         value="#{controllerFuncionario.recuperarTodos()}" 
                          rowKey="#{funcionario.matricula}" selectionMode="single"
                          paginator="true" resizableColumns="true">
 

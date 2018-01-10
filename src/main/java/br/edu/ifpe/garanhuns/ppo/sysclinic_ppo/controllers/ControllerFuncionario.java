@@ -148,9 +148,9 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         }
     }
 
-    @PostConstruct
-    public void recuperarTodos() {
-        funcionariosRegistrados = funcionarios.recuperarTodos();
+    //@PostConstruct
+    public List<Funcionario> recuperarTodos() {
+        return funcionarios.recuperarTodos();
     }
 
     public String fazerLogin(Integer login, String senha) {
