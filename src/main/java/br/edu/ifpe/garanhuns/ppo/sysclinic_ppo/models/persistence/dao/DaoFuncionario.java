@@ -84,4 +84,5 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
         return f.isAdministrador() ? qtdeAdministrador > 1 : 
                 qtdeFuncionario > 1;
     }
+    
 }

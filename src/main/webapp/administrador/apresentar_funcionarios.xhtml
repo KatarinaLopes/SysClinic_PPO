@@ -12,13 +12,13 @@
 
         <h:form id="form-apresentar-funcionarios">
 
-            <p:growl id="growl-delete" showDetail="true" sticky="true"/>
+            <p:growl id="growl" showDetail="true" sticky="true"/>
 
             <h1>Funcionários cadastrados</h1>
 
             <p:dataTable id="apresentarFuncionarios" var="funcionario" 
                          value="#{controllerFuncionario.recuperarTodos()}" 
-                         rowKey="#{funcionario.matricula}" selectionMode="single"
+                         rowKey="#{funcionario.matricula}" selection="none"
                          paginator="true" resizableColumns="true">
 
                 <p:column headerText="Matrícula">
@@ -195,7 +195,13 @@
                                              itemLabel="É um administrador"
                                              value="#{controllerFuncionario.
                                                       funcionarioSelecionado.
-                                                      administrador}"/>
+                                                      administrador}">
+                        <p:ajax event="change" 
+                                listener="#{controllerFuncionario.
+                                            exibirAlertaDeMudanca()}"
+                                update=":form-apresentar-funcionarios:growl"/>
+                        
+                    </p:selectBooleanCheckbox>
                     <p:spacer/><p:spacer/>
 
                 </p:panelGrid>

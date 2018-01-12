@@ -144,7 +144,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         } else {
             System.err.println("else");
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Alerta",
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",
                             "Impossível excluir este funcionário. O sistema "
                                     + "precisa de um administrador e "
                                     + "um funcionário para as ações"));
@@ -220,5 +220,14 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
         return f.isAdministrador() ? qtdeAdministrador > 1
                 : qtdeFuncionario > 1;
+    }
+    
+    public void exibirAlertaDeMudanca(){
+        FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", 
+                        "Administradores podem cadastrar, alterar e excluir "
+                                + "médicos e funcionários, mas não têm acesso "
+                                + "ao sistema de agendamentos. Mude o "
+                                + "privilégio apenas se necessário"));
     }
 }
