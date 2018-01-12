@@ -144,7 +144,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         } else {
             System.err.println("else");
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Impossível excluir funcionário"));
+                    new FacesMessage("Alerta",
+                            "Impossível excluir este funcionário. O sistema "
+                                    + "precisa de um administrador e "
+                                    + "um funcionário para as ações"));
         }
     }
 

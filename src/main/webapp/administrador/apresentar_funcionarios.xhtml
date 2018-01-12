@@ -9,9 +9,12 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        
+
         <h:form id="form-apresentar-funcionarios">
-            Funcionários cadastrados 
+
+            <p:growl id="growl-delete" showDetail="true" sticky="true"/>
+
+            <h1>Funcionários cadastrados</h1>
 
             <p:dataTable id="apresentarFuncionarios" var="funcionario" 
                          value="#{controllerFuncionario.recuperarTodos()}" 
@@ -27,15 +30,15 @@
                 <p:column headerText="Data de Admissão">
                     <h:outputText value="#{funcionario.dataAdmissao}"/>
                 </p:column>
-                
+
                 <p:column headerText="Cargo">
                     <h:outputText value="#{funcionario.cargo}"/>
                 </p:column>
-                
+
                 <p:column headerText="Telefone">
                     <h:outputText value="#{funcionario.telefone}"/>
                 </p:column>
-                
+
                 <p:column headerText="Administrador">
                     <h:outputText value="#{funcionario.administrador}"/>
                 </p:column>
@@ -47,7 +50,7 @@
                                      oncomplete="PF('wid-dial-visualizar-funcionario').show()">
                         <f:setPropertyActionListener value="#{funcionario}" 
                                                      target="#{controllerFuncionario.
-                                                    funcionarioSelecionado}"/>
+                                                               funcionarioSelecionado}"/>
                     </p:commandButton>
 
                     <p:commandButton value="Alterar"
@@ -57,7 +60,7 @@
                         <f:setPropertyActionListener value="#{funcionario}"
                                                      target="#{controllerFuncionario.funcionarioSelecionado}"/>
                     </p:commandButton>
-                    
+
                     <p:commandButton value="Excluir" 
                                      update=":form-apresentar-funcionarios"
                                      oncomplete="PF('wid-dial-confirm').show()">
@@ -132,7 +135,7 @@
                                  value="#{controllerFuncionario.
                                           funcionarioSelecionado.matricula}"/>
                     <p:message for="matricula"/>
-                    
+
                     <h:outputText value="Data de admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
                                 maxdate="today" required="true"
@@ -140,7 +143,7 @@
                                 value="#{controllerFuncionario.
                                          funcionarioSelecionado.dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
-                    
+
                     <h:outputText value="Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
                                  placeholder="Ex.: Maria da Silva" required="true"
@@ -165,11 +168,11 @@
 
                     <h:outputText value="Cargo"/>
                     <p:inputText id="cargo" 
-                                value="#{
-                                controllerFuncionario.
-                                    funcionarioSelecionado.cargo}"
-                                required="true" 
-                                requiredMessage="Campo obrigatório"/>
+                                 value="#{
+                                 controllerFuncionario.
+                                     funcionarioSelecionado.cargo}"
+                                 required="true" 
+                                 requiredMessage="Campo obrigatório"/>
                     <p:message for="cargo"/>
 
                     <h:outputText value="Telefone para contato"/>
@@ -208,18 +211,25 @@
             </h:form>
 
         </p:dialog>
-        
-        <p:dialog id="confirmDialog" visible="false"
-                         widgetVar="wid-dial-confirm">
-            <p:commandButton value="Sim" action="#{controllerFuncionario.
-                                          deletar(controllerFuncionario.
-                                                   funcionarioSelecionado)}"
-                             oncomplete="PF('wid-dial-confirm').hide()"/>
-            <p:commandButton value="Não" 
-                             oncomplete="PF('wid-dial-confirm').hide()"/>
-            
+
+        <p:dialog id="confirmDialog" closable="true" modal="true" 
+                  header="Alerta" visible="false" 
+                  widgetVar="wid-dial-confirm">
+
+            <h:form>
+                Deseja excluir este funcionário?
+
+                <br/>
+
+                <p:commandButton value="Sim" action="#{controllerFuncionario.
+                                                 deletar(controllerFuncionario.
+                                                       funcionarioSelecionado)}"
+                                 oncomplete="PF('wid-dial-confirm').hide()"
+                                 update=":form-apresentar-funcionarios"/>
+                <p:commandButton value="Não" 
+                                 oncomplete="PF('wid-dial-confirm').hide()"/>
+            </h:form>
         </p:dialog>
-            
     </h:body>
 </html>
 
