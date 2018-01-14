@@ -151,7 +151,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
      */
     public void deletar(Funcionario f) {
         
-        if (funcionarios.podeExcluirOuAlterar(f)) {
+        if (funcionarios.podeExcluirOuAlterar(f.isAdministrador())) {
             funcionarios.deletar(f);
         } else {
             System.err.println("else");
@@ -244,9 +244,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
     
     public void getPodeExcluirOuAlterar(Funcionario f){
-        System.out.println("fcf");
+        System.out.println(f.getNome());
         
-        podeExcluirOuAlterar = funcionarios.podeExcluirOuAlterar(f);
+        podeExcluirOuAlterar = !funcionarios.
+                podeExcluirOuAlterar(f.isAdministrador());
         
         System.out.println(podeExcluirOuAlterar);
         
