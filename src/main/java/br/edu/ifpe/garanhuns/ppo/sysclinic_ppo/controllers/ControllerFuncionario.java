@@ -43,6 +43,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
+    
+    private boolean podeExcluirOuAlterar;
 
     public Funcionario getFuncionarioLogado() {
         return funcionarioLogado;
@@ -67,6 +69,16 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     public void setFuncionarioSelecionado(Funcionario funcionarioSelecionado) {
         this.funcionarioSelecionado = funcionarioSelecionado;
     }
+
+    public boolean isPodeExcluirOuAlterar() {
+        return podeExcluirOuAlterar;
+    }
+
+    public void setPodeExcluirOuAlterar(boolean podeExcluirOuAlterar) {
+        this.podeExcluirOuAlterar = podeExcluirOuAlterar;
+    }
+    
+    
 
     @Deprecated
     @Override
@@ -128,7 +140,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return (Funcionario) funcionarios.recuperar(i);
     }
 
-    @Override
+    //@Override
     public void atualizar(Funcionario c) {
         funcionarios.atualizar(c);
     }
@@ -139,7 +151,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
      */
     public void deletar(Funcionario f) {
         
-        if (funcionarios.podeExcluir(f)) {
+        if (funcionarios.podeExcluirOuAlterar(f)) {
             funcionarios.deletar(f);
         } else {
             System.err.println("else");
@@ -204,7 +216,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return "/login/login_intranet.xhtml?faces-redirect=true";
     }
 
-    public boolean podeExcluirFuncionario(Funcionario f) {
+    /*public boolean podeExcluirFuncionario(Funcionario f) {
         int qtdeFuncionario = 0;
         int qtdeAdministrador = 0;
 
@@ -220,14 +232,28 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
         return f.isAdministrador() ? qtdeAdministrador > 1
                 : qtdeFuncionario > 1;
-    }
+    }*/
     
-    public void exibirAlertaDeMudanca(){
+    public void exibirAlertaDeMudanca(){        
         FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", 
                         "Administradores podem cadastrar, alterar e excluir "
                                 + "médicos e funcionários, mas não têm acesso "
                                 + "ao sistema de agendamentos. Mude o "
                                 + "privilégio apenas se necessário"));
+    }
+    
+    public void getPodeExcluirOuAlterar(Funcionario f){
+        System.out.println("fcf");
+        
+        podeExcluirOuAlterar = funcionarios.podeExcluirOuAlterar(f);
+        
+        System.out.println(podeExcluirOuAlterar);
+        
+        /*if(podeExcluirOuAlterar){
+            return true;
+        }
+        
+        return false;*/
     }
 }

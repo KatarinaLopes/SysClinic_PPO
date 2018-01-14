@@ -66,7 +66,7 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
         }
     }
 
-    public boolean podeExcluir(Funcionario f){
+    public boolean podeExcluirOuAlterar(Funcionario f){
         
         int qtdeFuncionario = 0;
         int qtdeAdministrador = 0;
@@ -84,5 +84,6 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
         return f.isAdministrador() ? qtdeAdministrador > 1 : 
                 qtdeFuncionario > 1;
     }
+    
     
 }

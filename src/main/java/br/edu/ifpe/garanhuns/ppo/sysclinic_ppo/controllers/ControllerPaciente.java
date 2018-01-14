@@ -133,7 +133,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return (Paciente) pacientes.recuperar(i);
     }
 
-    @Override
+    
     public void atualizar(Paciente c) {
         pacientes.atualizar(c);
     }

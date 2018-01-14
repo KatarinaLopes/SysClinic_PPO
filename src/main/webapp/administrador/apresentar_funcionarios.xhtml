@@ -58,7 +58,12 @@
                                      :dial-form-alterar-funcionario"
                                      oncomplete="PF('wid-dial-alterar-funcionario').show()">
                         <f:setPropertyActionListener value="#{funcionario}"
-                                                     target="#{controllerFuncionario.funcionarioSelecionado}"/>
+                                       target="#{controllerFuncionario.funcionarioSelecionado}"/>
+                        <p:ajax event="click" 
+                                listener="#{controllerFuncionario.
+                                            getPodeExcluirOuAlterar
+                                            (controllerFuncionario.
+                                            funcionarioSelecionado)}"/>
                     </p:commandButton>
 
                     <p:commandButton value="Excluir" 
@@ -126,8 +131,14 @@
                   header="Alterar funcionário"
                   modal="true" visible="false" 
                   widgetVar="wid-dial-alterar-funcionario">
-            <h:form id='dial-form-alterar-funcionario'>
-
+            <p:ajax listener="#{controllerFuncionario.
+                                    getPodeExcluirOuAlterar
+                                    (controllerFuncionario.
+                                    funcionarioSelecionado)}"
+                    />
+            
+            
+            <h:form id='dial-form-alterar-funcionario'>                
                 <p:panelGrid columns="3">
                     <h:outputText value="Matrícula"/>
                     <p:inputText id="matricula" required="true" 
@@ -192,6 +203,8 @@
                     <p:message for="email"/>
 
                     <p:selectBooleanCheckbox id="administrador" 
+                                             disabled="#{controllerFuncionario.
+                                                         podeExcluirOuAlterar}"
                                              itemLabel="É um administrador"
                                              value="#{controllerFuncionario.
                                                       funcionarioSelecionado.

@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.RecursiveTask;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -135,4 +136,52 @@ public class DaoFuncionarioTest {
         assertNotNull(funcionarios);
     }
     */
+
+    @Test
+    public void testPersistir() {
+    }
+
+    @Test
+    public void testRecuperar() {
+    }
+
+    @Test
+    public void testRecuperarPorAtributo() {
+    }
+
+    @Test
+    public void testAtualizar() {
+    }
+
+    @Test
+    public void testDeletar() {
+    }
+
+    @Test
+    public void testRecuperarTodos() {
+    }
+
+    @Test
+    public void testPodeExcluirOuAlterar() {
+    
+        Funcionario funcionario = daoFuncionario.recuperar(1); //admin
+        
+        boolean retorno = daoFuncionario.podeExcluirOuAlterar(funcionario);
+        
+        assertTrue(retorno);
+        
+        Funcionario admin2 = daoFuncionario.recuperar(6);
+        
+        retorno = daoFuncionario.podeExcluirOuAlterar(admin2);
+        
+        assertTrue(retorno);
+        
+        Funcionario nadmin = daoFuncionario.recuperar(5);
+        
+        retorno = daoFuncionario.podeExcluirOuAlterar(nadmin);
+        
+        assertFalse(retorno);
+    }
+    
+    
 }

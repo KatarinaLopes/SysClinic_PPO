@@ -206,7 +206,7 @@ public class ControllerMedico {
 
         atualizar(m);
 
-        return "home_admin.xhtml";
+        return "/acoes/agendamentos_pendentes.xhtml?faces-redirect=true";
     }
 
     public String salvarAgendamento(int idMedico, Date data, Horario periodo) {
@@ -222,7 +222,7 @@ public class ControllerMedico {
 
         atualizar(m);
 
-        return "home_paciente.xhtml";
+        return "/pacientes/home_paciente.xhtml?faces-redirect=true";
     }
 
     /**

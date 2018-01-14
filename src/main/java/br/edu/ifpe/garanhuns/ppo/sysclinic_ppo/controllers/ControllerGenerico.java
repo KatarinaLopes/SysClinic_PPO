@@ -15,6 +15,6 @@ public interface ControllerGenerico <C, I>{
     
     public abstract void cadastrar(C c);
     public abstract C recuperar(I i);
-    public abstract void atualizar(C c);
+    //public abstract void atualizar(C c);
     //public abstract List recuperarTodos();
 }
