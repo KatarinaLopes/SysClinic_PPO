@@ -142,7 +142,7 @@ public class ControllerMedico {
 
         daoMedico.persistir(c);
 
-        return "apresentar_medicos.xhtml";
+        return "/funcionarios/apresentar_medicos.xhtml?faces-redirect=true";
     }
 
     public Medico recuperar(Integer i) {

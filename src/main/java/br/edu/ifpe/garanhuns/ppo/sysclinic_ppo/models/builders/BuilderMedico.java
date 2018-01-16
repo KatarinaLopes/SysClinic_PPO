@@ -9,6 +9,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -35,7 +36,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     
     private String especialidade;
   
-    private List<Horario> horarios;
+    private static List<Horario> horarios = new ArrayList<>();
     
     private List<Agendamento> agendamentos;
     
@@ -137,6 +138,14 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
 
     public void setLimiteDeAgendamentos(int limiteDeAgendamentos) {
         this.limiteDeAgendamentos = limiteDeAgendamentos;
+    }
+    
+    public void adicionarHorarios(int dia, Date horarioInicial,
+            Date horarioFinal){
+        
+        System.out.println("dnjfr");
+        
+        horarios.add(new Horario(dia, horarioInicial, horarioFinal, 2));
     }
 
     @Override

@@ -8,7 +8,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form id="cadastroMedicosForm">
+        <h:form id="form-cadastro-medicos">
 
             <p:panelGrid columns="4">
                 <h:outputText value="Nome"/> 
@@ -80,12 +80,11 @@
                 <p:separator/>
 
             </p:panelGrid>
-
+            
             Horários
 
             <p:dataTable id="horariosTabela" var="horario" 
-                         value="#{controllerMedico.horarios}"
-                         rowKey="#{horario.dia}" selectionMode="single">
+                         value="#{builderMedico.horarios}">
                 <p:column headerText="Dia">
                     <h:outputText value="#{horario.dia}"/>
                 </p:column>
@@ -111,7 +110,7 @@
 
                     <p:commandButton value="Excluir"
                                      update=
-                                     ":cadastroMedicosForm:horariosTabela">
+                                     ":form-cadastro-medicos:horariosTabela">
                         <f:setPropertyActionListener value="#{horario}"
                                                      target="#{controllerMedico.horarioSelecionado}"/>
                         <p:confirm message="Deseja realmente excluir este horário?"/>
@@ -127,8 +126,7 @@
                              action="#{controllerMedico.cadastrar(
                                        builderMedico.build(), conselho, 
                                        numero)}"
-                             update=":cadastroMedicosForm"/>
-
+                             update=":form-cadastro-medicos"/>
         </h:form>
 
         <p:dialog closable="true" draggable="false" dynamic="true" 
@@ -155,10 +153,11 @@
                 </p:panelGrid>
 
                 <p:commandButton value="Salvar" 
-                                 action="#{controllerMedico.salvarHorario
-                                           (dia, horarioInicial, horarioFinal)}"
+                                 action="#{builderMedico.
+                                           adicionarHorarios(dia, 
+                                           horarioInicial, horarioFinal)}"
                                  update=":horariosForm
-                                 :cadastroMedicosForm:horariosTabela"
+                                 :form-cadastro-medicos:horariosTabela"
                                  oncomplete="PF('widHorariosDial').hide()"/>
             </h:form>
         </p:dialog>
@@ -192,7 +191,6 @@
             <p:commandButton value="Não" 
                              oncomplete="PF('wid-dial-confirm-excluir').hide()"/>
         </p:confirmDialog>
-
     </h:body>
 </html>
 
