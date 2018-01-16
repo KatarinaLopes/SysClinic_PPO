@@ -14,13 +14,15 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Katarina
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BuilderMedico implements BuilderGenerico<Medico>{
     private int id;
     private int matricula;
@@ -36,7 +38,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     
     private String especialidade;
   
-    private static List<Horario> horarios = new ArrayList<>();
+    private List<Horario> horarios = new ArrayList<>();
     
     private List<Agendamento> agendamentos;
     
