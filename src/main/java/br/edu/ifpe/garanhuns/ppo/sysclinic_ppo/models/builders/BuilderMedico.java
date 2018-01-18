@@ -47,6 +47,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
 
     private Agenda ag;
     
+    @ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado;
     
     public int getId() {
