@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -45,6 +46,8 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     private int limiteDeAgendamentos;
 
     private Agenda ag;
+    
+    private Horario horarioSelecionado;
     
     public int getId() {
         return id;
@@ -141,6 +144,14 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     public void setLimiteDeAgendamentos(int limiteDeAgendamentos) {
         this.limiteDeAgendamentos = limiteDeAgendamentos;
     }
+
+    public Horario getHorarioSelecionado() {
+        return horarioSelecionado;
+    }
+
+    public void setHorarioSelecionado(Horario horarioSelecionado) {
+        this.horarioSelecionado = horarioSelecionado;
+    }
     
     public void adicionarHorarios(int dia, Date horarioInicial,
             Date horarioFinal){
@@ -148,6 +159,14 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
         System.out.println("dnjfr");
         
         horarios.add(new Horario(dia, horarioInicial, horarioFinal, 2));
+    }
+    
+    public void excluirHorario(Horario h){
+        for (Horario horario : horarios) {
+            if(horario.equals(h)){
+                horarios.remove(h);
+            }
+        }
     }
 
     @Override

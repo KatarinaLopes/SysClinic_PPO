@@ -50,7 +50,7 @@ public class ControllerMedico {
     private List<Horario> horarios = new ArrayList();
 
     //@ManagedProperty("#{horarioSelecionado}")
-    private Horario horarioSelecionado = new Horario();
+    private Horario horarioSelecionado;
 
     private String diasDisponiveis;
 
@@ -86,10 +86,12 @@ public class ControllerMedico {
     }
 
     public Horario getHorarioSelecionado() {
+        System.out.println(horarioSelecionado);
         return horarioSelecionado;
     }
 
     public void setHorarioSelecionado(Horario horarioSelecionado) {
+        System.out.println("dfg");
         this.horarioSelecionado = horarioSelecionado;
     }
 

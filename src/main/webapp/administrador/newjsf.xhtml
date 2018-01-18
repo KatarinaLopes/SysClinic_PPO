@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        
+    <h:form id="form-cadastrar-horarios">
+        Horários
+
+        <h:outputText value="#{builderMedico.nome}"/>
+        
+            <p:dataTable id="horariosTabela" var="horario" 
+                         value="#{builderMedico.horarios}"
+                         resizableColumns="true">
+                <p:column headerText="Dia">
+                    <h:outputText value="#{horario.dia}"/>
+                </p:column>
+                <p:column headerText="Horário inicial">
+                    <h:outputFormat value="#{horario.horarioInicial}">
+                        <f:convertDateTime type="time" timeStyle="short" 
+                                           timeZone="#{initParam.timezone}"/>
+                    </h:outputFormat>
+                </p:column>
+                <p:column headerText="Horário final">
+                    <h:outputText value="#{horario.horarioFinal}">
+                        <f:convertDateTime type="time" timeStyle="short"
+                                           timeZone="#{initParam.timezone}"/>
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Editar"
+                                     action="#{builderMedico.
+                                               setHorarioSelecionado(horario)}"
+                               oncomplete="PF('widEditarHorarioDial').show()">
+                    </p:commandButton>
+
+                    <p:commandButton value="Excluir"
+                                     update=":dial-confirmar-excluir"
+                           oncomplete="PF('wid-dial-confirmar-excluir').show()">
+                        <f:setPropertyActionListener value="#{horario}"
+                                 target="#{builderMedico.horarioSelecionado}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{horario}"/>
+                    <h:outputText 
+                        value="#{builderMedico.horarioSelecionado}"/>
+                </p:column>
+            </p:dataTable>
+
+
+            <p:commandButton value="Adicionar"
+                             oncomplete="PF('widHorariosDial').show()"/>
+
+            <p:commandButton value="Cadastrar" 
+                             action="#{controllerMedico.cadastrar(
+                                       builderMedico.build(), conselho, 
+                                       numero)}"
+                             update="@all"/>
+    </h:form>
+        <p:dialog closable="true" draggable="false" dynamic="true" 
+                  header="Definir horários" id="horariosDialog" modal="true" 
+                  resizable="false" responsive="true" visible="false" 
+                  widgetVar="widHorariosDial">
+            <h:form id="horariosForm">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Dia da semana"/>
+                    <p:inputText id="dia" value="#{dia}"/>
+                    <p:message for="dia"/>
+
+                    <h:outputText value="Início"/>
+                    <p:calendar id="inicio" value="#{horarioInicial}" 
+                                pattern="HH:mm"
+                                timeOnly="true"/>
+                    <p:message for="inicio"/>
+
+                    <h:outputText value="Fim"/>
+                    <p:calendar id="fim" value="#{horarioFinal}" 
+                                pattern="HH:mm"
+                                timeOnly="true"/>
+                    <p:message for="fim"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Salvar" 
+                                 action="#{builderMedico.adicionarHorarios(dia, 
+                                           horarioInicial, horarioFinal)}"
+                                 update="horariosDialog
+                                 form-cadastrar-horarios:horariosTabela"
+                                 oncomplete="PF('widHorariosDial').hide()"/>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Editar horário" closable="true" draggable="false"
+                  dynamic="true" id="editarHorarioDial" modal="true"
+                  responsive="true" visible="false" 
+                  widgetVar="widEditarHorarioDial">
+            <h:form id="alterarHorarioForm">                
+                <p:panelGrid columns="3">
+                    <h:outputText value="Dia da semana"/>
+                    <p:inputText id="diaSemana" 
+                                 value="#{builderMedico.
+                                          horarioSelecionado.dia}"/>
+                    <p:message for="diaSemana"/>
+
+                    <h:outputText value="Horário Inicial"/>
+                    <p:inputText value="#{builderMedico.horarioSelecionado.
+                                          horarioInicial}"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dial-confirmar-excluir" modal="true" closable="true"
+                         visible="false" widgetVar="wid-dial-confirmar-excluir">
+            
+            Deseja excluir este horário?
+            
+            <br/>
+            
+            <p:commandButton value="Sim" action="#{builderMedico.
+                                                   excluirHorario(
+                                                   controllerMedico.
+                                                   horarioSelecionado)}"
+                             update="form-cadastrar-horarios:horariosTabela"
+                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+            
+            <p:commandButton value="Não" 
+                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+        </p:dialog>
+</ui:composition>
+
