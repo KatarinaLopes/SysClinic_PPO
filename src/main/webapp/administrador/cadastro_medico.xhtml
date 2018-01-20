@@ -81,13 +81,11 @@
                 <p:separator/>
 
             </p:panelGrid>
-            
-            <p:commandButton value="Próximo" action="newjsf.xhtml"/>
-        
-        Horários
 
-        <h:outputText value="#{builderMedico.nome}"/>
-        
+            Horários
+
+            <h:outputText value="#{builderMedico.nome}"/>
+
             <p:dataTable id="horariosTabela" var="horario" 
                          value="#{builderMedico.horarios}"
                          resizableColumns="true">
@@ -108,16 +106,18 @@
                 </p:column>
                 <p:column>
                     <p:commandButton value="Editar"
-                                     action="#{builderMedico.
-                                               setHorarioSelecionado(horario)}"
-                               oncomplete="PF('widEditarHorarioDial').show()">
+                                     update="editarHorarioDial"
+                                     oncomplete="PF('widEditarHorarioDial').show()">
+                        <f:setPropertyActionListener 
+                            target="#{builderMedico.horarioSelecionado}"
+                            value="#{horario}"/>
                     </p:commandButton>
 
                     <p:commandButton value="Excluir"
                                      update=":dial-confirmar-excluir"
-                           oncomplete="PF('wid-dial-confirmar-excluir').show()">
+                                     oncomplete="PF('wid-dial-confirmar-excluir').show()">
                         <f:setPropertyActionListener value="#{horario}"
-                                 target="#{builderMedico.horarioSelecionado}"/>
+                                                     target="#{builderMedico.horarioSelecionado}"/>
                     </p:commandButton>
                 </p:column>
                 <p:column>
@@ -136,7 +136,7 @@
                                        builderMedico.build(), conselho, 
                                        numero)}"
                              update="@all"/>
-            
+
         </h:form>
         <p:dialog closable="true" draggable="false" dynamic="true" 
                   header="Definir horários" id="horariosDialog" modal="true" 
@@ -151,13 +151,17 @@
                     <h:outputText value="Início"/>
                     <p:calendar id="inicio" value="#{horarioInicial}" 
                                 pattern="HH:mm"
-                                timeOnly="true"/>
+                                timeOnly="true">
+                        <f:convertDateTime type="time" timeStyle="short"/>
+                    </p:calendar>
                     <p:message for="inicio"/>
 
                     <h:outputText value="Fim"/>
                     <p:calendar id="fim" value="#{horarioFinal}" 
                                 pattern="HH:mm"
-                                timeOnly="true"/>
+                                timeOnly="true">
+                        <f:convertDateTime type="time" timeStyle="short"/>
+                    </p:calendar>
                     <p:message for="fim"/>
                 </p:panelGrid>
 
@@ -184,27 +188,43 @@
                     <p:message for="diaSemana"/>
 
                     <h:outputText value="Horário Inicial"/>
-                    <p:inputText value="#{builderMedico.horarioSelecionado.
-                                          horarioInicial}"/>
+                    <p:calendar id="hinicial" pattern="HH:mm" timeOnly="true"
+                                 value="#{builderMedico.horarioSelecionado.
+                                          horarioInicial}">
+                        <f:convertDateTime type="time" timeStyle="short"
+                                           timeZone="#{initParam.timezone}"/>
+                    </p:calendar>
+                    <p:message for='hinicial'/>
+
+                    <h:outputText value="Horário final"/>
+                    <p:calendar id='hfinal' pattern="HH:mm" timeOnly="true"
+                                 value="#{builderMedico.horarioSelecionado.
+                                          horarioFinal}">
+                        <f:convertDateTime type="time" timeStyle="short"/>
+                    </p:calendar>
+                    <p:message for='hfinal'/>
                 </p:panelGrid>
+                <p:commandButton value="Editar" 
+                                 oncomplete="PF('widEditarHorarioDial').hide()"
+                                 update="form-cadastro-medicos:horariosTabela"/>
             </h:form>
         </p:dialog>
         <p:dialog id="dial-confirmar-excluir" modal="true" closable="true"
-                         visible="false" widgetVar="wid-dial-confirmar-excluir">
-            
+                  visible="false" widgetVar="wid-dial-confirmar-excluir">
+
             Deseja excluir este horário?
-            
+
             <br/>
-            
+
             <p:commandButton value="Sim" action="#{builderMedico.
                                                    excluirHorario(
                                                    controllerMedico.
                                                    horarioSelecionado)}"
                              update="form-cadastro-medicos:horariosTabela"
-                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
-            
+                             oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+
             <p:commandButton value="Não" 
-                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+                             oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
         </p:dialog>
     </h:body>
 </html>

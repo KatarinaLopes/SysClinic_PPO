@@ -49,7 +49,6 @@ public class ControllerMedico {
     //@ManagedProperty("#{horarios}")
     private List<Horario> horarios = new ArrayList();
 
-    //@ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado;
 
     private String diasDisponiveis;
