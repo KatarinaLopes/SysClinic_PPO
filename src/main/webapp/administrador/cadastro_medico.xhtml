@@ -94,14 +94,12 @@
                 </p:column>
                 <p:column headerText="Horário inicial">
                     <h:outputFormat value="#{horario.horarioInicial}">
-                        <f:convertDateTime type="time" timeStyle="short" 
-                                           timeZone="#{initParam.timezone}"/>
+                        <f:convertDateTime type="time" timeStyle="short"/>
                     </h:outputFormat>
                 </p:column>
                 <p:column headerText="Horário final">
                     <h:outputText value="#{horario.horarioFinal}">
-                        <f:convertDateTime type="time" timeStyle="short"
-                                           timeZone="#{initParam.timezone}"/>
+                        <f:convertDateTime type="time" timeStyle="short"/>
                     </h:outputText>
                 </p:column>
                 <p:column>
@@ -191,8 +189,7 @@
                     <p:calendar id="hinicial" pattern="HH:mm" timeOnly="true"
                                  value="#{builderMedico.horarioSelecionado.
                                           horarioInicial}">
-                        <f:convertDateTime type="time" timeStyle="short"
-                                           timeZone="#{initParam.timezone}"/>
+                        <f:convertDateTime type="time" timeStyle="short"/>
                     </p:calendar>
                     <p:message for='hinicial'/>
 
