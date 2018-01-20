@@ -164,8 +164,11 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     
     public void excluirHorario(Horario h){
         for (Horario horario : horarios) {
+            System.out.println("dnhf");
             if(horario.equals(h)){
+                System.out.println("1");
                 horarios.remove(h);
+                break;
             }
         }
     }
