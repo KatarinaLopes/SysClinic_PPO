@@ -50,6 +50,8 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     @ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado;
     
+    private boolean infoSet = false;
+    
     public int getId() {
         return id;
     }
@@ -153,13 +155,22 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     public void setHorarioSelecionado(Horario horarioSelecionado) {
         this.horarioSelecionado = horarioSelecionado;
     }
-    
+
+    public boolean isInfoSet() {
+        return infoSet;
+    }
+
+    public void setInfoSet(boolean infoSet) {
+        this.infoSet = infoSet;
+    }
+       
     public void adicionarHorarios(int dia, Date horarioInicial,
-            Date horarioFinal){
+            Date horarioFinal, int agendamentos){
         
         System.out.println("dnjfr");
         
-        horarios.add(new Horario(dia, horarioInicial, horarioFinal, 2));
+        horarios.add(new Horario(dia, horarioInicial, horarioFinal, 
+                agendamentos));
     }
     
     public void excluirHorario(Horario h){
