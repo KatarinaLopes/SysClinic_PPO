@@ -147,7 +147,17 @@
             <h:form id="horariosForm">
                 <p:panelGrid columns="3">
                     <h:outputText value="Dia da semana"/>
-                    <p:inputText id="dia" value="#{dia}"/>
+                    <p:selectOneMenu id="dia" value="#{dia}">
+                        <f:selectItem itemDisabled="true" 
+                                      itemLabel="Selecione o dia"/>
+                        <f:selectItem itemLabel="Segunda-feira" itemValue="1"/>
+                        <f:selectItem itemLabel="Terça-feira" itemValue="2"/>
+                        <f:selectItem itemLabel="Quarta-feira" itemValue="3"/>
+                        <f:selectItem itemLabel="Quinta-feira" itemValue="4"/>
+                        <f:selectItem itemLabel="Sexta-feira" itemValue="5"/>
+                        <f:selectItem itemLabel="Sábado" itemValue="6"/>
+                        <f:selectItem itemLabel="Domingo" itemValue="7"/>
+                    </p:selectOneMenu>
                     <p:message for="dia"/>
 
                     <h:outputText value="Início"/>
