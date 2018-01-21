@@ -9,9 +9,12 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -24,34 +27,40 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class BuilderMedico implements BuilderGenerico<Medico>{
+public class BuilderMedico implements BuilderGenerico<Medico>, Serializable {
+
     private int id;
     private int matricula;
     private Date dataAdmissao;
     private String nome;
     private String sexo;
-    
+
     private String email;
- 
+
     private String telefone;
 
     private String conselho;
-    
+
     private String especialidade;
-  
+
     private List<Horario> horarios = new ArrayList<>();
-    
+
     private List<Agendamento> agendamentos;
-    
+
     private int limiteDeAgendamentos;
 
-    private Agenda ag;
+    private HashMap<String, Integer> diasDaSemana = new HashMap<>();
+      /*diasDaSemana.put("Quinta-feira", 4);
+        diasDaSemana.*/
     
+
+    private Agenda ag;
+
     @ManagedProperty("#{horarioSelecionado}")
     private Horario horarioSelecionado;
-    
+
     private boolean infoSet = false;
-    
+
     public int getId() {
         return id;
     }
@@ -163,31 +172,50 @@ public class BuilderMedico implements BuilderGenerico<Medico>{
     public void setInfoSet(boolean infoSet) {
         this.infoSet = infoSet;
     }
-       
+
+    public HashMap<String, Integer> getDiasDaSemana() {
+        return diasDaSemana;
+    }
+
+    public void setDiasDaSemana(HashMap<String, Integer> diasDaSemana) {
+        this.diasDaSemana = diasDaSemana;
+    }
+
     public void adicionarHorarios(int dia, Date horarioInicial,
-            Date horarioFinal, int agendamentos){
-        
+            Date horarioFinal, int agendamentos) {
+
         System.out.println("dnjfr");
-        
-        horarios.add(new Horario(dia, horarioInicial, horarioFinal, 
+
+        horarios.add(new Horario(dia, horarioInicial, horarioFinal,
                 agendamentos));
     }
-    
-    public void excluirHorario(Horario h){
+
+    public void excluirHorario(Horario h) {
         for (Horario horario : horarios) {
             System.out.println("dnhf");
-            if(horario.equals(h)){
+            if (horario.equals(h)) {
                 System.out.println("1");
                 horarios.remove(h);
                 break;
             }
         }
     }
+    
+    @PostConstruct
+    public void init(){
+        diasDaSemana.put("Segunda-feira", 1);
+        diasDaSemana.put("Terça-feira", 2);
+        diasDaSemana.put("Quarta-feira", 3);
+        diasDaSemana.put("Quinta-feira", 4);
+        diasDaSemana.put("Sexta-feira", 5);
+        diasDaSemana.put("Sábado", 6);
+        diasDaSemana.put("Domingo", 7);
+    }
 
     @Override
     public Medico build() {
-        return new Medico(id, matricula, dataAdmissao, nome, sexo, email, 
-                telefone, conselho, especialidade, horarios,ag);
+        return new Medico(id, matricula, dataAdmissao, nome, sexo, email,
+                telefone, conselho, especialidade, horarios, ag);
     }
-   
+
 }
