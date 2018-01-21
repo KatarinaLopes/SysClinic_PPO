@@ -33,7 +33,7 @@
                 <p:column headerText="Telefone">
                     <h:outputText value="#{medico.telefone}"/>
                 </p:column>
-                
+                 
                 <p:column>
 
                     <p:commandButton value="Visualizar" 
@@ -47,7 +47,10 @@
                     <p:commandButton value="Alterar"
                                      update=":apresentarMedicosForm 
                                      :alterarMedicoDialForm"
-                                     oncomplete="PF('widAlterarMedico').show()">
+                                     oncomplete="PF('widAlterarMedico').show()"
+                                     rendered="#{controllerFuncionario.
+                                                 funcionarioLogado.
+                                                 administrador}">
                         <f:setPropertyActionListener value="#{medico}"
                                                      target="#{
                                                      controllerMedico.
@@ -55,7 +58,10 @@
                     </p:commandButton>
                     
                     <p:commandButton value="Excluir" 
-                                     update=":apresentarMedicosForm">
+                                     update=":apresentarMedicosForm"
+                                     rendered="#{controllerFuncionario.
+                                                 funcionarioLogado.
+                                                 administrador}">
                         <f:setPropertyActionListener value="#{medico}"
                                                      target="#{
                                                      controllerMedico.
