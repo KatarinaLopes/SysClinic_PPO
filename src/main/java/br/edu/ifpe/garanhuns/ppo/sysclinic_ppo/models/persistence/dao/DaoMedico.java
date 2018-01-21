@@ -69,5 +69,11 @@ public class DaoMedico implements DaoGenerico<Medico, Integer> {
             return null;
         }
     }
+    
+    public boolean podeExcluirMedico(Medico m){
+        List<Medico> medicos = recuperarTodos();
+        
+        return medicos.size() > 1;
+    }
 
 }

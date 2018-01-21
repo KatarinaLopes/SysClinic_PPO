@@ -66,8 +66,10 @@
                                                      target="#{
                                                      controllerMedico.
                                                      medicoSelecionado}"/>
-                        <p:confirm 
-                            message="Deseja realmente excluir este médico?"/>
+                        <p:confirm
+                            message="Deseja realmente excluir este médico?
+                            Todos os agendamentos de consultas serão 
+                            excluídos."/>
                     </p:commandButton>
                     
                     <p:commandButton value="Horários" 
@@ -219,7 +221,7 @@
         </p:dialog>
         
         <p:confirmDialog global="true" id="confirmDialog" visible="false"
-                         widgetVar="widConfirmDialog">
+                         widgetVar="widConfirmDialog" severity="alert">
             <p:commandButton value="Sim" action="#{controllerMedico.
                                                    deletar(
                                                    controllerMedico.
