@@ -29,7 +29,8 @@ import javax.persistence.OneToOne;
 public class Agenda implements Serializable{
     
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
+            orphanRemoval = true)
     private List<Agendamento> agendamentos = new ArrayList<>();
 
     @Deprecated

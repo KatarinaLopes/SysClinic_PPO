@@ -155,6 +155,7 @@ public class ControllerMedico {
     }
 
     public void deletar(Medico c) {
+        System.out.println(c);
         daoMedico.deletar(c);
     }
 

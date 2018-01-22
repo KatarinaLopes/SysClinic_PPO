@@ -11,8 +11,12 @@
     <h:body>
 
         <h:form id="cadastroPacienteForm">
-            <h:link value="Ir para a página de login" 
+            <h:link rendered="#{!controllerFuncionario.funcionarioLogado}"
+                    value="Ir para a página de login" 
                     outcome="/login/login_paciente.xhtml"/>
+            <h:link rendered="#{controllerFuncionario.funcionarioLogado}"
+                    value="Ir para página principal"
+                    outcome="/funcionarios/home_funcionario.xhtml"/>
 
             <p:poll>
                 <p:messages id="sjbd"/>

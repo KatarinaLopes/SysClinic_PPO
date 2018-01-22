@@ -61,15 +61,11 @@
                                      update=":apresentarMedicosForm"
                                      rendered="#{controllerFuncionario.
                                                  funcionarioLogado.
-                                                 administrador}">
+                                                 administrador}"
+                                     oncomplete="PF('widConfirmDialog').show()">
                         <f:setPropertyActionListener value="#{medico}"
-                                                     target="#{
-                                                     controllerMedico.
+                                                     target="#{controllerMedico.
                                                      medicoSelecionado}"/>
-                        <p:confirm
-                            message="Deseja realmente excluir este médico?
-                            Todos os agendamentos de consultas serão 
-                            excluídos."/>
                     </p:commandButton>
                     
                     <p:commandButton value="Horários" 
@@ -220,8 +216,12 @@
 
         </p:dialog>
         
-        <p:confirmDialog global="true" id="confirmDialog" visible="false"
-                         widgetVar="widConfirmDialog" severity="alert">
+        <p:dialog id="confirmDialog" visible="false" modal="true" 
+                  dynamic="true"
+                         widgetVar="widConfirmDialog">
+            Deseja realmente excluir este médico?<br/>
+            Todos os agendamentos serão excluídos.
+            
             <p:commandButton value="Sim" action="#{controllerMedico.
                                                    deletar(
                                                    controllerMedico.
@@ -230,9 +230,9 @@
             <p:commandButton value="Não" 
                              oncomplete="PF('widConfirmDialog').hide()"/>
             
-        </p:confirmDialog>
+        </p:dialog>
         
-        <p:dialog id="dialHorario" header="Horários" modal="true" 
+        <p:dialog id="dialHorario" header="Horários" modal="true"  
                   visible="false" widgetVar="widDialHorario">
             <h:form id="apresentarHorariosDialForm">
                 <p:dataTable id="horarios" var="horario" 

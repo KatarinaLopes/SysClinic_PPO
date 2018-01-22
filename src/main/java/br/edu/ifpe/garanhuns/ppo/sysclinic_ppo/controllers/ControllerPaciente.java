@@ -125,7 +125,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             return null;
         }
 
-        return "login_paciente.xhtml";
+        return "/login/login_paciente.xhtml?faces-redirect=true";
     }
 
     @Override
