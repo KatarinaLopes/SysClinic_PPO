@@ -10,6 +10,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
@@ -17,6 +18,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.Da
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.views.ViewManagerPacientes;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +54,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
+    
+    private ViewManagerPacientes viewManagerPacientes = 
+            new ViewManagerPacientes();
 
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -257,5 +262,14 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         }
         
         return null;
+    }
+    
+    public void incluirMensagensDeExclusaoDeAgendamento(Medico m){
+        System.out.println(m);
+        viewManagerPacientes.incluirMensagensExclusaoDeAgendamento(m);
+    }
+    
+    public List<Mensagem> exibirMensagens(Paciente p){
+        return p.getFeed().getMensagens();
     }
 }

@@ -222,7 +222,11 @@
             Deseja realmente excluir este médico?<br/>
             Todos os agendamentos serão excluídos.
             
-            <p:commandButton value="Sim" action="#{controllerMedico.
+            <p:commandButton value="Sim"
+                             actionListener="#{controllerPaciente.
+                      incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
+                                               medicoSelecionado)}"
+                             action="#{controllerMedico.
                                                    deletar(
                                                    controllerMedico.
                                                    medicoSelecionado)}"

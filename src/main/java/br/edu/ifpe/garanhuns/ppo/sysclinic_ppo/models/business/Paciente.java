@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -61,6 +62,9 @@ public class Paciente implements Serializable{
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //private List<Agendamento> agendamentos;
 
+    @Embedded
+    private Feed feed;
+    
     @Deprecated
     public Paciente() {
     }
@@ -77,6 +81,7 @@ public class Paciente implements Serializable{
         this.cpf = cpf;
         this.senha = senha;
         //this.agendamentos = agendamentos;
+        this.feed = new Feed();
     }
 
     public int getId() {
@@ -167,4 +172,13 @@ public class Paciente implements Serializable{
         agendamentos.add(a);
     }*/
 
+    public Feed getFeed() {
+        return feed;
+    }
+
+    public void setFeed(Feed feed) {
+        this.feed = feed;
+    }
+
+    
 }
