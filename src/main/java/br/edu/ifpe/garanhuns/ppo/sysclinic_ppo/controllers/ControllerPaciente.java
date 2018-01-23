@@ -272,4 +272,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     public List<Mensagem> exibirMensagens(Paciente p){
         return p.getFeed().getMensagens();
     }
+    
+    public void excluirMensagem(Mensagem m){
+        pacienteLogado.getFeed().excluirMensagem(m);
+    }
 }

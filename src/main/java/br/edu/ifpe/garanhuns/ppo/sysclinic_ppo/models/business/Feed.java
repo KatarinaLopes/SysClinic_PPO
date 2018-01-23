@@ -48,6 +48,15 @@ public class Feed implements Serializable{
        mensagens.add(m);
    }
    
+   public void excluirMensagem(Mensagem m){
+       for (Mensagem mensagen : mensagens) {
+           if(m.equals(mensagen)){
+               mensagens.remove(mensagen);
+               break;
+           }
+       }
+   }
+   
    
   
 }
