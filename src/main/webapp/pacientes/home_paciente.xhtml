@@ -15,43 +15,50 @@
             Olá, sr(a). <h:outputText value="#{controllerPaciente.
                                                pacienteLogado.nome}"/>!
 
-            <p:dataList id="mensagem-feed" 
-                        value="#{controllerPaciente.pacienteLogado.feed.
-                                 mensagens}" var="mensagem">
-                <h:outputText value="#{mensagem.data}">
-                    <f:convertDateTime dateStyle="short"
-                                       pattern="dd/MM/yyyy"
-                                       type="date"/>
-                </h:outputText>
-                <h:outputText value="#{mensagem.data}">
-                    <f:convertDateTime pattern="HH:mm"
-                                       timeStyle="short" 
-                                       type="time"/>
+            <p:panel header="Feed" toggleOrientation="vertical"
+                     toggleable="true">
+                <p:repeat id="mensagem-feed" 
+                          value="#{controllerPaciente.pacienteLogado.feed.
+                                   mensagens}" var="mensagem">
+                    <p:outputPanel>
+                        <p:panelGrid columns="4">
+                            <h:outputText value="#{mensagem.data}">
+                                <f:convertDateTime dateStyle="short"
+                                                   pattern="dd/MM/yyyy"
+                                                   type="date"/>
+                            </h:outputText>
+                            <h:outputText value="#{mensagem.data}">
+                                <f:convertDateTime pattern="HH:mm"
+                                                   timeStyle="short" 
+                                                   type="time"/>
 
-                </h:outputText>
-                <h:outputText value="#{mensagem.conteudo}"/>
+                            </h:outputText>
+                            <h:outputText value="#{mensagem.conteudo}"/>
 
-                <p:commandButton value="X" 
-                                 action="#{controllerPaciente.
-                                           excluirMensagem(mensagem)}"
-                                 update="form-principal:mensagem-feed"/>
-            </p:dataList>
+                            <p:commandButton value="X" 
+                                             action="#{controllerPaciente.
+                                                   excluirMensagem(mensagem)}"
+                                         update="form-principal:mensagens-feed"
+                                             ajax="false"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:repeat>
+            </p:panel>
 
+            <p:commandButton value="Sair" 
+                             action="#{controllerPaciente.fazerLogout()}"
+                             ajax="false" update="form-principal"/>
 
-                <p:commandButton value="Sair" 
-                                 action="#{controllerPaciente.fazerLogout()}"
-                                 ajax="false" update="form-principal"/>
-
-                <br/>
-                <h:link value="Fazer novo agendamento" 
-                        outcome="/acoes/novo_agendamento.xhtml"/><br/>
-                <h:link value="Apresentar agendamentos já feitos" 
-                        outcome="/acoes/agendamentos_feitos.xhtml"/><br/>
-                <h:link value="Agendamentos pendentes" 
-                        outcome="/acoes/agendamentos_pendentes.xhtml"/><br/>
-                <h:link value="Alterar informações pessoais" 
-                        outcome="informacoes_pessoais.xhtml"/><br/>
-                <h:link value="Sugestões/Opiniões" outcome="sugestoes.xhtml"/>
+            <br/>
+            <h:link value="Fazer novo agendamento" 
+                    outcome="/acoes/novo_agendamento.xhtml"/><br/>
+            <h:link value="Apresentar agendamentos já feitos" 
+                    outcome="/acoes/agendamentos_feitos.xhtml"/><br/>
+            <h:link value="Agendamentos pendentes" 
+                    outcome="/acoes/agendamentos_pendentes.xhtml"/><br/>
+            <h:link value="Alterar informações pessoais" 
+                    outcome="informacoes_pessoais.xhtml"/><br/>
+            <h:link value="Sugestões/Opiniões" outcome="sugestoes.xhtml"/>
         </h:form>
     </h:body>
 </html>

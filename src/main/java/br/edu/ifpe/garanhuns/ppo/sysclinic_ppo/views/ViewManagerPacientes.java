@@ -43,4 +43,10 @@ public final class ViewManagerPacientes {
             new DaoPaciente().atualizar(p);
         }
     }
+    
+    public void excluirMensagem(Mensagem m, Paciente p){
+        p.getFeed().excluirMensagem(m);
+        
+        new DaoPaciente().atualizar(p);
+    }
 }
