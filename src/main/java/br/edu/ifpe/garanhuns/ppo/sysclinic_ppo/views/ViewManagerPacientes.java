@@ -6,6 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.views;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Feed;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
@@ -22,12 +23,12 @@ import org.apache.tomcat.jni.Library;
  */
 public final class ViewManagerPacientes {
     
-    public void incluirMensagensExclusaoDeAgendamento(Medico m){
-        List<Agendamento> agendamentos = m.getAgenda().getAgendamentos();
+    private Feed feed;
+    
+    public void incluirMensagensExclusaoDeAgendamento(Medico m, Paciente p, 
+            Agendamento agendamento){
         
-        for (Agendamento agendamento : agendamentos) {
-            Paciente p = agendamento.getPaciente();
-            
+                        
             String conteudoMensagem = "O agendamento feito para o médico "
             + m.getNome() + ", " + m.getConselho() + ", especialidade " 
                     + m.getEspecialidade() + ", para a data " + 
@@ -40,13 +41,15 @@ public final class ViewManagerPacientes {
                     new Mensagem(new Date(System.currentTimeMillis()), 
                         conteudoMensagem, "Alerta"));
             
-            new DaoPaciente().atualizar(p);
-        }
+        
     }
     
     public void excluirMensagem(Mensagem m, Paciente p){
         p.getFeed().excluirMensagem(m);
-        
-        new DaoPaciente().atualizar(p);
     }
+    
+    public List<Mensagem> exibirMensagens(Paciente p){
+        return p.getFeed().getMensagens();
+    }
+    
 }

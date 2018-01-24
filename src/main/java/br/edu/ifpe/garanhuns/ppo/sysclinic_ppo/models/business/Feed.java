@@ -55,8 +55,6 @@ public class Feed implements Serializable{
                break;
            }
        }
-   }
-   
-   
+   }  
   
 }

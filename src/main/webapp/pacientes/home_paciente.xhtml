@@ -18,8 +18,9 @@
             <p:panel header="Feed" toggleOrientation="vertical"
                      toggleable="true">
                 <p:repeat id="mensagem-feed" 
-                          value="#{controllerPaciente.pacienteLogado.feed.
-                                   mensagens}" var="mensagem">
+                          value="#{controllerPaciente.
+                                   exibirMensagens(controllerPaciente.
+                                   pacienteLogado)}" var="mensagem">
                     <p:outputPanel>
                         <p:panelGrid columns="4">
                             <h:outputText value="#{mensagem.data}">
@@ -37,14 +38,15 @@
 
                             <p:commandButton value="X" 
                                              action="#{controllerPaciente.
-                                                   excluirMensagem(mensagem)}"
+                                                    excluirMensagem(mensagem)}"
                                          update="form-principal:mensagens-feed"
                                              ajax="false"/>
                         </p:panelGrid>
                     </p:outputPanel>
                 </p:repeat>
-            </p:panel>
 
+            </p:panel>
+            
             <p:commandButton value="Sair" 
                              action="#{controllerPaciente.fazerLogout()}"
                              ajax="false" update="form-principal"/>
