@@ -67,7 +67,8 @@
                                                      target="#{controllerMedico.
                                                      medicoSelecionado}"/>
                     </p:commandButton>
-                    
+                </p:column>
+                <p:column>
                     <p:commandButton value="Horários" 
                                      update=":apresentarMedicosForm
                                      :apresentarHorariosDialForm"
@@ -76,6 +77,13 @@
                                                      target="#{
                                                      controllerMedico.
                                                          medicoSelecionado}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Editar horários"
+                                     update=":apresentarMedicosForm 
+                                     :dial-editar-horarios"
+                           oncomplete="PF('wid-dial-editar-horarios').show()">
+                        <f:setPropertyActionListener value="#{medico}"
+                                                     target="#{controllerMedico.medicoSelecionado}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -259,6 +267,10 @@
                 </p:dataTable>
             </h:form>
         </p:dialog>
+        
+        <p:dialog closable="true" dynamic="true" header="Editar horários"
+                  id="dial-editar-horarios" modal="true" responsive="true"
+                  visible="false" widgetVar="wid-dial-editar-horarios"/>
     </h:body>
 </html>
 
