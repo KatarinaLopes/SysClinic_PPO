@@ -25,15 +25,15 @@
                 <p:column headerText="Conselho">
                     <h:outputText value="#{medico.conselho}"/>
                 </p:column>
-                
+
                 <p:column headerText="Especialidade">
                     <h:outputText value="#{medico.especialidade}"/>
                 </p:column>
-                
+
                 <p:column headerText="Telefone">
                     <h:outputText value="#{medico.telefone}"/>
                 </p:column>
-                 
+
                 <p:column>
 
                     <p:commandButton value="Visualizar" 
@@ -41,7 +41,7 @@
                                      oncomplete="PF('widVisualizarMedico').show()">
                         <f:setPropertyActionListener value="#{medico}" 
                                                      target="#{controllerMedico.
-                                                    medicoSelecionado}"/>
+                                                               medicoSelecionado}"/>
                     </p:commandButton>
 
                     <p:commandButton value="Alterar"
@@ -54,9 +54,9 @@
                         <f:setPropertyActionListener value="#{medico}"
                                                      target="#{
                                                      controllerMedico.
-                                                     medicoSelecionado}"/>
+                                                         medicoSelecionado}"/>
                     </p:commandButton>
-                    
+
                     <p:commandButton value="Excluir" 
                                      update=":apresentarMedicosForm"
                                      rendered="#{controllerFuncionario.
@@ -65,7 +65,7 @@
                                      oncomplete="PF('widConfirmDialog').show()">
                         <f:setPropertyActionListener value="#{medico}"
                                                      target="#{controllerMedico.
-                                                     medicoSelecionado}"/>
+                                                               medicoSelecionado}"/>
                     </p:commandButton>
                 </p:column>
                 <p:column>
@@ -81,7 +81,7 @@
                     <p:commandButton value="Editar horários"
                                      update=":apresentarMedicosForm 
                                      :dial-editar-horarios"
-                           oncomplete="PF('wid-dial-editar-horarios').show()">
+                                     oncomplete="PF('wid-dial-editar-horarios').show()">
                         <f:setPropertyActionListener value="#{medico}"
                                                      target="#{controllerMedico.medicoSelecionado}"/>
                     </p:commandButton>
@@ -108,11 +108,11 @@
                     <h:outputText value="Nome"/>
                     <h:outputText value="
                                   #{controllerMedico.medicoSelecionado.nome}"/>
-                    
+
                     <h:outputText value="Sexo"/>
                     <h:outputText value="#{controllerMedico.medicoSelecionado.
                                            sexo}"/>
-                    
+
                     <h:outputText value="Conselho"/>
                     <h:outputText value="#{
                                   controllerMedico.medicoSelecionado.
@@ -132,7 +132,7 @@
                                   #{controllerFuncionario.
                                     funcionarioSelecionado.email}"/>
                 </p:panelGrid>
-                
+
             </h:form>
 
         </p:dialog>
@@ -150,7 +150,7 @@
                                  value="#{controllerMedico.medicoSelecionado.
                                           matricula}"/>
                     <p:message for="matricula"/>
-                    
+
                     <h:outputText value="Data de admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
                                 maxdate="today" required="true"
@@ -158,7 +158,7 @@
                                 value="#{controllerMedico.medicoSelecionado.
                                          dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
-                    
+
                     <h:outputText value="Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
                                  placeholder="Ex.: Maria da Silva" required="true"
@@ -181,19 +181,19 @@
 
                     <h:outputText value="Conselho"/>
                     <p:inputText id="conselho" 
-                                value="#{
-                                controllerMedico.medicoSelecionado.conselho}"
-                                required="true" 
-                                requiredMessage="Campo obrigatório"/>
+                                 value="#{
+                                 controllerMedico.medicoSelecionado.conselho}"
+                                 required="true" 
+                                 requiredMessage="Campo obrigatório"/>
                     <p:message for="conselho"/>
 
-                    
+
                     <h:outputText value="Especialidade"/>
                     <p:inputText id="especialidade" value="#{controllerMedico.
                                                              medicoSelecionado.
                                                              especialidade}"/>
                     <p:message for="especialidade"/>
-                    
+
                     <h:outputText value="Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
                                  value="#{
@@ -208,7 +208,7 @@
                                  placeholder="email@email.com"/>
                     <p:message for="email"/>
 
-                    
+
 
                 </p:panelGrid>
 
@@ -223,27 +223,27 @@
             </h:form>
 
         </p:dialog>
-        
+
         <p:dialog id="confirmDialog" visible="false" modal="true" 
                   dynamic="true"
-                         widgetVar="widConfirmDialog">
+                  widgetVar="widConfirmDialog">
             Deseja realmente excluir este médico?<br/>
             Todos os agendamentos serão excluídos.
             <br/>
             <p:commandButton value="Sim"
                              action="#{controllerPaciente.
-                      incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
-                                               medicoSelecionado)}"
+                                       incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
+                                       medicoSelecionado)}"
                              actionListener="#{controllerMedico.
-                                                   deletar(
-                                                   controllerMedico.
-                                                   medicoSelecionado)}"
+                                               deletar(
+                                               controllerMedico.
+                                               medicoSelecionado)}"
                              oncomplete="PF('widConfirmDialog').hide()"/>
             <p:commandButton value="Não" 
                              oncomplete="PF('widConfirmDialog').hide()"/>
-            
+
         </p:dialog>
-        
+
         <p:dialog id="dialHorario" header="Horários" modal="true"  
                   visible="false" widgetVar="widDialHorario">
             <h:form id="apresentarHorariosDialForm">
@@ -251,26 +251,115 @@
                              value="#{controllerMedico.
                                       medicoSelecionado.horarios}" 
                              rowKey="#{horarios.dia}">
-                
+
                     <p:column headerText="Dia">
                         <h:outputText value="#{horario.dia}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Horário inicial">
                         <h:outputText value="#{horario.horarioInicial}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Horário final">
                         <h:outputText value="#{horario.horarioFinal}"/>
                     </p:column>
-                
+
                 </p:dataTable>
             </h:form>
         </p:dialog>
-        
+
         <p:dialog closable="true" dynamic="true" header="Editar horários"
                   id="dial-editar-horarios" modal="true" responsive="true"
-                  visible="false" widgetVar="wid-dial-editar-horarios"/>
+                  visible="false" widgetVar="wid-dial-editar-horarios">
+           
+            <h:form>
+            <h3>
+                <h:outputText value="#{controllerMedico.medicoSelecionado.nome}
+                              - #{controllerMedico.medicoSelecionado.matricula}"/>
+            </h3>        
+
+            <p:dataTable disabledSelection="true" editable="true" 
+                         editMode="cell"
+                         id="tabela-editar-horarios" paginator="true" 
+                         rows="5" 
+                         value="#{controllerMedico.medicoSelecionado.horarios}"
+                         var="horario">
+
+                    <p:column headerText="Dia">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{horario.dia}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="dia" required="true" 
+                                                 value="#{horario.dia}">
+                                    <f:selectItems value="#{builderMedico.
+                                                            diasDaSemana}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Horário inicial">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{horario.horarioInicial}">
+                                    <f:convertDateTime timeStyle="short" 
+                                                       type="time"/>
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:calendar pattern="HH:mm" readonlyInput="true"
+                                            timeInput="true" timeOnly="true" 
+                                            value="#{horario.horarioInicial}">
+                                    <f:convertDateTime timeStyle="short" 
+                                                       type="time" 
+                                                       timeZone="#{initParam.
+                                                                 timezone}"/>
+                                </p:calendar>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Horário final">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{horario.horarioFinal}">
+                                    <f:convertDateTime timeStyle="short"
+                                                       type="time"/>
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:calendar pattern="HH:mm" readonlyInput="true"
+                                            timeInput="true" timeOnly="true" 
+                                            value="#{horario.horarioFinal}">
+                                    <f:convertDateTime timeStyle="short"
+                                                       type="time"
+                                                       timeZone="#{initParam.
+                                                                   timezone}"/>
+                                </p:calendar>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Agendamentos">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText
+                                    value="#{horario.limiteDeAgendamentos}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText 
+                                    value="#{horario.limiteDeAgendamentos}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+            </p:dataTable>
+
+            <p:commandButton value="Editar" 
+                             action="#{controllerMedico.
+                                       atualizar(controllerMedico.
+                                       medicoSelecionado)}"
+                             oncomplete="PF('wid-dial-editar-horarios').hide()"/>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 
