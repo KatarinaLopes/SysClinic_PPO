@@ -275,23 +275,23 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             
     }
     
+    public void incluirMensagemDeAlteracaoDeHorario(Medico m, 
+            Date horarioAnterior){
+        for (Agendamento agendamento : m.getAgenda().getAgendamentos()) {
+            Paciente p = agendamento.getPaciente();
+            viewManagerPacientes.incluirMensagensAlteracaoDeHorario(m, p, 
+                    horarioAnterior, agendamento);
+            atualizar(p);
+        }
+    }
+    
     public List<Mensagem> exibirMensagens(Paciente p){
         return viewManagerPacientes.exibirMensagens(p);
     }
-    
     public void excluirMensagem(Mensagem m){
         viewManagerPacientes.excluirMensagem(m, pacienteLogado);
         atualizar(pacienteLogado);
     }
     
-    private int i = 1;
-    
-    public int getI(){
-        return i;
-    }
-    
-    public void increment(){
-        i++;
-    }
     
 }
