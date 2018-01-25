@@ -15,6 +15,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPacient
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import com.google.gson.Gson;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -293,5 +294,19 @@ public class ControllerMedico {
         return agendamentosConclidos;
 
     }
-    
+ 
+    public void atualizarHorario(Medico m, Horario h, int dia, Date inicial, 
+            Date dFinal, int limite) {
+        
+        Horario antigo = h;
+              
+        Horario novo = new Horario(dia, inicial , dFinal, limite); 
+        
+        System.out.println(inicial + " g g " + 
+                novo.getHorarioInicial());
+        
+        m.atualizarHorario(h, novo);
+      //m.getAgenda().atualizarAgendamentoHorario(antigo, novo);
+        atualizar(m);
+    }
 }

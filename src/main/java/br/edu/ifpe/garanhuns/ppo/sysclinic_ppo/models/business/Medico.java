@@ -6,6 +6,9 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +16,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -333,4 +338,24 @@ public class Medico implements Serializable {
         
         return null;
     }*/
+    
+    public void atualizarHorario(Horario antigo, Horario novo){
+        
+        Date horarioAntigo = antigo.getHorarioInicial();
+        Date horarioNovo = novo.getHorarioInicial();
+        
+        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
+             
+        
+        for (Horario horario : horarios) {
+            if(horario.equals(antigo)){
+                horario.setDia(novo.getDia());
+                horario.setHorarioInicial(novo.getHorarioInicial());
+                horario.setHorarioFinal(novo.getHorarioFinal());
+                horario.setLimiteDeAgendamentos(novo.
+                        getLimiteDeAgendamentos());
+            }
+        }
+        
+    }
 }

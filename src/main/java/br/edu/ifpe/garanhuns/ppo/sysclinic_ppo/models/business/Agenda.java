@@ -26,10 +26,9 @@ import javax.persistence.OneToOne;
  * @author Katarina
  */
 @Embeddable
-public class Agenda implements Serializable{
-    
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, 
+public class Agenda implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true)
     private List<Agendamento> agendamentos = new ArrayList<>();
 
@@ -45,8 +44,6 @@ public class Agenda implements Serializable{
         this.agendamentos = agendamentos;
     }
 
-    
-    
     /*public boolean verificarSeDataEPossivel(Date data) {
 
         Calendar calendar = new GregorianCalendar();
@@ -155,36 +152,45 @@ public class Agenda implements Serializable{
         
         return null;
     }*/
-    
-    public void adicionarAgendamento(Agendamento a){
-        
+    public void adicionarAgendamento(Agendamento a) {
+
         agendamentos.add(a);
     }
-  
-    public List<Agendamento> retornarAgendamentosConcluidos(){
+
+    public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.isRealizada() == true){
+            if (agendamento.isRealizada() == true) {
                 agendamentosConcluidos.add(agendamento);
             }
         }
-        
+
         return agendamentosConcluidos;
     }
-    
-    public List<Agendamento> retornarAgendamentosConcluidosPacientes
-        (Paciente p){
+
+    public List<Agendamento> retornarAgendamentosConcluidosPacientes(Paciente p) {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.isRealizada() && 
-                    agendamento.getPaciente().getId() == p.getId()){
+            if (agendamento.isRealizada()
+                    && agendamento.getPaciente().getId() == p.getId()) {
                 agendamentosConcluidos.add(agendamento);
             }
         }
-        
+
         return agendamentosConcluidos;
     }
-       
+
+    public void atualizarAgendamentoHorario(Date antigo, Date novo) {
+        System.out.println(antigo + " f " + 
+                novo);      
+        
+        for (Agendamento agendamento : agendamentos) {
+            System.out.println(agendamento.getPeriodo());
+            if(agendamento.getPeriodo().equals(antigo)){
+                agendamento.setPeriodo(novo);
+            }
+        }
+    }
 }

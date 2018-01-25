@@ -271,20 +271,28 @@
         <p:dialog closable="true" dynamic="true" header="Editar horários"
                   id="dial-editar-horarios" modal="true" responsive="true"
                   visible="false" widgetVar="wid-dial-editar-horarios">
-           
+
             <h:form>
-            <h3>
-                <h:outputText value="#{controllerMedico.medicoSelecionado.nome}
-                              - #{controllerMedico.medicoSelecionado.matricula}"/>
-            </h3>        
+                <h3>
+                    <h:outputText value="#{controllerMedico.medicoSelecionado.nome}
+                                  - #{controllerMedico.medicoSelecionado.matricula}"/>
+                </h3>        
 
-            <p:dataTable disabledSelection="true" editable="true" 
-                         editMode="cell"
-                         id="tabela-editar-horarios" paginator="true" 
-                         rows="5" 
+                <p:dataTable disabledSelection="true" editable="true" 
+                             id="tabela-editar-horarios" paginator="true" 
+                             rows="5" 
                          value="#{controllerMedico.medicoSelecionado.horarios}"
-                         var="horario">
+                             var="horario">
 
+                    <p:ajax event="rowEdit" 
+                            listener="#{controllerMedico.
+                                        atualizarHorario(controllerMedico.
+                                        medicoSelecionado,
+                                        horario, dia, 
+                                        horarioInicial, horarioFinal, 
+                                        agendamentos)}"
+                            update="tabela-editar-horarios"/>
+                    
                     <p:column headerText="Dia">
                         <p:cellEditor>
                             <f:facet name="output">
@@ -292,7 +300,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <p:selectOneMenu id="dia" required="true" 
-                                                 value="#{horario.dia}">
+                                                 value="#{dia}">
                                     <f:selectItems value="#{builderMedico.
                                                             diasDaSemana}"/>
                                 </p:selectOneMenu>
@@ -304,17 +312,19 @@
                             <f:facet name="output">
                                 <h:outputText value="#{horario.horarioInicial}">
                                     <f:convertDateTime timeStyle="short" 
-                                                       type="time"/>
+                                                       type="time"
+                                                       timeZone="#{initParam.
+                                                                   timezone}"/>
                                 </h:outputText>
                             </f:facet>
                             <f:facet name="input">
                                 <p:calendar pattern="HH:mm" readonlyInput="true"
                                             timeInput="true" timeOnly="true" 
-                                            value="#{horario.horarioInicial}">
+                                            value="#{horarioInicial}">
                                     <f:convertDateTime timeStyle="short" 
                                                        type="time" 
                                                        timeZone="#{initParam.
-                                                                 timezone}"/>
+                                                                   timezone}"/>
                                 </p:calendar>
                             </f:facet>
                         </p:cellEditor>
@@ -330,7 +340,7 @@
                             <f:facet name="input">
                                 <p:calendar pattern="HH:mm" readonlyInput="true"
                                             timeInput="true" timeOnly="true" 
-                                            value="#{horario.horarioFinal}">
+                                            value="#{horarioFinal}">
                                     <f:convertDateTime timeStyle="short"
                                                        type="time"
                                                        timeZone="#{initParam.
@@ -351,13 +361,16 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-            </p:dataTable>
+                    <p:column>
+                        <p:rowEditor/>
+                    </p:column>
+                </p:dataTable>
 
-            <p:commandButton value="Editar" 
-                             action="#{controllerMedico.
-                                       atualizar(controllerMedico.
-                                       medicoSelecionado)}"
-                             oncomplete="PF('wid-dial-editar-horarios').hide()"/>
+                <p:commandButton value="Editar" 
+                                 action="#{controllerMedico.
+                                           atualizar(controllerMedico.
+                                           medicoSelecionado)}"
+                           oncomplete="PF('wid-dial-editar-horarios').hide()"/>
             </h:form>
         </p:dialog>
     </h:body>

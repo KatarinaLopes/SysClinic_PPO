@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -96,5 +97,51 @@ public class Agendamento implements Serializable{
     public void setRealizada(boolean realizada) {
         this.realizada = realizada;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.id;
+        hash = 53 * hash + Objects.hashCode(this.dataPrevista);
+        hash = 53 * hash + Objects.hashCode(this.paciente);
+        hash = 53 * hash + Objects.hashCode(this.medico);
+        hash = 53 * hash + Objects.hashCode(this.periodo);
+        hash = 53 * hash + (this.realizada ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Agendamento other = (Agendamento) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.realizada != other.realizada) {
+            return false;
+        }
+        if (!Objects.equals(this.dataPrevista, other.dataPrevista)) {
+            return false;
+        }
+        if (!Objects.equals(this.paciente, other.paciente)) {
+            return false;
+        }
+        if (!Objects.equals(this.medico, other.medico)) {
+            return false;
+        }
+        if (!Objects.equals(this.periodo, other.periodo)) {
+            return false;
+        }
+        return true;
+    }
+ 
     
 }
