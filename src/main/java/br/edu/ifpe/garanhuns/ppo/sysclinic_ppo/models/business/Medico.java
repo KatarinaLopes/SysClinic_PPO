@@ -342,10 +342,7 @@ public class Medico implements Serializable {
     public void atualizarHorario(Horario antigo, Horario novo){
         
         Date horarioAntigo = antigo.getHorarioInicial();
-        Date horarioNovo = novo.getHorarioInicial();
-        
-        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
-             
+        Date horarioNovo = novo.getHorarioInicial();           
         
         for (Horario horario : horarios) {
             if(horario.equals(antigo)){
@@ -357,5 +354,6 @@ public class Medico implements Serializable {
             }
         }
         
+        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
     }
 }
