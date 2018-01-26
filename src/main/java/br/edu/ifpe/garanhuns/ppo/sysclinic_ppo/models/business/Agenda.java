@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -183,14 +184,51 @@ public class Agenda implements Serializable {
     }
 
     public void atualizarAgendamentoHorario(Date antigo, Date novo) {
-        System.out.println(antigo + " f " + 
-                novo);      
-        
+        System.out.println(antigo + " f "
+                + novo);
+
         for (Agendamento agendamento : agendamentos) {
             System.out.println(agendamento.getPeriodo());
-            if(agendamento.getPeriodo().equals(antigo)){
+            if (agendamento.getPeriodo().equals(antigo)) {
                 agendamento.setPeriodo(novo);
             }
         }
+    }
+
+    public List<Paciente> listarPacientesMarcados(Date periodo) {
+        List<Paciente> pacientesMarcados = new ArrayList<>();
+
+        for (Agendamento agendamento : agendamentos) {
+            if (agendamento.getPeriodo().equals(periodo)) {
+                pacientesMarcados.add(agendamento.getPaciente());
+            }
+        }
+
+        return pacientesMarcados;
+    }
+    
+    public HashMap<Paciente, Date> listarPacientesAgendados(){
+        HashMap<Paciente, Date> pacientesMarcados = new HashMap<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            pacientesMarcados.put(agendamento.getPaciente(), 
+                    agendamento.getDataPrevista());
+        }
+        
+        return pacientesMarcados;
+    }
+    
+    public HashMap<Paciente, Date> listarPacientesAgendados(Date 
+            horarioInicial){
+        HashMap<Paciente, Date> pacientesAgendados = new HashMap<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(agendamento.getPeriodo().equals(horarioInicial)){
+                pacientesAgendados.put(agendamento.getPaciente(), 
+                        agendamento.getDataPrevista());
+            }
+        }
+        
+        return pacientesAgendados;
     }
 }

@@ -231,10 +231,10 @@
             Todos os agendamentos serão excluídos.
             <br/>
             <p:commandButton value="Sim"
-                             action="#{controllerPaciente.
+                             actionListener="#{controllerPaciente.
                                        incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
                                        medicoSelecionado)}"
-                             actionListener="#{controllerMedico.
+                             action="#{controllerMedico.
                                                deletar(
                                                controllerMedico.
                                                medicoSelecionado)}"

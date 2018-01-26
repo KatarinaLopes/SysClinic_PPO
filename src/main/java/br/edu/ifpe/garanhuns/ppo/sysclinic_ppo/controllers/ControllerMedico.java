@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
@@ -14,7 +15,6 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.views.ViewManagerPacientes;
 import com.google.gson.Gson;
 import java.sql.Time;
 import java.text.DateFormat;
@@ -307,6 +307,11 @@ public class ControllerMedico {
                 novo.getHorarioInicial());
         
         m.atualizarHorario(h, novo);
+        
+        new PacienteManager().inserirMensagemDeAlteracaoDeHorarioNoFeed(m.
+                getAgenda().listarPacientesAgendados(h.getHorarioInicial()), 
+                novo.getHorarioInicial(), m);
+        
         //m.getAgenda().atualizarAgendamentoHorario(antigo, novo);
         atualizar(m);
         

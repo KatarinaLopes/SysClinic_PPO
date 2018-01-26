@@ -18,11 +18,13 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.Da
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.views.ViewManagerPacientes;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FeedManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,9 +56,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
-    
-    private ViewManagerPacientes viewManagerPacientes = 
-            new ViewManagerPacientes();
 
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -266,30 +265,33 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     public void incluirMensagensDeExclusaoDeAgendamento(Medico m){
         System.out.println(m);
-        for (Agendamento agendamento : m.getAgenda().getAgendamentos()) {
-            Paciente p = agendamento.getPaciente();
-            viewManagerPacientes.incluirMensagensExclusaoDeAgendamento(m, p, 
-                    agendamento);
-            atualizar(p);
-        }
-            
+        
+        HashMap<Paciente, Date> pacientesMarcados = m.getAgenda().
+                listarPacientesAgendados();
+        
+        new PacienteManager().
+                inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
+        
+        //FeedManager.inserirMensagemDeExclusao(pacientesMarcados, m);
+        
+        
     }
     
     public void incluirMensagemDeAlteracaoDeHorario(Medico m, 
-            Date horarioAnterior){
-        for (Agendamento agendamento : m.getAgenda().getAgendamentos()) {
-            Paciente p = agendamento.getPaciente();
-            viewManagerPacientes.incluirMensagensAlteracaoDeHorario(m, p, 
-                    horarioAnterior, agendamento);
-            atualizar(p);
-        }
+            Date horarioAnterior, Date horarioNovo){
+        
+        List<Paciente> pacientesAgendados = m.getAgenda().
+                listarPacientesMarcados(horarioAnterior);
+        
+        //FeedManager.inserirMensagemDeAtualizacaoDeHorario(pacientesAgendados, 
+          //      horarioAnterior, horarioNovo, m);
     }
     
     public List<Mensagem> exibirMensagens(Paciente p){
-        return viewManagerPacientes.exibirMensagens(p);
+        return FeedManager.exibirMensagens(p);
     }
     public void excluirMensagem(Mensagem m){
-        viewManagerPacientes.excluirMensagem(m, pacienteLogado);
+        new PacienteManager().excluirMensagem(pacienteLogado, m);
         atualizar(pacienteLogado);
     }
     
