@@ -1,10 +1,12 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,35 +25,51 @@ public class PacienteManager {
 
     private DaoGenerico daoPaciente = new DaoPaciente();
 
-    private FeedManager feedManager = new FeedManager();
+    private static FeedManager feedManager = FeedManager.getInstance();
+    
+    private static PacienteManager myself = null;
+    
+    private PacienteManager(){
+        
+    }
+    
+    public static PacienteManager getInstance(){
+        if(myself == null)
+            myself = new PacienteManager();
+        return myself;
+    }
     
     public void inserirMensagemDeExclusaoNoFeed(HashMap<Paciente, Date> 
             rolPacientes, Medico m){
         feedManager.inserirMensagemDeExclusao(rolPacientes, m);
         
-        atualizar(rolPacientes.keySet());
+        //atualizar(rolPacientes.keySet());
     }
     
     public void inserirMensagemDeAlteracaoDeHorarioNoFeed(
-            HashMap<Paciente,Date> pacientes, Date horarioNovo, Medico m){
-        feedManager.inserirMensagemDeAtualizacaoDeHorario(pacientes, 
+            List<Agendamento> agendamentos, Date horarioNovo, Medico m){
+        
+        
+        feedManager.inserirMensagemDeAtualizacaoDeHorario(agendamentos,
                 horarioNovo, m);
         
-        atualizar(pacientes.keySet());
     }
     
     public void excluirMensagem(Paciente p, Mensagem m){
         feedManager.excluirMensagem(m, p);
         
-        atualizar(p);
+    }
+    
+    public List<Mensagem> retornarTodasAsMensagens(Paciente p){
+        return p.getFeed().getMensagens();
     }
     
     public void atualizar(Paciente p){
         daoPaciente.atualizar(p);
     }
     
-    public void atualizar(Collection<Paciente> pacientes){
-        for (Paciente paciente : pacientes) {
+    public void atualizarListaDePacientes(){
+        for (Paciente paciente : feedManager.getPacientesAAtualizar()) {
             daoPaciente.atualizar(paciente);
         }
     }

@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -178,6 +179,51 @@ public class Paciente implements Serializable{
 
     public void setFeed(Feed feed) {
         this.feed = feed;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.dataAdmissao);
+        hash = 37 * hash + Objects.hashCode(this.nome);
+        hash = 37 * hash + Objects.hashCode(this.sexo);
+        hash = 37 * hash + Objects.hashCode(this.dataNascimento);
+        hash = 37 * hash + Objects.hashCode(this.cpf);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Paciente other = (Paciente) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.sexo, other.sexo)) {
+            return false;
+        }
+        if (!Objects.equals(this.cpf, other.cpf)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataAdmissao, other.dataAdmissao)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataNascimento, other.dataNascimento)) {
+            return false;
+        }
+        return true;
     }
 
     

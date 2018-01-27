@@ -28,6 +28,31 @@ import org.apache.tomcat.jni.Library;
 public final class FeedManager {
 
     private Feed feed;
+    
+    private List<Paciente> pacientesAAtualizar = new ArrayList<>();
+
+    
+    private static FeedManager myself;
+    
+    private FeedManager(){
+        
+    }   
+    
+    public static FeedManager getInstance(){
+        if(myself == null)
+            myself = new FeedManager();
+        return myself;
+    }
+
+    public List<Paciente> getPacientesAAtualizar() {
+        return pacientesAAtualizar;
+    }
+
+    public void setPacientesAAtualizar(List<Paciente> pacientesAAtualizar) {
+        this.pacientesAAtualizar = pacientesAAtualizar;
+    }
+    
+    
 
     public void inserirMensagemDeExclusao(HashMap<Paciente, Date> rolPacientes,
             Medico medico) {
@@ -49,22 +74,14 @@ public final class FeedManager {
 
     }
 
-    public void inserirMensagemDeAtualizacaoDeHorario(HashMap<Paciente, Date> rolPacientes, Date horarioNovo, Medico medico) {
+    public void inserirMensagemDeAtualizacaoDeHorario(List<Agendamento> 
+            agendamentos, Date horarioNovo, Medico medico) {
 
-        List<Paciente> pacientes = new ArrayList<>();
-        pacientes.addAll(rolPacientes.keySet());
-        
-        Date[] datasPrevistas = (Date[]) rolPacientes.values().
-                toArray(new Date[rolPacientes.size()]);
-
-        int i = 0;
-
-        for (Paciente paciente : pacientes) {
-            paciente.getFeed().incluirMensagensAlteracaoDeHorario(
-                    datasPrevistas[i], horarioNovo, medico);
-
-            i++;
-
+        for (Agendamento agendamento : agendamentos) {
+            agendamento.getPaciente().getFeed().
+                    incluirMensagensAlteracaoDeHorario(
+                    agendamento.getDataPrevista(), horarioNovo, medico);
+            popularListaPaciente(agendamento.getPaciente());
         }
     }
 
@@ -77,4 +94,13 @@ public final class FeedManager {
         return p.getFeed().getMensagens();
     }
 
+    private void popularListaPaciente(Paciente p){
+        if(!pacientesAAtualizar.contains(p)){
+            pacientesAAtualizar.add(p);
+        }
+    }
+    
+    public void resetarListaDePacientes(){
+        pacientesAAtualizar.removeAll(pacientesAAtualizar);
+    }
 }

@@ -52,29 +52,22 @@ public class Feed implements Serializable {
     }
 
     public void incluirMensagem(Mensagem m) {
-        for (Mensagem mensagen : mensagens) {
-            if (m.equals(mensagen)) {
-                return;
-            }
+        if (!mensagens.contains(m)) {
+            mensagens.add(m);
         }
-
-        mensagens.add(m);
     }
 
     public void excluirMensagem(Mensagem m) {
-        for (Mensagem mensagen : mensagens) {
-            if (m.equals(mensagen)) {
-                mensagens.remove(mensagen);
-                break;
-            }
+        if (mensagens.contains(m)) {
+            mensagens.remove(m);
         }
     }
 
-    public void incluirMensagensExclusaoDeAgendamento(Medico medico, 
+    public void incluirMensagensExclusaoDeAgendamento(Medico medico,
             Date dataPrevista) {
 
         String conteudoMensagem = String.format(MENSAGEM_EXCLUSAO,
-                medico.getNome(), medico.getConselho(), 
+                medico.getNome(), medico.getConselho(),
                 medico.getEspecialidade(), dataPrevista);
 
         incluirMensagem(new Mensagem(new Date(System.currentTimeMillis()),
@@ -82,16 +75,17 @@ public class Feed implements Serializable {
 
     }
 
-    public void incluirMensagensAlteracaoDeHorario(Date dataAnterior, 
+    public void incluirMensagensAlteracaoDeHorario(Date dataAnterior,
             Date horarioNovo, Medico medico) {
-     
-        String conteudo = String.format(MENSAGEM_ALTERACAO, medico.getNome(), 
+
+        String conteudo = String.format(MENSAGEM_ALTERACAO, medico.getNome(),
                 medico.getConselho(), medico.getEspecialidade(),
                 new SimpleDateFormat("dd/MM/yyyy").format(dataAnterior),
                 new SimpleDateFormat("HH:mm").format(horarioNovo));
 
         incluirMensagem(new Mensagem(new Date(System.
                 currentTimeMillis()), conteudo, "Alerta"));
+
     }
 
 }

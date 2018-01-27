@@ -218,14 +218,14 @@ public class Agenda implements Serializable {
         return pacientesMarcados;
     }
     
-    public HashMap<Paciente, Date> listarPacientesAgendados(Date 
+    public List<Agendamento> listarPacientesAgendados(Date 
             horarioInicial){
-        HashMap<Paciente, Date> pacientesAgendados = new HashMap<>();
+        List<Agendamento> pacientesAgendados = new ArrayList<>();
         
         for (Agendamento agendamento : agendamentos) {
             if(agendamento.getPeriodo().equals(horarioInicial)){
-                pacientesAgendados.put(agendamento.getPaciente(), 
-                        agendamento.getDataPrevista());
+                
+                pacientesAgendados.add(agendamento);
             }
         }
         

@@ -56,7 +56,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
-
+    
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
@@ -269,7 +269,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         HashMap<Paciente, Date> pacientesMarcados = m.getAgenda().
                 listarPacientesAgendados();
         
-        new PacienteManager().
+        PacienteManager.getInstance().
                 inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
         
         //FeedManager.inserirMensagemDeExclusao(pacientesMarcados, m);
@@ -288,11 +288,12 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
     
     public List<Mensagem> exibirMensagens(Paciente p){
-        return FeedManager.exibirMensagens(p);
+        return PacienteManager.getInstance().retornarTodasAsMensagens(p);
     }
+    
     public void excluirMensagem(Mensagem m){
-        new PacienteManager().excluirMensagem(pacienteLogado, m);
-        atualizar(pacienteLogado);
+        PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
+        PacienteManager.getInstance().atualizar(pacienteLogado);
     }
     
     
