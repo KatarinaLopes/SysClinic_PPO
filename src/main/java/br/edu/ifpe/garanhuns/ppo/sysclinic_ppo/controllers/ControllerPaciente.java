@@ -266,8 +266,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     public void incluirMensagensDeExclusaoDeAgendamento(Medico m){
         System.out.println(m);
         
-        HashMap<Paciente, Date> pacientesMarcados = m.getAgenda().
-                listarPacientesAgendados();
+        List<Agendamento> pacientesMarcados = m.getAgenda().getAgendamentos();
         
         PacienteManager.getInstance().
                 inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);

@@ -39,19 +39,21 @@ public class PacienteManager {
         return myself;
     }
     
-    public void inserirMensagemDeExclusaoNoFeed(HashMap<Paciente, Date> 
-            rolPacientes, Medico m){
-        feedManager.inserirMensagemDeExclusao(rolPacientes, m);
+    public void inserirMensagemDeExclusaoNoFeed(List<Agendamento> agendamentos,
+            Medico m){
+        feedManager.inserirMensagemDeExclusao(agendamentos, m); 
         
+        atualizarListaDePacientes();
         //atualizar(rolPacientes.keySet());
     }
     
     public void inserirMensagemDeAlteracaoDeHorarioNoFeed(
             List<Agendamento> agendamentos, Date horarioNovo, Medico m){
         
-        
-        feedManager.inserirMensagemDeAtualizacaoDeHorario(agendamentos,
+        feedManager.inserirMensagemDeAtualizacaoDeHorario(agendamentos, 
                 horarioNovo, m);
+        
+        atualizarListaDePacientes();
         
     }
     

@@ -308,11 +308,11 @@ public class ControllerMedico {
         
         m.atualizarHorario(h, novo);
         
-        atualizar(m);
-        
         PacienteManager.getInstance().inserirMensagemDeAlteracaoDeHorarioNoFeed(m.
                 getAgenda().listarPacientesAgendados(h.getHorarioInicial()), 
                 novo.getHorarioInicial(), m);
+        
+        atualizar(m);
         
         PacienteManager.getInstance().atualizarListaDePacientes();
         

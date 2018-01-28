@@ -54,21 +54,15 @@ public final class FeedManager {
     
     
 
-    public void inserirMensagemDeExclusao(HashMap<Paciente, Date> rolPacientes,
+    public void inserirMensagemDeExclusao(List<Agendamento> agendamentos,
             Medico medico) {
 
-        List<Paciente> pacientes = new ArrayList<>();
-        pacientes.addAll(rolPacientes.keySet());
 
-        Date[] datasPrevistas = (Date[]) rolPacientes.values().toArray();
-
-        int i = 0;
-
-        for (Paciente paciente : pacientes) {
-            paciente.getFeed().incluirMensagensExclusaoDeAgendamento(medico,
-                    datasPrevistas[i]);
-
-            i++;
+        for (Agendamento agendamento : agendamentos) {
+            agendamento.getPaciente().getFeed().
+                    incluirMensagensExclusaoDeAgendamento(medico,
+                    agendamento.getDataPrevista());
+            popularListaPaciente(agendamento.getPaciente());
 
         }
 
