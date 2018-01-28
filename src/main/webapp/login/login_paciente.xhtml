@@ -14,30 +14,46 @@
                 <p:messages/>
             </p:poll>
             
-            <p:panelGrid columns="2">
-
-                <p:inputMask id="cpf" mask="999.999.999-99" value="#{nregistro}" 
-                             placeholder="Nº de registro" required="true"
-                             requiredMessage="Campo obrigatório!"/>
-
-                <p:message for="cpf"/>
-
-                <p:password id="senha" value="#{senha}" placeholder="Senha"
-                            required="true" 
-                            requiredMessage="Campo obrigatório!"/>
-
-                <p:message for="senha"/>
-
-            </p:panelGrid>
-
-            <p:commandButton value="OK" 
-                             action="#{controllerPaciente.fazerLogin(nregistro, senha)}"
-                             update=":form-login-paciente"/>
+            <h1>Página de login para pacientes</h1>
             
-            <h:link value="Cadastre-se!" 
-                    outcome="/acoes/cadastro_paciente.xhtml"/>
-            <p:spacer/>            
-            <h:link value="Acessar intranet" outcome="login_intranet.xhtml"/>
+            <p:panel>
+                <p:panelGrid columns="3">
+
+                    <h:outputText value="CPF"/>
+                    <p:inputMask id="cpf" mask="999.999.999-99" value="#{cpf}" 
+                                 placeholder="Apenas números" required="true"
+                                 requiredMessage="Campo obrigatório!"/>
+
+                    <p:message for="cpf"/>
+
+
+                    <h:outputText value="Senha"/>
+                    <p:password id="senha" value="#{senha}" placeholder="Senha"
+                                required="true" 
+                                requiredMessage="Campo obrigatório!"/>
+
+                    <p:message for="senha"/>
+
+                </p:panelGrid>
+
+                <p:commandButton value="Fazer login" 
+                                 action="#{controllerPaciente.
+                                           fazerLogin(cpf, senha)}"
+                                 update=":form-login-paciente"/>
+            </p:panel>
+
+            <p:panel>
+                <p:panelGrid columns="2">
+                    <h:link value="Voltar à página inicial" 
+                            outcome="/index.xhtml"/>         
+                    <h:link value="Acessar intranet" 
+                            outcome="login_intranet.xhtml"/>
+                </p:panelGrid>
+                
+                <h4>Não tem cadastro?</h4>
+                <h:link outcome="/acoes/cadastro_paciente.xhtml"
+                        value="Cadastre-se"/>
+            </p:panel>
         </h:form>
     </h:body>
 </html>
