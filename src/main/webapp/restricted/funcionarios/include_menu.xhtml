@@ -5,27 +5,31 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <p:menubar id="menubar-pacientes">
-        <p:menuitem icon="fa fa-home"
-                    value="Página principal" url="home_paciente.xhtml"/>
-        <p:submenu label="Agendamentos" icon="fa fa-calendar">
+    <p:menubar id="menubar-funcionarios">
+        <p:submenu icon="fa fa-calendar" label="Agendamentos">
             <p:menuitem value="Novo agendamento" 
                         url="/acoes/novo_agendamento.xhtml"/>
+            <p:menuitem value="Agendamentos para hoje"
+                        url="/acoes/agendamentos_hoje.xhtml"/>
             <p:menuitem value="Agendamentos pendentes"
                         url="/acoes/agendamentos_pendentes.xhtml"/>
             <p:menuitem value="Agendamentos feitos"
                         url="/acoes/agendamentos_feitos.xhtml"/>
         </p:submenu>
-        <p:menuitem icon="fa fa-user-md" value="Ver médicos cadastrados"
-                    url="/acoes/apresentar_medicos.xhtml"/>
-        <p:menuitem icon="fa fa-user" value="Alterar suas informações" 
-                    url="informacoes_pessoais.xhtml"/>
-        <p:menuitem icon="fa fa-info" value="Sugestões"
-                    url="sugestoes.xhtml"/>
+        <p:submenu icon="fa fa-user" label="Pacientes">
+            <p:menuitem value="Cadastrar paciente"
+                        url="/acoes/cadastro_paciente.xhtml"/>
+            <p:menuitem value="Pacientes cadastrados"
+                        url="pacientes_cadastrados.xhtml"/>
+        </p:submenu>
+        <p:menuitem icon="fa fa-user-md" value="Médicos cadastrados"
+                    url="apresentar_medicos.xhtml"/>
+        
         <f:facet name="options">
-            <p:commandButton action="#{controllerPaciente.fazerLogout()}" 
-                             ajax="false" icon="fa fa-external-link"
+            <p:commandButton action="#{controllerFuncionario.logout()}" 
+                             ajax="false" icon="fa fa-external-link" 
                              update="@form" value="Sair"/>
         </f:facet>
     </p:menubar>
 </ui:composition>
+
