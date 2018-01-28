@@ -8,33 +8,47 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>       
-        
+
         <h:form id="form-login-funcionario">
-            
+
             <p:poll>
                 <p:messages/>
             </p:poll>
-            
-            <p:panelGrid columns="3">
-                <h:outputText value="Matrícula"/>
-                <p:inputText id="campoMatricula" type="number"
-                             value="#{matricula}" 
-                             required="true" 
-                             requiredMessage="Campo obrigatório"/>
-                <p:message for="campoMatricula"/>
-                
-                <h:outputText value="Senha"/>
-                <p:password id="campoSenha" value="#{senha}" required="true"
-                             requiredMessage="Campo obrigatório"/>
-                <p:message for="campoSenha"/>
-                
-                
-            </p:panelGrid>
-            
-            <p:commandButton value="Login" action="#{controllerFuncionario.
-                                                     fazerLogin(matricula, 
-                                                     senha)}" 
-                             update=":form-login-funcionario" process="@all"/>
+
+            <h1>Página de login para funcionários</h1>
+
+            <p:panel>            
+                <p:panelGrid columns="3">
+                    <h:outputText value="Matrícula"/>
+                    <p:inputText id="campoMatricula" type="number"
+                                 value="#{matricula}" 
+                                 required="true" 
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:message for="campoMatricula"/>
+
+                    <h:outputText value="Senha"/>
+                    <p:password id="campoSenha" value="#{senha}" 
+                                required="true"
+                                requiredMessage="Campo obrigatório"/>
+                    <p:message for="campoSenha"/>
+
+
+                </p:panelGrid>
+
+                <p:commandButton value="Login" action="#{controllerFuncionario.
+                                                         fazerLogin(matricula, 
+                                                         senha)}" 
+                                 update=":form-login-funcionario" 
+                                 process="@all"/>
+            </p:panel>
+            <p:panel>
+                <p:panelGrid columns="2">
+                    <h:link outcome="login_paciente.xhtml" 
+                            value="Fazer login como paciente"/>
+                    <h:link outcome="/index.xhtml" 
+                            value="Ir para a páguna inicial"/>
+                </p:panelGrid>
+            </p:panel>
         </h:form>
     </h:body>
 </html>
