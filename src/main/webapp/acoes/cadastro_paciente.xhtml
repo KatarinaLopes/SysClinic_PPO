@@ -10,86 +10,114 @@
     </h:head>
     <h:body>
 
-        <h:form id="cadastroPacienteForm">
-            <h:link rendered="#{!controllerFuncionario.funcionarioLogado}"
-                    value="Ir para a página de login" 
-                    outcome="/login/login_paciente.xhtml"/>
-            <h:link rendered="#{controllerFuncionario.funcionarioLogado}"
-                    value="Ir para página principal"
-                    outcome="/funcionarios/home_funcionario.xhtml"/>
-
+        <h:form id="form-cadastro-pacientes">
             <p:poll>
-                <p:messages id="sjbd"/>
+                <p:messages/>
             </p:poll>
 
-            <p:panelGrid columns="3">
-                <h:outputText value="Nome"/> 
-                <p:inputText id="nome" maxlength="70" 
-                             placeholder="Ex.: Maria da Silva" required="true"
-                             requiredMessage="Campo obrigatório" 
-                             value="#{builderPaciente.nome}">
-                </p:inputText>
-                <p:message id="messageNome" for="nome"/>
+            <h1>Página de cadastro de pacientes</h1>
 
-                <h:outputText value="Sexo"/>
-                <p:selectOneRadio value="#{builderPaciente.sexo}" id="sexo"
-                                  required="true" 
-                                  requiredMessage="Campo obrigatório">
-                    <f:selectItem itemValue="F" itemLabel="Feminino"/>
-                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
-                </p:selectOneRadio>
-                <p:message for="sexo"/>
+            <p:panel>
 
-                <h:outputText value="Data de nascimento"/>
-                <p:calendar id="dataNascimento" 
-                            value="#{builderPaciente.dataNascimento}"
-                            pattern="dd-MM-yyyy" 
-                            placeholder="dd-mm-aaaa" required="true" 
-                            requiredMessage="Campo obrigatório"
-                            maxdate="today"/>
-                <p:message for="dataNascimento"/>
+                <p:panelGrid columns="2">
 
-                <h:outputText value="Telefone para contato"/>
-                <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
-                             value="#{builderPaciente.telefoneContato}"
-                             placeholder="(99)9999-9999" required="true" 
-                             requiredMessage="Campo obrigatório"/>
-                <p:message for="telefoneContato"/>
+                    <h:link 
+                        rendered="#{!controllerFuncionario.funcionarioLogado}"
+                        value="Ir para a página de login" 
+                        outcome="/login/login_paciente.xhtml"/>
+                    <h:link 
+                        rendered="#{controllerFuncionario.funcionarioLogado}"
+                        value="Ir para página principal"
+                        outcome="/funcionarios/home_funcionario.xhtml"/>
+                    <h:link 
+                        rendered="#{!controllerFuncionario.funcionarioLogado}"
+                        value="Ir para a pagina inicial"
+                        outcome="/index.xhtml"/>
+                </p:panelGrid>
+            </p:panel>
 
-                <h:outputText value="Celular"/>
-                <p:inputMask id="celular" mask="(99)9999-9999"
-                             placeholder="(99)99999-9999" 
-                             value="#{builderPaciente.celular}"/>
-                <p:message for="celular"/>
+            <p:panel>
+                Os campos com asterisco são obrigatórios.
+                
+                <p:panelGrid columns="3">
+                    <h:outputText value="*Nome"/> 
+                    <p:inputText id="nome" maxlength="70" 
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
+                                 requiredMessage="Campo obrigatório" 
+                                 value="#{builderPaciente.nome}">
+                    </p:inputText>
+                    <p:message id="messageNome" for="nome"/>
 
-                <h:outputText value="Email"/>
-                <p:inputText id="email" value="#{builderPaciente.email}"
-                             placeholder="email@email.com"/>
-                <p:message for="email"/>
+                    <h:outputText value="*Sexo"/>
+                    <p:selectOneRadio value="#{builderPaciente.sexo}" id="sexo"
+                                      required="true" 
+                                      requiredMessage="Campo obrigatório">
+                        <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                        <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                    </p:selectOneRadio>
+                    <p:message for="sexo"/>
 
-                <h:outputText value="CPF"/>
-                <p:inputMask id="cpf" mask="999.999.999-99"
-                             value="#{builderPaciente.cpf}"
-                             required="true"
-                             requiredMessage="Campo obrigatório"/>
-                <p:message for="cpf"/>
+                    <h:outputText value="*Data de nascimento"/>
+                    <p:calendar id="dataNascimento" 
+                                value="#{builderPaciente.dataNascimento}"
+                                pattern="dd-MM-yyyy" 
+                                placeholder="dd-mm-aaaa" required="true" 
+                                requiredMessage="Campo obrigatório"
+                                maxdate="today"/>
+                    <p:message for="dataNascimento"/>
 
-                <h:outputText value="Escolha uma senha"/>
-                <p:password id="senha" value="#{builderPaciente.senha}"
-                            required="true"
-                            requiredMessage="Campo obrigatório"/>
-                <p:message for="senha"/>
+                    <h:outputText value="*Telefone para contato"/>
+                    <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
+                                 value="#{builderPaciente.telefoneContato}"
+                                 placeholder="(99)9999-9999" required="true" 
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:message for="telefoneContato"/>
 
-                <h:outputText value="Confirme sua senha"/>
-                <p:password id="confirmeSenha" value="#{confirmeSenha}"
-                            required="true" 
-                            requiredMessage="Campo obrigatório"/>
-                <p:message id="mConfirmeSenha" for="confirmeSenha"/>
-            </p:panelGrid>
+                    <h:outputText value="Celular"/>
+                    <p:inputMask id="celular" mask="(99)9999-9999"
+                                 placeholder="(99)99999-9999" 
+                                 value="#{builderPaciente.celular}"/>
+                    <p:message for="celular"/>
 
-            <p:commandButton value="Cadastrar" 
-                             action="#{controllerPaciente.cadastrar(builderPaciente.build(), confirmeSenha)}"
-                             update=":cadastroPacienteForm"/>
+                    <h:outputText value="Email"/>
+                    <p:inputText id="email" value="#{builderPaciente.email}"
+                                 placeholder="email@email.com"/>
+                    <p:message for="email"/>
+
+                    <h:outputText value="*CPF"/>
+                    <p:inputMask id="cpf" mask="999.999.999-99"
+                                 value="#{builderPaciente.cpf}"
+                                 required="true"
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:message for="cpf"/>
+
+                    <h:outputText value="*Escolha uma senha"/>
+                    <p:password id="senha" value="#{builderPaciente.senha}"
+                                required="true"
+                                requiredMessage="Campo obrigatório"/>
+                    <p:message for="senha"/>
+
+                    <h:outputText value="*Confirme sua senha"/>
+                    <p:password id="confirmeSenha" value="#{confirmeSenha}"
+                                required="true" 
+                                requiredMessage="Campo obrigatório"/>
+                    <p:message id="mConfirmeSenha" for="confirmeSenha"/>
+                </p:panelGrid>
+                
+                <p>Dica: Não utilize senhas fáceis, como sequencias (ex.: 1234) 
+                    ou datas importantes (ex.: seu aniversário)</p>
+
+                <p:commandButton value="Cadastrar" 
+                                 action="#{controllerPaciente.
+                                           cadastrar(builderPaciente.build(), 
+                                           confirmeSenha)}"
+                                 update="@form"/>
+                <p:commandButton value="Limpar campos"
+                                 type="reset" 
+                                 title="Apaga todos os dados preenchidos"
+                                 update="@form"/>
+            </p:panel>
         </h:form>
     </h:body>
 </html>
