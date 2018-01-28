@@ -1,14 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        
-        <h:link value="Voltar à página principal" outcome="home_paciente.xhtml"/>
+
+        <h:form id="form-sugestoes">
+            <h1>Sugestões, críticas e elogios</h1>
+            <h3>Qualquer mensagem que você mandar será encaminhada para os 
+                administradores do sistema. Você também pode enviar um email 
+                para <i>sysclinic@gmail.com</i>
+            </h3>
+
+            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+            <h:link value="Voltar à página principal" 
+                    outcome="home_paciente.xhtml"/>
+        </h:form>
     </h:body>
 </html>
 
