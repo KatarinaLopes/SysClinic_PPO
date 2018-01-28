@@ -22,15 +22,18 @@
                 <p:panelGrid columns="2">
 
                     <h:link 
-                        rendered="#{!controllerFuncionario.funcionarioLogado}"
+                        rendered="#{controllerFuncionario.funcionarioLogado 
+                                    == null}"
                         value="Ir para a página de login" 
                         outcome="/login/login_paciente.xhtml"/>
                     <h:link 
-                        rendered="#{controllerFuncionario.funcionarioLogado}"
+                        rendered="#{controllerFuncionario.funcionarioLogado 
+                                    != null}"
                         value="Ir para página principal"
                         outcome="/funcionarios/home_funcionario.xhtml"/>
                     <h:link 
-                        rendered="#{!controllerFuncionario.funcionarioLogado}"
+                        rendered="#{controllerFuncionario.funcionarioLogado 
+                                    == null}"
                         value="Ir para a pagina inicial"
                         outcome="/index.xhtml"/>
                 </p:panelGrid>
@@ -115,7 +118,7 @@
                                  update="@form"/>
                 <p:commandButton value="Limpar campos"
                                  type="reset" 
-                                 title="Apaga todos os dados preenchidos"
+                                 title="Apaga os dados já preenchidos"
                                  update="@form"/>
             </p:panel>
         </h:form>
