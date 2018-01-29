@@ -8,7 +8,8 @@
     <p:menubar id="menubar-pacientes" 
                rendered="#{controllerPaciente.pacienteLogado != null}">
         <p:menuitem icon="fa fa-home"
-                    value="Página principal" url="home_paciente.xhtml"/>
+                    value="Página principal" 
+                    url="/pacientes/home_paciente.xhtml"/>
         <p:submenu label="Agendamentos" icon="fa fa-calendar">
             <p:menuitem value="Novo agendamento" 
                         url="/acoes/novo_agendamento.xhtml"/>
@@ -20,9 +21,9 @@
         <p:menuitem icon="fa fa-user-md" value="Ver médicos cadastrados"
                     url="/acoes/apresentar_medicos.xhtml"/>
         <p:menuitem icon="fa fa-user" value="Alterar suas informações" 
-                    url="informacoes_pessoais.xhtml"/>
+                    url="/pacientes/informacoes_pessoais.xhtml"/>
         <p:menuitem icon="fa fa-info" value="Sugestões"
-                    url="sugestoes.xhtml"/>
+                    url="/pacientes/sugestoes.xhtml"/>
         <f:facet name="options">
             <p:commandButton action="#{controllerPaciente.fazerLogout()}" 
                              ajax="false" icon="fa fa-external-link"

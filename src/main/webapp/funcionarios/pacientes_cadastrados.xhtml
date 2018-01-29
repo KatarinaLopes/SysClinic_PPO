@@ -16,10 +16,10 @@
 
             <h1>Pacientes cadastrados</h1>
 
-            <h:link outcome="/acoes/cadastro_paciente.xhtml" 
-                    value="Cadastrar novo paciente"/>
-            
             <p:panel id="panel-pacientes">
+                <h:link outcome="/acoes/cadastro_paciente.xhtml" 
+                        value="Cadastrar novo paciente"/>
+
                 <p:dataTable id="tabela-apresentar-pacientes" var="paciente" 
                              value="#{controllerPaciente.pacientesCadastrados}" 
                              rowKey="#{paciente.id}" disabledSelection="true"
@@ -31,8 +31,8 @@
                         <p:outputPanel>
                             <p:inputText id="global-filter"
                                     onkeyup="PF('tabela-apresentar-pacientes').
-                                                                      filter()"
-                                    placeholder="Pesquisar"/>
+                                                    filter()"
+                                         placeholder="Pesquisar"/>
                         </p:outputPanel>
                     </f:facet>
 
@@ -79,10 +79,10 @@
                                          icon="fa fa-pencil"
                                          update=":form-apresentar-pacientes 
                                          :form-dial-alterar-paciente"
-                          oncomplete="PF('wid-dial-alterar-paciente').show()">
+                           oncomplete="PF('wid-dial-alterar-paciente').show()">
                             <f:setPropertyActionListener value="#{paciente}"
-                                                 target="#{controllerPaciente.
-                                                       pacienteSelecionado}"/>
+                                                  target="#{controllerPaciente.
+                                                        pacienteSelecionado}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -154,8 +154,8 @@
                        oncomplete="PF('wid-dial-visualizar-paciente').hide()"/>
                 <p:commandButton value="Editar"
                             onclick="PF('wid-dial-visualizar-paciente').hide()"
-                          oncomplete="PF('wid-dial-alterar-paciente').show()"
-                          update=":dial-alterar-paciente"/>
+                            oncomplete="PF('wid-dial-alterar-paciente').show()"
+                                 update=":dial-alterar-paciente"/>
             </h:form>
         </p:dialog>
 
@@ -255,7 +255,7 @@
             </h:form>
 
         </p:dialog>
-        
+
     </h:body>
 </html>
 

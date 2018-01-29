@@ -19,16 +19,17 @@
 
             <h1>Funcionários cadastrados</h1>
 
-            <h:link outcome="cadastro_funcionario.xhtml" 
-                    value="Cadastrar novo funcionário"/>
             <p:panel id="panel-apresentar-funcionarios">
+                <h:link outcome="cadastro_funcionario.xhtml" 
+                        value="Cadastrar novo funcionário"/>
                 <p:dataTable id="tabela-apresentar-funcionarios" 
                              var="funcionario" 
                              value="#{controllerFuncionario.recuperarTodos()}" 
                              rowKey="#{funcionario.matricula}" 
                              disabledSelection="true" rowsPerPageLabel="10"
                              paginator="true" resizableColumns="true"
-                          emptyMessage="Ainda não há funcionários cadastrados">
+                             emptyMessage="Ainda não há funcionários 
+                             cadastrados">
 
                     <f:facet name="header">
                         <p:outputLabel>
@@ -76,7 +77,7 @@
                         <f:facet name="filter">
                             <p:selectOneButton 
                                 onchange="PF('tabela-apresentar-funcionarios').
-                                          filter()">
+                                                filter()">
                                 <f:converter 
                                     converterId="javax.faces.Boolean"/>
                                 <f:selectItem itemLabel="Admin" 
@@ -93,8 +94,8 @@
                         <p:commandButton icon="fa fa-search"
                                          update=":form-apresentar-funcionarios 
                                          :dial-visualizar-funcionario"
-                            oncomplete="PF('wid-dial-visualizar-funcionario').
-                            show()">
+                             oncomplete="PF('wid-dial-visualizar-funcionario').
+                                         show()">
                             <f:setPropertyActionListener value="#{funcionario}" 
                                                target="#{controllerFuncionario.
                                                      funcionarioSelecionado}"/>
@@ -103,13 +104,13 @@
                         <p:commandButton icon="fa fa-pencil"
                                          update=":form-apresentar-funcionarios 
                                          :dial-form-alterar-funcionario"
-                                         actionListener="#{controllerFuncionario.
-                                                       getPodeExcluirOuAlterar
-                                                       (funcionario)}"
-                          oncomplete="PF('wid-dial-alterar-funcionario').
-                         show()">
+                                       actionListener="#{controllerFuncionario.
+                                                        getPodeExcluirOuAlterar
+                                                           (funcionario)}"
+                                oncomplete="PF('wid-dial-alterar-funcionario').
+                                         show()">
                             <f:setPropertyActionListener value="#{funcionario}"
-                                              target="#{controllerFuncionario.
+                                               target="#{controllerFuncionario.
                                                      funcionarioSelecionado}"/>
                         </p:commandButton>
 
@@ -128,17 +129,17 @@
                   widgetVar="wid-dial-visualizar-funcionario" visible="false"
                   modal="true" 
                   header="Visualizar funcionário">
-   
+
             <h:form id="dial-form-visualizar-funcionarios">
-            
+
                 <h3>Funcionário(a) <h:outputText 
                         value="#{controllerFuncionario.funcionarioSelecionado.
-                                                                       nome}"/> 
+                                 nome}"/> 
                     - matrícula <h:outputText value="#{controllerFuncionario.
-                                                   funcionarioSelecionado.
-                                                   matricula}"/> 
+                                                       funcionarioSelecionado.
+                                                       matricula}"/> 
                 </h3>
-            
+
                 <p:panelGrid columns="2">
                     <h:outputText value="Matrícula"/>
                     <h:outputText 
@@ -183,11 +184,11 @@
                 </p:panelGrid>
 
                 <p:commandButton value="Fechar" 
-                   oncomplete="PF('wid-dial-visualizar-funcionario').hide()"/>
+                    oncomplete="PF('wid-dial-visualizar-funcionario').hide()"/>
                 <p:commandButton value="Editar"
-                        onclick="PF('wid-dial-visualizar-funcionario').hide()"
-                        oncomplete="PF('wid-dial-alterar-funcionario').show()"
-                        update=":dial-alterar-funcionario"/>
+                         onclick="PF('wid-dial-visualizar-funcionario').hide()"
+                         oncomplete="PF('wid-dial-alterar-funcionario').show()"
+                                 update=":dial-alterar-funcionario"/>
             </h:form>
         </p:dialog>
 
@@ -202,14 +203,14 @@
 
 
             <h:form id='dial-form-alterar-funcionario'>                
-                
+
                 <h3>Funcionário(a) <h:outputText 
                         value="#{controllerFuncionario.funcionarioSelecionado.
                                  nome}"/> - matrícula <h:outputText 
                         value="#{controllerFuncionario.funcionarioSelecionado.
                                  matricula}"/>
                 </h3>
-                
+
                 <p:panelGrid columns="3">
                     <h:outputText value="Matrícula"/>
                     <p:inputText id="matricula" required="true" 
@@ -223,12 +224,14 @@
                                 maxdate="today" required="true"
                                 requiredMessage="Campo obrigatório"
                                 value="#{controllerFuncionario.
-                                         funcionarioSelecionado.dataAdmissao}"/>
+                                         funcionarioSelecionado.
+                                         dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
 
                     <h:outputText value="Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" required="true"
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{
                                  controllerFuncionario.funcionarioSelecionado.

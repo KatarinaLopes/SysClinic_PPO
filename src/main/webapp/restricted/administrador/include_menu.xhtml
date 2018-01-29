@@ -8,12 +8,12 @@
     <p:menubar id="menubar-administrador" 
                rendered="#{controllerFuncionario.funcionarioLogado.
                            administrador}">
-        <p:menuitem icon="fa fa-home" url="home_admin.xhtml"
+        <p:menuitem icon="fa fa-home" url="/administrador/home_admin.xhtml"
                     value="Página principal"/>
         <p:submenu icon="fa fa-user" label="Funcionários">
-            <p:menuitem url="cadastro_funcionario.xhtml"
+            <p:menuitem url="/administrador/cadastro_funcionario.xhtml"
                         value="Cadastrar funcionário"/>
-            <p:menuitem url="apresentar_funcionarios.xhtml"
+            <p:menuitem url="/administrador/apresentar_funcionarios.xhtml"
                         value="Funcionários cadastrados"/>
         </p:submenu>
         <p:submenu icon="fa fa-user-md" label="Médicos">

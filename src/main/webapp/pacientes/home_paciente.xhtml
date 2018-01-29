@@ -13,10 +13,10 @@
 
         <h:form id="form-principal-paciente">
 
+            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+            
             <h1>Olá, sr(a). <h:outputText value="#{controllerPaciente.
                                                    pacienteLogado.nome}"/>!</h1>
-
-            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
             
             <p:panel header="Feed" toggleOrientation="vertical"
                      toggleable="true">

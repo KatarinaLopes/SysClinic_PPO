@@ -6,7 +6,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:menubar id="menubar-funcionarios" 
-               rendered="#{controllerFuncionario.funcionarioLogado != null}">
+               rendered="#{controllerFuncionario.funcionarioLogado != null and 
+                      !controllerFuncionario.funcionarioLogado.administrador}">
+        <p:menuitem icon="fa fa-home" value="Página principal" 
+                    url="/funcionarios/home_funcionario.xhtml"/>
         <p:submenu icon="fa fa-calendar" label="Agendamentos">
             <p:menuitem value="Novo agendamento" 
                         url="/acoes/novo_agendamento.xhtml"/>
@@ -21,10 +24,10 @@
             <p:menuitem value="Cadastrar paciente"
                         url="/acoes/cadastro_paciente.xhtml"/>
             <p:menuitem value="Pacientes cadastrados"
-                        url="pacientes_cadastrados.xhtml"/>
+                        url="/funcionarios/pacientes_cadastrados.xhtml"/>
         </p:submenu>
         <p:menuitem icon="fa fa-user-md" value="Médicos cadastrados"
-                    url="apresentar_medicos.xhtml"/>
+                    url="/funcionarios/apresentar_medicos.xhtml"/>
         
         <f:facet name="options">
             <p:commandButton action="#{controllerFuncionario.logout()}" 
