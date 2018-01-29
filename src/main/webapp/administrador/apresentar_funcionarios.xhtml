@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -14,71 +15,130 @@
 
             <p:growl id="growl" showDetail="true" sticky="true"/>
 
+            <ui:include src="/restricted/administrador/include_menu.xhtml"/>
+
             <h1>Funcionários cadastrados</h1>
 
-            <p:dataTable id="apresentarFuncionarios" var="funcionario" 
-                         value="#{controllerFuncionario.recuperarTodos()}" 
-                         rowKey="#{funcionario.matricula}" selection="none"
-                         paginator="true" resizableColumns="true">
+            <h:link outcome="cadastro_funcionario.xhtml" 
+                    value="Cadastrar novo funcionário"/>
+            <p:panel id="panel-apresentar-funcionarios">
+                <p:dataTable id="tabela-apresentar-funcionarios" 
+                             var="funcionario" 
+                             value="#{controllerFuncionario.recuperarTodos()}" 
+                             rowKey="#{funcionario.matricula}" 
+                             disabledSelection="true" rowsPerPageLabel="10"
+                             paginator="true" resizableColumns="true"
+                          emptyMessage="Ainda não há funcionários cadastrados">
 
-                <p:column headerText="Matrícula">
-                    <h:outputText value="#{funcionario.matricula}"/>
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{funcionario.nome}"/>
-                </p:column>
-                <p:column headerText="Data de Admissão">
-                    <h:outputText value="#{funcionario.dataAdmissao}"/>
-                </p:column>
+                    <f:facet name="header">
+                        <p:outputLabel>
+                            <p:inputText id="global-filter" 
+                                 onkeyup="PF('tabela-apresentar-funcionarios').
+                                                 filter()"
+                                         placeholder="Pesquisar"/>
+                        </p:outputLabel>
+                    </f:facet>
 
-                <p:column headerText="Cargo">
-                    <h:outputText value="#{funcionario.cargo}"/>
-                </p:column>
+                    <p:column headerText="Matrícula" 
+                              filterBy="#{funcionario.matricula}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{funcionario.matricula}">
+                        <h:outputText value="#{funcionario.matricula}"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterBy="#{funcionario.nome}"
+                              filterMatchMode="contains" 
+                              sortBy="#{funcionario.nome}">
+                        <h:outputText value="#{funcionario.nome}"/>
+                    </p:column>
+                    <p:column headerText="Data de Admissão" 
+                              filterBy="#{funcionario.dataAdmissao}"
+                              filterMatchMode="contains" 
+                              sortBy="#{funcionario.dataAdmissao}">
+                        <h:outputText value="#{funcionario.dataAdmissao}"/>
+                    </p:column>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{funcionario.telefone}"/>
-                </p:column>
+                    <p:column headerText="Cargo" 
+                              filterBy="#{funcionario.cargo}"
+                              filterMatchMode="contains" 
+                              sortBy="#{funcionario.cargo}">
+                        <h:outputText value="#{funcionario.cargo}"/>
+                    </p:column>
 
-                <p:column headerText="Administrador">
-                    <h:outputText value="#{funcionario.administrador}"/>
-                </p:column>
-                <p:column>
+                    <p:column headerText="Telefone" 
+                              filterBy="#{funcionario.telefone}"
+                              filterMatchMode="contains" 
+                              sortBy="#{funcionario.telefone}">
+                        <h:outputText value="#{funcionario.telefone}"/>
+                    </p:column>
 
-                    <p:commandButton value="Visualizar" 
-                                     update=":form-apresentar-funcionarios 
-                                     :dial-visualizar-funcionario"
-                                     oncomplete="PF('wid-dial-visualizar-funcionario').show()">
-                        <f:setPropertyActionListener value="#{funcionario}" 
-                                                     target="#{controllerFuncionario.
-                                                               funcionarioSelecionado}"/>
-                    </p:commandButton>
+                    <p:column headerText="Administrador" 
+                              filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton 
+                                onchange="PF('tabela-apresentar-funcionarios').
+                                          filter()">
+                                <f:converter 
+                                    converterId="javax.faces.Boolean"/>
+                                <f:selectItem itemLabel="Admin" 
+                                              itemValue="true"/>
+                                <f:selectItem itemLabel="Não Admin" 
+                                              itemValue="false"/>
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{funcionario.administrador ? 
+                                               'Sim' : 'Não'}"/>
+                    </p:column>
+                    <p:column headerText="Operações">
 
-                    <p:commandButton value="Alterar"
-                                     update=":form-apresentar-funcionarios 
-                                     :dial-form-alterar-funcionario"
-                                     actionListener="#{controllerFuncionario.
+                        <p:commandButton icon="fa fa-search"
+                                         update=":form-apresentar-funcionarios 
+                                         :dial-visualizar-funcionario"
+                            oncomplete="PF('wid-dial-visualizar-funcionario').
+                            show()">
+                            <f:setPropertyActionListener value="#{funcionario}" 
+                                               target="#{controllerFuncionario.
+                                                     funcionarioSelecionado}"/>
+                        </p:commandButton>
+
+                        <p:commandButton icon="fa fa-pencil"
+                                         update=":form-apresentar-funcionarios 
+                                         :dial-form-alterar-funcionario"
+                                         actionListener="#{controllerFuncionario.
                                                        getPodeExcluirOuAlterar
                                                        (funcionario)}"
-                                     oncomplete="PF('wid-dial-alterar-funcionario').show()">
-                        <f:setPropertyActionListener value="#{funcionario}"
-                                                     target="#{controllerFuncionario.funcionarioSelecionado}"/>
-                    </p:commandButton>
+                          oncomplete="PF('wid-dial-alterar-funcionario').
+                         show()">
+                            <f:setPropertyActionListener value="#{funcionario}"
+                                              target="#{controllerFuncionario.
+                                                     funcionarioSelecionado}"/>
+                        </p:commandButton>
 
-                    <p:commandButton value="Excluir" 
-                                     update=":form-apresentar-funcionarios"
-                                     oncomplete="PF('wid-dial-confirm').show()">
-                        <f:setPropertyActionListener value="#{funcionario}"
-                                                     target="#{controllerFuncionario.funcionarioSelecionado}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
+                        <p:commandButton icon="fa fa-close" 
+                                         update=":form-apresentar-funcionarios"
+                                    oncomplete="PF('wid-dial-confirm').show()">
+                            <f:setPropertyActionListener value="#{funcionario}"
+                                               target="#{controllerFuncionario.
+                                                     funcionarioSelecionado}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
         <p:dialog id="dial-visualizar-funcionario" 
                   widgetVar="wid-dial-visualizar-funcionario" visible="false"
                   modal="true" 
                   header="Visualizar funcionário">
+   
             <h:form id="dial-form-visualizar-funcionarios">
+            
+                <h3>Funcionário(a) <h:outputText 
+                        value="#{controllerFuncionario.funcionarioSelecionado.
+                                                                       nome}"/> 
+                    - matrícula <h:outputText value="#{controllerFuncionario.
+                                                   funcionarioSelecionado.
+                                                   matricula}"/> 
+                </h3>
+            
                 <p:panelGrid columns="2">
                     <h:outputText value="Matrícula"/>
                     <h:outputText 
@@ -121,22 +181,35 @@
                                   #{controllerFuncionario.
                                     funcionarioSelecionado.administrador}"/>
                 </p:panelGrid>
-            </h:form>
 
+                <p:commandButton value="Fechar" 
+                   oncomplete="PF('wid-dial-visualizar-funcionario').hide()"/>
+                <p:commandButton value="Editar"
+                        onclick="PF('wid-dial-visualizar-funcionario').hide()"
+                        oncomplete="PF('wid-dial-alterar-funcionario').show()"
+                        update=":dial-alterar-funcionario"/>
+            </h:form>
         </p:dialog>
 
-        <p:dialog id="dialAlterarFuncionario" 
+        <p:dialog id="dial-alterar-funcionario" 
                   header="Alterar funcionário"
                   modal="true" visible="false" 
                   widgetVar="wid-dial-alterar-funcionario">
             <p:ajax listener="#{controllerFuncionario.
                                 getPodeExcluirOuAlterar
                                 (controllerFuncionario.
-                                funcionarioSelecionado)}"
-                    />
+                                funcionarioSelecionado)}"/>
 
 
             <h:form id='dial-form-alterar-funcionario'>                
+                
+                <h3>Funcionário(a) <h:outputText 
+                        value="#{controllerFuncionario.funcionarioSelecionado.
+                                 nome}"/> - matrícula <h:outputText 
+                        value="#{controllerFuncionario.funcionarioSelecionado.
+                                 matricula}"/>
+                </h3>
+                
                 <p:panelGrid columns="3">
                     <h:outputText value="Matrícula"/>
                     <p:inputText id="matricula" required="true" 
@@ -225,22 +298,28 @@
                                  update="form-apresentar-funcionarios"
                                  oncomplete="
                                  PF('wid-dial-alterar-funcionario').hide()"/>
+                <p:commandButton value="Cancelar"
+                       oncomplete="PF('wid-dial-alterar-funcionario').hide()"/>
             </h:form>
 
         </p:dialog>
 
-        <p:dialog id="confirmDialog" closable="true" modal="true" 
+        <p:dialog id="dial-confirm" closable="true" modal="true" 
                   header="Alerta" visible="false" 
                   widgetVar="wid-dial-confirm">
 
             <h:form>
-                Deseja excluir este funcionário?
+                Deseja excluir <h:outputText 
+                    value="#{controllerFuncionario.funcionarioSelecionado.
+                             nome}"/> - matrícula <h:outputText 
+                    value="#{controllerFuncionario.funcionarioSelecionado.
+                             matricula}"/>?
 
                 <br/>
 
                 <p:commandButton value="Sim" action="#{controllerFuncionario.
-                                                       deletar(controllerFuncionario.
-                                                       funcionarioSelecionado)}"
+                                                 deletar(controllerFuncionario.
+                                                      funcionarioSelecionado)}"
                                  oncomplete="PF('wid-dial-confirm').hide()"
                                  update=":form-apresentar-funcionarios"/>
                 <p:commandButton value="Não" 

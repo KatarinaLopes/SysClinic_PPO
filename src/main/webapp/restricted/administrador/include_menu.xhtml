@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <p:menubar id="menubar-administrador">
+        <p:menuitem icon="fa fa-home" url="home_admin.xhtml"
+                    value="Página principal"/>
+        <p:submenu icon="fa fa-user" label="Funcionários">
+            <p:menuitem url="cadastro_funcionario.xhtml"
+                        value="Cadastrar funcionário"/>
+            <p:menuitem url="apresentar_funcionarios.xhtml"
+                        value="Funcionários cadastrados"/>
+        </p:submenu>
+        <p:submenu icon="fa fa-user-md" label="Médicos">
+            <p:menuitem url="cadastro_medico.xhtml"
+                        value="Cadastrar médico"/>
+            <p:menuitem url="/funcionarios/apresentar_medicos.xhtml"
+                        value="Médicos cadastrados"/>
+        </p:submenu>
+        
+        <f:facet name="options">
+            <p:commandButton action="#{controllerFuncionario.logout()}"
+                             icon="fa fa-external-link" value="Sair"/>
+        </f:facet>
+    </p:menubar>
+</ui:composition>
