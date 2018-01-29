@@ -10,25 +10,35 @@
     </h:head>
     <h:body>
         <h:form id="form-cadastro-medicos">
+            <ui:include src="/restricted/administrador/include_menu.xhtml"/>
+            
+            <h1>Cadastro de médico</h1>
+            
+            <h3>Os campos com asterisco são obrigatórios</h3>
+            
             <p:panel id="panel-info-medico">
+                
+                <h4>Passo 1 de 2: Cadastro de informações</h4>
+                
                 <p:panelGrid columns="4">
-                    <h:outputText value="Nome"/> 
+                    <h:outputText value="*Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" required="true"
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{builderMedico.nome}">
                     </p:inputText>
                     <p:message for="nome"/>
                     <p:spacer/>
 
-                    <h:outputText value="Matrícula"/>
+                    <h:outputText value="*Matrícula"/>
                     <p:inputText id="matricula" type="number" required="true" 
                                  requiredMessage="Campo obrigatório"
                                  value="#{builderMedico.matricula}"/>
                     <p:message for="matricula"/>
                     <p:spacer/>
 
-                    <h:outputText value="Data de Admissão"/>
+                    <h:outputText value="*Data de Admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
                                 maxdate="today" required="true" 
                                 requiredMessage="Campo obrigatório"
@@ -36,14 +46,14 @@
                     <p:message for="dataAdmissao"/>
                     <p:spacer/>
 
-                    <h:outputText value="Especialidade"/>
+                    <h:outputText value="*Especialidade"/>
                     <p:inputText id="especialidade" required="true" 
                                  requiredMessage="Campo obrigatório"
                                  value="#{builderMedico.especialidade}"/>
                     <p:message for="especialidade"/>
                     <p:spacer/>
 
-                    <h:outputText value="Conselho"/>
+                    <h:outputText value="*Conselho"/>
                     <p:inputText id="conselho" required="true" 
                                  requiredMessage="Campo obrigatório"
                                  placeholder="Conselho"
@@ -54,7 +64,7 @@
                                  value="#{numero}"/>
                     <p:spacer/>
 
-                    <h:outputText value="Sexo"/>
+                    <h:outputText value="*Sexo"/>
                     <p:selectOneRadio value="#{builderMedico.sexo}" id="sexo"
                                       required="true" 
                                       requiredMessage="Campo obrigatório">
@@ -64,7 +74,7 @@
                     <p:message for="sexo"/>
                     <p:spacer/>
 
-                    <h:outputText value="Telefone para contato"/>
+                    <h:outputText value="*Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
                                  value="#{builderMedico.telefone}"
                                  placeholder="(99)9999-9999" required="true" 
@@ -72,7 +82,7 @@
                     <p:message for="telefoneContato"/>
                     <p:spacer/>
 
-                    <h:outputText value="Email"/>
+                    <h:outputText value="*Email"/>
                     <p:inputText id="email" value="#{builderMedico.email}"
                                  placeholder="email@email.com"/>
                     <p:message for="email"/>
@@ -81,14 +91,21 @@
                     <p:separator/>
 
                 </p:panelGrid>
-
-                Horários
+                
+                <p:commandButton value="Limpar campos" type="reset" 
+                                 update="@form"/>
+            </p:panel>
+            <p:panel id="panel-medico-horarios">
+                <h4>Passo 2 de 2: Cadastro de horários</h4>
 
                 <h:outputText value="#{builderMedico.nome}"/>
 
-                <p:dataTable id="horariosTabela" var="horario" 
+                <p:dataTable id="tabela-cadastrar-horarios" var="horario" 
                              value="#{builderMedico.horarios}"
-                             resizableColumns="true">
+                             resizableColumns="true" 
+                             emptyMessage="Aperte em '+' para adicionar um 
+                             horário"
+                             selection="none">
                     <p:column headerText="Dia">
                         <h:outputText value="#{horario.dia}"/>
                     </p:column>
@@ -106,46 +123,42 @@
                         <h:outputText 
                             value="#{horario.limiteDeAgendamentos}"/>
                     </p:column>
-                    <p:column>
-                        <p:commandButton value="Editar"
-                                         update="editarHorarioDial"
-                                         oncomplete="PF('widEditarHorarioDial').show()">
+                    <p:column headerText="Operações">
+                        <p:commandButton icon="fa fa-pencil"
+                                         update="dial-editar-horario"
+                             oncomplete="PF('wid-dial-editar-horario').show()">
                             <f:setPropertyActionListener 
                                 target="#{builderMedico.horarioSelecionado}"
                                 value="#{horario}"/>
                         </p:commandButton>
 
-                        <p:commandButton value="Excluir"
+                        <p:commandButton icon="fa fa-close"
                                          update=":dial-confirmar-excluir"
-                                         oncomplete="PF('wid-dial-confirmar-excluir').show()">
+                          oncomplete="PF('wid-dial-confirmar-excluir').show()">
                             <f:setPropertyActionListener value="#{horario}"
                                  target="#{builderMedico.horarioSelecionado}"/>
                         </p:commandButton>
                     </p:column>
-                    <p:column>
-                        <h:outputText value="#{horario}"/>
-                        <h:outputText 
-                            value="#{builderMedico.horarioSelecionado}"/>
-                    </p:column>
                 </p:dataTable>
 
 
-                <p:commandButton value="Adicionar"
-                                 oncomplete="PF('widHorariosDial').show()"
-                                 disabled="#{builderMedico.infoSet}"/>
+                <p:commandButton icon="fa fa-plus"
+                        oncomplete="PF('wid-dial-cadastrar-horario').show()"/>
 
+                </p:panel>
+                
                 <p:commandButton value="Cadastrar" 
                                  action="#{controllerMedico.cadastrar(
                                            builderMedico.build(), conselho, 
                                            numero)}"
                                  update="@all"/>
-            </p:panel>
         </h:form>
         <p:dialog closable="true" draggable="false" dynamic="true" 
-                  header="Definir horários" id="horariosDialog" modal="true" 
-                  resizable="false" responsive="true" visible="false" 
-                  widgetVar="widHorariosDial">
-            <h:form id="horariosForm">
+                  header="Definir horários" id="dial-cadastrar-horario" 
+                  modal="true" resizable="false" responsive="true" 
+                  visible="false" 
+                  widgetVar="wid-dial-cadastrar-horario">
+            <h:form id="form-dial-cadastrar-horario">
                 <p:panelGrid columns="3">
                     <h:outputText value="Dia da semana"/>
                     <p:selectOneMenu id="dia" value="#{dia}" >
@@ -174,7 +187,7 @@
                     
                     <h:outputText value="Limite de agendamentos"/>
                     <p:inputText id="numeroAgendamentos" type="number"
-                                 value="#{endamentos}"/>
+                                 value="#{agendamentos}"/>
                     <p:message for="numeroAgendamentos"/>
                 </p:panelGrid>
 
@@ -182,18 +195,21 @@
                                  action="#{builderMedico.
                                            adicionarHorarios(dia, 
                                            horarioInicial, horarioFinal, 
-                                           endamentos)}"
-                                 update="horariosDialog
-                                 form-cadastro-medicos:horariosTabela"
-                                 oncomplete="PF('widHorariosDial').hide()"/>
+                                           agendamentos)}"
+                              update="dial-cadastrar-horario
+                               form-cadastro-medicos:tabela-cadastrar-horarios"
+                         oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
+                <p:commandButton value="Cancelar"
+                                 update="dial-cadastrar-horario"
+                         oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
             </h:form>
         </p:dialog>
 
         <p:dialog header="Editar horário" closable="true" draggable="false"
-                  dynamic="true" id="editarHorarioDial" modal="true"
+                  dynamic="true" id="dial-editar-horario" modal="true"
                   responsive="true" visible="false" 
-                  widgetVar="widEditarHorarioDial">
-            <h:form id="alterarHorarioForm">                
+                  widgetVar="wid-dial-editar-horario">
+            <h:form id="form-dial-alterar-horario">                
                 <p:panelGrid columns="3">
                     <h:outputText value="Dia da semana"/>
                     <p:selectOneMenu id="diaSemana" 
@@ -227,8 +243,8 @@
                     <p:message for="limite"/>
                 </p:panelGrid>
                 <p:commandButton value="Editar" 
-                                 oncomplete="PF('widEditarHorarioDial').hide()"
-                                 update="form-cadastro-medicos:horariosTabela"/>
+                              oncomplete="PF('wid-dial-editar-horario').hide()"
+                     update="form-cadastro-medicos:tabela-cadastrar-horarios"/>
             </h:form>
         </p:dialog>
         <p:dialog id="dial-confirmar-excluir" modal="true" closable="true"
@@ -242,11 +258,11 @@
                                                    excluirHorario(
                                                    builderMedico.
                                                    horarioSelecionado)}"
-                             update="form-cadastro-medicos:horariosTabela"
-                             oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+                       update="form-cadastro-medicos:tabela-cadastrar-horarios"
+                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
 
             <p:commandButton value="Não" 
-                             oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
         </p:dialog>
     </h:body>
 </html>
