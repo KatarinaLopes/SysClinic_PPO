@@ -20,7 +20,7 @@
                              rowKey="#{medico.matricula}" 
                              disabledSelection="true"
                              emptyMessage="Ainda não há médicos cadastrados"
-                             rows="10" paginator="true" 
+                             rowsPerPageLabel="10" paginator="true" 
                              resizableColumns="true">
 
                     <f:facet name="header">
@@ -187,7 +187,8 @@
                          onclick="PF('wid-dial-visualizar-medico').hide()"
                          oncomplete="PF('wid-dial-alterar-medico').show()"
                          rendered="#{controllerFuncionario.funcionarioLogado.
-                                     administrador}"/>
+                                     administrador}"
+                         update=":dial-alterar-medico"/>
             </h:form>
 
         </p:dialog>
@@ -346,9 +347,11 @@
                 <p:commandButton value="Fechar" 
                         oncomplete="PF('wid-dial-apresentar-horario').hide()"/>
                 <p:commandButton value="Editar"
+                        onclick="PF('wid-dial-apresentar-horario').hide()"
                         oncomplete="PF('wid-dial-editar-horario').show()"
                         rendered="#{controllerFuncionario.funcionarioLogado.
-                                    administrador}"/>
+                                    administrador}"
+                        update=":dial-editar-horario"/>
             </h:form>
         </p:dialog>
 

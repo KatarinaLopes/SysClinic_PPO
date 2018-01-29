@@ -4,63 +4,100 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
 
         <h:form id="form-apresentar-pacientes">
-            Pacientes cadastrados 
+            <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
 
-            <p:dataTable id="table-apresentar-pacientes" var="paciente" 
-                         value="#{controllerPaciente.pacientesCadastrados}" 
-                         rowKey="#{paciente.id}" selectionMode="single"
-                         paginator="true" resizableColumns="true">
+            <h1>Pacientes cadastrados</h1>
 
-                <p:column headerText="Registro">
-                    <h:outputText value="#{paciente.id}"/>
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{paciente.nome}"/>
-                </p:column>
-                <p:column headerText="Data de Admissão">
-                    <h:outputText value="#{paciente.dataAdmissao}"/>
-                </p:column>
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{paciente.telefoneContato}"/>
-                </p:column>
-                <p:column headerText="Email">
-                    <h:outputText value="#{paciente.email}"/>
-                </p:column>
-                <p:column>
+            <p:panel id="panel-pacientes">
+                <p:dataTable id="tabela-apresentar-pacientes" var="paciente" 
+                             value="#{controllerPaciente.pacientesCadastrados}" 
+                             rowKey="#{paciente.id}" disabledSelection="true"
+                             paginator="true" resizableColumns="true"
+                             emptyMessage="Não há pacientes cadastrados"
+                             rowsPerPageLabel="10">
 
-                    <p:commandButton id="btn-visualizar-paciente" 
-                                     value="Visualizar" 
-                                     update=":form-apresentar-pacientes 
-                                     :dial-visualizar-paciente"
-                       oncomplete="PF('wid-dial-visualizar-paciente').show()">
-                        <f:setPropertyActionListener value="#{paciente}" 
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="global-filter"
+                                    onkeyup="PF('tabela-apresentar-pacientes').
+                                                                      filter()"
+                                    placeholder="Pesquisar"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column headerText="Registro" filterBy="#{paciente.id}"
+                              filterMatchMode="contains" 
+                              sortBy="#{paciente.id}">
+                        <h:outputText value="#{paciente.id}"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterBy="#{paciente.nome}"
+                              filterMatchMode="contains" 
+                              sortBy="#{paciente.nome}">
+                        <h:outputText value="#{paciente.nome}"/>
+                    </p:column>
+                    <p:column headerText="Data de Admissão" 
+                              filterBy="#{paciente.dataAdmissao}"
+                              filterMatchMode="contains" 
+                              sortBy="#{paciente.dataAdmissao}">
+                        <h:outputText value="#{paciente.dataAdmissao}"/>
+                    </p:column>
+                    <p:column headerText="Telefone" 
+                              filterBy="#{paciente.telefoneContato}"
+                              filterMatchMode="contains" 
+                              sortBy="#{paciente.telefoneContato}">
+                        <h:outputText value="#{paciente.telefoneContato}"/>
+                    </p:column>
+                    <p:column headerText="Email" filterBy="#{paciente.email}"
+                              filterMatchMode="contains" 
+                              sortBy="#{paciente.email}">
+                        <h:outputText value="#{paciente.email}"/>
+                    </p:column>
+                    <p:column headerText="Operações">
+
+                        <p:commandButton id="btn-visualizar-paciente" 
+                                         icon="fa fa-search" 
+                                         update=":form-apresentar-pacientes 
+                                         :dial-visualizar-paciente"
+                        oncomplete="PF('wid-dial-visualizar-paciente').show()">
+                            <f:setPropertyActionListener value="#{paciente}" 
                                                   target="#{controllerPaciente.
                                                         pacienteSelecionado}"/>
-                    </p:commandButton>
+                        </p:commandButton>
 
-                    <p:commandButton id="btn-alterar-paciente" value="Alterar"
-                                     update=":form-apresentar-pacientes 
-                                     :form-dial-alterar-paciente"
-                           oncomplete="PF('wid-dial-alterar-paciente').show()">
-                        <f:setPropertyActionListener value="#{paciente}"
-                           target="#{controllerPaciente.pacienteSelecionado}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
+                        <p:commandButton id="btn-alterar-paciente"
+                                         icon="fa fa-pencil"
+                                         update=":form-apresentar-pacientes 
+                                         :form-dial-alterar-paciente"
+                          oncomplete="PF('wid-dial-alterar-paciente').show()">
+                            <f:setPropertyActionListener value="#{paciente}"
+                                                 target="#{controllerPaciente.
+                                                       pacienteSelecionado}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
         <p:dialog id="dial-visualizar-paciente" 
                   widgetVar="wid-dial-visualizar-paciente" visible="false"
                   modal="true" 
                   header="Visualizar paciente">
             <h:form id="form-dial-visualizar-paciente">
+
+                <h3>Paciente <h:outputText value="#{controllerPaciente.
+                                                    pacienteSelecionado.
+                                                    nome}"/> - id 
+                    <h:outputText value="#{controllerPaciente.
+                                           pacienteSelecionado.id}"/>
+                </h3>
+
                 <p:panelGrid columns="2">
                     <h:outputText value="Registro"/>
                     <h:outputText 
@@ -109,8 +146,14 @@
                                   #{controllerPaciente.
                                     pacienteSelecionado.cpf}"/>
                 </p:panelGrid>
-            </h:form>
 
+                <p:commandButton value="Fechar" 
+                       oncomplete="PF('wid-dial-visualizar-paciente').hode()"/>
+                <p:commandButton value="Editar"
+                            onclick="PF('wid-dial-visualizar-paciente').hide()"
+                          oncomplete="PF('wid-dial-alterar-paciente').show()"
+                          update=":dial-alterar-paciente"/>
+            </h:form>
         </p:dialog>
 
         <p:dialog id="dial-alterar-paciente" 
@@ -119,10 +162,18 @@
                   widgetVar="wid-dial-alterar-paciente">
             <h:form id='form-dial-alterar-paciente'>
 
+                <h3>Paciente <h:outputText value="#{controllerPaciente.
+                                                    pacienteSelecionado.
+                                                    nome}"/> - id 
+                    <h:outputText value="#{controllerPaciente.
+                                           pacienteSelecionado.id}"/>
+                </h3>
+
                 <p:panelGrid columns="3">
                     <h:outputText value="Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" required="true"
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{
                                  controllerPaciente.
@@ -196,9 +247,12 @@
                                  update=":form-apresentar-pacientes"
                                  oncomplete="
                                  PF('wid-dial-alterar-paciente').hide()"/>
+                <p:commandButton value="Cancelar"
+                          oncomplete="PF('wid-dial-alterar-paciente').hide()"/>
             </h:form>
 
         </p:dialog>
+        
     </h:body>
 </html>
 
