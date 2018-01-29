@@ -3,37 +3,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamentos online</title>
     </h:head>
     <h:body>
-        
-        Bem vindo(a), <h:outputText 
-            value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
 
         <h:form id="form-principal-administrador">
 
-            <p:commandButton value="Logout" 
-                             action="#{controllerFuncionario.logout()}"
-                             update="form-principal-administrador"/>
+            <ui:include src="/restricted/administrador/include_menu.xhtml"/>
+
+            <h1>Bem vindo(a), <h:outputText 
+                    value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
+            </h1>
 
             <br/><br/>
 
-            <h:link value="Cadastrar novo funcionário" 
-                    outcome="cadastro_funcionario.xhtml"/>
-            <br/>
-            <h:link value="Apresentar funcionários cadastrados" 
-                    outcome="apresentar_funcionarios.xhtml"/>
-            <br/>
-            <h:link value="Cadastrar novo médico" 
-                    outcome="cadastro_medico.xhtml"/>
-            <br/>
-            <h:link value="Exibir médicos cadastrados" 
-                    outcome="/funcionarios/apresentar_medicos.xhtml"/>
-            <br/>
-            <h:link value="Alterar informações pessoais" 
-                    outcome="apresentar_funcionarios.xhtml"/>
+            <p:panel id="panel-administrador">
+                <h:link value="Cadastrar novo funcionário" 
+                        outcome="cadastro_funcionario.xhtml"/>
+                <br/>
+                <h:link value="Apresentar funcionários cadastrados" 
+                        outcome="apresentar_funcionarios.xhtml"/>
+                <br/>
+                <h:link value="Cadastrar novo médico" 
+                        outcome="cadastro_medico.xhtml"/>
+                <br/>
+                <h:link value="Exibir médicos cadastrados" 
+                        outcome="/funcionarios/apresentar_medicos.xhtml"/>
+            </p:panel>
         </h:form>
     </h:body>
 </html>
