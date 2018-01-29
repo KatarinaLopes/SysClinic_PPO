@@ -35,20 +35,22 @@
                 </p:column>
                 <p:column>
 
-                    <p:commandButton id="btn-visualizar-paciente" value="Visualizar" 
-                                     update=":form-apresentar-pacientes :dial-visualizar-paciente"
-                                     oncomplete="PF('wid-dial-visualizar-paciente').show()">
+                    <p:commandButton id="btn-visualizar-paciente" 
+                                     value="Visualizar" 
+                                     update=":form-apresentar-pacientes 
+                                     :dial-visualizar-paciente"
+                       oncomplete="PF('wid-dial-visualizar-paciente').show()">
                         <f:setPropertyActionListener value="#{paciente}" 
-                                                     target="#{controllerPaciente.
-                                                               pacienteSelecionado}"/>
+                                                  target="#{controllerPaciente.
+                                                        pacienteSelecionado}"/>
                     </p:commandButton>
 
                     <p:commandButton id="btn-alterar-paciente" value="Alterar"
                                      update=":form-apresentar-pacientes 
                                      :form-dial-alterar-paciente"
-                                     oncomplete="PF('wid-dial-alterar-paciente').show()">
+                           oncomplete="PF('wid-dial-alterar-paciente').show()">
                         <f:setPropertyActionListener value="#{paciente}"
-                                                     target="#{controllerPaciente.pacienteSelecionado}"/>
+                           target="#{controllerPaciente.pacienteSelecionado}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

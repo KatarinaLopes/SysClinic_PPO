@@ -3,97 +3,145 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form id="apresentarMedicosForm">
-            Funcionários cadastrados 
+        <h:form id="form-apresentar-medicos">
+            <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
 
-            <p:dataTable id="apresentarMedicos" var="medico" 
-                         value="#{controllerMedico.medicosRegistrados}" 
-                         rowKey="#{medico.matricula}" selectionMode="single"
-                         paginator="true" resizableColumns="true">
+            <h1>Médicos cadastrados</h1>
 
-                <p:column headerText="Matrícula">
-                    <h:outputText value="#{medico.matricula}"/>
-                </p:column>
-                <p:column headerText="Nome">
-                    <h:outputText value="#{medico.nome}"/>
-                </p:column>
-                <p:column headerText="Conselho">
-                    <h:outputText value="#{medico.conselho}"/>
-                </p:column>
+            <p:panel id="panel-medicos">
+                <p:dataTable id="tabela-apresentar-medicos" var="medico" 
+                             value="#{controllerMedico.medicosRegistrados}" 
+                             rowKey="#{medico.matricula}" 
+                             disabledSelection="true"
+                             emptyMessage="Ainda não há médicos cadastrados"
+                             rows="10" paginator="true" 
+                             resizableColumns="true">
 
-                <p:column headerText="Especialidade">
-                    <h:outputText value="#{medico.especialidade}"/>
-                </p:column>
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <p:inputText id="global-filter" 
+                             onkeyup="PF('tabela-apresentar-medicos').filter()"
+                             placeholder="Pesquisar"/>
+                        </p:outputPanel>
+                    </f:facet>
 
-                <p:column headerText="Telefone">
-                    <h:outputText value="#{medico.telefone}"/>
-                </p:column>
+                    <p:column headerText="Matrícula" filterable="true"
+                              filterBy="#{medico.matricula}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{medico.matricula}"
+                              style="width: 118px">
+                        <h:outputText value="#{medico.matricula}"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterable="true" 
+                              filterBy="#{medico.nome}" 
+                              filterMatchMode="contains"
+                              sortBy="#{medico.nome}"
+                              style="width: 341px">
+                        <h:outputText value="#{medico.nome}"/>
+                    </p:column>
+                    <p:column headerText="Conselho" filterable="true"
+                              filterBy="#{medico.conselho}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{medico.conselho}"
+                              style="width: 153px">
+                        <h:outputText value="#{medico.conselho}"/>
+                    </p:column>
 
-                <p:column>
+                    <p:column headerText="Especialidade" filterable="true"
+                              filterBy="#{medico.especialidade}"
+                              filterMatchMode="contains" 
+                              sortBy="#{medico.especialidade}"
+                              style="width: 199px">
+                        <h:outputText value="#{medico.especialidade}"/>
+                    </p:column>
 
-                    <p:commandButton value="Visualizar" 
-                                     update=":apresentarMedicosForm :dialVisualizarMedicoForm"
-                                     oncomplete="PF('widVisualizarMedico').show()">
-                        <f:setPropertyActionListener value="#{medico}" 
-                                                     target="#{controllerMedico.
-                                                               medicoSelecionado}"/>
-                    </p:commandButton>
+                    <p:column headerText="Telefone" filterable="true"
+                              filterBy="#{medico.telefone}" 
+                              filterMatchMode="contains" 
+                              sortBy="#{medico.telefone}"
+                              style="width: 127px">
+                        <h:outputText value="#{medico.telefone}"/>
+                    </p:column>
 
-                    <p:commandButton value="Alterar"
-                                     update=":apresentarMedicosForm 
-                                     :alterarMedicoDialForm"
-                                     oncomplete="PF('widAlterarMedico').show()"
-                                     rendered="#{controllerFuncionario.
-                                                 funcionarioLogado.
-                                                 administrador}">
-                        <f:setPropertyActionListener value="#{medico}"
-                                                     target="#{
-                                                     controllerMedico.
+                    <p:column headerText="Pessoal" style="width: 128px">
+
+                        <p:commandButton icon="fa fa-search" 
+                                         update=":form-apresentar-medicos 
+                                         :form-dial-visualizar-medico"
+                          oncomplete="PF('wid-dial-visualizar-medico').show()">
+                            <f:setPropertyActionListener value="#{medico}" 
+                                                    target="#{controllerMedico.
+                                                          medicoSelecionado}"/>
+                        </p:commandButton>
+
+                        <p:commandButton icon="fa fa-pencil"
+                                         update=":form-apresentar-medicos 
+                                         :form-dial-alterar-medico"
+                              oncomplete="PF('wid-dial-alterar-medico').show()"
+                                         rendered="#{controllerFuncionario.
+                                                     funcionarioLogado.
+                                                     administrador}">
+                            <f:setPropertyActionListener value="#{medico}"
+                                                         target="#{
+                                                      controllerMedico.
                                                          medicoSelecionado}"/>
-                    </p:commandButton>
+                        </p:commandButton>
 
-                    <p:commandButton value="Excluir" 
-                                     update=":apresentarMedicosForm"
-                                     rendered="#{controllerFuncionario.
-                                                 funcionarioLogado.
-                                                 administrador}"
-                                     oncomplete="PF('widConfirmDialog').show()">
-                        <f:setPropertyActionListener value="#{medico}"
-                                                     target="#{controllerMedico.
-                                                               medicoSelecionado}"/>
-                    </p:commandButton>
-                </p:column>
-                <p:column>
-                    <p:commandButton value="Horários" 
-                                     update=":apresentarMedicosForm
-                                     :apresentarHorariosDialForm"
-                                     oncomplete="PF('widDialHorario').show()">
-                        <f:setPropertyActionListener value="#{medico}"
-                                                     target="#{
-                                                     controllerMedico.
-                                                         medicoSelecionado}"/>
-                    </p:commandButton>
-                    <p:commandButton value="Editar horários"
-                                     update=":apresentarMedicosForm 
-                                     :dial-editar-horarios"
-                                     oncomplete="PF('wid-dial-editar-horarios').show()">
-                        <f:setPropertyActionListener value="#{medico}"
-                                                     target="#{controllerMedico.medicoSelecionado}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
+                        <p:commandButton icon="fa fa-close"
+                                         update=":form-apresentar-medicos"
+                                         rendered="#{controllerFuncionario.
+                                                     funcionarioLogado.
+                                                     administrador}"
+                             oncomplete="PF('wid-dial-confirm-excluir-medico').
+                                         show()">
+                            <f:setPropertyActionListener value="#{medico}"
+                                                    target="#{controllerMedico.
+                                                          medicoSelecionado}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Horários" style="width: 96px">
+                        <p:commandButton icon="fa fa-search"
+                                         update=":form-apresentar-medicos
+                                         :form-dial-apresentar-horario"
+                         oncomplete="PF('wid-dial-apresentar-horario').show()">
+                            <f:setPropertyActionListener value="#{medico}"
+                                                         target="#{
+                                                         controllerMedico.
+                                                          medicoSelecionado}"/>
+                        </p:commandButton>
+                        <p:commandButton icon="fa fa-pencil"
+                                         update=":form-apresentar-medicos 
+                                         :dial-editar-horario"
+                            oncomplete="PF('wid-dial-editar-horario').show()"
+                            rendered="#{controllerFuncionario.
+                                        funcionarioLogado.administrador}">
+                            <f:setPropertyActionListener value="#{medico}"
+                               target="#{controllerMedico.medicoSelecionado}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
-        <p:dialog id="dialVisualizarMedicos" 
-                  widgetVar="widVisualizarMedico" visible="false"
+        <p:dialog id="dial-visualizar-medicos" 
+                  widgetVar="wid-dial-visualizar-medico" visible="false"
                   modal="true" 
                   header="Visualizar médicos">
-            <h:form id="dialVisualizarMedicoForm">
+            
+            <h3>
+                Médico(a) <h:outputText value="#{controllerMedico.
+                                              medicoSelecionado.nome}"/> - 
+                matrícula <h:outputText value="#{controllerMedico.
+                                                medicoSelecionado.matricula}"/>
+            
+            </h3>
+            
+            <h:form id="form-dial-visualizar-medico">
                 <p:panelGrid columns="2">
                     <h:outputText value="Matrícula"/>
                     <h:outputText 
@@ -133,16 +181,30 @@
                                     funcionarioSelecionado.email}"/>
                 </p:panelGrid>
 
+                <p:commandButton value="Fechar" 
+                         oncomplete="PF('wid-dial-visualizar-medico').hide()"/>
+                <p:commandButton value="Editar"
+                         onclick="PF('wid-dial-visualizar-medico').hide()"
+                         oncomplete="PF('wid-dial-alterar-medico').show()"
+                         rendered="#{controllerFuncionario.funcionarioLogado.
+                                     administrador}"/>
             </h:form>
 
         </p:dialog>
 
-        <p:dialog id="dialAlterarMedico" 
+        <p:dialog id="dial-alterar-medico" 
                   header="Alterar médico"
                   modal="true" visible="false" 
-                  widgetVar="widAlterarMedico">
-            <h:form id='alterarMedicoDialForm'>
+                  widgetVar="wid-dial-alterar-medico">
+            <h:form id='form-dial-alterar-medico'>
 
+                <h3>
+                    Médico(a) <h:outputText value="#{controllerMedico.
+                                                  medicoSelecionado.nome}"/>
+                    - matrícula <h:outputText value="#{controllerMedico.
+                                             medicoSelecionado.matricula}"/>
+                </h3>
+                
                 <p:panelGrid columns="3">
                     <h:outputText value="Matrícula"/>
                     <p:inputText id="matricula" required="true" 
@@ -161,7 +223,8 @@
 
                     <h:outputText value="Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" required="true"
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{
                                  controllerMedico.medicoSelecionado.nome}">
@@ -208,45 +271,59 @@
                                  placeholder="email@email.com"/>
                     <p:message for="email"/>
 
-
-
                 </p:panelGrid>
 
                 <p:commandButton value="Alterar" 
                                  action="#{controllerMedico.
                                            atualizar(controllerMedico.
                                            medicoSelecionado)}"
-                                 update=":apresentarMedicosForm 
-                                 :alterarMedicoDialForm"
+                                 update=":form-apresentar-medicos 
+                                 :form-dial-alterar-medico"
                                  oncomplete="
-                                 PF('widAlterarMedico').hide()"/>
+                                 PF('wid-dial-alterar-medico').hide()"/>
+                <p:commandButton value="Cancelar" icon="fa fa-close"
+                                 oncomplete="PF('wid-dial-alterar-medico').
+                                 hide()"/>
             </h:form>
 
         </p:dialog>
 
-        <p:dialog id="confirmDialog" visible="false" modal="true" 
+        <p:dialog id="dial-confirm-excluir-medico" visible="false" modal="true" 
                   dynamic="true"
-                  widgetVar="widConfirmDialog">
-            Deseja realmente excluir este médico?<br/>
+                  widgetVar="wid-dial-confirm-excluir-medico">
+            Deseja realmente excluir 
+            <h:outputText value="#{controllerMedico.medicoSelecionado.nome}"/>,
+            matrícula <h:outputText value="#{controllerMedico.
+                                             medicoSelecionado.matricula}"/>?
+            <br/>
             Todos os agendamentos serão excluídos.
             <br/>
             <p:commandButton value="Sim"
                              actionListener="#{controllerPaciente.
-                                       incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
-                                       medicoSelecionado)}"
-                             action="#{controllerMedico.
-                                               deletar(
-                                               controllerMedico.
+                      incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
                                                medicoSelecionado)}"
-                             oncomplete="PF('widConfirmDialog').hide()"/>
+                             action="#{controllerMedico.
+                                       deletar(
+                                       controllerMedico.
+                                       medicoSelecionado)}"
+                    oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"/>
             <p:commandButton value="Não" 
-                             oncomplete="PF('widConfirmDialog').hide()"/>
+                    oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"/>
 
         </p:dialog>
 
-        <p:dialog id="dialHorario" header="Horários" modal="true"  
-                  visible="false" widgetVar="widDialHorario">
-            <h:form id="apresentarHorariosDialForm">
+        <p:dialog id="dial-apresentar-horario" header="Horários" modal="true"  
+                  visible="false" widgetVar="wid-dial-apresentar-horario">
+            <h:form id="form-dial-apresentar-horario">
+                
+                <h3>
+                    Médico(a) <h:outputText value="#{controllerMedico.
+                                                     medicoSelecionado.nome}"/>
+                    - matrícula <h:outputText value="#{controllerMedico.
+                                                       medicoSelecionado.
+                                                       matricula}"/>
+                </h3>
+                
                 <p:dataTable id="horarios" var="horario" 
                              value="#{controllerMedico.
                                       medicoSelecionado.horarios}" 
@@ -265,17 +342,27 @@
                     </p:column>
 
                 </p:dataTable>
+                
+                <p:commandButton value="Fechar" 
+                        oncomplete="PF('wid-dial-apresentar-horario').hide()"/>
+                <p:commandButton value="Editar"
+                        oncomplete="PF('wid-dial-editar-horario').show()"
+                        rendered="#{controllerFuncionario.funcionarioLogado.
+                                    administrador}"/>
             </h:form>
         </p:dialog>
 
         <p:dialog closable="true" dynamic="true" header="Editar horários"
-                  id="dial-editar-horarios" modal="true" responsive="true"
-                  visible="false" widgetVar="wid-dial-editar-horarios">
+                  id="dial-editar-horario" modal="true" responsive="true"
+                  visible="false" widgetVar="wid-dial-editar-horario">
 
             <h:form>
                 <h3>
-                    <h:outputText value="#{controllerMedico.medicoSelecionado.nome}
-                                  - #{controllerMedico.medicoSelecionado.matricula}"/>
+                    Médico(a) 
+                    <h:outputText 
+                        value="#{controllerMedico.medicoSelecionado.nome}
+                           - matrícula #{controllerMedico.medicoSelecionado.
+                                         matricula}"/>
                 </h3>        
 
                 <p:dataTable disabledSelection="true" editable="true" 
@@ -292,7 +379,7 @@
                                         horarioInicial, horarioFinal, 
                                         agendamentos)}"
                             update="tabela-editar-horarios"/>
-                    
+
                     <p:column headerText="Dia">
                         <p:cellEditor>
                             <f:facet name="output">
@@ -367,11 +454,9 @@
                     </p:column>
                 </p:dataTable>
 
-                <p:commandButton value="Editar" 
-                                 action="#{controllerMedico.
-                                           atualizar(controllerMedico.
-                                           medicoSelecionado)}"
-                           oncomplete="PF('wid-dial-editar-horarios').hide()"/>
+                <p:commandButton 
+                    oncomplete="PF('wid-dial-editar-horario').hide()"
+                    value="Fechar"/>
             </h:form>
         </p:dialog>
     </h:body>
