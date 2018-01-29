@@ -3,25 +3,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-
         <h:form id="form-visualizar-agentamentos-concluidos">
-            <h:link rendered="#{controllerPaciente.pacienteLogado != null}" 
-                    value="Voltar à página principal" 
-                    outcome="/pacientes/home_paciente.xhtml"/>
-            <h:link 
-                rendered="#{controllerFuncionario.funcionarioLogado != null}" 
+
+            <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
+            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+
+            <h1>Agendamentos feitos</h1>
+
+            <p:panelGrid columns="2">
+                <h:link rendered="#{controllerPaciente.pacienteLogado != null}" 
+                        value="Voltar à página principal" 
+                        outcome="/pacientes/home_paciente.xhtml"/>
+                <h:link 
+                  rendered="#{controllerFuncionario.funcionarioLogado != null}" 
                     value="Voltar à página principal"
                     outcome="/funcionarios/home_funcionario.xhtml"/>
-            <h:link value="Fazer novo agendamento" 
-                    outcome="novo_agendamento.xhtml"/>
+                <h:link value="Fazer novo agendamento" 
+                        outcome="novo_agendamento.xhtml"/>
+            </p:panelGrid>
             <p:dataTable id="tabela_concluidos" paginator="true" 
-                         
+
                          value="#{controllerMedico.
                                   retornarAgendamentosConcluidos()}"
                          var="agendamento">
@@ -29,11 +36,11 @@
                     <h:outputText value="#{agendamento.id}"/>
                 </p:column>
                 <p:column rendered="#{controllerFuncionario.
-                                     funcionarioLogado != null}"
+                                      funcionarioLogado != null}"
                           headerText="Paciente">
                     <h:outputText 
-                                  value="#{agendamento.paciente.nome} - 
-                                  #{agendamento.paciente.cpf}"/>
+                        value="#{agendamento.paciente.nome} - 
+                        #{agendamento.paciente.cpf}"/>
                 </p:column>
                 <p:column headerText="Médico">
                     <h:outputText value="#{agendamento.medico.nome} - 
@@ -54,54 +61,54 @@
                 </p:column>
             </p:dataTable>                        
         </h:form>
-        
+
         <p:dialog closable="true" dynamic="true" id="dial-feitos" modal="true"
                   visible="false"
-            widgetVar="wid-dial-feitos">
+                  widgetVar="wid-dial-feitos">
             <h:form id="form">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>
                     <h:outputText value="#{controllerMedico.
-                                          agendamentoSelecionado.id}"/>
+                                           agendamentoSelecionado.id}"/>
                     <h:outputText rendered="#{controllerFuncionario.funcionarioLogado != null}"
                                   value="Nome do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado != null}"
                                   value="#{controllerMedico.
-                                          agendamentoSelecionado.paciente.
-                                          nome}"/>
+                                           agendamentoSelecionado.paciente.
+                                           nome}"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado != null}"
                                   value="Número de registro do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado != null}" 
                                   value="#{controllerMedico.
-                                          agendamentoSelecionado.paciente.
-                                          id}"/>
+                                           agendamentoSelecionado.paciente.
+                                           id}"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado!= null}"
                                   value="CPF do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado != null}"
                                   value="#{controllerMedico.
-                                          agendamentoSelecionado.paciente.
-                                          cpf}"/>
+                                           agendamentoSelecionado.paciente.
+                                           cpf}"/>
                     <h:outputText value="Nome do médico"/>
                     <h:outputText value="#{controllerMedico.
-                                          agendamentoSelecionado.medico.
-                                          nome}"/>
+                                           agendamentoSelecionado.medico.
+                                           nome}"/>
                     <h:outputText value="Conselho"/>
                     <h:outputText value="#{controllerMedico.
-                                          agendamentoSelecionado.medico.
-                                          conselho}"/>
+                                           agendamentoSelecionado.medico.
+                                           conselho}"/>
                     <h:outputText value="Data de realização"/>
                     <h:outputText value="#{controllerMedico.
-                                          agendamentoSelecionado.
-                                          dataPrevista}"/>
+                                           agendamentoSelecionado.
+                                           dataPrevista}"/>
                     <h:outputText value="Horário de início"/>
                     <h:outputText value="#{controllerMedico.
                                            agendamentoSelecionado.periodo}"/>
-            </p:panelGrid>
+                </p:panelGrid>
                 <p:commandButton value="Fechar" 
                                  oncomplete="PF(1wid-dial-feitos).hide()"/>
             </h:form>
