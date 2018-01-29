@@ -16,6 +16,9 @@
 
             <h1>Pacientes cadastrados</h1>
 
+            <h:link outcome="/acoes/cadastro_paciente.xhtml" 
+                    value="Cadastrar novo paciente"/>
+            
             <p:panel id="panel-pacientes">
                 <p:dataTable id="tabela-apresentar-pacientes" var="paciente" 
                              value="#{controllerPaciente.pacientesCadastrados}" 
