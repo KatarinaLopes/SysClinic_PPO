@@ -5,7 +5,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <p:menubar id="menubar-pacientes">
+    <p:menubar id="menubar-pacientes" 
+               rendered="#{controllerPaciente.pacienteLogado != null}">
         <p:menuitem icon="fa fa-home"
                     value="Página principal" url="home_paciente.xhtml"/>
         <p:submenu label="Agendamentos" icon="fa fa-calendar">

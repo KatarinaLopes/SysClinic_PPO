@@ -5,7 +5,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <p:menubar id="menubar-funcionarios">
+    <p:menubar id="menubar-funcionarios" 
+               rendered="#{controllerFuncionario.funcionarioLogado != null}">
         <p:submenu icon="fa fa-calendar" label="Agendamentos">
             <p:menuitem value="Novo agendamento" 
                         url="/acoes/novo_agendamento.xhtml"/>
@@ -27,7 +28,7 @@
         
         <f:facet name="options">
             <p:commandButton action="#{controllerFuncionario.logout()}" 
-                             ajax="false" icon="fa fa-external-link" 
+                             icon="fa fa-external-link" 
                              update="@form" value="Sair"/>
         </f:facet>
     </p:menubar>
