@@ -14,11 +14,42 @@
         <h:form id="form-principal-paciente">
 
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+            
+            
+            <h1>Olá, sr(a). 
+                <h:outputText value="#{controllerPaciente.
+                                       retornarPacienteLogado().nome}"/>!</h1>
+            
+            <p:panel header="Feed" toggleOrientation="vertical"
+                     toggleable="true">
+                <p:repeat id="mensagem-feed" 
+                          value="#{controllerPaciente.
+                                   exibirMensagens()}" var="mensagem">
+                    <p:outputPanel>
+                        <p:panelGrid columns="4">
+                            <h:outputText value="#{mensagem.data}">
+                                <f:convertDateTime dateStyle="short"
+                                                   pattern="dd/MM/yyyy"
+                                                   type="date"/>
+                            </h:outputText>
+                            <h:outputText value="#{mensagem.data}">
+                                <f:convertDateTime pattern="HH:mm"
+                                                   timeStyle="short" 
+                                                   type="time"/>
 
+                            </h:outputText>
+                            <h:outputText value="#{mensagem.conteudo}"/>
 
-            <h1>Olá, sr(a). <h:outputText value="#{controllerPaciente.
-                                                   retornarPacienteLogado().
-                                                   nome}"/>!</h1>
+                            <p:commandButton icon="fa fa-close" 
+                                             action="#{controllerPaciente.
+                                                    excluirMensagem(mensagem)}"
+                                         update="form-principal:mensagens-feed"
+                                             ajax="false"/>
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:repeat>
+
+            </p:panel>
             <br/>
 
             <p:panel>

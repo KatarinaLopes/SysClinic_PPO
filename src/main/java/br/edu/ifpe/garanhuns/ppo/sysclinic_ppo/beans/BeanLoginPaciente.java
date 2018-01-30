@@ -61,6 +61,7 @@ public class BeanLoginPaciente {
 
         if (paciente.getSenha().equals(senha)) {
             pacienteLogado = paciente;
+            setarPacienteLogadoNaSessao();
 
         } else {
             throw new DaoException(DaoException.SENHA_NAO_CORRESPONDE);
@@ -76,6 +77,7 @@ public class BeanLoginPaciente {
 
         if (pacienteLogado != null) {
             pacienteLogado = null;
+            tirarPacienteLogadoDaSessao();
         }else{
             throw new IllegalStateException("Não há paciente logado para esta "
                     + "operação");

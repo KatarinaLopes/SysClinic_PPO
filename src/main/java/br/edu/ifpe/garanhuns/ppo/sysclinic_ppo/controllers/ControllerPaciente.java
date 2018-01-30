@@ -160,9 +160,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         try {
             beanLoginPaciente.login(login, senha, (DaoPaciente) pacientes);
             
-            fc.getExternalContext().getSessionMap().
-            put("pacienteLogado", beanLoginPaciente.getPacienteLogado());
-            
             return "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
             fc.addMessage(null, new FacesMessage(ex.getMessage()));
@@ -194,7 +191,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         try{
             beanLoginPaciente.logout();
             
-            fc.getExternalContext().getSessionMap().remove("pacienteLogado");
         }catch(IllegalStateException ex){
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "Erro ao fazer logout", 
@@ -284,8 +280,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
           //      horarioAnterior, horarioNovo, m);
     }
     
-    public List<Mensagem> exibirMensagens(Paciente p){
-        return PacienteManager.getInstance().retornarTodasAsMensagens(p);
+    public List<Mensagem> exibirMensagens(){
+        return PacienteManager.getInstance().
+                retornarTodasAsMensagens(retornarPacienteLogado());
     }
     
     public void excluirMensagem(Mensagem m){
