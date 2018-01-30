@@ -96,7 +96,11 @@ public class LoginFuncionario {
 
         return funcionarioLogado != null && funcionarioLogado.isAdministrador();
     }
-    
+
+    public boolean existeLogadoNaoAdministrador(){
+        return funcionarioLogado != null && 
+                !funcionarioLogado.isAdministrador();
+    }  
     
 
     public void setarFuncionarioLogadoNaSessao() {

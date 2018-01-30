@@ -25,18 +25,18 @@
                 <p:panelGrid columns="2">
 
                     <h:link 
-                        rendered="#{controllerFuncionario.funcionarioLogado 
-                                    == null}"
+                        rendered="#{!controllerFuncionario.
+                                    existeLogadoNaoAdministrador()}"
                         value="Ir para a página de login" 
                         outcome="/login/login_paciente.xhtml"/>
                     <h:link 
-                        rendered="#{controllerFuncionario.funcionarioLogado 
-                                    != null}"
+                        rendered="#{controllerFuncionario.
+                                    existeLogadoNaoAdministrador()}"
                         value="Ir para página principal"
                         outcome="/funcionarios/home_funcionario.xhtml"/>
                     <h:link 
-                        rendered="#{controllerFuncionario.funcionarioLogado 
-                                    == null}"
+                        rendered="#{!controllerFuncionario.
+                                    existeLogadoNaoAdministrador()}"
                         value="Ir para a pagina inicial"
                         outcome="/index.xhtml"/>
                 </p:panelGrid>

@@ -199,6 +199,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return loginFuncionario.existeLogadoAdministrador();
     }
 
+    public boolean existeLogadoNaoAdministrador(){
+        return loginFuncionario.existeLogadoNaoAdministrador();
+    }
+    
     public String logout() {
             loginFuncionario.logout();
             loginFuncionario.tirarFuncionarioLogadoDaSessao();

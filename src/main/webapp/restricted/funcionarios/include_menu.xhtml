@@ -6,7 +6,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:menubar id="menubar-funcionarios" 
-               rendered="#{!controllerFuncionario.funcionarioLogadoEAdmin()}">
+               rendered="#{!controllerFuncionario.
+                           existeLogadoAdministrador()}">
         <p:menuitem icon="fa fa-home" value="Página principal" 
                     url="/funcionarios/home_funcionario.xhtml"/>
         <p:submenu icon="fa fa-calendar" label="Agendamentos">
@@ -30,7 +31,7 @@
         
         <f:facet name="options">
             <p:commandButton action="#{controllerFuncionario.logout()}" 
-                             icon="fa fa-external-link" 
+                             icon="fa fa-external-link" ajax="false"
                              update="@form" value="Sair"/>
         </f:facet>
     </p:menubar>

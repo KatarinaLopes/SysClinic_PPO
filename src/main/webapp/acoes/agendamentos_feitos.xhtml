@@ -21,7 +21,8 @@
                         value="Voltar à página principal" 
                         outcome="/pacientes/home_paciente.xhtml"/>
                 <h:link 
-                  rendered="#{controllerFuncionario.funcionarioLogado != null}" 
+                    rendered="#{controllerFuncionario.
+                                existeLogadoNaoAdministrador()}" 
                     value="Voltar à página principal"
                     outcome="/funcionarios/home_funcionario.xhtml"/>
                 <h:link value="Fazer novo agendamento" 
@@ -36,7 +37,7 @@
                     <h:outputText value="#{agendamento.id}"/>
                 </p:column>
                 <p:column rendered="#{controllerFuncionario.
-                                      funcionarioLogado != null}"
+                                      existeLogadoNaoAdministrador()}"
                           headerText="Paciente">
                     <h:outputText 
                         value="#{agendamento.paciente.nome} - 
@@ -71,26 +72,26 @@
                     <h:outputText value="#{controllerMedico.
                                            agendamentoSelecionado.id}"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado != null}"
+                                              existeLogadoNaoAdministrador()}"
                                   value="Nome do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado != null}"
+                                              existeLogadoNaoAdministrador()}"
                                   value="#{controllerMedico.
                                            agendamentoSelecionado.paciente.
                                            nome}"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado != null}"
+                                              existeLogadoNaoAdministrador()}"
                                   value="Número de registro do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado != null}" 
+                                              existeLogadoNaoAdministrador()}" 
                                   value="#{controllerMedico.
                                            agendamentoSelecionado.paciente.
                                            id}"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado!= null}"
+                                              existeLogadoNaoAdministrador()}"
                                   value="CPF do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
-                                              funcionarioLogado != null}"
+                                              existeLogadoNaoAdministrador()}"
                                   value="#{controllerMedico.
                                            agendamentoSelecionado.paciente.
                                            cpf}"/>

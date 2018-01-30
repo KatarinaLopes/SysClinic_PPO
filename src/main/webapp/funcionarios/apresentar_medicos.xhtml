@@ -86,7 +86,7 @@
                                          :form-dial-alterar-medico"
                               oncomplete="PF('wid-dial-alterar-medico').show()"
                               rendered="#{controllerFuncionario.
-                                          funcionarioLogadoEAdmin()}">
+                                          existeLogadoAdministrador()}">
                             <f:setPropertyActionListener value="#{medico}"
                                                          target="#{
                                                       controllerMedico.
@@ -96,7 +96,7 @@
                         <p:commandButton icon="fa fa-close"
                                          update=":form-apresentar-medicos"
                                          rendered="#{controllerFuncionario.
-                                                     funcionarioLogadoEAdmin()}"
+                                                     existeLogadoAdministrador()}"
                              oncomplete="PF('wid-dial-confirm-excluir-medico').
                                          show()">
                             <f:setPropertyActionListener value="#{medico}"
@@ -110,8 +110,7 @@
                                          :form-dial-apresentar-horario"
                          oncomplete="PF('wid-dial-apresentar-horario').show()">
                             <f:setPropertyActionListener value="#{medico}"
-                                                         target="#{
-                                                         controllerMedico.
+                                                    target="#{controllerMedico.
                                                           medicoSelecionado}"/>
                         </p:commandButton>
                         <p:commandButton icon="fa fa-pencil"
@@ -119,7 +118,7 @@
                                          :dial-editar-horario"
                             oncomplete="PF('wid-dial-editar-horario').show()"
                             rendered="#{controllerFuncionario.
-                                        funcionarioLogadoEAdmin()}">
+                                        existeLogadoAdministrador()}">
                             <f:setPropertyActionListener value="#{medico}"
                                target="#{controllerMedico.medicoSelecionado}"/>
                         </p:commandButton>
@@ -185,8 +184,8 @@
                 <p:commandButton value="Editar"
                          onclick="PF('wid-dial-visualizar-medico').hide()"
                          oncomplete="PF('wid-dial-alterar-medico').show()"
-                         rendered="#{controllerFuncionario.funcionarioLogado.
-                                     administrador}"
+                         rendered="#{controllerFuncionario.
+                                     existeLogadoAdministrador()}"
                          update=":dial-alterar-medico"/>
             </h:form>
 
@@ -348,8 +347,8 @@
                 <p:commandButton value="Editar"
                         onclick="PF('wid-dial-apresentar-horario').hide()"
                         oncomplete="PF('wid-dial-editar-horario').show()"
-                        rendered="#{controllerFuncionario.funcionarioLogado.
-                                    administrador}"
+                        rendered="#{controllerFuncionario.
+                                    existeLogadoAdministrador()}"
                         update=":dial-editar-horario"/>
             </h:form>
         </p:dialog>
