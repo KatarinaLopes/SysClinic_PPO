@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;

@@ -11,8 +11,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
@@ -131,4 +135,48 @@ public class HibernateUtilTest {
     @Test
     public void testMain() {
     }*/
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testGetInstance() {
+    }
+
+    @Test
+    public void testGetStatelessSession() {
+    }
+
+    @Test
+    public void testPersist() {
+    }
+
+    @Test
+    public void testRecover_String() {
+    }
+
+    @Test
+    public void testUpdate() {
+    }
+
+    @Test
+    public void testDelete() {
+    }
+
+    @Test
+    public void testMain() {
+    }
 }

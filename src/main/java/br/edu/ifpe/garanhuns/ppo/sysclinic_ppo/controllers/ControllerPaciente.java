@@ -124,7 +124,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         try {
             pacientes.persistir(c);
         } catch (ConstraintViolationException cve) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "O CPF informado já está cadastrado!",
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, 
+                            "O CPF informado já está cadastrado!",
             null));
             return null;
         }
