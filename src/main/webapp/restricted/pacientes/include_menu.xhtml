@@ -6,7 +6,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:menubar id="menubar-pacientes" 
-               rendered="#{controllerPaciente.pacienteLogado != null}">
+               rendered="#{controllerPaciente.existePacienteLogado()}">
         <p:menuitem icon="fa fa-home"
                     value="Página principal" 
                     url="/pacientes/home_paciente.xhtml"/>

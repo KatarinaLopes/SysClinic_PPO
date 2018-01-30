@@ -23,8 +23,6 @@ import javax.servlet.http.HttpSession;
  * Classe que contem toda a lógica para o processo de login/logout
  * @author Katarina
  */
-@ManagedBean
-@SessionScoped //Correto?
 public class BeanLoginPaciente {
 
     private Paciente pacienteLogado;   
@@ -74,7 +72,7 @@ public class BeanLoginPaciente {
      *
      * PT-BR Faz logout do paciente logado
      */
-    public void logout() {
+    public void logout() throws IllegalStateException{
 
         if (pacienteLogado != null) {
             pacienteLogado = null;

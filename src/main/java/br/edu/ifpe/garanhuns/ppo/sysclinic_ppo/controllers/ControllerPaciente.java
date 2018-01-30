@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.BeanLoginPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
@@ -20,6 +21,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FeedManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,14 +50,17 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     private DaoGenerico pacientes = new DaoPaciente();
 
-    @ManagedProperty("#{pacienteLogado}")
-    private Paciente pacienteLogado;
-
     @ManagedProperty("#{pacientes}")
     private List<Paciente> pacientesCadastrados = new ArrayList();
     
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
+    
+    private BeanLoginPaciente beanLoginPaciente;
+    
+    public ControllerPaciente(){
+        beanLoginPaciente = new BeanLoginPaciente();
+    }
     
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
@@ -72,16 +77,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
                 getSession(true);
         
         s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
-    }
-    
-    
-
-    public Paciente getPacienteLogado() {
-        return pacienteLogado;
-    }
-
-    public void setPacienteLogado(Paciente pacienteLogado) {
-        this.pacienteLogado = pacienteLogado;
     }
 
     public List<Paciente> getPacientesCadastrados() {
@@ -157,57 +152,58 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     /**
-     * Procura um paciente com o login especificado e compara a senha, se este
-     * existir. Se for bem sucedida, inclui na sessão. Senão, retorna uma 
-     * mensagem de erro via FacesContext
-     * @param login
-     * @param senha
-     * @return Página principal se for bem sucedida.
-     * @return null se não for
+     * 
      */
     public String fazerLogin(String login, String senha) {
-        Paciente p = null;
-
+        FacesContext fc = FacesContext.getCurrentInstance();
+        
         try {
-            p = (Paciente) pacientes.recuperarPorAtributo("cpf", login);
-
-            if (p.getSenha().equals(senha)) {
-                pacienteLogado = p;
-
-                HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
-                        getExternalContext().getSession(true);
-
-                //s.setMaxInactiveInterval(30000);
-                s.setAttribute("pacienteLogado", pacienteLogado);
-
-                
-                
-                return "/pacientes/home_paciente.xhtml?faces-redirect=true";
-            }
-
-        } catch (IndexOutOfBoundsException e) {
-            FacesContext.getCurrentInstance().
-                    addMessage(null, new FacesMessage("O login está incorreto"));
-            return null;
+            beanLoginPaciente.login(login, senha, (DaoPaciente) pacientes);
+            
+            fc.getExternalContext().getSessionMap().
+            put("pacienteLogado", beanLoginPaciente.getPacienteLogado());
+            
+            return "/pacientes/home_paciente.xhtml?faces-redirect=true";
+        } catch (DaoException ex) {
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));
         }
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("A senha está incorreta"));
-
+        
         return null;
     }
+    
+    public boolean existePacienteLogado(){
+        return beanLoginPaciente.existePacienteLogado();
+    }
 
+    public Paciente retornarPacienteLogado(){        
+        return beanLoginPaciente.getPacienteLogado();
+    }
+    
     /**
-     * Retira o paciente logado da sessão
+     * EN-US
+     * Does the logout
+     * 
+     * PT-BR
+     * Faz o logout
      * @return página de login
      */
     public String fazerLogout() {
         
-        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
+        FacesContext fc = FacesContext.getCurrentInstance();
         
-        s.removeAttribute("pacienteLogado");
-        
-        pacienteLogado = null;
+        try{
+            beanLoginPaciente.logout();
+            
+            fc.getExternalContext().getSessionMap().remove("pacienteLogado");
+        }catch(IllegalStateException ex){
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Erro ao fazer logout", 
+                    "Recarregue a página e tente novamente");
+            
+            FacesContext.getCurrentInstance().addMessage(null, fm);
+            
+            return null;
+        }
         
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
@@ -293,8 +289,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
     
     public void excluirMensagem(Mensagem m){
-        PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
-        PacienteManager.getInstance().atualizar(pacienteLogado);
+        //PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
+        //PacienteManager.getInstance().atualizar(pacienteLogado);
     }
     
     
