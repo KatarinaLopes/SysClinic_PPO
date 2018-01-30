@@ -5,7 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.BeanLoginPaciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
@@ -56,10 +56,10 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
     
-    private BeanLoginPaciente beanLoginPaciente;
+    private LoginPaciente loginPaciente;
     
     public ControllerPaciente(){
-        beanLoginPaciente = new BeanLoginPaciente();
+        loginPaciente = new LoginPaciente();
     }
     
     public Paciente getPacienteSelecionado() {
@@ -158,7 +158,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         FacesContext fc = FacesContext.getCurrentInstance();
         
         try {
-            beanLoginPaciente.login(login, senha, (DaoPaciente) pacientes);
+            loginPaciente.login(login, senha, (DaoPaciente) pacientes);
             
             return "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
@@ -169,11 +169,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
     
     public boolean existePacienteLogado(){
-        return beanLoginPaciente.existePacienteLogado();
+        return loginPaciente.existePacienteLogado();
     }
 
     public Paciente retornarPacienteLogado(){        
-        return beanLoginPaciente.getPacienteLogado();
+        return loginPaciente.getPacienteLogado();
     }
     
     /**
@@ -189,7 +189,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         FacesContext fc = FacesContext.getCurrentInstance();
         
         try{
-            beanLoginPaciente.logout();
+            loginPaciente.logout();
             
         }catch(IllegalStateException ex){
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * Classe que contem toda a lógica para o processo de login/logout
  * @author Katarina
  */
-public class BeanLoginPaciente {
+public class LoginPaciente {
 
     private Paciente pacienteLogado;   
     
