@@ -11,6 +11,8 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception
  */
 public class DaoException extends Exception{
     public static final String CPF_INEXISTENTE = "Este CPF não está cadastrado";
+    public static final String MATRICULA_INEXISTENTE = "Esta matrícula não "
+            + "está cadastrada";
     public static final String LOGIN_NAO_EXISTE = "Este login não está "
             + "cadastrado";
     public static final String SENHA_NAO_CORRESPONDE = "A senha está "

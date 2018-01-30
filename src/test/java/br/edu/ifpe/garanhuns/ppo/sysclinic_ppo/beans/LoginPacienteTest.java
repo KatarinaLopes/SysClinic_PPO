@@ -22,12 +22,12 @@ import static org.mockito.Mockito.*;
  *
  * @author Katarina
  */
-public class BeanLoginPacienteTest {
+public class LoginPacienteTest {
     
-    BeanLoginPaciente beanLoginPaciente;
+    LoginPaciente loginPaciente;
     DaoGenerico daoPaciente;
     
-    public BeanLoginPacienteTest() {
+    public LoginPacienteTest() {
     }
     
     @BeforeClass
@@ -40,7 +40,7 @@ public class BeanLoginPacienteTest {
     
     @Before
     public void setUp() {
-        beanLoginPaciente = new BeanLoginPaciente();
+        loginPaciente = new LoginPaciente();
         daoPaciente = mock(DaoPaciente.class);
     }
     
@@ -65,10 +65,10 @@ public class BeanLoginPacienteTest {
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).
                 thenReturn(paciente);
         
-        beanLoginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
+        loginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
         
-        assertNotNull(beanLoginPaciente.getPacienteLogado());
-        assertEquals(paciente, beanLoginPaciente.getPacienteLogado());
+        assertNotNull(loginPaciente.getPacienteLogado());
+        assertEquals(paciente, loginPaciente.getPacienteLogado());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class BeanLoginPacienteTest {
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).thenReturn(null);
         
         try{
-            beanLoginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
+            loginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -106,7 +106,7 @@ public class BeanLoginPacienteTest {
                 thenReturn(paciente);
         
         try{
-            beanLoginPaciente.login(cpf, senhaIncorreta, 
+            loginPaciente.login(cpf, senhaIncorreta, 
                     (DaoPaciente) daoPaciente);
             fail();
         }catch(DaoException ex){
@@ -122,7 +122,7 @@ public class BeanLoginPacienteTest {
         String mensagem = "";
         
         try{
-            beanLoginPaciente.login(null, "123", (DaoPaciente) daoPaciente);
+            loginPaciente.login(null, "123", (DaoPaciente) daoPaciente);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -137,7 +137,7 @@ public class BeanLoginPacienteTest {
         String mensagem = "";
         
         try{
-            beanLoginPaciente.login("", "123", (DaoPaciente) daoPaciente);
+            loginPaciente.login("", "123", (DaoPaciente) daoPaciente);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -152,7 +152,7 @@ public class BeanLoginPacienteTest {
         String mensagem = "";
         
         try{
-            beanLoginPaciente.login("111.111.111-11", null, 
+            loginPaciente.login("111.111.111-11", null, 
                     (DaoPaciente) daoPaciente);
             fail();
         }catch(IllegalArgumentException ex){
@@ -167,7 +167,7 @@ public class BeanLoginPacienteTest {
         String mensagem = "";
         
         try{
-            beanLoginPaciente.login("111.111.111-11", "", 
+            loginPaciente.login("111.111.111-11", "", 
                     (DaoPaciente) daoPaciente);
             fail();
         }catch(IllegalArgumentException ex){
@@ -180,13 +180,13 @@ public class BeanLoginPacienteTest {
     @Test
     public void deveTestarLogoutPassandoNoTeste() {
         
-        beanLoginPaciente.setPacienteLogado(new Paciente());
+        loginPaciente.setPacienteLogado(new Paciente());
         
-        assertNotNull(beanLoginPaciente.getPacienteLogado());
+        assertNotNull(loginPaciente.getPacienteLogado());
         
-        beanLoginPaciente.logout();
+        loginPaciente.logout();
         
-        assertNull(beanLoginPaciente.getPacienteLogado());
+        assertNull(loginPaciente.getPacienteLogado());
     }
 
     @Test
@@ -194,7 +194,7 @@ public class BeanLoginPacienteTest {
         String mensagem = "";
         
         try{
-            beanLoginPaciente.logout();
+            loginPaciente.logout();
             fail();
         }catch(IllegalStateException ex){
             mensagem = ex.getMessage();
@@ -204,15 +204,15 @@ public class BeanLoginPacienteTest {
     }
     @Test
     public void deveTestarExistePacienteLogadoRetornandoTrue() {
-        beanLoginPaciente.setPacienteLogado(new Paciente());
+        loginPaciente.setPacienteLogado(new Paciente());
         
-        assertTrue(beanLoginPaciente.existePacienteLogado());
+        assertTrue(loginPaciente.existePacienteLogado());
     }
     
     @Test
     public void deveTestarRetornandoFalse(){
-        beanLoginPaciente.setPacienteLogado(null);
+        loginPaciente.setPacienteLogado(null);
         
-        assertFalse(beanLoginPaciente.existePacienteLogado());
+        assertFalse(loginPaciente.existePacienteLogado());
     }
 }
