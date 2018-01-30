@@ -173,11 +173,11 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             loginFuncionario.setarFuncionarioLogadoNaSessao();
 
             return pegarPaginaDeRedirecionamento();
-        } catch (DaoException ex) {
+        } catch (DaoException | IllegalArgumentException ex) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Ocorreu um erro", ex.getMessage());
 
-            fc.addMessage(null, fm);
+            fc.addMessage(":form-login-funcionarios:messages-intranet", fm);
         }
 
         return null;

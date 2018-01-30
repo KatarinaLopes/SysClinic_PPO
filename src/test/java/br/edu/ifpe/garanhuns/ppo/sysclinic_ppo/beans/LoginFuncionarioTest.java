@@ -227,4 +227,5 @@ public class LoginFuncionarioTest {
         
         assertFalse(retorno);
     }
+    
 }
