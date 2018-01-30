@@ -5,8 +5,11 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
@@ -35,23 +38,18 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     private DaoFuncionario funcionarios = new DaoFuncionario();
 
-    @ManagedProperty(value = "#{funcionarioLogado}")
-    private Funcionario funcionarioLogado;
-
     @ManagedProperty(value = "#{funcionariosRegistrados}")
     private List<Funcionario> funcionariosRegistrados;
 
     @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
-    
+
     private boolean podeExcluirOuAlterar;
 
-    public Funcionario getFuncionarioLogado() {
-        return funcionarioLogado;
-    }
+    private LoginFuncionario loginFuncionario;
 
-    public void setFuncionarioLogado(Funcionario funcionarioLogado) {
-        this.funcionarioLogado = funcionarioLogado;
+    public ControllerFuncionario(){
+        loginFuncionario = new LoginFuncionario();
     }
 
     public List<Funcionario> getFuncionariosRegistrados() {
@@ -77,8 +75,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     public void setPodeExcluirOuAlterar(boolean podeExcluirOuAlterar) {
         this.podeExcluirOuAlterar = podeExcluirOuAlterar;
     }
-    
-    
 
     @Deprecated
     @Override
@@ -120,7 +116,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         } catch (NullPointerException ex) {
             return null;
         }*/
-
         try {
 
             funcionarios.persistir(c);
@@ -147,10 +142,11 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     /**
      * Exclui um funcionário do banco de dados
+     *
      * @param f representando funcionário a ser excluído
      */
     public void deletar(Funcionario f) {
-        
+
         if (funcionarios.podeExcluirOuAlterar(f.isAdministrador())) {
             funcionarios.deletar(f);
         } else {
@@ -158,8 +154,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",
                             "Impossível excluir este funcionário. O sistema "
-                                    + "precisa de um administrador e "
-                                    + "um funcionário para as ações"));
+                            + "precisa de um administrador e "
+                            + "um funcionário para as ações"));
         }
     }
 
@@ -169,51 +165,55 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
 
     public String fazerLogin(Integer login, String senha) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+
         try {
-            Funcionario func = (Funcionario) funcionarios.
-                    recuperarPorAtributo("matricula", String.valueOf(login));
+            loginFuncionario.login(login, senha,
+                    (DaoFuncionario) funcionarios);
+            loginFuncionario.setarFuncionarioLogadoNaSessao();
 
-            if (func.getSenha().equals((senha))) {
-                funcionarioLogado = func;
+            return pegarPaginaDeRedirecionamento();
+        } catch (DaoException ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Ocorreu um erro", ex.getMessage());
 
-                HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
-                        getExternalContext().getSession(true);
-
-                sess.setAttribute("funcionarioLogado", funcionarioLogado);
-
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                                "A senha está incorreta", null));
-                return null;
-            }
-
-            return alternarLogin(func);
-        } catch (IndexOutOfBoundsException ie) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                    "Esta matrícula não está cadastrada no sistema", null));
+            fc.addMessage(null, fm);
         }
 
         return null;
     }
 
-    private String alternarLogin(Funcionario f) {
-        if (f.isAdministrador()) {
+    private String pegarPaginaDeRedirecionamento() {
+        if (loginFuncionario.logadoEAdministrador()) {
             return "/administrador/home_admin.xhtml?faces-redirect=true";
+        } else {
+            return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
         }
-
-        return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
+    }
+    
+    public Funcionario pegarFuncionarioLogado(){
+        return loginFuncionario.getFuncionarioLogado();
+    }
+    
+    public boolean funcionarioLogadoEAdmin(){
+        return loginFuncionario.logadoEAdministrador();
     }
 
     public String logout() {
-        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
+        FacesContext fc = FacesContext.getCurrentInstance();
 
-        funcionarioLogado = null;
+        try {
+            loginFuncionario.logout();
+            loginFuncionario.tirarFuncionarioLogadoDaSessao();
 
-        ses.removeAttribute("funcionarioLogado");
-
-        return "/login/login_intranet.xhtml?faces-redirect=true";
+            return "/login/login_intranet.xhtml?faces-redirect=true";
+        } catch (IllegalStateException ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Erro", ex.getMessage());
+            fc.addMessage(null, fm);
+        }
+        
+        return null;
     }
 
     /*public boolean podeExcluirFuncionario(Funcionario f) {
@@ -233,24 +233,23 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return f.isAdministrador() ? qtdeAdministrador > 1
                 : qtdeFuncionario > 1;
     }*/
-    
-    public void exibirAlertaDeMudanca(){        
-        FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", 
+    public void exibirAlertaDeMudanca() {
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso",
                         "Administradores podem cadastrar, alterar e excluir "
-                                + "médicos e funcionários, mas não têm acesso "
-                                + "ao sistema de agendamentos. Mude o "
-                                + "privilégio apenas se necessário"));
+                        + "médicos e funcionários, mas não têm acesso "
+                        + "ao sistema de agendamentos. Mude o "
+                        + "privilégio apenas se necessário"));
     }
-    
-    public void getPodeExcluirOuAlterar(Funcionario f){
+
+    public void getPodeExcluirOuAlterar(Funcionario f) {
         System.out.println(f.getNome());
-        
+
         podeExcluirOuAlterar = !funcionarios.
                 podeExcluirOuAlterar(f.isAdministrador());
-        
+
         System.out.println(podeExcluirOuAlterar);
-        
+
         /*if(podeExcluirOuAlterar){
             return true;
         }

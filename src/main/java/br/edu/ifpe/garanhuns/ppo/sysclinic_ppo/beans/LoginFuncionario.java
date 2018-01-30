@@ -109,13 +109,12 @@ public class LoginFuncionario {
     }
     
     public void setarFuncionarioLogadoNaSessao() {
-        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().
-                getSession(true)).setAttribute("pacienteLogado",
-                funcionarioLogado);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                put("funcionarioLogado",funcionarioLogado);
     }
 
     public void tirarFuncionarioLogadoDaSessao() {
-        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().
-                getSession(true)).removeAttribute("pacienteLogado");
+        FacesContext.getCurrentInstance().getExternalContext().
+                getSessionMap().remove("funcionarioLoga");
     }
 }

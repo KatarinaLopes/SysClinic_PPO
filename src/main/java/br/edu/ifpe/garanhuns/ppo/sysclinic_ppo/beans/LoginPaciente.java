@@ -59,7 +59,7 @@ public class LoginPaciente {
 
         if (paciente.getSenha().equals(senha)) {
             pacienteLogado = paciente;
-            setarPacienteLogadoNaSessao();
+            //setarPacienteLogadoNaSessao();
 
         } else {
             throw new DaoException(DaoException.SENHA_NAO_CORRESPONDE);
@@ -75,7 +75,7 @@ public class LoginPaciente {
 
         if (pacienteLogado != null) {
             pacienteLogado = null;
-            tirarPacienteLogadoDaSessao();
+            //tirarPacienteLogadoDaSessao();
         }else{
             throw new IllegalStateException("Não há paciente logado para esta "
                     + "operação");
@@ -97,13 +97,12 @@ public class LoginPaciente {
     }
 
     public void setarPacienteLogadoNaSessao() {
-        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().
-                getSession(true)).setAttribute("pacienteLogado",
-                pacienteLogado);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
+                put("pacienteLogado", pacienteLogado);
     }
 
     public void tirarPacienteLogadoDaSessao() {
-        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().
-                getSession(true)).removeAttribute("pacienteLogado");
+        FacesContext.getCurrentInstance().getExternalContext().
+                getSessionMap().remove("pacienteLogado");
     }
 }

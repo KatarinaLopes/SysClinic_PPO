@@ -6,8 +6,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:menubar id="menubar-administrador" 
-               rendered="#{controllerFuncionario.funcionarioLogado.
-                           administrador}">
+               rendered="#{controllerFuncionario.funcionarioLogadoEAdmin()}">
         <p:menuitem icon="fa fa-home" url="/administrador/home_admin.xhtml"
                     value="Página principal"/>
         <p:submenu icon="fa fa-user" label="Funcionários">

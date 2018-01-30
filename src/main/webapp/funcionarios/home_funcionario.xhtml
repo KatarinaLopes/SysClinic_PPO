@@ -12,8 +12,8 @@
 
         <h:form id="form-principal-funcionarios">
             <h1>Bem vindo(a), 
-                <h:outputText value="#{controllerFuncionario.funcionarioLogado.
-                                       nome}"/>!</h1>
+                <h:outputText value="#{controllerFuncionario.
+                                       pegarFuncionarioLogado().nome}"/>!</h1>
 
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <p:panel id="panel-funcionarios">

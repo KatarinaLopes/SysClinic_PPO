@@ -85,9 +85,8 @@
                                          update=":form-apresentar-medicos 
                                          :form-dial-alterar-medico"
                               oncomplete="PF('wid-dial-alterar-medico').show()"
-                                         rendered="#{controllerFuncionario.
-                                                     funcionarioLogado.
-                                                     administrador}">
+                              rendered="#{controllerFuncionario.
+                                          funcionarioLogadoEAdmin()}">
                             <f:setPropertyActionListener value="#{medico}"
                                                          target="#{
                                                       controllerMedico.
@@ -97,8 +96,7 @@
                         <p:commandButton icon="fa fa-close"
                                          update=":form-apresentar-medicos"
                                          rendered="#{controllerFuncionario.
-                                                     funcionarioLogado.
-                                                     administrador}"
+                                                     funcionarioLogadoEAdmin()}"
                              oncomplete="PF('wid-dial-confirm-excluir-medico').
                                          show()">
                             <f:setPropertyActionListener value="#{medico}"
@@ -121,7 +119,7 @@
                                          :dial-editar-horario"
                             oncomplete="PF('wid-dial-editar-horario').show()"
                             rendered="#{controllerFuncionario.
-                                        funcionarioLogado.administrador}">
+                                        funcionarioLogadoEAdmin()}">
                             <f:setPropertyActionListener value="#{medico}"
                                target="#{controllerMedico.medicoSelecionado}"/>
                         </p:commandButton>

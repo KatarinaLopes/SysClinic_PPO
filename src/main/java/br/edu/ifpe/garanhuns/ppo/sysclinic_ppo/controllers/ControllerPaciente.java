@@ -159,7 +159,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         try {
             loginPaciente.login(login, senha, (DaoPaciente) pacientes);
-            
+            loginPaciente.setarPacienteLogadoNaSessao();
             return "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
             fc.addMessage(null, new FacesMessage(ex.getMessage()));
@@ -190,7 +190,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         try{
             loginPaciente.logout();
-            
+            loginPaciente.tirarPacienteLogadoDaSessao();
         }catch(IllegalStateException ex){
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
                     "Erro ao fazer logout", 

@@ -15,7 +15,8 @@
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
 
             <h1>Bem vindo(a), <h:outputText 
-                    value="#{controllerFuncionario.funcionarioLogado.nome}"/>!
+                    value="#{controllerFuncionario.pegarFuncionarioLogado().
+                             nome}"/>!
             </h1>
 
             <br/><br/>
