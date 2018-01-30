@@ -14,7 +14,7 @@
             
             <h1>Agendamentos pendentes</h1>
 
-            <h:link rendered="#{controllerPaciente.pacienteLogado != null}"
+            <h:link rendered="#{controllerPaciente.existePacienteLogado()}"
                     value="Voltar à página principal" 
                     outcome="/pacientes/home_paciente.xhtml"/>
             <h:link 

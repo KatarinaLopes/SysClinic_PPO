@@ -29,21 +29,21 @@
             <p:panel id="panel-novo-agendamento">
                 <p:panelGrid columns="4">
                     <h:outputText value="Paciente" 
-                                  rendered="#{controllerPaciente.
-                                              pacienteLogado == null}"/>
+                                  rendered="#{!controllerPaciente.
+                                              existePacienteLogado()}"/>
                     <p:inputText id="paciente" 
-                                 rendered="#{controllerPaciente.
-                                             pacienteLogado == null}"
+                                 rendered="#{!controllerPaciente.
+                                             existePacienteLogado()}"
                                  value="#{idPaciente}" required="true"
                                  requiredMessage="Campo obrigatório"/>
 
                     <p:commandButton icon="fa fa-search" 
                             oncomplete="PF('wid-dial-listar-pacientes').show()"
-                                     rendered="#{controllerPaciente.
-                                                 pacienteLogado == null}"/>                 
+                            rendered="#{!controllerPaciente.
+                                        existePacienteLogado()}"/>                 
                     <p:message for="paciente" 
-                               rendered="#{controllerPaciente.
-                                           pacienteLogado == null}"/>
+                               rendered="#{!controllerPaciente.
+                                           existePacienteLogado()}"/>
 
                     <h:outputText value="Médico"/>
                     <p:inputText id="idMedico" value="#{idMedico}" 
@@ -96,8 +96,8 @@
                                            salvarAgendamento(idPaciente, 
                                            idMedico, dataPrevista, 
                                            periodoSelecionado)}"
-                                 rendered="#{controllerPaciente.
-                                             pacienteLogado == null}"
+                                 rendered="#{!controllerPaciente.
+                                             existePacienteLogado()}"
                                  update=":form-agendamento-consultas"/>
                 <p:commandButton value="Incluir"
                                  action="#{controllerMedico.
@@ -105,7 +105,7 @@
                                            dataPrevista, 
                                            periodoSelecionado)}"
                                  rendered="#{controllerPaciente.
-                                             pacienteLogado != null}"
+                                             existePacienteLogado()}"
                                  update=":form-agendamento-consultas"/>
 
                 <h:outputText id="horarios" 

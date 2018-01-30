@@ -17,7 +17,7 @@
             <h1>Agendamentos feitos</h1>
 
             <p:panelGrid columns="2">
-                <h:link rendered="#{controllerPaciente.pacienteLogado != null}" 
+                <h:link rendered="#{controllerPaciente.existePacienteLogado()}" 
                         value="Voltar à página principal" 
                         outcome="/pacientes/home_paciente.xhtml"/>
                 <h:link 
@@ -70,7 +70,8 @@
                     <h:outputText value="Id"/>
                     <h:outputText value="#{controllerMedico.
                                            agendamentoSelecionado.id}"/>
-                    <h:outputText rendered="#{controllerFuncionario.funcionarioLogado != null}"
+                    <h:outputText rendered="#{controllerFuncionario.
+                                              funcionarioLogado != null}"
                                   value="Nome do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               funcionarioLogado != null}"
