@@ -16,8 +16,9 @@ import javax.servlet.http.HttpSession;
  * @author Katarina
  */
 public class LoginFuncionario {
-    private Funcionario funcionarioLogado;   
-    
+
+    private Funcionario funcionarioLogado;
+
     public void setFuncionarioLogado(Funcionario funcionarioLogado) {
         this.funcionarioLogado = funcionarioLogado;
     }
@@ -36,7 +37,7 @@ public class LoginFuncionario {
      * @param daoFuncionario
      * @throws DaoException
      */
-    public void login(int matricula, String senha, 
+    public void login(int matricula, String senha,
             DaoFuncionario daoFuncionario) throws DaoException {
 
         if (matricula == 0 || senha == null || senha.isEmpty()) {
@@ -65,56 +66,46 @@ public class LoginFuncionario {
      *
      * PT-BR Faz logout do paciente logado
      */
-    public void logout() throws IllegalStateException{
+    public void logout() throws IllegalStateException {
 
-        if (funcionarioLogado != null) {
-            funcionarioLogado = null;
-            //tirarFuncionarioLogadoDaSessao();
-        }else{
-            throw new IllegalStateException("Não há funcionário logado para "
-                    + "esta operação");
-        }
+        funcionarioLogado = null;
+        //tirarFuncionarioLogadoDaSessao
 
     }
 
     /**
-     * EN-US
-     * Verifies if there is a not null pacienteLogado
-     * 
-     * PT-BR
-     * Verifica se existe um pacienteLogado não nulo
-     * @return true if there is, false if there isn't | true, se tem; 
-     * false, se não tem
+     * EN-US Verifies if there is a not null pacienteLogado
+     *
+     * PT-BR Verifica se existe um pacienteLogado não nulo
+     *
+     * @return true if there is, false if there isn't | true, se tem; false, se
+     * não tem
      */
     public boolean existeFuncionarioLogado() {
         return funcionarioLogado != null;
     }
 
     /**
-     * EN-US
-     * Verifies if the logged funcionario is an admin or not
-     * 
-     * PT-BR
-     * Verifica se o funcionario logado é um administrador ou não
-     * 
+     * EN-US Verifies if the logged funcionario is an admin or not
+     *
+     * PT-BR Verifica se o funcionario logado é um administrador ou não
+     *
      * @return true if it is, false if it isn't | true se for, false se não for
      */
-    public boolean logadoEAdministrador() throws IllegalStateException{
-        if(funcionarioLogado == null){
-            throw new IllegalStateException("Não há funcionário logado para "
-                    + "a operação");
-        }
-        
-        return funcionarioLogado.isAdministrador();
+    public boolean existeLogadoAdministrador() {
+
+        return funcionarioLogado != null && funcionarioLogado.isAdministrador();
     }
     
+    
+
     public void setarFuncionarioLogadoNaSessao() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
-                put("funcionarioLogado",funcionarioLogado);
+                put("funcionarioLogado", funcionarioLogado);
     }
 
     public void tirarFuncionarioLogadoDaSessao() {
         FacesContext.getCurrentInstance().getExternalContext().
-                getSessionMap().remove("funcionarioLoga");
+                getSessionMap().remove("funcionarioLogado");
     }
 }

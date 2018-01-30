@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.faces.context.FacesContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -116,16 +115,15 @@ public class LoginFilter implements Filter {
         //doBeforeProcessing(request, response);
         Throwable problem = null;
 
-        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = ((HttpServletRequest) request).getSession(true);
 
         try {
 
-            Paciente pacienteLogado = (Paciente) fc.getExternalContext().
-                    getSessionMap().get("pacienteLogado");
+            Paciente pacienteLogado = (Paciente) session.
+                    getAttribute("pacienteLogado");
 
-            Funcionario funcionarioLogado = (Funcionario) fc.
-                    getExternalContext().getSessionMap().
-                    get("funcionarioLogado");
+            Funcionario funcionarioLogado = (Funcionario) session.
+                    getAttribute("funcionarioLogado");
 
             if (pacienteLogado == null && funcionarioLogado == null) {
 

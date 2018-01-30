@@ -180,19 +180,7 @@ public class LoginFuncionarioTest {
         assertNull(loginFuncionario.getFuncionarioLogado());
     }
 
-    @Test
-    public void deveTestarLogoutFalhando(){
-        String mensagem = "";
-        
-        try{
-            loginFuncionario.logout();
-            fail();
-        }catch(IllegalStateException ex){
-            mensagem = ex.getMessage();
-        }
-        
-        assertEquals("Não há funcionário logado para esta operação", mensagem);
-    }
+    
     @Test
     public void deveTestarExistePacienteLogadoRetornandoTrue() {
         loginFuncionario.setFuncionarioLogado(new Funcionario());
@@ -215,7 +203,7 @@ public class LoginFuncionarioTest {
         
         loginFuncionario.setFuncionarioLogado(funcionario);
         
-        boolean retorno = loginFuncionario.logadoEAdministrador();
+        boolean retorno = loginFuncionario.existeLogadoAdministrador();
         
         assertTrue(retorno);
         
@@ -225,24 +213,18 @@ public class LoginFuncionarioTest {
     public void deveTestarLogadoEAdministradorRetornandoFalse(){
         loginFuncionario.setFuncionarioLogado(new Funcionario());
         
-        boolean retorno = loginFuncionario.logadoEAdministrador();
+        boolean retorno = loginFuncionario.existeLogadoAdministrador();
         
         assertFalse(retorno);
     }
     
     @Test
-    public void deveTestarLogadoEAdminLancandoExcecao(){
-        String mensagem = "";
-        
+    public void deveTestarLogadoEAdminFuncionarioNuloRetornandoFalse(){
+       
         loginFuncionario.setFuncionarioLogado(null);
+       
+        boolean retorno = loginFuncionario.existeLogadoAdministrador();
         
-        try{
-            loginFuncionario.logadoEAdministrador();
-            fail();
-        }catch(IllegalStateException ex){
-            mensagem = ex.getMessage();
-        }
-        
-        assertEquals("Não há funcionário logado para a operação", mensagem);
+        assertFalse(retorno);
     }
 }

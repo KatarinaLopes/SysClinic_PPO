@@ -184,7 +184,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
 
     private String pegarPaginaDeRedirecionamento() {
-        if (loginFuncionario.logadoEAdministrador()) {
+        if (loginFuncionario.existeLogadoAdministrador()) {
             return "/administrador/home_admin.xhtml?faces-redirect=true";
         } else {
             return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
@@ -195,25 +195,15 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return loginFuncionario.getFuncionarioLogado();
     }
     
-    public boolean funcionarioLogadoEAdmin(){
-        return loginFuncionario.logadoEAdministrador();
+    public boolean existeLogadoAdministrador(){
+        return loginFuncionario.existeLogadoAdministrador();
     }
 
     public String logout() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-
-        try {
             loginFuncionario.logout();
             loginFuncionario.tirarFuncionarioLogadoDaSessao();
 
             return "/login/login_intranet.xhtml?faces-redirect=true";
-        } catch (IllegalStateException ex) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Erro", ex.getMessage());
-            fc.addMessage(null, fm);
-        }
-        
-        return null;
     }
 
     /*public boolean podeExcluirFuncionario(Funcionario f) {
