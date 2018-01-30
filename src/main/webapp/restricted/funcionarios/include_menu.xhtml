@@ -6,8 +6,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:menubar id="menubar-funcionarios" 
-               rendered="#{!controllerFuncionario.
-                           existeLogadoAdministrador()}">
+               rendered="#{controllerFuncionario.
+                           existeLogadoNaoAdministrador()}">
         <p:menuitem icon="fa fa-home" value="Página principal" 
                     url="/funcionarios/home_funcionario.xhtml"/>
         <p:submenu icon="fa fa-calendar" label="Agendamentos">
