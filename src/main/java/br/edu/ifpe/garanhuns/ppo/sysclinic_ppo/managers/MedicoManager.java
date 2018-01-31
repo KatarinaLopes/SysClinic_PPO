@@ -26,14 +26,26 @@ public class MedicoManager {
                 recuperarPorAtributo("matricula", medico.getMatricula());
         
         if(existente != null){
-            throw new IllegalArgumentException("Este médico já está cadastrado,"
-                    + " verifique se a matrícula está correta");
+            throw new IllegalArgumentException("Este médico já está "
+                + "cadastrado, verifique se a matrícula está "
+                + "correta");
+           
         }
+    
+        existente = (Medico) daoMedicos.
+                recuperarPorAtributo("conselho", medico.getConselho());
+    
+        if(existente != null){
+            throw new IllegalArgumentException("Este número de registro de "
+                    + "conselho já está cadastrado");
+        }
+        
+       
     }
     
     public void cadastrar(Medico medico, String conselho, int numeroConselho){
-        validar(medico);
         medico.setConselho(conselho + "/" + numeroConselho);
+        validar(medico);
         daoMedicos.persistir(medico);
     }
 }
