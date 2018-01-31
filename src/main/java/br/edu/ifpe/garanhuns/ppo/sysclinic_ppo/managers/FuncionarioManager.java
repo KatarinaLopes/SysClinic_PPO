@@ -8,6 +8,9 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -36,8 +39,11 @@ public class FuncionarioManager {
         }
     }
     
-    public void cadastrar(Funcionario funcionario, String confirmacaoSenha){
+    public void cadastrar(Funcionario funcionario, String confirmacaoSenha) 
+            throws NoSuchAlgorithmException, UnsupportedEncodingException{
         validar(funcionario, confirmacaoSenha);
+        funcionario.setSenha(Operacoes.criptografarSenha(funcionario.
+                getSenha()));
         daoFuncionarios.persistir(funcionario);
     }
 }

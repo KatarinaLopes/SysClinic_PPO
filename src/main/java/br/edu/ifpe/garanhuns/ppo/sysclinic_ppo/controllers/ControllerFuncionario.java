@@ -113,6 +113,9 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         } catch(IllegalArgumentException ex){
             FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(ex.getMessage()));
+        } catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(ex.getMessage()));
         }
         return null;
     }
