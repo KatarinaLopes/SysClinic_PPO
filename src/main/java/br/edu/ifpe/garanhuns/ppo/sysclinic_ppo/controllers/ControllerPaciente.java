@@ -64,7 +64,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     public ControllerPaciente() {
         loginPaciente = new LoginPaciente();
-        pacienteManager = new PacienteManager();
+        pacienteManager = new PacienteManager((DaoPaciente) pacientes);
     }
 
     public Paciente getPacienteSelecionado() {

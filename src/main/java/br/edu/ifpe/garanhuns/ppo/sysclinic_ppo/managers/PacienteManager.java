@@ -33,8 +33,8 @@ public class PacienteManager {
 
     private static FeedManager feedManager = FeedManager.getInstance();
 
-    public PacienteManager() {
-        daoPaciente = new DaoPaciente();
+    public PacienteManager(DaoPaciente daoPacientes) {
+        this.daoPaciente = daoPacientes;
     }
 
     
