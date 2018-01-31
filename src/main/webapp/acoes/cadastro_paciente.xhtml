@@ -13,12 +13,13 @@
 
         <h:form id="form-cadastro-pacientes">
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
+
+            <h1>Página de cadastro de pacientes</h1>
             
             <p:poll>
                 <p:messages id="messages-pacientes"/>
             </p:poll>
 
-            <h1>Página de cadastro de pacientes</h1>
 
             <p:panel>
 
@@ -42,9 +43,12 @@
                 </p:panelGrid>
             </p:panel>
 
+            <p:poll>
+                <p:messages/>
+            </p:poll>
+            
             <p:panel>
                 Os campos com asterisco são obrigatórios.
-                
                 <p:panelGrid columns="3">
                     <h:outputText value="*Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
@@ -96,7 +100,7 @@
                                  value="#{builderPaciente.cpf}"
                                  required="true"
                                  requiredMessage="Campo obrigatório"/>
-                    <p:message for="cpf"/>
+                    <p:message id="message-cpf" for="cpf"/>
 
                     <h:outputText value="*Escolha uma senha"/>
                     <p:password id="senha" value="#{builderPaciente.senha}"

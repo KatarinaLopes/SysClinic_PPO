@@ -119,7 +119,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             return "/login/login_paciente.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             FacesContext.getCurrentInstance().
-                    addMessage(":form-cadastro-pacientes:messages-pacientes", 
+                    addMessage(":form-cadastro-pacientes:message-cpf", 
                             new FacesMessage(ex.getMessage()));
         }
         
