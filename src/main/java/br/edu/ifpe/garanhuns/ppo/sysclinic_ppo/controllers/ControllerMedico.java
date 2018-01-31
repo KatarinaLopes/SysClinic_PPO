@@ -45,9 +45,6 @@ public class ControllerMedico {
     private final DaoGenerico daoMedico = new DaoMedico();
 
     @ManagedProperty("#{medicosRegistrados}")
-    private List<Medico> medicosRegistrados;
-
-    @ManagedProperty("#{medicosRegistrados}")
     private Medico medicoSelecionado;
 
     //@ManagedProperty("#{horarios}")
@@ -68,14 +65,6 @@ public class ControllerMedico {
     
     public ControllerMedico(){
         medicoManager = new MedicoManager();
-    }
-
-    public List<Medico> getMedicosRegistrados() {
-        return medicosRegistrados;
-    }
-
-    public void setMedicosRegistrados(List medicosRegistrados) {
-        this.medicosRegistrados = medicosRegistrados;
     }
 
     public Medico getMedicoSelecionado() {
@@ -168,9 +157,8 @@ public class ControllerMedico {
         
     }
 
-    @PostConstruct
-    public void recuperarTodos() {
-        medicosRegistrados = daoMedico.recuperarTodos();
+    public List<Medico> recuperarTodos() {
+        return medicoManager.recuperarTodos();
         //agendamentosConcluidos = retornarAgendamentosConcluidos();
     }
 
@@ -192,7 +180,7 @@ public class ControllerMedico {
          atualizar(medico);
     }*/
     public Medico procurarMedico(int id) {
-        for (Medico medicosRegistrado : medicosRegistrados) {
+        for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
             if (medicosRegistrado.getId() == id) {
                 return medicosRegistrado;
             }
@@ -285,7 +273,7 @@ public class ControllerMedico {
         List<Agendamento> agendamentosConclidos = new ArrayList<>();
 
         if (p != null) {
-            for (Medico medicosRegistrado : medicosRegistrados) {
+            for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
                 agendamentosConclidos.addAll(medicosRegistrado.
                         getAgenda().
                         retornarAgendamentosConcluidosPacientes(p));
@@ -293,7 +281,7 @@ public class ControllerMedico {
 
         } else {
 
-            for (Medico medicosRegistrado : medicosRegistrados) {
+            for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
                 agendamentosConclidos.addAll(medicosRegistrado.getAgenda().
                         retornarAgendamentosConcluidos());
             }

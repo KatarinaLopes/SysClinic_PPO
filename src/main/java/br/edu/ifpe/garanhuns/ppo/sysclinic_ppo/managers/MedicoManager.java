@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import java.util.List;
 
 /**
  *
@@ -47,5 +48,9 @@ public class MedicoManager {
         medico.setConselho(conselho + "/" + numeroConselho);
         validar(medico);
         daoMedicos.persistir(medico);
+    }
+    
+    public List<Medico> recuperarTodos(){
+        return daoMedicos.recuperarTodos();
     }
 }

@@ -17,7 +17,7 @@
 
             <p:panel id="panel-medicos">
                 <p:dataTable id="tabela-apresentar-medicos" var="medico" 
-                             value="#{controllerMedico.medicosRegistrados}" 
+                             value="#{controllerMedico.recuperarTodos()}" 
                              rowKey="#{medico.matricula}" 
                              disabledSelection="true"
                              emptyMessage="Ainda não há médicos cadastrados"
@@ -305,7 +305,8 @@
                                        deletar(
                                        controllerMedico.
                                        medicoSelecionado)}"
-                    oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"/>
+                    oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"
+                  update=":form-apresentar-medicos:tabela-apresentar-medicos"/>
             <p:commandButton value="Não" 
                     oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"/>
 
