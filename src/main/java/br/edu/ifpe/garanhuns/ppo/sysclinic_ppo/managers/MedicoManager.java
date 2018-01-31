@@ -5,9 +5,13 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import com.google.gson.Gson;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +55,26 @@ public class MedicoManager {
         daoMedicos.persistir(medico);
     }
     
+    public Medico recuperar(int id){
+        return (Medico) daoMedicos.recuperar(id);
+    }
+    
+    public void atualizar(Medico medico){
+        daoMedicos.atualizar(medico);
+    }
+    
+    public void deletar(Medico medico){
+        daoMedicos.deletar(medico);
+    }
+    
     public List<Medico> recuperarTodos(){
         return daoMedicos.recuperarTodos();
     }
+    
+    public void marcarAgendamento(Agendamento agendamento){
+        Medico medico = agendamento.getMedico();
+        
+        medico.getAgenda().adicionarAgendamento(agendamento);
+    }
+ 
 }

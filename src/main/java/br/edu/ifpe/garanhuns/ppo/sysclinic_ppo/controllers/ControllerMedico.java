@@ -84,12 +84,10 @@ public class ControllerMedico {
     }
 
     public Horario getHorarioSelecionado() {
-        System.out.println(horarioSelecionado);
         return horarioSelecionado;
     }
 
     public void setHorarioSelecionado(Horario horarioSelecionado) {
-        System.out.println("dfg");
         this.horarioSelecionado = horarioSelecionado;
     }
 
@@ -144,17 +142,15 @@ public class ControllerMedico {
     }
 
     public Medico recuperar(Integer i) {
-        return (Medico) daoMedico.recuperar(i);
+        return medicoManager.recuperar(i);
     }
 
     public void atualizar(Medico c) {
-        daoMedico.atualizar(c);
+        medicoManager.atualizar(c);
     }
 
     public void deletar(Medico c) {
-        System.out.println(c);
-        daoMedico.deletar(c);
-        
+        medicoManager.deletar(c);
     }
 
     public List<Medico> recuperarTodos() {
@@ -162,37 +158,10 @@ public class ControllerMedico {
         //agendamentosConcluidos = retornarAgendamentosConcluidos();
     }
 
-    public void salvarHorario(int dia, Date inicio, Date fim, int limite) {
-        horarios.add(new Horario(dia, inicio, fim, limite));
-    }
-
-    public void excluirHorario(Horario h) {
-        System.out.println("antes");
-        horarios.remove(h);
-        System.out.println("depois");
-    }
-
-    /*public void salvarAgendamento(Agendamento a){
-         Medico medico = a.getMedico();
-         
-         medico.getAgendamento().add(a);
-         
-         atualizar(medico);
-    }*/
-    public Medico procurarMedico(int id) {
-        for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
-            if (medicosRegistrado.getId() == id) {
-                return medicosRegistrado;
-            }
-        }
-
-        return null;
-    }
-
     public String salvarAgendamento(int idPaciente, int idMedico, Date data,
             Horario periodo) {
 
-        Medico m = procurarMedico(idMedico);
+        Medico m = recuperar(idMedico);
 
         System.out.println(m);
 
@@ -210,7 +179,7 @@ public class ControllerMedico {
 
     public String salvarAgendamento(int idMedico, Date data, Horario periodo) {
 
-        Medico m = procurarMedico(idMedico);
+        Medico m = medicoManager.recuperar(idMedico);
 
         Paciente p = (Paciente) ((HttpSession) FacesContext.
                 getCurrentInstance().
@@ -235,7 +204,7 @@ public class ControllerMedico {
     public void retornarDiasLivres(int idM) {
         System.out.println("1");
 
-        Medico m = procurarMedico(idM);
+        Medico m = medicoManager.recuperar(idM);
 
         System.out.println(m);
 

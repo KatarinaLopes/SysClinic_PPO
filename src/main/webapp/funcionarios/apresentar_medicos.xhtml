@@ -94,7 +94,8 @@
                         </p:commandButton>
 
                         <p:commandButton icon="fa fa-close"
-                                         update=":form-apresentar-medicos"
+                                         update=":form-apresentar-medicos
+                                         dial-confirm-excluir-medico"
                                          rendered="#{controllerFuncionario.
                                                      existeLogadoAdministrador()}"
                              oncomplete="PF('wid-dial-confirm-excluir-medico').

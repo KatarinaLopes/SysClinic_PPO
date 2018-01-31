@@ -31,17 +31,19 @@
                     <h:outputText value="Paciente" 
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"/>
-                    <p:inputText id="paciente" 
+                    <p:inputText id="paciente-selecionado" 
                                  rendered="#{!controllerPaciente.
                                              existePacienteLogado()}"
-                                 value="#{idPaciente}" required="true"
+                                 value="#{idPaciente}" 
+                                 required="true"
+                                 type="text"
                                  requiredMessage="Campo obrigatório"/>
 
                     <p:commandButton icon="fa fa-search" 
                             oncomplete="PF('wid-dial-listar-pacientes').show()"
                             rendered="#{!controllerPaciente.
                                         existePacienteLogado()}"/>                 
-                    <p:message for="paciente" 
+                    <p:message for="paciente-selecionado" 
                                rendered="#{!controllerPaciente.
                                            existePacienteLogado()}"/>
 
@@ -123,7 +125,7 @@
                              id="tabela-apresentar-pacientes" 
                              emptyMessage="Não há pacientes cadastrados" 
                              paginator="true" rows="10" 
-                             value="#{controllerPaciente.pacientesCadastrados}"
+                             value="#{controllerPaciente.recuperarTodos()}"
                              var="paciente">
                     <p:column headerText="Registro" filterBy="#{paciente.id}" 
                               filterMatchMode="contains" 
@@ -141,11 +143,12 @@
                         <h:outputText value="#{paciente.cpf}"/>
                     </p:column>
                     <p:column>
-                        <p:commandButton icon="fa fa-selected" 
+                        <p:commandButton icon="fa fa-selected"
                            oncomplete="PF('wid-dial-listar-pacientes').hide()"
-                           update="form-agendamento-consultas:paciente">
-                            <f:setPropertyActionListener target="#{idPaciente}"
-                                                       value="#{paciente.id}"/>
+                           update="form-agendamento-consultas:paciente-selecionado">
+                            <f:setPropertyActionListener 
+                                target="#{idPaciente}"
+                                value="#{paciente}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -164,7 +167,7 @@
                              emptyMessage="Ainda não há médicos cadastrados"
                              id="tabela-apresentar-medicos" paginator="true"
                              rows="10" 
-                             value="#{controllerMedico.medicosRegistrados}"
+                             value="#{controllerMedico.recuperarTodos()}"
                              var="medico">
                     <p:column headerText="Matrícula" 
                               filterBy="#{medico.matricula}" 
