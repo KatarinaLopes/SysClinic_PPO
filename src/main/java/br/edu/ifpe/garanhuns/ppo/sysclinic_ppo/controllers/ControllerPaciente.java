@@ -46,7 +46,7 @@ import org.hibernate.exception.ConstraintViolationException;
  *
  * @author Katarina
  */
-@ManagedBean(name="controllerPaciente", eager = true)
+@ManagedBean(name = "controllerPaciente", eager = true)
 @SessionScoped
 public class ControllerPaciente implements ControllerGenerico<Paciente, Integer> {
 
@@ -54,44 +54,44 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @ManagedProperty("#{pacientes}")
     private List<Paciente> pacientesCadastrados = new ArrayList();
-    
+
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
-    
+
     private LoginPaciente loginPaciente;
-    
+
     private PacienteManager pacienteManager;
-    
-    public ControllerPaciente(){
+
+    public ControllerPaciente() {
         loginPaciente = new LoginPaciente();
         pacienteManager = new PacienteManager();
     }
-    
+
     public Paciente getPacienteSelecionado() {
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
-        
+
         return (Paciente) s.getAttribute("pacienteSelecionado");
     }
 
     public void setPacienteSelecionado(Paciente pacienteSelecionado) {
         this.pacienteSelecionado = pacienteSelecionado;
-        
+
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().
                 getSession(true);
-        
+
         s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
     }
 
     public List<Paciente> getPacientesCadastrados() {
         return pacientesCadastrados;
     }
-    
+
     public void setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
         this.pacientesCadastrados = pacientesCadastrados;
     }
-    
+
     @Override
     @Deprecated
     public void cadastrar(Paciente c) {
@@ -100,23 +100,31 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     public boolean validarPaciente(Paciente c, String senha) {
         String msg = Operacoes.validarPaciente(c, senha);
-        
-        if(msg == null){
+
+        if (msg == null) {
             return true;
         }
-        
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-        
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(msg));
+
         return false;
     }
 
-    public String cadastrar(Paciente c, String senha) throws 
+    public String cadastrar(Paciente c, String senha) throws
             NoSuchAlgorithmException, UnsupportedEncodingException {
         //System.out.println(c.getSenha());
-        
-        pacienteManager.cadastrarPaciente(c, senha);
 
-        return "/login/login_paciente.xhtml?faces-redirect=true";
+        try {
+            pacienteManager.cadastrarPaciente(c, senha);
+            return "/login/login_paciente.xhtml?faces-redirect=true";
+        } catch (IllegalArgumentException ex) {
+            FacesContext.getCurrentInstance().
+                    addMessage(":form-cadastro-pacientes:messages-pacientes", 
+                            new FacesMessage(ex.getMessage()));
+        }
+        
+        return null;
     }
 
     @Override
@@ -124,7 +132,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return (Paciente) pacientes.recuperar(i);
     }
 
-    
     public void atualizar(Paciente c) {
         pacientes.atualizar(c);
     }
@@ -132,21 +139,21 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     @PostConstruct
     public void recuperarTodos() {
         pacientesCadastrados = pacientes.recuperarTodos();
-        
+
         HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
                 getExternalContext().getSession(true);
-        
+
         s.setAttribute("pacientesCadastrados", pacientesCadastrados);
-        
+
         //pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }
 
     /**
-     * 
+     *
      */
     public String fazerLogin(String login, String senha) {
         FacesContext fc = FacesContext.getCurrentInstance();
-        
+
         try {
             loginPaciente.login(login, senha, (DaoPaciente) pacientes);
             loginPaciente.setarPacienteLogadoNaSessao();
@@ -154,46 +161,45 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         } catch (DaoException ex) {
             fc.addMessage(null, new FacesMessage(ex.getMessage()));
         }
-        
+
         return null;
     }
-    
-    public boolean existePacienteLogado(){
+
+    public boolean existePacienteLogado() {
         return loginPaciente.existePacienteLogado();
     }
 
-    public Paciente retornarPacienteLogado(){        
+    public Paciente retornarPacienteLogado() {
         return loginPaciente.getPacienteLogado();
     }
-    
+
     /**
-     * EN-US
-     * Does the logout
-     * 
-     * PT-BR
-     * Faz o logout
+     * EN-US Does the logout
+     *
+     * PT-BR Faz o logout
+     *
      * @return página de login
      */
     public String fazerLogout() {
-        
+
         FacesContext fc = FacesContext.getCurrentInstance();
-        
-        try{
+
+        try {
             loginPaciente.logout();
             loginPaciente.tirarPacienteLogadoDaSessao();
-        }catch(IllegalStateException ex){
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Erro ao fazer logout", 
+        } catch (IllegalStateException ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Erro ao fazer logout",
                     "Recarregue a página e tente novamente");
-            
+
             FacesContext.getCurrentInstance().addMessage(null, fm);
-            
+
             return null;
         }
-        
+
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
-    
+
     /*public String incluirAgendamento(){
         
         Paciente p = recuperar(1);
@@ -204,79 +210,69 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         return "agendamentos_feitos.xhtml";
     }*/
-    
-    public void procurarPaciente(String cpf){
-        
+    public void procurarPaciente(String cpf) {
+
         //System.out.println(1);
-        
         //Paciente p = null;
-        
         //System.out.println(2 + " dg " + p);
-        
         for (Paciente pacientesCadastrado : pacientesCadastrados) {
-            
-          //  System.out.println(3);
-            
-            if(pacientesCadastrado.getCpf().equals(cpf)){
+
+            //  System.out.println(3);
+            if (pacientesCadastrado.getCpf().equals(cpf)) {
                 //System.out.println(4);
-                
+
                 return;
-                
+
             }
-            
+
         }
-        
-        
-                  
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                                    "Paciente não cadastrado ou CPF "
-                                            + "inválido"));
-        
+                "Paciente não cadastrado ou CPF "
+                + "inválido"));
+
     }
-    
-    public Paciente procurarPaciente(int id){
+
+    public Paciente procurarPaciente(int id) {
         recuperarTodos();
-        
+
         for (Paciente pacientesCadastrado : pacientesCadastrados) {
-            if(pacientesCadastrado.getId() == id){
+            if (pacientesCadastrado.getId() == id) {
                 return pacientesCadastrado;
             }
-            
+
         }
-        
+
         return null;
     }
-    
-    public void incluirMensagensDeExclusaoDeAgendamento(Medico m){
+
+    public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
         System.out.println(m);
-        
+
         List<Agendamento> pacientesMarcados = m.getAgenda().getAgendamentos();
-        
+
         pacienteManager.inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
-        
+
         //FeedManager.inserirMensagemDeExclusao(pacientesMarcados, m);
-        
-        
     }
-    
-    public void incluirMensagemDeAlteracaoDeHorario(Medico m, 
-            Date horarioAnterior, Date horarioNovo){
-        
+
+    public void incluirMensagemDeAlteracaoDeHorario(Medico m,
+            Date horarioAnterior, Date horarioNovo) {
+
         List<Paciente> pacientesAgendados = m.getAgenda().
                 listarPacientesMarcados(horarioAnterior);
-        
+
         //FeedManager.inserirMensagemDeAtualizacaoDeHorario(pacientesAgendados, 
-          //      horarioAnterior, horarioNovo, m);
+        //      horarioAnterior, horarioNovo, m);
     }
-    
-    public List<Mensagem> exibirMensagens(){
+
+    public List<Mensagem> exibirMensagens() {
         return pacienteManager.retornarTodasAsMensagens(retornarPacienteLogado());
     }
-    
-    public void excluirMensagem(Mensagem m){
+
+    public void excluirMensagem(Mensagem m) {
         //PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
         //PacienteManager.getInstance().atualizar(pacienteLogado);
     }
-    
-    
+
 }

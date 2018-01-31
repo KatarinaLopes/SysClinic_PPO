@@ -18,7 +18,7 @@ import org.hibernate.exception.ConstraintViolationException;
 public class DaoPaciente implements DaoGenerico<Paciente, Integer> {
 
     @Override
-    public void persistir(Paciente c) {
+    public void persistir(Paciente c) throws ConstraintViolationException{
         HibernateUtil.getInstance().persist(c);
     }
 

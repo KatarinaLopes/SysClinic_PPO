@@ -205,9 +205,6 @@ public class Paciente implements Serializable{
             return false;
         }
         final Paciente other = (Paciente) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import org.hibernate.exception.ConstraintViolationException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,15 +42,27 @@ public class PacienteManager {
         if (!senha.equals(confirmacaoSenha)) {
             throw new IllegalArgumentException("As senhas não correspondem!");
         }
-        
+       
         paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
-
+       
+        Paciente existente = (Paciente) daoPaciente.
+                recuperarPorAtributo("cpf", paciente.getCpf());
+        
+        if(existente != null){
+            throw new IllegalArgumentException("Este paciente já está "
+                    + "cadastrado, verifique se o CPF está correto");
+        }
+                
         //String senhaCriptografada = Operacoes.criptografarSenha(senha);
 
         //paciente.setSenha(senhaCriptografada);
 
         daoPaciente.persistir(paciente);
 
+    }
+    
+    public List<Paciente> recuperarTodos(){
+        return daoPaciente.recuperarTodos();
     }
 
     public void inserirMensagemDeExclusaoNoFeed(List<Agendamento> agendamentos,
