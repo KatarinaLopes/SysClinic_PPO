@@ -6,6 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FuncionarioManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
@@ -47,9 +48,12 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     private boolean podeExcluirOuAlterar;
 
     private LoginFuncionario loginFuncionario;
+    
+    private FuncionarioManager funcionarioManager;
 
     public ControllerFuncionario(){
         loginFuncionario = new LoginFuncionario();
+        funcionarioManager = new FuncionarioManager();
     }
 
     public List<Funcionario> getFuncionariosRegistrados() {
@@ -102,32 +106,15 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     }
 
     public String cadastrar(Funcionario c, String senha) {
-
-        if (!Validacoes.validarSenhas(c.getSenha(), senha)) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "As senhas não correspondem", null));
-            return null;
-        }
-
-        /*try {
-            String s = criptografarSenha(senha);
-            c.setSenha(s);
-        } catch (NullPointerException ex) {
-            return null;
-        }*/
         try {
-
-            funcionarios.persistir(c);
-        } catch (ConstraintViolationException cve) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                    "O funcionário já foi cadastrado!",
-                    null));
-
-            return null;
+            funcionarioManager.cadastrar(c, senha);
+            return "/administrador/apresentar_funcionarios.xhtml?faces-"
+                    + "redirect=true";
+        } catch(IllegalArgumentException ex){
+            FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(ex.getMessage()));
         }
-
-        return "apresentar_funcionarios.xhtml";
+        return null;
     }
 
     @Override
