@@ -19,7 +19,7 @@ public class Operacoes {
     
     public static String criptografarSenha(String senha)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest mess = MessageDigest.getInstance("SHA-256");
+        MessageDigest mess = MessageDigest.getInstance("MD5");
         byte[] criptografados = mess.digest(senha.getBytes("UTF-8"));
 
         StringBuilder string = new StringBuilder();

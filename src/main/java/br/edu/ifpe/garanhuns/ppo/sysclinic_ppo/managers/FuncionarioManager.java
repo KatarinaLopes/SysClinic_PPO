@@ -40,10 +40,10 @@ public class FuncionarioManager {
     }
     
     public void cadastrar(Funcionario funcionario, String confirmacaoSenha) 
-            throws NoSuchAlgorithmException, UnsupportedEncodingException{
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
         validar(funcionario, confirmacaoSenha);
         funcionario.setSenha(Operacoes.criptografarSenha(funcionario.
-                getSenha()));
+              getSenha()));
         daoFuncionarios.persistir(funcionario);
     }
 }
