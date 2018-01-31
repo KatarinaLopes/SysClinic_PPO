@@ -71,6 +71,14 @@ public class PacienteManager {
     public List<Paciente> recuperarTodos(){
         return daoPaciente.recuperarTodos();
     }
+    
+    public Paciente recuperar(int id){
+        return (Paciente) daoPaciente.recuperar(id);
+    }
+    
+    public void deletar(Paciente paciente){
+        daoPaciente.deletar(paciente);
+    }
 
     public void inserirMensagemDeExclusaoNoFeed(List<Agendamento> agendamentos,
             Medico m) {

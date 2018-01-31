@@ -52,8 +52,6 @@ public class LoginPaciente {
                     + "estar vazios");
         }
 
-        FacesContext fc = FacesContext.getCurrentInstance();
-
         Paciente paciente = daoPaciente.recuperarPorAtributo("cpf", cpf);
 
         if (paciente == null) {

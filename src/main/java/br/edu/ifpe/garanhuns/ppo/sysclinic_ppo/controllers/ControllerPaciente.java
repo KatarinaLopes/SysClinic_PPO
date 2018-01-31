@@ -52,9 +52,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     private DaoGenerico pacientes = new DaoPaciente();
 
-    @ManagedProperty("#{pacientes}")
-    private List<Paciente> pacientesCadastrados = new ArrayList();
-
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
 
@@ -84,31 +81,10 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
     }
 
-    public List<Paciente> getPacientesCadastrados() {
-        return pacientesCadastrados;
-    }
-
-    public void setPacientesCadastrados(List<Paciente> pacientesCadastrados) {
-        this.pacientesCadastrados = pacientesCadastrados;
-    }
-
     @Override
     @Deprecated
     public void cadastrar(Paciente c) {
 
-    }
-
-    public boolean validarPaciente(Paciente c, String senha) {
-        String msg = Operacoes.validarPaciente(c, senha);
-
-        if (msg == null) {
-            return true;
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(msg));
-
-        return false;
     }
 
     public String cadastrar(Paciente c, String senha)
@@ -116,8 +92,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         //System.out.println(c.getSenha());
 
         try {
-            String senhaCriptografada = Operacoes.criptografarSenha(senha);
-            pacienteManager.cadastrar(c, senhaCriptografada);
+            String senhaConfirmacaoCriptografada = Operacoes.
+                    criptografarSenha(senha);
+            c.setSenha(Operacoes.criptografarSenha(c.getSenha()));
+            
+            pacienteManager.cadastrar(c, senhaConfirmacaoCriptografada);
             return "/login/login_paciente.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             FacesContext.getCurrentInstance().
@@ -129,11 +108,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     @Override
     public Paciente recuperar(Integer i) {
-        return (Paciente) pacientes.recuperar(i);
+        return pacienteManager.recuperar(i);
     }
 
     public void atualizar(Paciente c) {
-        pacientes.atualizar(c);
+       pacienteManager.atualizar(c);
     }
 
     public List<Paciente> recuperarTodos() {
@@ -149,7 +128,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         FacesContext fc = FacesContext.getCurrentInstance();
 
         try {
-            loginPaciente.login(login, senha, (DaoPaciente) pacientes);
+            String senhaCriptografada = Operacoes.criptografarSenha(senha);
+            loginPaciente.login(login, senhaCriptografada, 
+                    (DaoPaciente) pacientes);
             loginPaciente.setarPacienteLogadoNaSessao();
             return "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
@@ -192,51 +173,9 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
-
-    /*public String incluirAgendamento(){
-        
-        Paciente p = recuperar(1);
-        
-        p.incluirAgendamento(agendamento);
-        
-        atualizar(p);
-        
-        return "agendamentos_feitos.xhtml";
-    }*/
-    public void procurarPaciente(String cpf) {
-
-        //System.out.println(1);
-        //Paciente p = null;
-        //System.out.println(2 + " dg " + p);
-        for (Paciente pacientesCadastrado : pacientesCadastrados) {
-
-            //  System.out.println(3);
-            if (pacientesCadastrado.getCpf().equals(cpf)) {
-                //System.out.println(4);
-
-                return;
-
-            }
-
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                "Paciente não cadastrado ou CPF "
-                + "inválido"));
-
-    }
-
+    
     public Paciente procurarPaciente(int id) {
-        recuperarTodos();
-
-        for (Paciente pacientesCadastrado : pacientesCadastrados) {
-            if (pacientesCadastrado.getId() == id) {
-                return pacientesCadastrado;
-            }
-
-        }
-
-        return null;
+        return pacienteManager.recuperar(id);
     }
 
     public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
