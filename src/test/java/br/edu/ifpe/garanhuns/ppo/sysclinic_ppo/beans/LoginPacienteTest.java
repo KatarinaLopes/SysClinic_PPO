@@ -9,6 +9,8 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -72,7 +74,7 @@ public class LoginPacienteTest {
     }
 
     @Test
-    public void deveTestarLoginLancandoDAOExceptionCPF(){
+    public void deveTestarLoginLancandoDAOExceptionCPF() {
         String cpf = "111.111.111-11";
         String senha = "123";
         String mensagem = "";
@@ -91,7 +93,7 @@ public class LoginPacienteTest {
     }
     
     @Test
-    public void deveTestarLoginLancadoDAOExceptionSenha(){
+    public void deveTestarLoginLancadoDAOExceptionSenha() {
         String cpf = "111.111.111-11";
         String senhaCorreta = "123";
         String mensagem = "";
@@ -118,7 +120,7 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionCPFNull() 
-            throws DaoException{
+            throws DaoException {
         String mensagem = "";
         
         try{
@@ -133,7 +135,7 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionCPFEmpty() 
-            throws DaoException{
+            throws DaoException {
         String mensagem = "";
         
         try{
@@ -148,7 +150,7 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaNull() 
-            throws DaoException{
+            throws DaoException {
         String mensagem = "";
         
         try{
@@ -163,7 +165,8 @@ public class LoginPacienteTest {
     }
     
     @Test
-    public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaEmpty() throws DaoException{
+    public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaEmpty() 
+            throws DaoException {
         String mensagem = "";
         
         try{

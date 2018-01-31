@@ -45,8 +45,7 @@ public class LoginPaciente {
      * @param senha
      */
     public void login(String cpf, String senha, DaoPaciente daoPaciente)
-            throws DaoException, NoSuchAlgorithmException, 
-            UnsupportedEncodingException {
+            throws DaoException{
 
         if (cpf == null || cpf.isEmpty() || senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("CPF e senha não podem "
@@ -61,7 +60,7 @@ public class LoginPaciente {
             throw new DaoException(DaoException.CPF_INEXISTENTE);
         }
 
-        if (paciente.getSenha().equals(Operacoes.criptografarSenha(senha))) {
+        if (paciente.getSenha().equals(senha)) {
             pacienteLogado = paciente;
             //setarPacienteLogadoNaSessao();
 

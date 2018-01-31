@@ -108,7 +108,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
     public String cadastrar(Funcionario c, String senha) 
             throws NoSuchAlgorithmException, UnsupportedEncodingException{
         try {
-            funcionarioManager.cadastrar(c, senha);
+            String senhaCriptografada = Operacoes.criptografarSenha(senha);
+            funcionarioManager.cadastrar(c, senhaCriptografada);
             return "/administrador/apresentar_funcionarios.xhtml?faces-"
                     + "redirect=true";
         } catch(IllegalArgumentException ex){
@@ -157,7 +158,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         FacesContext fc = FacesContext.getCurrentInstance();
 
         try {
-            loginFuncionario.login(login, senha,
+            String senhaCriptografada = Operacoes.criptografarSenha(senha);
+            loginFuncionario.login(login, senhaCriptografada,
                     (DaoFuncionario) funcionarios);
             loginFuncionario.setarFuncionarioLogadoNaSessao();
 

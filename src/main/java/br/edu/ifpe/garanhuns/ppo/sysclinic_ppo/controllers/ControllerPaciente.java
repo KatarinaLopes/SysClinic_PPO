@@ -116,7 +116,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         //System.out.println(c.getSenha());
 
         try {
-            pacienteManager.cadastrar(c, senha);
+            String senhaCriptografada = Operacoes.criptografarSenha(senha);
+            pacienteManager.cadastrar(c, senhaCriptografada);
             return "/login/login_paciente.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             FacesContext.getCurrentInstance().

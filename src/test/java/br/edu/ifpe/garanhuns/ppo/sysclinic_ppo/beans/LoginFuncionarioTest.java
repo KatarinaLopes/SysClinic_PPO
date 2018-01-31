@@ -11,6 +11,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncion
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,8 +29,9 @@ import static org.mockito.Mockito.*;
  */
 public class LoginFuncionarioTest {
     
-    LoginFuncionario loginFuncionario;
-    DaoGenerico daoFuncionario;
+    private LoginFuncionario loginFuncionario;
+    private DaoGenerico daoFuncionario;
+    
     
     public LoginFuncionarioTest() {
     }
@@ -58,7 +62,7 @@ public class LoginFuncionarioTest {
     public void deveTestarLoginPassandoNoTeste() throws Exception {
         int matricula = 1234;
         String senha = "123";
-        
+                
         Funcionario funcionario = new Funcionario();
         
         funcionario.setMatricula(matricula);
@@ -75,7 +79,7 @@ public class LoginFuncionarioTest {
     }
 
     @Test
-    public void deveTestarLoginLancandoDAOExceptionMatricula(){
+    public void deveTestarLoginLancandoDAOExceptionMatricula() throws Exception{
         int matricula = 1234;
         String senha = "123";
         String mensagem = "";
@@ -96,7 +100,7 @@ public class LoginFuncionarioTest {
     }
     
     @Test
-    public void deveTestarLoginLancadoDAOExceptionSenha(){
+    public void deveTestarLoginLancadoDAOExceptionSenha() throws Exception{
         int matricula = 1234;
         String senhaCorreta = "123";
         String mensagem = "";
@@ -123,7 +127,7 @@ public class LoginFuncionarioTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionMatricula0() 
-            throws DaoException{
+            throws DaoException, Exception{
         String mensagem = "";
         
         try{
@@ -138,7 +142,7 @@ public class LoginFuncionarioTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaNull() 
-            throws DaoException{
+            throws DaoException {
         String mensagem = "";
         
         try{
@@ -154,7 +158,7 @@ public class LoginFuncionarioTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaEmpty() 
-            throws DaoException{
+            throws DaoException {
         String mensagem = "";
         
         try{

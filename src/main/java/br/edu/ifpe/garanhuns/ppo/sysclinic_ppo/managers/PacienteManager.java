@@ -63,7 +63,6 @@ public class PacienteManager {
 
         validar(paciente, confirmacaoSenha);
         paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
-        paciente.setSenha(Operacoes.criptografarSenha(paciente.getSenha()));
         daoPaciente.persistir(paciente);
 
     }

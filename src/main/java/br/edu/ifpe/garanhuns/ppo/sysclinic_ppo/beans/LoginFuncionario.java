@@ -41,8 +41,7 @@ public class LoginFuncionario {
      * @throws DaoException
      */
     public void login(int matricula, String senha,
-            DaoFuncionario daoFuncionario) throws DaoException, 
-            NoSuchAlgorithmException, UnsupportedEncodingException {
+            DaoFuncionario daoFuncionario) throws DaoException {
 
         if (matricula == 0 || senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("Matrícula e senha não podem "
@@ -56,7 +55,7 @@ public class LoginFuncionario {
             throw new DaoException(DaoException.MATRICULA_INEXISTENTE);
         }
         
-        if (funcionario.getSenha().equals(Operacoes.criptografarSenha(senha))) {
+        if (funcionario.getSenha().equals(senha)) {
             funcionarioLogado = funcionario;
             //setarFuncionarioLogadoNaSessao();
 
