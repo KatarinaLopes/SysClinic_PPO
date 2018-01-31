@@ -152,7 +152,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return funcionarios.recuperarTodos();
     }
 
-    public String fazerLogin(Integer login, String senha) {
+    public String fazerLogin(Integer login, String senha) throws 
+            NoSuchAlgorithmException, UnsupportedEncodingException {
         FacesContext fc = FacesContext.getCurrentInstance();
 
         try {

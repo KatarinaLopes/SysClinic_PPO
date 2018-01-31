@@ -8,6 +8,9 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +29,7 @@ public class LoginFuncionario {
     public Funcionario getFuncionarioLogado() {
         return funcionarioLogado;
     }
-
+    
     /**
      * EN-US Does the login for the given Strings (cpf and senha)
      *
@@ -38,7 +41,8 @@ public class LoginFuncionario {
      * @throws DaoException
      */
     public void login(int matricula, String senha,
-            DaoFuncionario daoFuncionario) throws DaoException {
+            DaoFuncionario daoFuncionario) throws DaoException, 
+            NoSuchAlgorithmException, UnsupportedEncodingException {
 
         if (matricula == 0 || senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("Matrícula e senha não podem "
@@ -51,8 +55,8 @@ public class LoginFuncionario {
         if (funcionario == null) {
             throw new DaoException(DaoException.MATRICULA_INEXISTENTE);
         }
-
-        if (funcionario.getSenha().equals(senha)) {
+        
+        if (funcionario.getSenha().equals(Operacoes.criptografarSenha(senha))) {
             funcionarioLogado = funcionario;
             //setarFuncionarioLogadoNaSessao();
 
