@@ -54,7 +54,8 @@ public class PacienteManager {
         }
     }
     
-    public void cadastrar(Paciente paciente, String confirmacaoSenha){
+    public void cadastrar(Paciente paciente, String confirmacaoSenha) 
+            throws NoSuchAlgorithmException, UnsupportedEncodingException{
                 
         //String senhaCriptografada = Operacoes.criptografarSenha(senha);
 
@@ -62,6 +63,7 @@ public class PacienteManager {
 
         validar(paciente, confirmacaoSenha);
         paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
+        paciente.setSenha(Operacoes.criptografarSenha(paciente.getSenha()));
         daoPaciente.persistir(paciente);
 
     }

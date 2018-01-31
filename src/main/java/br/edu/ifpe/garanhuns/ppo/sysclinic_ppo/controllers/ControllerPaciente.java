@@ -111,7 +111,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return false;
     }
 
-    public String cadastrar(Paciente c, String senha) {
+    public String cadastrar(Paciente c, String senha) 
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //System.out.println(c.getSenha());
 
         try {
@@ -149,7 +150,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     /**
      *
      */
-    public String fazerLogin(String login, String senha) {
+    public String fazerLogin(String login, String senha) throws 
+            NoSuchAlgorithmException, UnsupportedEncodingException {
         FacesContext fc = FacesContext.getCurrentInstance();
 
         try {

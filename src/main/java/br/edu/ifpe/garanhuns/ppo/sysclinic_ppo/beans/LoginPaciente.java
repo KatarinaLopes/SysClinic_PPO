@@ -10,6 +10,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -42,7 +45,8 @@ public class LoginPaciente {
      * @param senha
      */
     public void login(String cpf, String senha, DaoPaciente daoPaciente)
-            throws DaoException {
+            throws DaoException, NoSuchAlgorithmException, 
+            UnsupportedEncodingException {
 
         if (cpf == null || cpf.isEmpty() || senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("CPF e senha não podem "
@@ -57,7 +61,7 @@ public class LoginPaciente {
             throw new DaoException(DaoException.CPF_INEXISTENTE);
         }
 
-        if (paciente.getSenha().equals(senha)) {
+        if (paciente.getSenha().equals(Operacoes.criptografarSenha(senha))) {
             pacienteLogado = paciente;
             //setarPacienteLogadoNaSessao();
 
