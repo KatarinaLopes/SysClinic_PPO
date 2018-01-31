@@ -24,6 +24,8 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,8 +60,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     
     private LoginPaciente loginPaciente;
     
+    private PacienteManager pacienteManager;
+    
     public ControllerPaciente(){
         loginPaciente = new LoginPaciente();
+        pacienteManager = new PacienteManager();
     }
     
     public Paciente getPacienteSelecionado() {
@@ -105,26 +110,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return false;
     }
 
-    public String cadastrar(Paciente c, String senha) {
+    public String cadastrar(Paciente c, String senha) throws 
+            NoSuchAlgorithmException, UnsupportedEncodingException {
         //System.out.println(c.getSenha());
         
-        c.setDataAdmissao(new Date(System.currentTimeMillis()));
-        
-        if (!validarPaciente(c, senha)) {
-          return null;
-        }
-
-        //c.setDataAdmissao(new Date(System.currentTimeMillis()));
-
-        try {
-            pacientes.persistir(c);
-        } catch (ConstraintViolationException cve) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL, 
-                            "O CPF informado já está cadastrado!",
-            null));
-            return null;
-        }
+        pacienteManager.cadastrarPaciente(c, senha);
 
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
@@ -262,8 +252,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         
         List<Agendamento> pacientesMarcados = m.getAgenda().getAgendamentos();
         
-        PacienteManager.getInstance().
-                inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
+        pacienteManager.inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
         
         //FeedManager.inserirMensagemDeExclusao(pacientesMarcados, m);
         
@@ -281,8 +270,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
     
     public List<Mensagem> exibirMensagens(){
-        return PacienteManager.getInstance().
-                retornarTodasAsMensagens(retornarPacienteLogado());
+        return pacienteManager.retornarTodasAsMensagens(retornarPacienteLogado());
     }
     
     public void excluirMensagem(Mensagem m){
