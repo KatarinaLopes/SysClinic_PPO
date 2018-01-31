@@ -111,12 +111,11 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return false;
     }
 
-    public String cadastrar(Paciente c, String senha) throws
-            NoSuchAlgorithmException, UnsupportedEncodingException {
+    public String cadastrar(Paciente c, String senha) {
         //System.out.println(c.getSenha());
 
         try {
-            pacienteManager.cadastrarPaciente(c, senha);
+            pacienteManager.cadastrar(c, senha);
             return "/login/login_paciente.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             FacesContext.getCurrentInstance().

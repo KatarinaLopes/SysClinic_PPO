@@ -35,15 +35,13 @@ public class PacienteManager {
         daoPaciente = new DaoPaciente();
     }
 
-    public void cadastrarPaciente(Paciente paciente, String confirmacaoSenha)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    
+    public void validar(Paciente paciente, String confirmacaoSenha){
         String senha = paciente.getSenha();
 
         if (!senha.equals(confirmacaoSenha)) {
             throw new IllegalArgumentException("As senhas não correspondem!");
         }
-       
-        paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
        
         Paciente existente = (Paciente) daoPaciente.
                 recuperarPorAtributo("cpf", paciente.getCpf());
@@ -52,11 +50,16 @@ public class PacienteManager {
             throw new IllegalArgumentException("Este paciente já está "
                     + "cadastrado, verifique se o CPF está correto");
         }
+    }
+    
+    public void cadastrar(Paciente paciente, String confirmacaoSenha){
                 
         //String senhaCriptografada = Operacoes.criptografarSenha(senha);
 
         //paciente.setSenha(senhaCriptografada);
 
+        validar(paciente, confirmacaoSenha);
+        paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
         daoPaciente.persistir(paciente);
 
     }
