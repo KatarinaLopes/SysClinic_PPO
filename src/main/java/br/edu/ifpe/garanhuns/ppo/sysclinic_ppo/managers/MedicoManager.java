@@ -18,8 +18,8 @@ public class MedicoManager {
     
     private DaoGenerico daoMedicos;
     
-    public MedicoManager(){
-        daoMedicos = new DaoMedico();
+    public MedicoManager(DaoMedico daoMedicos){
+        this.daoMedicos = daoMedicos;
     }
     
     public void validar(Medico medico){

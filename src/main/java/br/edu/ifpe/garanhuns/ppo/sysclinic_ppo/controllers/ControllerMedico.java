@@ -64,7 +64,7 @@ public class ControllerMedico {
     private MedicoManager medicoManager;
     
     public ControllerMedico(){
-        medicoManager = new MedicoManager();
+        medicoManager = new MedicoManager((DaoMedico) daoMedico);
     }
 
     public Medico getMedicoSelecionado() {

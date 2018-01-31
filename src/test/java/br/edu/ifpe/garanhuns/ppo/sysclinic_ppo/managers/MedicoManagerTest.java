@@ -57,5 +57,13 @@ public class MedicoManagerTest {
     @Test
     public void testCadastrar() {
     }
+
+    @Test
+    public void testValidar() {
+    }
+
+    @Test
+    public void testRecuperarTodos() {
+    }
     
 }
