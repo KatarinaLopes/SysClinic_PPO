@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.MedicoManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -61,6 +63,12 @@ public class ControllerMedico {
     private List<Agendamento> agendamentosConcluidos = new ArrayList<>();
 
     private Agendamento agendamentoSelecionado = new Agendamento();
+    
+    private MedicoManager medicoManager;
+    
+    public ControllerMedico(){
+        medicoManager = new MedicoManager();
+    }
 
     public List<Medico> getMedicosRegistrados() {
         return medicosRegistrados;
@@ -135,17 +143,15 @@ public class ControllerMedico {
     }
 
     public String cadastrar(Medico c, String conselho, int numero) {
-        String numeroString = String.valueOf(numero);
-
-        String conselhoMedico = conselho + " " + numeroString;
-
-        System.out.println(conselhoMedico);
-
-        c.setConselho(conselhoMedico);
-
-        daoMedico.persistir(c);
-
-        return "/funcionarios/apresentar_medicos.xhtml?faces-redirect=true";
+        try{
+            medicoManager.cadastrar(c, conselho, numero);
+            return "/funcionarios/apresentar_medicos.xhtml?faces-redirect=true";
+        }catch(IllegalArgumentException ex){
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(ex.getMessage()));
+        }
+        
+        return null;
     }
 
     public Medico recuperar(Integer i) {

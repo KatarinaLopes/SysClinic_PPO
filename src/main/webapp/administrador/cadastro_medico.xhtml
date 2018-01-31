@@ -16,6 +16,9 @@
             
             <h3>Os campos com asterisco são obrigatórios</h3>
             
+            <p:poll>
+                <p:messages/>
+            </p:poll>
             <p:panel id="panel-info-medico">
                 
                 <h4>Passo 1 de 2: Cadastro de informações</h4>
@@ -250,19 +253,21 @@
         <p:dialog id="dial-confirmar-excluir" modal="true" closable="true"
                   visible="false" widgetVar="wid-dial-confirmar-excluir">
 
-            Deseja excluir este horário?
+            <h:form id="dial-form-confirm-excluir-medico">
+                Deseja excluir este horário?
 
-            <br/>
+                <br/>
 
-            <p:commandButton value="Sim" action="#{builderMedico.
+                <p:commandButton value="Sim" action="#{builderMedico.
                                                    excluirHorario(
                                                    builderMedico.
                                                    horarioSelecionado)}"
                        update="form-cadastro-medicos:tabela-cadastrar-horarios"
                          oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
 
-            <p:commandButton value="Não" 
+                <p:commandButton value="Não" 
                          oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+            </h:form>
         </p:dialog>
     </h:body>
 </html>
