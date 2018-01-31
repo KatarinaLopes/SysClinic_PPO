@@ -64,6 +64,7 @@ public class PacienteManager {
 
     }
     
+    
     public List<Paciente> recuperarTodos(){
         return daoPaciente.recuperarTodos();
     }
