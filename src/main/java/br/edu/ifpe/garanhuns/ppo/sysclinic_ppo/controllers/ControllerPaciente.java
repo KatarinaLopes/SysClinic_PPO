@@ -111,7 +111,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return false;
     }
 
-    public String cadastrar(Paciente c, String senha) 
+    public String cadastrar(Paciente c, String senha)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //System.out.println(c.getSenha());
 
@@ -122,7 +122,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(ex.getMessage()));
         }
-        
+
         return null;
     }
 
@@ -135,22 +135,15 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         pacientes.atualizar(c);
     }
 
-    @PostConstruct
-    public void recuperarTodos() {
-        pacientesCadastrados = pacientes.recuperarTodos();
+    public List<Paciente> recuperarTodos() {
+        return pacienteManager.recuperarTodos();
 
-        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-
-        s.setAttribute("pacientesCadastrados", pacientesCadastrados);
-
-        //pacientesCadastrados = pacienteService.getPacientesCadastrados();
     }
 
     /**
      *
      */
-    public String fazerLogin(String login, String senha) throws 
+    public String fazerLogin(String login, String senha) throws
             NoSuchAlgorithmException, UnsupportedEncodingException {
         FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -161,7 +154,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         } catch (DaoException ex) {
             fc.addMessage(null, new FacesMessage(ex.getMessage()));
         }
-
         return null;
     }
 

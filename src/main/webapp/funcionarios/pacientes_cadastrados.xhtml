@@ -21,7 +21,7 @@
                         value="Cadastrar novo paciente"/>
 
                 <p:dataTable id="tabela-apresentar-pacientes" var="paciente" 
-                             value="#{controllerPaciente.pacientesCadastrados}" 
+                             value="#{controllerPaciente.recuperarTodos()}" 
                              rowKey="#{paciente.id}" disabledSelection="true"
                              paginator="true" resizableColumns="true"
                              emptyMessage="Não há pacientes cadastrados"

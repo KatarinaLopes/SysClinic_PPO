@@ -220,7 +220,8 @@ public class ControllerMedico {
 
         Paciente p = (Paciente) ((HttpSession) FacesContext.
                 getCurrentInstance().
-                getExternalContext().getSession(true)).getAttribute("pacienteLogado");
+                getExternalContext().getSession(true)).
+                getAttribute("pacienteLogado");
 
         m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m,
                 periodo.getHorarioInicial(), false));
