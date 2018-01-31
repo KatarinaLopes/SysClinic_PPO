@@ -53,7 +53,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     public ControllerFuncionario(){
         loginFuncionario = new LoginFuncionario();
-        funcionarioManager = new FuncionarioManager();
+        funcionarioManager = new FuncionarioManager(funcionarios);
     }
 
     public List<Funcionario> getFuncionariosRegistrados() {

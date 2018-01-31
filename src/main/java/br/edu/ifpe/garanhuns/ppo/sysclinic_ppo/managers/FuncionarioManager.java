@@ -19,8 +19,8 @@ import java.security.NoSuchAlgorithmException;
 public class FuncionarioManager {
     private DaoGenerico daoFuncionarios;
     
-    public FuncionarioManager(){
-        daoFuncionarios = new DaoFuncionario();
+    public FuncionarioManager(DaoFuncionario daoFuncionarios){
+        this.daoFuncionarios = daoFuncionarios;
     }
     
     public void validar(Funcionario funcionario, String senha){
