@@ -6,41 +6,24 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginPaciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.MedicoService;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.jsf.services.PacienteService;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FeedManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
-import com.google.gson.Gson;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.hibernate.Hibernate;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -50,18 +33,18 @@ import org.hibernate.exception.ConstraintViolationException;
 @SessionScoped
 public class ControllerPaciente implements ControllerGenerico<Paciente, Integer> {
 
-    private DaoGenerico pacientes = new DaoPaciente();
+    private final DaoGenerico daoPacientes = new DaoPaciente();
 
     //@ManagedProperty("#{pacienteSelecionado}")
     private Paciente pacienteSelecionado;
 
-    private LoginPaciente loginPaciente;
+    private final LoginPaciente loginPaciente;
 
-    private PacienteManager pacienteManager;
+    private final PacienteManager pacienteManager;
 
     public ControllerPaciente() {
         loginPaciente = new LoginPaciente();
-        pacienteManager = new PacienteManager((DaoPaciente) pacientes);
+        pacienteManager = new PacienteManager((DaoPaciente) daoPacientes);
     }
 
     public Paciente getPacienteSelecionado() {
@@ -87,34 +70,86 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
 
     }
 
-    public String cadastrar(Paciente c, String senha)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        //System.out.println(c.getSenha());
+    /**
+     * EN-US
+     * Receives a Paciente and a confirm password. The confirm password and 
+     * the Paciente's password are cryptographed before being sent to be 
+     * persisted in the DB
+     * 
+     * PT-BR
+     * Recebe um Paciente e uma senha de confirmação. A senha de confirmação
+     * e a senha do paciente são criptografadas antes de serem enviados para 
+     * serem persistidos no BD
+     * 
+     * @param paciente representing the Paciente | representando o Paciente
+     * @param senhaConfirmacao representing the confirm password | 
+     * representando a senha de confirmação
+     * @return 
+     */
+    public String cadastrar(Paciente paciente, String senhaConfirmacao) {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        String retorno = null;
 
         try {
             String senhaConfirmacaoCriptografada = Operacoes.
-                    criptografarSenha(senha);
-            c.setSenha(Operacoes.criptografarSenha(c.getSenha()));
+                    criptografarSenha(senhaConfirmacao);
+            paciente.setSenha(Operacoes.criptografarSenha(paciente.
+                    getSenha()));
             
-            pacienteManager.cadastrar(c, senhaConfirmacaoCriptografada);
-            return "/login/login_paciente.xhtml?faces-redirect=true";
+            pacienteManager.cadastrar(paciente, senhaConfirmacaoCriptografada);
+            
+            fm = new FacesMessage("Sucesso", 
+                    "O cadastro foi efetuado com sucesso");
+            
+            retorno = "/login/login_paciente.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
-            FacesContext.getCurrentInstance().
-                    addMessage(null, new FacesMessage(ex.getMessage()));
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    ex.getMessage());
+        }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    "Recarregue a página e tente novamente");
         }
 
-        return null;
+        fc.addMessage(null, fm);
+        return retorno;
     }
 
+    /**
+     * EN-US
+     * Retrieves from the DB with the given id
+     * 
+     * PT-BR
+     * Recupera do BD com o id dado
+     * @param id
+     * @return Paciente if it exists, null if it doesn't | Paciente, se 
+     * existir, null se não existir
+     */
     @Override
-    public Paciente recuperar(Integer i) {
-        return pacienteManager.recuperar(i);
+    public Paciente recuperar(Integer id) {
+        return pacienteManager.recuperar(id);
     }
 
-    public void atualizar(Paciente c) {
-       pacienteManager.atualizar(c);
+    /**
+     * EN-US
+     * Updates the given Paciente
+     * 
+     * PT-BR
+     * Atualiza o paciente dado
+     * @param paciente representing the paciente | representando o paciente 
+     */
+    public void atualizar(Paciente paciente) {
+       pacienteManager.atualizar(paciente);
     }
 
+    /**
+     * EN-US
+     * Retrieves all from DB
+     * 
+     * PT-BR
+     * Recupera todos do BD
+     * @return all Patients | todos os pacientes
+     */
     public List<Paciente> recuperarTodos() {
         return pacienteManager.recuperarTodos();
 
@@ -130,7 +165,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         try {
             String senhaCriptografada = Operacoes.criptografarSenha(senha);
             loginPaciente.login(login, senhaCriptografada, 
-                    (DaoPaciente) pacientes);
+                    (DaoPaciente) daoPacientes);
             loginPaciente.setarPacienteLogadoNaSessao();
             return "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
