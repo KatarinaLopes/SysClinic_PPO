@@ -11,15 +11,15 @@
     <h:body>
         <h:form id="form-cadastro-funcionarios">
 
-            <p:poll>
-                <p:messages/>
-            </p:poll>
-
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
-
+            
             <h1>Cadastro de funcionários</h1>
             
             <h3>Os campos com asterisco são obrigatórios</h3>
+            
+            <p:poll>
+                <p:messages showDetail="true"/>
+            </p:poll>
             
             <p:panel>
                 <p:panelGrid columns="3">
@@ -98,7 +98,7 @@
                                            confirmeSenha)}"
                                  update="@form"/>
                 <p:commandButton value="Limpar campos" type="reset"
-                                 update="@form"/>
+                                 update=":form-cadastro-funcionarios"/>
             </p:panel>
         </h:form>
     </h:body>
