@@ -13,13 +13,11 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
-import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -34,15 +32,12 @@ public class ControllerMedico {
 
     private final DaoGenerico daoMedico = new DaoMedico();
 
-    private Medico medicoSelecionado;
-
     private List<Horario> horarios = new ArrayList();
 
     private Horario horarioSelecionado;
 
     private String diasDisponiveis;
 
-    //@ManagedProperty("#{horariosLivres}")
     private List<Horario> horariosLivres = new ArrayList();
 
     private List<Agendamento> agendamentosConcluidos = new ArrayList<>();
@@ -53,14 +48,6 @@ public class ControllerMedico {
     
     public ControllerMedico(){
         medicoManager = new MedicoManager((DaoMedico) daoMedico);
-    }
-
-    public Medico getMedicoSelecionado() {
-        return medicoSelecionado;
-    }
-
-    public void setMedicoSelecionado(Medico medicoSelecionado) {
-        this.medicoSelecionado = medicoSelecionado;
     }
 
     public List<Horario> getHorarios() {
@@ -81,9 +68,7 @@ public class ControllerMedico {
 
     public String getDiasDisponiveis() {
         String dias = diasDisponiveis;
-
         diasDisponiveis = null;
-
         return dias;
     }
 
@@ -171,23 +156,6 @@ public class ControllerMedico {
         atualizar(medico);
 
         return "/acoes/agendamentos_pendentes.xhtml?faces-redirect=true";
-    }
-
-    public String salvarAgendamento(int idMedico, Date data, Horario periodo) {
-
-        Medico m = medicoManager.recuperar(idMedico);
-
-        Paciente p = (Paciente) ((HttpSession) FacesContext.
-                getCurrentInstance().
-                getExternalContext().getSession(true)).
-                getAttribute("pacienteLogado");
-
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p,
-                periodo.getHorarioInicial(), false));
-
-        atualizar(m);
-
-        return "/pacientes/home_paciente.xhtml?faces-redirect=true";
     }
 
     /**

@@ -24,10 +24,10 @@
             <h1>Fazer novo agendamento para consulta</h1>
 
             <h3>Os campos com asterisco são obrigatórios</h3>
-
-
+            
+            
             <p:panel id="panel-novo-agendamento">
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="4">                    
                     <h:outputText value="Paciente" 
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"/>
@@ -46,8 +46,7 @@
 
                     <h:outputText value="Médico"/>
                     <h:outputText id="idMedico" 
-                                 value="#{controllerMedico.medicoSelecionado.
-                                          nome}"/>
+                                  value="#{builderAgendamento.medico.nome}"/>
                     <p:commandButton icon="fa fa-search"
                             oncomplete="PF('wid-dial-listar-medicos').show()"/>
                     <p:message for="idMedico"/>
@@ -63,8 +62,7 @@
                                 listener="#{controllerMedico.
                                             carregarHorariosLivres
                                             (builderAgendamento.dataPrevista, 
-                                            controllerMedico.
-                                            medicoSelecionado)}"
+                                            builderAgendamento.medico)}"
                                 update=":form-agendamento-consultas:periodos"/> 
                     </p:calendar>
                     <p:message for="dataPrevista"/>
@@ -90,19 +88,22 @@
                 <p:commandButton value="Incluir" 
                                  action="#{controllerMedico.
                                     salvarAgendamento(builderAgendamento.
-                                    build(), controllerMedico.
-                                    medicoSelecionado)}"
-                                 rendered="#{!controllerPaciente.
-                                             existePacienteLogado()}"
-                                 update=":form-agendamento-consultas"/>
-                <p:commandButton value="Incluir"
+                                    build(), builderAgendamento.medico)}"
+                                 update=":form-agendamento-consultas"
+                                 rendered="#{controllerFuncionario.
+                                            existeLogadoNaoAdministrador()}"/>
+                <p:commandButton value="Incluir" 
                                  action="#{controllerMedico.
-                                           salvarAgendamento(idMedico, 
-                                           dataPrevista, 
-                                           periodoSelecionado)}"
+                                    salvarAgendamento(builderAgendamento.
+                                    build(), builderAgendamento.medico)}"
+                                 update=":form-agendamento-consultas"
                                  rendered="#{controllerPaciente.
-                                             existePacienteLogado()}"
-                                 update=":form-agendamento-consultas"/>
+                                             existePacienteLogado()}">
+                    <f:setPropertyActionListener 
+                        target="#{builderAgendamento.paciente}"
+                         value="#{controllerPaciente.
+                                  retornarPacienteLogado()}"/>
+                </p:commandButton>
 
                 <h:outputText id="horarios" 
                               value="#{controllerMedico.diasDisponiveis}"/>
@@ -189,7 +190,7 @@
                             :form-agendamento-consultas:dataPrevista
                             :form-agendamento-consultas:horarios">
                             <f:setPropertyActionListener 
-                                target="#{controllerMedico.medicoSelecionado}" 
+                                target="#{builderAgendamento.medico}" 
                                 value="#{medico}"/>
                         </p:commandButton>
                     </p:column>
