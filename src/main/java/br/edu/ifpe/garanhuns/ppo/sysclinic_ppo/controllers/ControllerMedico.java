@@ -31,6 +31,8 @@ import javax.servlet.http.HttpSession;
 public class ControllerMedico {
 
     private final DaoGenerico daoMedico = new DaoMedico();
+    
+    private Medico medicoSelecionado;
 
     private List<Horario> horarios = new ArrayList();
 
@@ -50,6 +52,14 @@ public class ControllerMedico {
         medicoManager = new MedicoManager((DaoMedico) daoMedico);
     }
 
+    public Medico getMedicoSelecionado() {
+        return medicoSelecionado;
+    }
+
+    public void setMedicoSelecionado(Medico medicoSelecionado) {
+        this.medicoSelecionado = medicoSelecionado;
+    }
+    
     public List<Horario> getHorarios() {
         return horarios;
     }
@@ -201,27 +211,11 @@ public class ControllerMedico {
 
     }
  
-    public void atualizarHorario(Medico m, Horario h, int dia, Date inicial, 
-            Date dFinal, int limite) {
+    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
+       
+        medico.atualizarHorario(antigo, novo);
         
-        Horario antigo = h;
-              
-        Horario novo = new Horario(dia, inicial , dFinal, limite); 
-        
-        System.out.println(inicial + " g g " + 
-                novo.getHorarioInicial());
-        
-        m.atualizarHorario(h, novo);
-        
-        /*PacienteManager.getInstance().inserirMensagemDeAlteracaoDeHorarioNoFeed(m.
-                getAgenda().listarPacientesAgendados(h.getHorarioInicial()), 
-                novo.getHorarioInicial(), m);
-        */
-        atualizar(m);
-        
-        //PacienteManager.getInstance().atualizarListaDePacientes();
-        
-        //m.getAgenda().atualizarAgendamentoHorario(antigo, novo);
+        atualizar(medico);
         
     }
 }

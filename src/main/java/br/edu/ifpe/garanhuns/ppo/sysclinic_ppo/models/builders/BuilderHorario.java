@@ -16,7 +16,7 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean
 @RequestScoped
-public class BeanHorario implements BuilderGenerico<Horario>{
+public class BuilderHorario implements BuilderGenerico<Horario>{
     private int diaDaSemana;
     private Date horarioInicial;
     private Date horarioFinal;

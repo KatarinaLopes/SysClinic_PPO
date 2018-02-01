@@ -299,9 +299,6 @@
             Todos os agendamentos serão excluídos.
             <br/>
             <p:commandButton value="Sim"
-                             actionListener="#{controllerPaciente.
-                      incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
-                                               medicoSelecionado)}"
                              action="#{controllerMedico.
                                        deletar(
                                        controllerMedico.
@@ -378,9 +375,7 @@
                             listener="#{controllerMedico.
                                         atualizarHorario(controllerMedico.
                                         medicoSelecionado,
-                                        horario, dia, 
-                                        horarioInicial, horarioFinal, 
-                                        agendamentos)}"
+                                        horario, builderHorario.build())}"
                             update="tabela-editar-horarios"/>
 
                     <p:column headerText="Dia">
@@ -390,7 +385,9 @@
                             </f:facet>
                             <f:facet name="input">
                                 <p:selectOneMenu id="dia" required="true" 
-                                                 value="#{dia}">
+                                                 value="#{builderHorario.
+                                                          diaDaSemana}"
+                                                 label="jqnhbh">
                                     <f:selectItems value="#{builderMedico.
                                                             diasDaSemana}"/>
                                 </p:selectOneMenu>
@@ -410,7 +407,8 @@
                             <f:facet name="input">
                                 <p:calendar pattern="HH:mm" readonlyInput="true"
                                             timeInput="true" timeOnly="true" 
-                                            value="#{horarioInicial}">
+                                            value="#{builderHorario.
+                                                     horarioInicial}">
                                     <f:convertDateTime timeStyle="short" 
                                                        type="time" 
                                                        timeZone="#{initParam.
@@ -430,7 +428,8 @@
                             <f:facet name="input">
                                 <p:calendar pattern="HH:mm" readonlyInput="true"
                                             timeInput="true" timeOnly="true" 
-                                            value="#{horarioFinal}">
+                                            value="#{builderHorario.
+                                                     horarioFinal}">
                                     <f:convertDateTime timeStyle="short"
                                                        type="time"
                                                        timeZone="#{initParam.
@@ -447,7 +446,8 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:inputText 
-                                    value="#{horario.limiteDeAgendamentos}"/>
+                                    value="#{builderHorario.
+                                             limiteDeAgendamento}"/>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
