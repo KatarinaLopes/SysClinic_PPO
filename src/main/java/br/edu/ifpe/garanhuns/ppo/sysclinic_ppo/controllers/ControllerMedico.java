@@ -6,33 +6,23 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.MedicoManager;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
+        DaoGenerico;
 import com.google.gson.Gson;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.primefaces.component.calendar.Calendar;
 
 /**
  *
@@ -44,10 +34,8 @@ public class ControllerMedico {
 
     private final DaoGenerico daoMedico = new DaoMedico();
 
-    @ManagedProperty("#{medicosRegistrados}")
     private Medico medicoSelecionado;
 
-    //@ManagedProperty("#{horarios}")
     private List<Horario> horarios = new ArrayList();
 
     private Horario horarioSelecionado;
@@ -61,7 +49,7 @@ public class ControllerMedico {
 
     private Agendamento agendamentoSelecionado = new Agendamento();
     
-    private MedicoManager medicoManager;
+    private final MedicoManager medicoManager;
     
     public ControllerMedico(){
         medicoManager = new MedicoManager((DaoMedico) daoMedico);
@@ -129,16 +117,36 @@ public class ControllerMedico {
         this.agendamentoSelecionado = agendamentoSelecionado;
     }
 
-    public String cadastrar(Medico c, String conselho, int numero) {
+    /**
+     * EN-US
+     * Persists the given Medico. If an error occurs, a message will be sent.
+     * 
+     * PT-BR
+     * Persiste o Medico dado. Se um erro ocorrer, uma mensagem será mandada.
+     * 
+     * @param medico
+     * @param conselho
+     * @param numero
+     * @return 
+     */
+    public String cadastrar(Medico medico, String conselho, int numero) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        String retorno = null;
+        
         try{
-            medicoManager.cadastrar(c, conselho, numero);
-            return "/funcionarios/apresentar_medicos.xhtml?faces-redirect=true";
+            medicoManager.cadastrar(medico, conselho, numero);
+            fm = new FacesMessage("Sucesso", "O médico foi cadastrado com "
+                    + "sucesso!" );
+            retorno = "/funcionarios/apresentar_medicos.xhtml?"
+                    + "faces-redirect=true";
         }catch(IllegalArgumentException ex){
-            FacesContext.getCurrentInstance().
-                    addMessage(null, new FacesMessage(ex.getMessage()));
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    ex.getMessage());
         }
         
-        return null;
+        facesContext.addMessage(null, fm);
+        return retorno;
     }
 
     public Medico recuperar(Integer i) {
@@ -155,24 +163,15 @@ public class ControllerMedico {
 
     public List<Medico> recuperarTodos() {
         return medicoManager.recuperarTodos();
-        //agendamentosConcluidos = retornarAgendamentosConcluidos();
-    }
+   }
 
-    public String salvarAgendamento(int idPaciente, int idMedico, Date data,
-            Horario periodo) {
-
-        Medico m = recuperar(idMedico);
-
-        System.out.println(m);
-
-        Paciente p = new ControllerPaciente().recuperar(idPaciente);
+    public String salvarAgendamento(Agendamento agendamento, Medico medico) {
 
         //System.out.println(p + " je " + data);
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p,
-                periodo.getHorarioInicial(), false));
+        medico.getAgenda().getAgendamentos().add(agendamento);
 
-        atualizar(m);
+        atualizar(medico);
 
         return "/acoes/agendamentos_pendentes.xhtml?faces-redirect=true";
     }
@@ -201,35 +200,20 @@ public class ControllerMedico {
      * @param m
      * @return
      */
-    public void retornarDiasLivres(int idM) {
+    public void retornarDiasLivres(Medico medico) {
         System.out.println("1");
-
-        Medico m = medicoManager.recuperar(idM);
-
-        System.out.println(m);
 
         Gson gson = new Gson();
 
-        System.out.println("3");
+        System.out.println(medico);
 
-        diasDisponiveis = gson.toJson(m.pegarDiasLivres());
+        diasDisponiveis = gson.toJson(medico.pegarDiasLivres());
 
-        HttpSession sess = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-
-        sess.setAttribute("medicoAgendamento", m);
-
-        System.out.println("4");
+        System.out.println(diasDisponiveis);
     }
 
-    public void carregarHorariosLivres(Date data, int idM) {
-        Medico m = (Medico) ((HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true)).
-                getAttribute("medicoAgendamento");
-
-        System.out.println(m + " d " + data);
-
-        horariosLivres = m.pegarHorariosLivres(data);
+    public void carregarHorariosLivres(Date data, Medico medico) {
+        horariosLivres = medico.pegarHorariosLivres(data);
     }
 
     public List<Agendamento> retornarAgendamentosConcluidos() {

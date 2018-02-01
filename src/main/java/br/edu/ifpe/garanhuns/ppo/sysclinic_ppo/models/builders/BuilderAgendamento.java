@@ -6,6 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class BuilderAgendamento {
     private Paciente paciente;
     private Medico medico;
     private Date dataPrevista;
-    private Date horarioPrevisto;
+    private Horario horarioPrevisto;
 
     public Paciente getPaciente() {
         return paciente;
@@ -48,15 +49,16 @@ public class BuilderAgendamento {
         this.dataPrevista = dataPrevista;
     }
 
-    public Date getHorarioPrevisto() {
+    public Horario getHorarioPrevisto() {
         return horarioPrevisto;
     }
 
-    public void setHorarioPrevisto(Date horarioPrevisto) {
+    public void setHorarioPrevisto(Horario horarioPrevisto) {
         this.horarioPrevisto = horarioPrevisto;
     }
     
     public Agendamento build(){
-        return new Agendamento(0, dataPrevista, paciente, dataPrevista, false);
+        return new Agendamento(0, dataPrevista, paciente, horarioPrevisto.
+                getHorarioInicial(), false);
     }
 }

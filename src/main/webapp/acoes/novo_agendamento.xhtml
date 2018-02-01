@@ -31,13 +31,10 @@
                     <h:outputText value="Paciente" 
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"/>
-                    <p:inputText id="paciente-selecionado" 
+                    <h:outputText id="paciente-selecionado" 
                                  rendered="#{!controllerPaciente.
                                              existePacienteLogado()}"
-                                 value="#{idPaciente}" 
-                                 required="true"
-                                 type="text"
-                                 requiredMessage="Campo obrigatório"/>
+                                 value="#{builderAgendamento.paciente.nome}"/>
 
                     <p:commandButton icon="fa fa-search" 
                             oncomplete="PF('wid-dial-listar-pacientes').show()"
@@ -48,15 +45,9 @@
                                            existePacienteLogado()}"/>
 
                     <h:outputText value="Médico"/>
-                    <p:inputText id="idMedico" value="#{idMedico}" 
-                                 required="true"
-                                 requiredMessage="Campo obrigatório">
-                        <p:ajax event="change" 
-                                listener="#{controllerMedico.
-                                            retornarDiasLivres(idMedico)}"
-                                update=":form-agendamento-consultas:horarios
-                                :form-agendamento-consultas:dataPrevista"/>
-                    </p:inputText>
+                    <h:outputText id="idMedico" 
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          nome}"/>
                     <p:commandButton icon="fa fa-search"
                             oncomplete="PF('wid-dial-listar-medicos').show()"/>
                     <p:message for="idMedico"/>
@@ -67,11 +58,13 @@
                                 mindate="today"
                                 readonlyInput="true" required="false"
                                 requiredMessage="Campo obrigatório"
-                                value="#{dataPrevista}">
+                                value="#{builderAgendamento.dataPrevista}">
                         <p:ajax event="dateSelect" 
                                 listener="#{controllerMedico.
                                             carregarHorariosLivres
-                                            (dataPrevista, idMedico)}"
+                                            (builderAgendamento.dataPrevista, 
+                                            controllerMedico.
+                                            medicoSelecionado)}"
                                 update=":form-agendamento-consultas:periodos"/> 
                     </p:calendar>
                     <p:message for="dataPrevista"/>
@@ -81,7 +74,8 @@
                     <p:selectOneMenu converter="horariosConverter" 
                                      filter="true" 
                                      filterMatchMode="contains" id="periodos" 
-                                     value="#{periodoSelecionado}">
+                                     value="#{builderAgendamento.
+                                              horarioPrevisto}">
                         <f:selectItem itemLabel="Selecione..." 
                                       itemDisabled="true"/>
                         <f:selectItems value="#{controllerMedico.
@@ -95,9 +89,9 @@
 
                 <p:commandButton value="Incluir" 
                                  action="#{controllerMedico.
-                                           salvarAgendamento(idPaciente, 
-                                           idMedico, dataPrevista, 
-                                           periodoSelecionado)}"
+                                    salvarAgendamento(builderAgendamento.
+                                    build(), controllerMedico.
+                                    medicoSelecionado)}"
                                  rendered="#{!controllerPaciente.
                                              existePacienteLogado()}"
                                  update=":form-agendamento-consultas"/>
@@ -147,7 +141,7 @@
                            oncomplete="PF('wid-dial-listar-pacientes').hide()"
                            update="form-agendamento-consultas:paciente-selecionado">
                             <f:setPropertyActionListener 
-                                target="#{idPaciente}"
+                                target="#{builderAgendamento.paciente}"
                                 value="#{paciente}"/>
                         </p:commandButton>
                     </p:column>
@@ -189,9 +183,14 @@
                     <p:column>
                         <p:commandButton icon="fa fa-select"
                             oncomplete="PF('wid-dial-listar-medicos').hide()"
-                            update=":form-agendamento-consultas:idMedico">
-                            <f:setPropertyActionListener target="#{idMedico}"
-                                                         value="#{medico.id}"/>
+                            actionListener="#{controllerMedico.
+                                              retornarDiasLivres(medico)}"
+                            update=":form-agendamento-consultas:idMedico
+                            :form-agendamento-consultas:dataPrevista
+                            :form-agendamento-consultas:horarios">
+                            <f:setPropertyActionListener 
+                                target="#{controllerMedico.medicoSelecionado}" 
+                                value="#{medico}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
