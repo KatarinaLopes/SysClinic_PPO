@@ -200,4 +200,128 @@ public class LoginPacienteTest {
         
         assertFalse(loginPaciente.existePacienteLogado());
     }
+    
+    @Test
+    public void deveTestarValidarPassandoNoTeste(){
+        String cpf = "111.111.111-11";
+        String senha = "123";
+        
+        loginPaciente.validar(cpf, senha);
+    }
+    
+    @Test
+    public void deveTestarValidarComCPFNullFalhando(){
+        String senha = "123";
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar(null, senha);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComCPFEmptyFalhando(){
+        String senha = "123";
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar("", senha);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaNullFalhando(){
+        String cpf = "111.111.111-11";
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar(cpf, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaEmptyFalhando(){
+        String cpf = "111.111.111-11";
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar(cpf, "");
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaEmptyCPFEmptyFalhando(){
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar("", "");
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaEmptyCPFNullFalhando(){
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar(null, "");
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaNullCPFNullFalhando(){
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar(null, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
+    
+    @Test
+    public void deveTestarValidarComSenhaNullCPFEmptyFalhando(){
+        String mensagem = "";
+        
+        try{
+            loginPaciente.validar("", null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("CPF e senha não podem estar vazios", mensagem);
+    }
 }
