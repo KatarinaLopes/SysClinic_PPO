@@ -8,26 +8,19 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FuncionarioManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -35,7 +28,8 @@ import org.hibernate.exception.ConstraintViolationException;
  */
 @ManagedBean
 @SessionScoped
-public class ControllerFuncionario implements ControllerGenerico<Funcionario, Integer> {
+public class ControllerFuncionario implements 
+        ControllerGenerico<Funcionario, Integer> {
 
     private DaoFuncionario funcionarios = new DaoFuncionario();
 
@@ -65,18 +59,56 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     }
 
-    public String cadastrar(Funcionario c, String senha) 
-            throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    /**
+     * EN-US
+     * Cryptographes a password confirmation and send it with a Funcionario to
+     * be persisted in the database
+     * 
+     * PT-BR
+     * Criptografa uma confirmação de senha e a envia junto com um Funcionario
+     * para ser persistida na database
+     * 
+     * @param funcionario Funcionario to be saved | Funcionario que será 
+     * cadastrado
+     * @param senhaConfirmacao Password confirmation | Confirmação de senha
+     * @return apresentar_funcionarios.xhtml if succesful or null if not |
+     * apresentar_funcionarios.xhtml se tiver sucesso ou null se não tiver
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException 
+     */
+    public String cadastrar(Funcionario funcionario, String senhaConfirmacao){
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;       
+        String retorno = null;
+        
         try {
-            String senhaCriptografada = Operacoes.criptografarSenha(senha);
-            funcionarioManager.cadastrar(c, senhaCriptografada);
-            return "/administrador/apresentar_funcionarios.xhtml?faces-"
+            String senhaCriptografada = Operacoes.
+                    criptografarSenha(senhaConfirmacao);
+            funcionario.setSenha(Operacoes.criptografarSenha(funcionario.
+                    getSenha()));
+            
+            funcionarioManager.cadastrar(funcionario, senhaCriptografada);
+            
+            fm = new FacesMessage("Sucesso!", "O funcionário foi cadastrado "
+                    + "com sucesso!");
+            
+            retorno = "/administrador/apresentar_funcionarios.xhtml?faces-"
                     + "redirect=true";
+            
         } catch(IllegalArgumentException ex){
-            FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(ex.getMessage()));
+            
+            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro", 
+                    ex.getMessage());
+            
+        } catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
+            
+            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro", 
+                    "Recarregue a página e tente novamente.");
         }
-        return null;
+        
+        fc.addMessage(null, fm);
+        return retorno;
     }
 
     @Override
@@ -165,23 +197,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             return "/login/login_intranet.xhtml?faces-redirect=true";
     }
 
-    /*public boolean podeExcluirFuncionario(Funcionario f) {
-        int qtdeFuncionario = 0;
-        int qtdeAdministrador = 0;
-
-        System.out.println(f);
-        
-        for (Funcionario funcionariosRegistrado : funcionariosRegistrados) {
-            if (funcionariosRegistrado.isAdministrador()) {
-                qtdeAdministrador++;
-            } else {
-                qtdeFuncionario++;
-            }
-        }
-
-        return f.isAdministrador() ? qtdeAdministrador > 1
-                : qtdeFuncionario > 1;
-    }*/
     public void exibirAlertaDeMudanca() {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso",
@@ -191,18 +206,4 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
                         + "privilégio apenas se necessário"));
     }
 
-    /*public void getPodeExcluirOuAlterar(Funcionario f) {
-        System.out.println(f.getNome());
-
-        podeExcluirOuAlterar = !funcionarios.
-                podeExcluirOuAlterar(f.isAdministrador());
-
-        System.out.println(podeExcluirOuAlterar);
-
-        /*if(podeExcluirOuAlterar){
-            return true;
-        }
-        
-        return false;
-    }*/
 }
