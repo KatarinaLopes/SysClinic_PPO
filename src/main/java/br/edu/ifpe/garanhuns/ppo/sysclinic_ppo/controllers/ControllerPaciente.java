@@ -156,22 +156,42 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     }
 
     /**
-     *
+     * EN-US
+     * Does the login by sending the login and a confirm password by 
+     * cryptographing it and validating it. If there's success, the login page
+     * will be sent. Else, the method returns null
+     * 
+     * PT-BR
+     * Faz o login ao mandar o login e a confirmação de senha, 
+     * criptografando-a e validando-a. Se tiver sucesso, a página de login será
+     * enviada. Se não, o método retornará null
+     * 
+     * @param login representing the login | representando o login
+     * @param senhaConfirmacao representing the confirm password | 
+     * representando a senha de confirmação 
+     * @return 
      */
-    public String fazerLogin(String login, String senha) throws
-            NoSuchAlgorithmException, UnsupportedEncodingException {
+    public String fazerLogin(String login, String senhaConfirmacao){
         FacesContext fc = FacesContext.getCurrentInstance();
+        String detail = "";
+        String retorno = null;
 
         try {
-            String senhaCriptografada = Operacoes.criptografarSenha(senha);
+            String senhaCriptografada = Operacoes.
+                    criptografarSenha(senhaConfirmacao);
             loginPaciente.login(login, senhaCriptografada, 
                     (DaoPaciente) daoPacientes);
             loginPaciente.setarPacienteLogadoNaSessao();
-            return "/pacientes/home_paciente.xhtml?faces-redirect=true";
+            retorno = "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {
-            fc.addMessage(null, new FacesMessage(ex.getMessage()));
+            detail = ex.getMessage();
+        }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
+            detail = "Recarregue a página e tente novamente";
         }
-        return null;
+        
+        fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                "Erro", detail));
+        return retorno;
     }
 
     public boolean existePacienteLogado() {
