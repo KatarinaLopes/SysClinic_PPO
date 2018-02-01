@@ -104,9 +104,6 @@
                         <p:commandButton icon="fa fa-pencil"
                                          update=":form-apresentar-funcionarios 
                                          :dial-form-alterar-funcionario"
-                                       actionListener="#{controllerFuncionario.
-                                                        getPodeExcluirOuAlterar
-                                                           (funcionario)}"
                                 oncomplete="PF('wid-dial-alterar-funcionario').
                                          show()">
                             <f:setPropertyActionListener value="#{funcionario}"
@@ -115,7 +112,10 @@
                         </p:commandButton>
 
                         <p:commandButton icon="fa fa-close" 
-                                         update=":form-apresentar-funcionarios"
+                                         disabled="#{!controllerFuncionario.
+                                    existeMaisDeUm(funcionario.administrador)}"
+                                         update=":form-apresentar-funcionarios
+                                         dial-confirm"
                                     oncomplete="PF('wid-dial-confirm').show()">
                             <f:setPropertyActionListener value="#{funcionario}"
                                                target="#{controllerFuncionario.
@@ -196,11 +196,6 @@
                   header="Alterar funcionário"
                   modal="true" visible="false" 
                   widgetVar="wid-dial-alterar-funcionario">
-            <p:ajax listener="#{controllerFuncionario.
-                                getPodeExcluirOuAlterar
-                                (controllerFuncionario.
-                                funcionarioSelecionado)}"/>
-
 
             <h:form id='dial-form-alterar-funcionario'>                
 
@@ -277,8 +272,10 @@
                     <p:message for="email"/>
 
                     <p:selectBooleanCheckbox id="administrador" 
-                                             disabled="#{controllerFuncionario.
-                                                         podeExcluirOuAlterar}"
+                                           disabled="#{!controllerFuncionario.
+                                         existeMaisDeUm(controllerFuncionario.
+                                         funcionarioSelecionado.
+                                         administrador)}"
                                              itemLabel="É um administrador"
                                              value="#{controllerFuncionario.
                                                       funcionarioSelecionado.

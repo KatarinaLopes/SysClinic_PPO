@@ -66,26 +66,4 @@ public class DaoFuncionario implements DaoGenerico<Funcionario, Integer> {
         }
     }
 
-    public boolean podeExcluirOuAlterar(boolean admin) {
-
-        int qtdeFuncionario = 0;
-        int qtdeAdministrador = 0;
-
-        List<Funcionario> funcionarios = recuperarTodos();
-
-        for (Funcionario funcionario : funcionarios) {
-            if (funcionario.isAdministrador()) {
-                qtdeAdministrador++;
-            } else {
-                qtdeFuncionario++;
-            }
-        }
-
-        if (admin) {
-            return qtdeAdministrador > 1;
-        } else {
-            return qtdeFuncionario > 1;
-        }
-    }
-
 }

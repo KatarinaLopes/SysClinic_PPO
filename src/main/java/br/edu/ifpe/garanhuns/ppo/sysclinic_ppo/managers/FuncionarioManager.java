@@ -11,6 +11,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.Da
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  *
@@ -43,5 +44,38 @@ public class FuncionarioManager {
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         validar(funcionario, confirmacaoSenha);
         daoFuncionarios.persistir(funcionario);
+    }
+    
+    public Funcionario recuperar(int id){
+        return (Funcionario) daoFuncionarios.recuperar(id);
+    }
+    
+    public void atualizar(Funcionario f){
+        daoFuncionarios.atualizar(f);
+    }
+    
+    public void deletar(Funcionario f){
+        daoFuncionarios.deletar(f);
+    }
+    
+    public boolean existeMaisDeUm(boolean administrador){
+        int qtdeFuncionario = 0;
+        int qtdeAdministrador = 0;
+
+        List<Funcionario> funcionarios = daoFuncionarios.recuperarTodos();
+
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario.isAdministrador()) {
+                qtdeAdministrador++;
+            } else {
+                qtdeFuncionario++;
+            }
+        }
+
+        if (administrador) {
+            return qtdeAdministrador > 1;
+        } else {
+            return qtdeFuncionario > 1;
+        }
     }
 }

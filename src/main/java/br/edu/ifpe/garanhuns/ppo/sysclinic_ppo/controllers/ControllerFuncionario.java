@@ -39,13 +39,8 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     private DaoFuncionario funcionarios = new DaoFuncionario();
 
-    @ManagedProperty(value = "#{funcionariosRegistrados}")
-    private List<Funcionario> funcionariosRegistrados;
-
     @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
-
-    private boolean podeExcluirOuAlterar;
 
     private LoginFuncionario loginFuncionario;
     
@@ -56,14 +51,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         funcionarioManager = new FuncionarioManager(funcionarios);
     }
 
-    public List<Funcionario> getFuncionariosRegistrados() {
-        return funcionariosRegistrados;
-    }
-
-    public void setFuncionariosRegistrados(List<Funcionario> funcionariosRegistrados) {
-        this.funcionariosRegistrados = funcionariosRegistrados;
-    }
-
     public Funcionario getFuncionarioSelecionado() {
         return funcionarioSelecionado;
     }
@@ -72,37 +59,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         this.funcionarioSelecionado = funcionarioSelecionado;
     }
 
-    public boolean isPodeExcluirOuAlterar() {
-        return podeExcluirOuAlterar;
-    }
-
-    public void setPodeExcluirOuAlterar(boolean podeExcluirOuAlterar) {
-        this.podeExcluirOuAlterar = podeExcluirOuAlterar;
-    }
-
     @Deprecated
     @Override
     public void cadastrar(Funcionario c) {
 
-    }
-
-    public String criptografarSenha(String senha) {
-        String novaSenha;
-
-        try {
-            novaSenha = Operacoes.criptografarSenha(senha);
-        } catch (NoSuchAlgorithmException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Ocorreu um erro"));
-            return null;
-        } catch (UnsupportedEncodingException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Ocorreu um erro"));
-
-            return null;
-        }
-
-        return novaSenha;
     }
 
     public String cadastrar(Funcionario c, String senha) 
@@ -121,14 +81,15 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
 
     @Override
     public Funcionario recuperar(Integer i) {
-        return (Funcionario) funcionarios.recuperar(i);
+        return funcionarioManager.recuperar(i);
     }
 
     //@Override
     public void atualizar(Funcionario c) {
-        funcionarios.atualizar(c);
+        funcionarioManager.atualizar(c);
     }
 
+    
     /**
      * Exclui um funcionário do banco de dados
      *
@@ -136,10 +97,9 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
      */
     public void deletar(Funcionario f) {
 
-        if (funcionarios.podeExcluirOuAlterar(f.isAdministrador())) {
+        if (existeMaisDeUm(f.isAdministrador())) {
             funcionarios.deletar(f);
         } else {
-            System.err.println("else");
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",
                             "Impossível excluir este funcionário. O sistema "
@@ -153,6 +113,10 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
         return funcionarios.recuperarTodos();
     }
 
+    public boolean existeMaisDeUm(boolean admin){
+        return funcionarioManager.existeMaisDeUm(admin);
+    }
+    
     public String fazerLogin(Integer login, String senha) throws 
             NoSuchAlgorithmException, UnsupportedEncodingException {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -227,7 +191,7 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
                         + "privilégio apenas se necessário"));
     }
 
-    public void getPodeExcluirOuAlterar(Funcionario f) {
+    /*public void getPodeExcluirOuAlterar(Funcionario f) {
         System.out.println(f.getNome());
 
         podeExcluirOuAlterar = !funcionarios.
@@ -239,6 +203,6 @@ public class ControllerFuncionario implements ControllerGenerico<Funcionario, In
             return true;
         }
         
-        return false;*/
-    }
+        return false;
+    }*/
 }
