@@ -57,7 +57,6 @@ public class BuilderAgendamento {
     }
     
     public Agendamento build(){
-        return new Agendamento(0, dataPrevista, paciente, medico, dataPrevista, 
-                false);
+        return new Agendamento(0, dataPrevista, paciente, dataPrevista, false);
     }
 }

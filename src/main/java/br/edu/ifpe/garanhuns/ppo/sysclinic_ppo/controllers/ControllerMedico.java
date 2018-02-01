@@ -169,7 +169,7 @@ public class ControllerMedico {
 
         //System.out.println(p + " je " + data);
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m,
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p,
                 periodo.getHorarioInicial(), false));
 
         atualizar(m);
@@ -186,7 +186,7 @@ public class ControllerMedico {
                 getExternalContext().getSession(true)).
                 getAttribute("pacienteLogado");
 
-        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p, m,
+        m.getAgenda().getAgendamentos().add(new Agendamento(0, data, p,
                 periodo.getHorarioInicial(), false));
 
         atualizar(m);

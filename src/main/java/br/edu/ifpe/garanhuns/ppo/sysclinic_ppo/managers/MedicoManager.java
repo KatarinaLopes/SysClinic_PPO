@@ -71,9 +71,7 @@ public class MedicoManager {
         return daoMedicos.recuperarTodos();
     }
     
-    public void marcarAgendamento(Agendamento agendamento){
-        Medico medico = agendamento.getMedico();
-        
+    public void marcarAgendamento(Medico medico, Agendamento agendamento){       
         medico.getAgenda().adicionarAgendamento(agendamento);
     }
  

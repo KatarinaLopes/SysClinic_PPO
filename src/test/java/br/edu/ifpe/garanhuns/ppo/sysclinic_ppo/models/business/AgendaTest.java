@@ -60,9 +60,9 @@ public class AgendaTest {
         Medico m = mock(Medico.class);
         Paciente p = mock(Paciente.class);
         
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p , m, 
+        a.getAgendamentos().add(new Agendamento(0, new Date(), p , 
                 new Date(), true));
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p, m, 
+        a.getAgendamentos().add(new Agendamento(0, new Date(), p, 
                 new Date(), false));
         
         List<Agendamento> recuperados = a.retornarAgendamentosConcluidos();
