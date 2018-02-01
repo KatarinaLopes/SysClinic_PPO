@@ -182,7 +182,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             loginPaciente.login(login, senhaCriptografada);
             loginPaciente.setarPacienteLogadoNaSessao();
             retorno = "/pacientes/home_paciente.xhtml?faces-redirect=true";
-        } catch (DaoException ex) {
+        } catch (DaoException | IllegalArgumentException ex) {
             detail = ex.getMessage();
         }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
             detail = "Recarregue a página e tente novamente";
@@ -230,21 +230,8 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
      * @return página de login
      */
     public String fazerLogout() {
-
-        FacesContext fc = FacesContext.getCurrentInstance();
-
-        try {
-            loginPaciente.logout();
-            loginPaciente.tirarPacienteLogadoDaSessao();
-        } catch (IllegalStateException ex) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Erro ao fazer logout",
-                    "Recarregue a página e tente novamente");
-
-            FacesContext.getCurrentInstance().addMessage(null, fm);
-
-            return null;
-        }
+        loginPaciente.logout();
+        loginPaciente.tirarPacienteLogadoDaSessao();
 
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }

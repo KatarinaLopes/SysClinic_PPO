@@ -90,7 +90,8 @@ public class LoginPacienteTest {
     }
     
     @Test
-    public void deveTestarLoginLancadoDAOExceptionSenha() {
+    public void deveTestarLoginLancadoIlgArgmtExceptionSenha() 
+            throws DaoException {
         String cpf = "111.111.111-11";
         String senhaCorreta = "123";
         String mensagem = "";
@@ -107,11 +108,11 @@ public class LoginPacienteTest {
         try{
             loginPaciente.login(cpf, senhaIncorreta);
             fail();
-        }catch(DaoException ex){
+        }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
         }
         
-        assertEquals(DaoException.SENHA_NAO_CORRESPONDE, mensagem);
+        assertEquals("As senhas não correspondem!", mensagem);
     }
     
     @Test
@@ -185,20 +186,7 @@ public class LoginPacienteTest {
         
         assertNull(loginPaciente.getPacienteLogado());
     }
-
-    @Test
-    public void deveTestarLogoutFalhando(){
-        String mensagem = "";
-        
-        try{
-            loginPaciente.logout();
-            fail();
-        }catch(IllegalStateException ex){
-            mensagem = ex.getMessage();
-        }
-        
-        assertEquals("Não há paciente logado para esta operação", mensagem);
-    }
+    
     @Test
     public void deveTestarExistePacienteLogadoRetornandoTrue() {
         loginPaciente.setPacienteLogado(new Paciente());
