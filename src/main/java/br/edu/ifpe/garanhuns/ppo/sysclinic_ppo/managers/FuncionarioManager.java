@@ -82,4 +82,11 @@ public class FuncionarioManager {
             return qtdeFuncionario > 1;
         }
     }
+    
+    public String retornarMensagemDeAlerta(){
+        return "Administradores podem cadastrar, alterar e excluir "
+                        + "médicos e funcionários, mas não têm acesso "
+                        + "ao sistema de agendamentos. Mude o "
+                        + "privilégio apenas se necessário";
+    }
 }

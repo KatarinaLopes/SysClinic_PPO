@@ -13,6 +13,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -29,16 +30,16 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class ControllerFuncionario implements 
-        ControllerGenerico<Funcionario, Integer> {
+        ControllerGenerico<Funcionario, Integer>, Serializable {
 
-    private DaoFuncionario funcionarios = new DaoFuncionario();
+    private final DaoFuncionario funcionarios = new DaoFuncionario();
 
     @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
 
-    private LoginFuncionario loginFuncionario;
+    private final LoginFuncionario loginFuncionario;
     
-    private FuncionarioManager funcionarioManager;
+    private final FuncionarioManager funcionarioManager;
 
     public ControllerFuncionario(){
         loginFuncionario = new LoginFuncionario();
@@ -226,6 +227,19 @@ public class ControllerFuncionario implements
         return retorno;
     }
 
+    /**
+     * EN-US
+     * Returns the correct page for the logged funcionario, depending if it's 
+     * an administrado or not
+     * 
+     * PT-BR
+     * Retorna a página correta para o funcionário logado, dependente se este 
+     * é um administrador ou não
+     * 
+     * @return home_admin.xhtml if it's an administrador, 
+     * home_funcionario.xhtml if it isn't | home_admin.xhtml se o 
+     * funcionario é um administrador, home_funcionario.xhtml se não é
+     */
     private String pegarPaginaDeRedirecionamento() {
         if (loginFuncionario.existeLogadoAdministrador()) {
             return "/administrador/home_admin.xhtml?faces-redirect=true";
@@ -234,18 +248,52 @@ public class ControllerFuncionario implements
         }
     }
     
+    /**
+     * EN-US
+     * Returns the logged funcionario
+     * 
+     * PT-BR
+     * Retorna o funcionario logado
+     * @return logged funcionario | funcionario logado
+     */
     public Funcionario pegarFuncionarioLogado(){
         return loginFuncionario.getFuncionarioLogado();
     }
     
+    /**
+     * EN-US
+     * Verifies if there's a logged administrador
+     * 
+     * PT-BR
+     * Verifica se tem um administrador logado
+     * @return true if there is, false if there isn't | true se tem, false se
+     * não
+     */
     public boolean existeLogadoAdministrador(){
         return loginFuncionario.existeLogadoAdministrador();
     }
 
+    /**
+     * EN-US
+     * Verifies if there's a logged non administrador
+     * 
+     * PT-BR
+     * Verifica se tem um não administrador logado
+     * @return true, if there is, false if there isn't | true, se tem, false 
+     * se não tem
+     */
     public boolean existeLogadoNaoAdministrador(){
         return loginFuncionario.existeLogadoNaoAdministrador();
     }
     
+    /**
+     * EN-US
+     * Does the logout
+     * 
+     * PT-BR
+     * Faz logout
+     * @return login_intranet.xhtml
+     */
     public String logout() {
             loginFuncionario.logout();
             loginFuncionario.tirarFuncionarioLogadoDaSessao();
@@ -253,13 +301,21 @@ public class ControllerFuncionario implements
             return "/login/login_intranet.xhtml?faces-redirect=true";
     }
 
+    /**
+     * EN-US
+     * Show an alert message when attempting to change a funcionario privilege
+     * 
+     * PT-BR
+     * Mostra uma mensagem de alerta quando se tenta mudar o privilégio de 
+     * um funcionario
+     */
     public void exibirAlertaDeMudanca() {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso",
-                        "Administradores podem cadastrar, alterar e excluir "
-                        + "médicos e funcionários, mas não têm acesso "
-                        + "ao sistema de agendamentos. Mude o "
-                        + "privilégio apenas se necessário"));
+        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, 
+                "Atenção", "Administradores podem cadastrar, alterar e "
+                        + "excluir médicos e funcionários, mas não têm acesso "
+                        + "ao sistema de agendamentos. Mude o privilégio "
+                        + "apenas se necessário");
+        FacesContext.getCurrentInstance().addMessage(null, fm);
     }
 
 }
