@@ -6,21 +6,16 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import javax.faces.context.FacesContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 
 /**
@@ -31,6 +26,7 @@ public class LoginFuncionarioTest {
     
     private LoginFuncionario loginFuncionario;
     private DaoGenerico daoFuncionario;
+    private FacesContext facesContext;
     
     
     public LoginFuncionarioTest() {
@@ -48,6 +44,7 @@ public class LoginFuncionarioTest {
     public void setUp() {
         loginFuncionario = new LoginFuncionario();
         daoFuncionario = mock(DaoFuncionario.class);
+        facesContext = mock(FacesContext.class);
     }
     
     @After
@@ -200,7 +197,7 @@ public class LoginFuncionarioTest {
     }
     
     @Test
-    public void deveTestarLogadoEAdminRetornandoTrue(){
+    public void deveTestarExisteLogadoAdministradorRetornandoTrue(){
         Funcionario funcionario = new Funcionario();
         
         funcionario.setAdministrador(true);
@@ -214,7 +211,7 @@ public class LoginFuncionarioTest {
     }
     
     @Test
-    public void deveTestarLogadoEAdministradorRetornandoFalse(){
+    public void deveTestarExisteLogadoAdiministradorRetornandoFalse(){
         loginFuncionario.setFuncionarioLogado(new Funcionario());
         
         boolean retorno = loginFuncionario.existeLogadoAdministrador();
@@ -223,13 +220,132 @@ public class LoginFuncionarioTest {
     }
     
     @Test
-    public void deveTestarLogadoEAdminFuncionarioNuloRetornandoFalse(){
+    public void 
+         deveTestarExisteLogadoAdministradorFuncionarioNuloRetornandoFalse(){
        
         loginFuncionario.setFuncionarioLogado(null);
        
         boolean retorno = loginFuncionario.existeLogadoAdministrador();
         
         assertFalse(retorno);
+    }
+ 
+    @Test
+    public void deveTestarExisteLogadoNaoAdministradorRetornandoTrue(){
+        loginFuncionario.setFuncionarioLogado(new Funcionario());
+        
+        boolean retorno = loginFuncionario.existeLogadoNaoAdministrador();
+        
+        assertTrue(retorno);
+    }
+    
+    @Test
+    public void deveTestarExisteLogadoNaAdministradorRetornandoFalse(){
+        Funcionario funcionario = new Funcionario();
+        
+        funcionario.setAdministrador(true);
+        
+        boolean retorno = loginFuncionario.existeLogadoNaoAdministrador();
+        
+        assertFalse(retorno);
+    }
+    
+    @Test
+    public void deveTestarExisteLogadoNaoAdministradorRetornandoFalse(){
+        boolean retorno = loginFuncionario.existeLogadoNaoAdministrador();
+        
+        assertFalse(retorno);
+    }
+    
+    @Test
+    public void deveTestarValidarPassandoNoTeste() {
+        int matricula = 1234;
+        String senha = "123";
+        
+        loginFuncionario.validar(matricula, senha);
+    }
+
+    @Test
+    public void deveTestarValidarPassandoMatricula0Falhando() 
+            throws Exception {
+        String senha = "123";
+        String mensagem = "";
+        
+        try{
+            loginFuncionario.validar(0, senha);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Matrícula e senha não podem estar vazios", mensagem);
+    }
+
+    @Test
+    public void deveTestarValidarPassandoSenhaNulaFalhando() {
+        int matricula = 1234;
+        String mensagem = "";
+        
+        try{
+            loginFuncionario.validar(matricula, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Matrícula e senha não podem estar vazios", mensagem);
+    }
+
+    @Test
+    public void deveTestarValidarPassandoSenhaEmpty() {
+        int matricula = 1234;
+        String mensagem = "";
+        
+        try{
+            loginFuncionario.validar(matricula, "");
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Matrícula e senha não podem estar vazios", mensagem);
+    }
+
+    @Test
+    public void deveTestarValidarPassandoMatricula0SenhaNull() {
+        String mensagem = "";
+        
+        try{
+            loginFuncionario.validar(0, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Matrícula e senha não podem estar vazios", mensagem);
+    }
+
+    @Test
+    public void deveTestarValidarPassandoMatricula0SenhaEmpty() {
+        String mensagem = "";
+        
+        try{
+            loginFuncionario.validar(0, "");
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Matrícula e senha não podem estar vazios", mensagem);
+    }
+
+    @Test
+    public void testSetarFuncionarioLogadoNaSessao() {
+        
+    }
+
+    @Test
+    public void testTirarFuncionarioLogadoDaSessao() {
     }
     
 }

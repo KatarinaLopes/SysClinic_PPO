@@ -7,18 +7,20 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        exception.DaoException;
+import java.io.Serializable;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
- *
+ * EN-US
+ * Class to manage the login of Funcionario
+ * 
+ * PT-BR
+ * Classe para gerenciar o login de Funcionario
  * @author Katarina
  */
-public class LoginFuncionario {
+public class LoginFuncionario implements Serializable{
 
     private Funcionario funcionarioLogado;
 
@@ -30,24 +32,33 @@ public class LoginFuncionario {
         return funcionarioLogado;
     }
     
+    public void validar(int matricula, String senha){
+        if(matricula == 0 || senha == null || senha.isEmpty()){
+            throw new IllegalArgumentException("Matrícula e senha não podem "
+                    + "estar vazios");
+        }
+    }
+    
+    
     /**
-     * EN-US Does the login for the given Strings (cpf and senha)
+     * EN-US 
+     * Does the login for the given Strings (cpf and senha)
      *
-     * PT-BR Faz o login para o cpf e a senha dadas
+     * PT-BR 
+     * Faz o login para o cpf e a senha dadas
      *
-     * @param matricula
-     * @param senha
-     * @param daoFuncionario
+     * @param matricula, representing the login | representando o login
+     * @param senha, representing the password | representando a senha
+     * @param daoFuncionario, representing the DB where the data is going to 
+     * be retrieved from | representando o BD de onde os dados serão 
+     * recuperados
      * @throws DaoException
      */
     public void login(int matricula, String senha,
             DaoFuncionario daoFuncionario) throws DaoException {
 
-        if (matricula == 0 || senha == null || senha.isEmpty()) {
-            throw new IllegalArgumentException("Matrícula e senha não podem "
-                    + "estar vazios");
-        }
-
+        validar(matricula, senha);
+        
         Funcionario funcionario = daoFuncionario.
                 recuperarPorAtributo("matricula", matricula);
 
@@ -65,52 +76,81 @@ public class LoginFuncionario {
     }
 
     /**
-     * EN-US Does the logout of the current logged paciente
+     * EN-US 
+     * Does the logout of the current logged paciente
      *
-     * PT-BR Faz logout do paciente logado
+     * PT-BR 
+     * Faz logout do paciente logado
      */
-    public void logout() throws IllegalStateException {
-
+    public void logout() {
         funcionarioLogado = null;
-        //tirarFuncionarioLogadoDaSessao
 
     }
 
     /**
-     * EN-US Verifies if there is a not null pacienteLogado
+     * EN-US 
+     * Verifies if there is a not null pacienteLogado
      *
-     * PT-BR Verifica se existe um pacienteLogado não nulo
+     * PT-BR 
+     * Verifica se existe um pacienteLogado não nulo
      *
-     * @return true if there is, false if there isn't | true, se tem; false, se
-     * não tem
+     * @return true if there is, false if there isn't | true, se tem; false, 
+     * se não tem
      */
     public boolean existeFuncionarioLogado() {
         return funcionarioLogado != null;
     }
 
     /**
-     * EN-US Verifies if the logged funcionario is an admin or not
+     * EN-US 
+     * Verifies if the logged funcionario is an administrador or not
      *
-     * PT-BR Verifica se o funcionario logado é um administrador ou não
+     * PT-BR 
+     * Verifica se o funcionario logado é um administrador ou não
      *
-     * @return true if it is, false if it isn't | true se for, false se não for
+     * @return true if it is, false if it isn't | true se for, false se não 
+     * for
      */
     public boolean existeLogadoAdministrador() {
 
-        return funcionarioLogado != null && funcionarioLogado.isAdministrador();
+        return funcionarioLogado != null && funcionarioLogado.
+                isAdministrador();
     }
 
+    /**
+     * EN-US
+     * Verifies if there's a logged funcionario and if there is, if this 
+     * funcionario isn't an administrador
+     * 
+     * PT-BR
+     * Verifica se tem um funcionario logado e se tiver, se este funcionario
+     * não é um administrador
+     * 
+     * @return true if there is a non administrador logged in, false if there 
+     * isn't | true se tem um não administrador logado, false, se não tem
+     */
     public boolean existeLogadoNaoAdministrador(){
         return funcionarioLogado != null && 
                 !funcionarioLogado.isAdministrador();
     }  
     
 
+    /**
+     * EN-US
+     * Sets the funcionarioLogado in the session
+     * 
+     * PT-BR
+     * Seta o funcionarioLogado na sessão
+     */
     public void setarFuncionarioLogadoNaSessao() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
                 put("funcionarioLogado", funcionarioLogado);
     }
 
+    /**
+     * EN-US
+     * 
+     */
     public void tirarFuncionarioLogadoDaSessao() {
         FacesContext.getCurrentInstance().getExternalContext().
                 getSessionMap().remove("funcionarioLogado");
