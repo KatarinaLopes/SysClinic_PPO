@@ -194,10 +194,29 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return retorno;
     }
 
+    /**
+     * EN-US
+     * Returns if there's a logged Paciente
+     * 
+     * PT-BR
+     * Retorna se houver um paciente logados
+     * @return true,if there is, false if there isn't | true se tem, false, 
+     * se não tem
+     */
     public boolean existePacienteLogado() {
         return loginPaciente.existePacienteLogado();
     }
 
+    /**
+     *EN-US
+     * Returns the current logged Paciente
+     * 
+     * PT-BR
+     * Retorna o paciente logado atualmente
+     * 
+     * @return Paciente if there is, null if there isn't. | Se tem, sim, 
+     * senão, não
+     */
     public Paciente retornarPacienteLogado() {
         return loginPaciente.getPacienteLogado();
     }
