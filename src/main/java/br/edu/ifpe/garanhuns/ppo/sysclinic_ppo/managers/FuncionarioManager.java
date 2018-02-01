@@ -58,6 +58,10 @@ public class FuncionarioManager {
         daoFuncionarios.deletar(f);
     }
     
+    public List<Funcionario> recuperarTodos(){
+        return daoFuncionarios.recuperarTodos();
+    }
+    
     public boolean existeMaisDeUm(boolean administrador){
         int qtdeFuncionario = 0;
         int qtdeAdministrador = 0;

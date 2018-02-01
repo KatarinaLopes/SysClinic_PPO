@@ -73,8 +73,6 @@ public class ControllerFuncionario implements
      * @param senhaConfirmacao Password confirmation | Confirmação de senha
      * @return apresentar_funcionarios.xhtml if succesful or null if not |
      * apresentar_funcionarios.xhtml se tiver sucesso ou null se não tiver
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException 
      */
     public String cadastrar(Funcionario funcionario, String senhaConfirmacao){
         
@@ -111,26 +109,49 @@ public class ControllerFuncionario implements
         return retorno;
     }
 
+    /**
+     * EN-US
+     * Retrives the Funcionario with the given id from the database
+     * 
+     * PT-BR
+     * Recupera o Funcionario com a id dada.
+     * 
+     * @param id id of the Funcionario | id do funcionario
+     * @return O funcionario ou nulo, se este não exister
+     */
     @Override
-    public Funcionario recuperar(Integer i) {
-        return funcionarioManager.recuperar(i);
+    public Funcionario recuperar(Integer id) {
+        return funcionarioManager.recuperar(id);
     }
 
-    //@Override
-    public void atualizar(Funcionario c) {
-        funcionarioManager.atualizar(c);
+    /**
+     * EN-US
+     * Updates the given Funcionario in the DB
+     * 
+     * PT-BR
+     * Atualiza o dado funcionário no BD
+     * @param funcionario The funcionario to be updated | O funcionario a ser
+     * atualizado
+     */
+    public void atualizar(Funcionario funcionario) {
+        funcionarioManager.atualizar(funcionario);
     }
 
     
     /**
+     * EN-US
+     * Deletes the Funcionario from the DB
+     * 
+     * PT-BR
      * Exclui um funcionário do banco de dados
      *
-     * @param f representando funcionário a ser excluído
+     * @param funcionario representing the funcionario to be deleted | 
+     * representando funcionário a ser excluído
      */
-    public void deletar(Funcionario f) {
+    public void deletar(Funcionario funcionario) {
 
-        if (existeMaisDeUm(f.isAdministrador())) {
-            funcionarios.deletar(f);
+        if (existeMaisDeUm(funcionario.isAdministrador())) {
+            funcionarios.deletar(funcionario);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",
@@ -140,9 +161,16 @@ public class ControllerFuncionario implements
         }
     }
 
-    //@PostConstruct
+    /**
+     * EN-US
+     * Retrieves all the saved funcionario from the DB
+     * 
+     * PT-BR
+     * Recupera todos os funcionarios do BD
+     * @return all saved funcionarios | todos os funcionarios salvos
+     */
     public List<Funcionario> recuperarTodos() {
-        return funcionarios.recuperarTodos();
+        return funcionarioManager.recuperarTodos();
     }
 
     public boolean existeMaisDeUm(boolean admin){
