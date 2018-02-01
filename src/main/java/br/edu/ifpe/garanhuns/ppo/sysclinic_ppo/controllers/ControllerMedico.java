@@ -166,9 +166,6 @@ public class ControllerMedico {
    }
 
     public String salvarAgendamento(Agendamento agendamento, Medico medico) {
-
-        //System.out.println(p + " je " + data);
-        //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         medico.getAgenda().getAgendamentos().add(agendamento);
 
         atualizar(medico);
@@ -200,20 +197,12 @@ public class ControllerMedico {
      * @param m
      * @return
      */
-    public void retornarDiasLivres(Medico medico) {
-        System.out.println("1");
-
-        Gson gson = new Gson();
-
-        System.out.println(medico);
-
-        diasDisponiveis = gson.toJson(medico.pegarDiasLivres());
-
-        System.out.println(diasDisponiveis);
+    public void carregarDiasLivres(Medico medico) {
+        diasDisponiveis = medicoManager.retornarDiasLivres(medico);
     }
 
     public void carregarHorariosLivres(Date data, Medico medico) {
-        horariosLivres = medico.pegarHorariosLivres(data);
+        horariosLivres = medicoManager.retornarHorariosLivres(medico, data);
     }
 
     public List<Agendamento> retornarAgendamentosConcluidos() {

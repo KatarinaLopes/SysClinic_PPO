@@ -6,6 +6,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
@@ -70,9 +71,20 @@ public class MedicoManager {
     public List<Medico> recuperarTodos(){
         return daoMedicos.recuperarTodos();
     }
-    
+     
     public void marcarAgendamento(Medico medico, Agendamento agendamento){       
         medico.getAgenda().adicionarAgendamento(agendamento);
     }
  
+    public String retornarDiasLivres(Medico medico){
+        String diasLivres = new Gson().toJson(medico.pegarDiasLivres());
+        
+        return diasLivres;
+    }
+    
+    public List<Horario> retornarHorariosLivres(Medico medico, Date data){
+        List<Horario> horarios = medico.pegarHorariosLivres(data);
+        
+        return horarios;
+    }
 }
