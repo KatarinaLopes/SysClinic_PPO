@@ -149,6 +149,10 @@ public class LoginFuncionario implements Serializable{
 
     /**
      * EN-US
+     * Removes the funcionarioLogado from the session
+     * 
+     * PT-BR
+     * Remove o funcionário logado da sessão
      * 
      */
     public void tirarFuncionarioLogadoDaSessao() {

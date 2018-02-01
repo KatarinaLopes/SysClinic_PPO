@@ -102,7 +102,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
             fm = new FacesMessage("Sucesso", 
                     "O cadastro foi efetuado com sucesso");
             
-            retorno = "/login/login_paciente.xhtml?faces-redirect=true";
+            retorno = "/acoes/novo_agendamento.xhtml?faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     ex.getMessage());
@@ -214,17 +214,19 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
      * PT-BR
      * Retorna o paciente logado atualmente
      * 
-     * @return Paciente if there is, null if there isn't. | Se tem, sim, 
-     * senão, não
+     * @return Paciente if there is, null if there isn't. | Paciente, se tem, 
+     * null, se não tem
      */
     public Paciente retornarPacienteLogado() {
         return loginPaciente.getPacienteLogado();
     }
 
     /**
-     * EN-US Does the logout
+     * EN-US
+     * Does the logout
      *
-     * PT-BR Faz o logout
+     * PT-BR 
+     * Faz o logout
      *
      * @return página de login
      */
@@ -246,10 +248,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         }
 
         return "/login/login_paciente.xhtml?faces-redirect=true";
-    }
-    
-    public Paciente procurarPaciente(int id) {
-        return pacienteManager.recuperar(id);
     }
 
     public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
