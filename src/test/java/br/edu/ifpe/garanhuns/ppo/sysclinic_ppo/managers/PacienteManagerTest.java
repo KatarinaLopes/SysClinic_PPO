@@ -59,7 +59,7 @@ public class PacienteManagerTest {
         
         when(daoPacientes.recuperarPorAtributo("cpf", cpf)).thenReturn(null);
         
-        pacienteManager.validar(paciente, confirmacaoSenha);
+        pacienteManager.validarCadastrar(paciente, confirmacaoSenha);
         
     }
     
@@ -78,7 +78,7 @@ public class PacienteManagerTest {
         when(daoPacientes.recuperarPorAtributo("cpf", cpf)).thenReturn(null);
         
         try{
-            pacienteManager.validar(paciente, confirmacaoSenha);
+            pacienteManager.validarCadastrar(paciente, confirmacaoSenha);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -103,7 +103,7 @@ public class PacienteManagerTest {
                 thenReturn(paciente);
         
         try{
-            pacienteManager.validar(paciente, confirmacaoSenha);
+            pacienteManager.validarCadastrar(paciente, confirmacaoSenha);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();

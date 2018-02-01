@@ -6,18 +6,17 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginPaciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        DaoPaciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
+        DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        exception.DaoException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -31,7 +30,8 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean(name = "controllerPaciente", eager = true)
 @SessionScoped
-public class ControllerPaciente implements ControllerGenerico<Paciente, Integer> {
+public class ControllerPaciente implements 
+        ControllerGenerico<Paciente, Integer> {
 
     private final DaoGenerico daoPacientes = new DaoPaciente();
 
@@ -236,7 +236,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
 
-    public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
+    /*public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
         System.out.println(m);
 
         List<Agendamento> pacientesMarcados = m.getAgenda().getAgendamentos();
@@ -263,6 +263,6 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     public void excluirMensagem(Mensagem m) {
         //PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
         //PacienteManager.getInstance().atualizar(pacienteLogado);
-    }
+    }*/
 
 }

@@ -1,22 +1,13 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import org.hibernate.exception.ConstraintViolationException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,21 +15,37 @@ import org.hibernate.exception.ConstraintViolationException;
  * and open the template in the editor.
  */
 /**
- *
+ * EN-US
+ * Class to manage all operations related to Paciente
+ * 
+ * PT-BR
+ * Classe para gerenciar todas as operações relacionadas a Paciente
  * @author Katarina
  */
-public class PacienteManager {
+public class PacienteManager implements Serializable{
 
-    private DaoGenerico daoPaciente;
-
-    private static FeedManager feedManager = FeedManager.getInstance();
+    private final DaoGenerico daoPaciente;
 
     public PacienteManager(DaoPaciente daoPacientes) {
         this.daoPaciente = daoPacientes;
     }
 
-    
-    public void validar(Paciente paciente, String confirmacaoSenha){
+    /**
+     * EN-US
+     * Validates if there's already a Paciente with the same CPF in the DB 
+     * and if the confirm password is equal to the Paciente's password
+     * 
+     * PT-BR
+     * Valida se já existe um paciente com o mesmo CPF no BD e se a senha de 
+     * confirmação é igual à senha do Paciente
+     * 
+     * @param paciente
+     * @param confirmacaoSenha 
+     * @throws IllegalArgumentException if the passwords aren't equal or if 
+     * the Paciente already exists | se as senhas não são iguais ou se o 
+     * paciente já existe
+     */    
+    public void validarCadastrar(Paciente paciente, String confirmacaoSenha){
         String senha = paciente.getSenha();
 
         if (!senha.equals(confirmacaoSenha)) {
@@ -54,66 +61,60 @@ public class PacienteManager {
         }
     }
     
-    public void cadastrar(Paciente paciente, String confirmacaoSenha) 
-            throws NoSuchAlgorithmException, UnsupportedEncodingException{
-                
-        //String senhaCriptografada = Operacoes.criptografarSenha(senha);
-
-        //paciente.setSenha(senhaCriptografada);
-
-        validar(paciente, confirmacaoSenha);
+    /**
+     * EN-US
+     * Persists the given Paciente in the DB, after validating and setting the
+     * admission date to today
+     * 
+     * PT-BR
+     * Persiste o Paciente no BD, depois de validar e setar a data de admissão
+     * para hoje
+     * 
+     * @param paciente
+     * @param confirmacaoSenha 
+     */
+    public void cadastrar(Paciente paciente, String confirmacaoSenha) {
+        validarCadastrar(paciente, confirmacaoSenha);
         paciente.setDataAdmissao(new Date(System.currentTimeMillis()));
         daoPaciente.persistir(paciente);
-
     }
     
-    
+    /**
+     * EN-US
+     * Retrives all from the database
+     * 
+     * PT-BR
+     * Recupera todos do banco
+     * @return all Pacientes | todos os pacientes
+     */
     public List<Paciente> recuperarTodos(){
         return daoPaciente.recuperarTodos();
     }
     
+    /**
+     * EN-US
+     * Retrieves a Paciente from DB with the given id
+     * 
+     * PT-BR
+     * Recupera um Paciente do BD com a id dada
+     * 
+     * @param id
+     * @return Paciente if it exists, null if it doesn't | Paciente se 
+     * existir, null se não existir
+     */
     public Paciente recuperar(int id){
         return (Paciente) daoPaciente.recuperar(id);
     }
     
-    public void deletar(Paciente paciente){
-        daoPaciente.deletar(paciente);
-    }
-
-    public void inserirMensagemDeExclusaoNoFeed(List<Agendamento> agendamentos,
-            Medico m) {
-        feedManager.inserirMensagemDeExclusao(agendamentos, m);
-
-        atualizarListaDePacientes();
-        //atualizar(rolPacientes.keySet());
-    }
-
-    public void inserirMensagemDeAlteracaoDeHorarioNoFeed(
-            List<Agendamento> agendamentos, Date horarioNovo, Medico m) {
-
-        feedManager.inserirMensagemDeAtualizacaoDeHorario(agendamentos,
-                horarioNovo, m);
-
-        atualizarListaDePacientes();
-
-    }
-
-    public void excluirMensagem(Paciente p, Mensagem m) {
-        feedManager.excluirMensagem(m, p);
-
-    }
-
-    public List<Mensagem> retornarTodasAsMensagens(Paciente p) {
-        return p.getFeed().getMensagens();
-    }
-
-    public void atualizar(Paciente p) {
-        daoPaciente.atualizar(p);
-    }
-
-    public void atualizarListaDePacientes() {
-        for (Paciente paciente : feedManager.getPacientesAAtualizar()) {
-            daoPaciente.atualizar(paciente);
-        }
+    /**
+     * EN-US
+     * Updates the given Paciente from the DB
+     * 
+     * PT-BR
+     * Atualiza um dado Paciente do BD
+     * @param paciente 
+     */
+    public void atualizar(Paciente paciente){
+        daoPaciente.atualizar(paciente);
     }
 }
