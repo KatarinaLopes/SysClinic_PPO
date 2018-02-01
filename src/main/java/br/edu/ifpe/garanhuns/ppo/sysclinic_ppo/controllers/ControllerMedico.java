@@ -165,7 +165,7 @@ public class ControllerMedico {
 
         System.out.println(m);
 
-        Paciente p = new ControllerPaciente().procurarPaciente(idPaciente);
+        Paciente p = new ControllerPaciente().recuperar(idPaciente);
 
         //System.out.println(p + " je " + data);
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

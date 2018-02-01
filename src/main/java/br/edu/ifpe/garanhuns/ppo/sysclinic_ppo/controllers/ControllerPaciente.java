@@ -43,7 +43,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
     private final PacienteManager pacienteManager;
 
     public ControllerPaciente() {
-        loginPaciente = new LoginPaciente();
+        loginPaciente = new LoginPaciente((DaoPaciente) daoPacientes);
         pacienteManager = new PacienteManager((DaoPaciente) daoPacientes);
     }
 
@@ -179,8 +179,7 @@ public class ControllerPaciente implements ControllerGenerico<Paciente, Integer>
         try {
             String senhaCriptografada = Operacoes.
                     criptografarSenha(senhaConfirmacao);
-            loginPaciente.login(login, senhaCriptografada, 
-                    (DaoPaciente) daoPacientes);
+            loginPaciente.login(login, senhaCriptografada);
             loginPaciente.setarPacienteLogadoNaSessao();
             retorno = "/pacientes/home_paciente.xhtml?faces-redirect=true";
         } catch (DaoException ex) {

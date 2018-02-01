@@ -9,15 +9,12 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 
 /**
@@ -42,8 +39,8 @@ public class LoginPacienteTest {
     
     @Before
     public void setUp() {
-        loginPaciente = new LoginPaciente();
         daoPaciente = mock(DaoPaciente.class);
+        loginPaciente = new LoginPaciente((DaoPaciente) daoPaciente);
     }
     
     @After
@@ -67,7 +64,7 @@ public class LoginPacienteTest {
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).
                 thenReturn(paciente);
         
-        loginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
+        loginPaciente.login(cpf, senha);
         
         assertNotNull(loginPaciente.getPacienteLogado());
         assertEquals(paciente, loginPaciente.getPacienteLogado());
@@ -82,7 +79,7 @@ public class LoginPacienteTest {
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).thenReturn(null);
         
         try{
-            loginPaciente.login(cpf, senha, (DaoPaciente) daoPaciente);
+            loginPaciente.login(cpf, senha);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -108,8 +105,7 @@ public class LoginPacienteTest {
                 thenReturn(paciente);
         
         try{
-            loginPaciente.login(cpf, senhaIncorreta, 
-                    (DaoPaciente) daoPaciente);
+            loginPaciente.login(cpf, senhaIncorreta);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -124,7 +120,7 @@ public class LoginPacienteTest {
         String mensagem = "";
         
         try{
-            loginPaciente.login(null, "123", (DaoPaciente) daoPaciente);
+            loginPaciente.login(null, "123");
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -139,7 +135,7 @@ public class LoginPacienteTest {
         String mensagem = "";
         
         try{
-            loginPaciente.login("", "123", (DaoPaciente) daoPaciente);
+            loginPaciente.login("", "123");
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -154,8 +150,7 @@ public class LoginPacienteTest {
         String mensagem = "";
         
         try{
-            loginPaciente.login("111.111.111-11", null, 
-                    (DaoPaciente) daoPaciente);
+            loginPaciente.login("111.111.111-11", null);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -170,8 +165,7 @@ public class LoginPacienteTest {
         String mensagem = "";
         
         try{
-            loginPaciente.login("111.111.111-11", "", 
-                    (DaoPaciente) daoPaciente);
+            loginPaciente.login("111.111.111-11", "");
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();

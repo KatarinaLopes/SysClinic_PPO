@@ -10,11 +10,8 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  * EN-US
@@ -27,6 +24,11 @@ import javax.servlet.http.HttpSession;
 public class LoginPaciente {
 
     private Paciente pacienteLogado;   
+    private DaoGenerico daoPacientes;
+    
+    public LoginPaciente(DaoPaciente daoPacientes){
+        this.daoPacientes = daoPacientes;
+    }
     
     public void setPacienteLogado(Paciente pacienteLogado) {
         this.pacienteLogado = pacienteLogado;
@@ -37,22 +39,24 @@ public class LoginPaciente {
     }
 
     /**
-     * EN-US Does the login for the given Strings (cpf and senha)
+     * EN-US 
+     * Does the login for the given Strings (cpf and senha)
      *
-     * PT-BR Faz o login para o cpf e a senha dadas
+     * PT-BR 
+     * Faz o login para o cpf e a senha dadas
      *
-     * @param cpf
-     * @param senha
+     * @param cpf representing the login | representando o login
+     * @param senha representing the password | representando a senha
      */
-    public void login(String cpf, String senha, DaoPaciente daoPaciente)
-            throws DaoException{
+    public void login(String cpf, String senha) throws DaoException{
 
         if (cpf == null || cpf.isEmpty() || senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("CPF e senha não podem "
                     + "estar vazios");
         }
 
-        Paciente paciente = daoPaciente.recuperarPorAtributo("cpf", cpf);
+        Paciente paciente = (Paciente) daoPacientes.
+                recuperarPorAtributo("cpf", cpf);
 
         if (paciente == null) {
             throw new DaoException(DaoException.CPF_INEXISTENTE);
