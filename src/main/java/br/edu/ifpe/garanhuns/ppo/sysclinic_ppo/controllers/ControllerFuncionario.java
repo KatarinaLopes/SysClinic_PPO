@@ -173,29 +173,57 @@ public class ControllerFuncionario implements
         return funcionarioManager.recuperarTodos();
     }
 
+    /**
+     * EN-US
+     * Verifies if there's more than one funcionario whether it's an 
+     * administrador or not
+     * 
+     * PT-BR
+     * Verifica se tem mais de um funcionario, sendo ele administrador ou não
+     * @param admin defines if it's an administrador | define se é um 
+     * administrador
+     * @return true if there is, false if there isn't | true, se tem, false, 
+     * se não tem
+     */
     public boolean existeMaisDeUm(boolean admin){
         return funcionarioManager.existeMaisDeUm(admin);
     }
     
-    public String fazerLogin(Integer login, String senha) throws 
-            NoSuchAlgorithmException, UnsupportedEncodingException {
+    /**
+     * EN-US
+     * Sends the login and the cryptographed password given to the login method
+     * 
+     * PT-BR
+     * Envia o login e a senha criptografada dada para o método de login
+     * @param login representing the login | representando o login
+     * @param senha representing the password | representando a senha
+     * @return home page if succesful, null if unsuccesful | página inicial se 
+     * sucedido, nulo se não sucedido
+     */
+    public String fazerLogin(Integer login, String senha) {
         FacesContext fc = FacesContext.getCurrentInstance();
-
+        FacesMessage fm;
+        String retorno = null;
+        
         try {
             String senhaCriptografada = Operacoes.criptografarSenha(senha);
             loginFuncionario.login(login, senhaCriptografada,
                     (DaoFuncionario) funcionarios);
             loginFuncionario.setarFuncionarioLogadoNaSessao();
 
-            return pegarPaginaDeRedirecionamento();
+            fm = new FacesMessage("Sucesso!", "Você será redirecionado em "
+                    + "alguns instantes");
+            retorno = pegarPaginaDeRedirecionamento();
         } catch (DaoException | IllegalArgumentException ex) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Ocorreu um erro", ex.getMessage());
-
-            fc.addMessage(":form-login-funcionarios:messages-intranet", fm);
+            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                    "Erro", ex.getMessage());
+        }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    "Recarregue a página e tente novamente.");
         }
 
-        return null;
+        fc.addMessage(null, fm);
+        return retorno;
     }
 
     private String pegarPaginaDeRedirecionamento() {
