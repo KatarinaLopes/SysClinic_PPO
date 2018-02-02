@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javax.faces.context.FacesContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -27,7 +28,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Katarina
  */
-@WebFilter(filterName = "AcoesFilter", urlPatterns = {"/acoes/*"}, dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
+@WebFilter(filterName = "AcoesFilter", urlPatterns = {"/acoes/*"}, 
+        dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
 public class AcoesFilter implements Filter {
 
     private static final boolean debug = true;
@@ -114,16 +116,14 @@ public class AcoesFilter implements Filter {
 
         Throwable problem = null;
         try {
-            HttpSession sess = ((HttpServletRequest) request).getSession(true);
-
-            Paciente pacienteLogado = (Paciente) sess.
+            HttpSession session = ((HttpServletRequest) request).
+                    getSession(true);
+          
+            Paciente pacienteLogado = (Paciente) session.
                     getAttribute("pacienteLogado");
 
-            Funcionario funcionarioLogado = (Funcionario) sess.
+            Funcionario funcionarioLogado = (Funcionario) session.
                     getAttribute("funcionarioLogado");
-
-            boolean existeLogado = funcionarioLogado != null || 
-                    pacienteLogado != null;
             
             if ((pacienteLogado == null && ((HttpServletRequest) request).
                     getRequestURI().endsWith("cadastro_paciente.xhtml")) || 
