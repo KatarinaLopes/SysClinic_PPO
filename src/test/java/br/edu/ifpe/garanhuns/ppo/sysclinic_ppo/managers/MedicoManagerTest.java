@@ -8,8 +8,11 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        dao.DaoMedico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        manager.DaoGenerico;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -120,7 +123,7 @@ public class MedicoManagerTest {
     @Test
     public void deveTestarMarcarAgendamentoPassandoNoTeste() {
         Medico medico = new Medico();
-        medico.setAgenda(new Agenda());
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
         Agendamento agendamento = new Agendamento();
         
         int tamnahoAnterior = medico.getAgenda().getAgendamentos().size();
@@ -136,7 +139,7 @@ public class MedicoManagerTest {
     @Test
     public void deveTestarMarcarAgendamento10AgendamentosPassandoNoTeste(){
         Medico medico = new Medico();
-        medico.setAgenda(new Agenda());
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
         Agendamento agendamento = new Agendamento();
         
         int tamanhoAnterior = medico.getAgenda().getAgendamentos().size();
@@ -153,7 +156,7 @@ public class MedicoManagerTest {
     @Test
     public void deveTestarMarcarAgendamentoAgendamentoNullFalhando(){
         Medico medico = new Medico();
-        medico.setAgenda(new Agenda());
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
         String mensagem = "";
         
         try{

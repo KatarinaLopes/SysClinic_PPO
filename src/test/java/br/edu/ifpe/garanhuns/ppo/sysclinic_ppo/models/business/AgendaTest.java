@@ -55,7 +55,7 @@ public class AgendaTest {
 
     @Test
     public void testRetornarAgendamentosConcluidos() {
-        Agenda a = new Agenda();
+        Agenda a = new Agenda(new ArrayList<Agendamento>());
         
         Medico m = mock(Medico.class);
         Paciente p = mock(Paciente.class);

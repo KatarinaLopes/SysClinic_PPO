@@ -36,6 +36,11 @@ public class Feed implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Mensagem> mensagens;
 
+    @Deprecated
+    public Feed(){
+        
+    }
+    
     public Feed(List<Mensagem> mensagens) {
         this.mensagens = mensagens;
     }
