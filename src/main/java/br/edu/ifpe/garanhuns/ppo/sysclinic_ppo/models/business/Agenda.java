@@ -7,20 +7,13 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -31,10 +24,14 @@ public class Agenda implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true)
-    private List<Agendamento> agendamentos = new ArrayList<>();
+    private List<Agendamento> agendamentos;
 
     @Deprecated
     public Agenda() {
+    }
+    
+    public Agenda(List<Agendamento> agendamentos){
+        this.agendamentos = agendamentos;
     }
 
     public List<Agendamento> getAgendamentos() {

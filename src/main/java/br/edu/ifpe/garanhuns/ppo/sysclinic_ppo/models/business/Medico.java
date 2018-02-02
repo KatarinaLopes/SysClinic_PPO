@@ -6,19 +6,12 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -26,7 +19,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -179,16 +171,6 @@ public class Medico implements Serializable {
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
     }
-
-    /*public List<Agendamento> getAgendamento() {
-        return agendamento;
-    }
-
-    
-    
-    public void setAgendamento(List<Agendamento> agendamento) {
-        this.agendamento = agendamento;
-    }*/
 
     @Override
     public int hashCode() {
