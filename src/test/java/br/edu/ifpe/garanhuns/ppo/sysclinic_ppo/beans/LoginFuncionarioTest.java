@@ -6,10 +6,18 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        dao.DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        manager.DaoGenerico;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.validation.ElementKind;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -336,12 +344,53 @@ public class LoginFuncionarioTest {
     }
 
     @Test
-    public void testSetarFuncionarioLogadoNaSessao() {
+    public void deveTestarSetarFuncionarioLogadoNaSessaoPassando() {
+        Funcionario funcionarioLogado = mock(Funcionario.class);
         
+        ExternalContext externalContext = mock(ExternalContext.class);
+        Map<String, Object> sessionMap = mock(Map.class);
+        
+        when(facesContext.getExternalContext()).thenReturn(externalContext);
+        when(facesContext.getExternalContext().getSessionMap()).
+                thenReturn(sessionMap);
+        
+        when(facesContext.getExternalContext().getSessionMap().
+               put("funcionarioLogado", funcionarioLogado)).
+                thenReturn(funcionarioLogado);
+        
+        loginFuncionario.setarFuncionarioLogadoNaSessao();
+    }
+    
+    @Test
+    public void deveTestarSetarFuncionarioLogadoNaSessaoFalhando(){ 
+        Funcionario funcionarioLogado = mock(Funcionario.class);
+        String mensagem = "";
+        ExternalContext externalContext = mock(ExternalContext.class);
+        Map<String, Object> sessionMap = mock(Map.class);
+        
+        when(facesContext.getExternalContext()).thenReturn(externalContext);
+        when(facesContext.getExternalContext().getSessionMap()).
+                thenReturn(sessionMap);
+        
+        when(facesContext.getExternalContext().getSessionMap().
+                put("funcionarioLogado", funcionarioLogado)).
+                thenThrow(IllegalStateException.class);
+        
+        try{
+            loginFuncionario.setFuncionarioLogado(funcionarioLogado);
+            loginFuncionario.setarFuncionarioLogadoNaSessao();
+            fail();
+        }catch(IllegalStateException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Ocorreu um erro. Recarregue a página e tente novamente", 
+                mensagem);
     }
 
     @Test
     public void testTirarFuncionarioLogadoDaSessao() {
+        
     }
     
 }

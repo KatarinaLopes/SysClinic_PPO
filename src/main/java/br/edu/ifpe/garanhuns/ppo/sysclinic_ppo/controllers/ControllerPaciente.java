@@ -15,7 +15,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;

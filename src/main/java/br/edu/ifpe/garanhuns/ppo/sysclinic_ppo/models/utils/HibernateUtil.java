@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil;
+package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils;
 
 import java.util.List;
 import org.hibernate.HibernateException;

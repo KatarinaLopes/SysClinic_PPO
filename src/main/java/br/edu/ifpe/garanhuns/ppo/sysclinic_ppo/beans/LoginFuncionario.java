@@ -7,9 +7,8 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
-        exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
 
@@ -148,8 +147,15 @@ public class LoginFuncionario implements Serializable{
      * Seta o funcionarioLogado na sessão
      */
     public void setarFuncionarioLogadoNaSessao() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
-                put("funcionarioLogado", funcionarioLogado);
+        try{
+            FacesContext.getCurrentInstance().getExternalContext().
+                    getSessionMap().put("funcionarioLogado", 
+                            funcionarioLogado);
+        }catch(Exception ex){
+            funcionarioLogado = null;
+            throw new IllegalStateException("Ocorreu um erro. Recarregue a "
+                    + "página e tente novamente");
+        }
     }
 
     /**

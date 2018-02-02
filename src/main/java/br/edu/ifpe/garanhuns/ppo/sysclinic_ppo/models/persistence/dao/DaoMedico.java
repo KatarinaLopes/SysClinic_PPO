@@ -6,8 +6,9 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
+        DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.HibernateUtil;
 import java.util.List;
 
 /**

@@ -6,8 +6,9 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.hibernateutil.HibernateUtil;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
+        DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.HibernateUtil;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
 
