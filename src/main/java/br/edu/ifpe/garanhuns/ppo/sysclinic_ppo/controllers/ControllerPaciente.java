@@ -15,6 +15,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
 import java.io.UnsupportedEncodingException;
@@ -253,13 +254,13 @@ public class ControllerPaciente implements
         
     }
 
-    /*public List<Mensagem> exibirMensagens() {
-        return pacienteManager.retornarTodasAsMensagens(retornarPacienteLogado());
+    public List<Mensagem> exibirMensagens() {
+        return pacienteManager.exibirMensagens(retornarPacienteLogado());
     }
 
     public void excluirMensagem(Mensagem m) {
-        //PacienteManager.getInstance().excluirMensagem(pacienteLogado, m);
-        //PacienteManager.getInstance().atualizar(pacienteLogado);
-    }*/
+        pacienteManager.excluirMensagens(m, retornarPacienteLogado());
+        atualizar(retornarPacienteLogado());
+    }
 
 }
