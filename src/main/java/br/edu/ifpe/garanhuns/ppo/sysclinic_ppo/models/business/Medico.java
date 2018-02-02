@@ -74,7 +74,9 @@ public class Medico implements Serializable {
     public Medico() {
     }
 
-    public Medico(int id, int matricula, Date dataAdmissao, String nome, String sexo, String email, String telefone, String conselho, String especialidade, List<Horario> horarios, Agenda agenda) {
+    public Medico(int id, int matricula, Date dataAdmissao, String nome, 
+            String sexo, String email, String telefone, String conselho, 
+            String especialidade, List<Horario> horarios, Agenda agenda) {
         this.id = id;
         this.matricula = matricula;
         this.dataAdmissao = dataAdmissao;

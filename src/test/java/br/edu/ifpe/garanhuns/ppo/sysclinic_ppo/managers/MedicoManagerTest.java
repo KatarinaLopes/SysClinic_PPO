@@ -5,6 +5,8 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
@@ -114,13 +116,102 @@ public class MedicoManagerTest {
         assertEquals("Este número de registro do conselho já está cadastrado", 
                 mensagem);
     }
-
+    
     @Test
-    public void testCadastrar() {
+    public void deveTestarMarcarAgendamentoPassandoNoTeste() {
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda());
+        Agendamento agendamento = new Agendamento();
+        
+        int tamnahoAnterior = medico.getAgenda().getAgendamentos().size();
+        
+        medicoManager.marcarAgendamento(medico, agendamento);
+        
+        int tamanhoAtual = medico.getAgenda().getAgendamentos().size();
+        
+        assertEquals(tamnahoAnterior+1, tamanhoAtual);
+        
+    }
+    
+    @Test
+    public void deveTestarMarcarAgendamento10AgendamentosPassandoNoTeste(){
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda());
+        Agendamento agendamento = new Agendamento();
+        
+        int tamanhoAnterior = medico.getAgenda().getAgendamentos().size();
+        
+        for (int i = 0; i < 10; i++) {
+            medicoManager.marcarAgendamento(medico, agendamento);
+        }
+        
+        int tamanhoAtual = medico.getAgenda().getAgendamentos().size();
+        
+        assertEquals(tamanhoAnterior+10, tamanhoAtual);
+    }
+    
+    @Test
+    public void deveTestarMarcarAgendamentoAgendamentoNullFalhando(){
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda());
+        String mensagem = "";
+        
+        try{
+            medicoManager.marcarAgendamento(medico, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento ou médico são inválidos, recarregue a "
+                + "página e tente novamente", mensagem);
+    }
+    
+    @Test
+    public void deveTestarMarcarAgendamentoMedicoNullFalhando(){
+        Agendamento agendamento = new Agendamento();
+        String mensagem = "";
+        
+        try{
+            medicoManager.marcarAgendamento(null, agendamento);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento ou médico são inválidos, recarregue a "
+                + "página e tente novamente", mensagem);
+    }
+    
+    @Test
+    public void deveTestarMarcarAgendamentoMedicoAgendamentoNullFalhando(){
+        String mensagem = "";
+        
+        try{
+            medicoManager.marcarAgendamento(null, null);
+            fail();
+        }catch(IllegalArgumentException ex){
+            mensagem = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento ou médico são inválidos, recarregue a "
+                + "página e tente novamente", mensagem);
     }
 
     @Test
-    public void testRecuperarTodos() {
+    public void testRetornarDiasLivres() {
+    }
+
+    @Test
+    public void testRetornarHorariosLivres() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosConcluidos_Paciente() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosConcluidos_0args() {
     }
     
 }

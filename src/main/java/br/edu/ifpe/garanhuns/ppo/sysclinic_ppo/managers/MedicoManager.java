@@ -9,17 +9,21 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        dao.DaoMedico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
+        manager.DaoGenerico;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- *
+ * EN-US
+ * Class to manage all operations related to Medico
+ * 
+ * PT-BR
+ * Classe para gerenciar operações relacionadas a Medico
  * @author Katarina
  */
 public class MedicoManager {
@@ -30,6 +34,13 @@ public class MedicoManager {
         this.daoMedicos = daoMedicos;
     }
 
+    /**
+     * EN-US
+     * 
+     * 
+     * @param medico
+     * @throws IllegalArgumentException 
+     */
     public void validar(Medico medico) throws IllegalArgumentException {
         Medico existente = (Medico) daoMedicos.
                 recuperarPorAtributo("matricula", medico.getMatricula());
@@ -74,22 +85,49 @@ public class MedicoManager {
         return daoMedicos.recuperarTodos();
     }
 
+    /**
+     *
+     * 
+     * @param medico
+     * @param agendamento 
+     */
     public void marcarAgendamento(Medico medico, Agendamento agendamento) {
+        if(agendamento == null || medico == null){
+            throw new IllegalArgumentException("Agendamento ou médico são "
+                    + "inválidos, recarregue a página e tente novamente");
+        }
+        
         medico.getAgenda().adicionarAgendamento(agendamento);
     }
 
+    /**
+     * 
+     * @param medico
+     * @return 
+     */
     public String retornarDiasLivres(Medico medico) {
         String diasLivres = new Gson().toJson(medico.pegarDiasLivres());
 
         return diasLivres;
     }
 
+    /**
+     * 
+     * @param medico
+     * @param data
+     * @return 
+     */
     public List<Horario> retornarHorariosLivres(Medico medico, Date data) {
         List<Horario> horarios = medico.pegarHorariosLivres(data);
 
         return horarios;
     }
 
+    /**
+     * 
+     * @param paciente
+     * @return 
+     */
     public List<Agendamento> retornarAgendamentosConcluidos(Paciente paciente) {
         List<Agendamento> agendamentosConcluidos = new ArrayList();
         List<Medico> medicos = recuperarTodos();
@@ -102,7 +140,10 @@ public class MedicoManager {
         return agendamentosConcluidos;
     }    
     
-
+    /**
+     * 
+     * @return 
+     */
     public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConclidos = new ArrayList<>();
         List<Medico> medicos = recuperarTodos();
