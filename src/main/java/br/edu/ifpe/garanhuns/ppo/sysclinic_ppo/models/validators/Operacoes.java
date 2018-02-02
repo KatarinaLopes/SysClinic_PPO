@@ -10,6 +10,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *

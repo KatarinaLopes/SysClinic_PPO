@@ -13,6 +13,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean
 @SessionScoped
-public class ControllerMedico {
+public class ControllerMedico implements Serializable{
 
     private final DaoGenerico daoMedico = new DaoMedico();
     
@@ -40,15 +40,14 @@ public class ControllerMedico {
 
     private String diasDisponiveis;
 
-    private List<Horario> horariosLivres = new ArrayList();
+    private List<Horario> horariosLivres;
 
-    private List<Agendamento> agendamentosConcluidos = new ArrayList<>();
-
-    private Agendamento agendamentoSelecionado = new Agendamento();
+    private Agendamento agendamentoSelecionado;
     
     private final MedicoManager medicoManager;
     
     public ControllerMedico(){
+        horariosLivres = new ArrayList();
         medicoManager = new MedicoManager((DaoMedico) daoMedico);
     }
 
@@ -93,17 +92,7 @@ public class ControllerMedico {
     public void setHorariosLivres(List<Horario> horariosLivres) {
         this.horariosLivres = horariosLivres;
     }
-
-    public List<Agendamento> getAgendamentosConcluidos() {
-        //agendamentosConcluidos = retornarAgendamentosConcluidos();
-        
-        return agendamentosConcluidos;
-    }
-
-    public void setAgendamentosConcluidos(List<Agendamento> agendamentosConcluidos) {
-        this.agendamentosConcluidos = agendamentosConcluidos;
-    }
-
+  
     public Agendamento getAgendamentoSelecionado() {
         return agendamentoSelecionado;
     }
@@ -183,34 +172,15 @@ public class ControllerMedico {
         horariosLivres = medicoManager.retornarHorariosLivres(medico, data);
     }
 
-    public List<Agendamento> retornarAgendamentosConcluidos() {
-
-        Paciente p = (Paciente) ((HttpSession) FacesContext.
-                getCurrentInstance().
-                getExternalContext().getSession(true)).
-                getAttribute("pacienteLogado");
-
-        List<Agendamento> agendamentosConclidos = new ArrayList<>();
-
-        if (p != null) {
-            for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
-                agendamentosConclidos.addAll(medicosRegistrado.
-                        getAgenda().
-                        retornarAgendamentosConcluidosPacientes(p));
-            }
-
-        } else {
-
-            for (Medico medicosRegistrado : medicoManager.recuperarTodos()) {
-                agendamentosConclidos.addAll(medicosRegistrado.getAgenda().
-                        retornarAgendamentosConcluidos());
-            }
-        }
-        
-        return agendamentosConclidos;
-
+    public List<Agendamento> retornarAgendamentosConcluidos
+        (Paciente paciente){
+        return medicoManager.retornarAgendamentosConcluidos(paciente);
     }
- 
+        
+    public List<Agendamento> retornarAgendamentosConcluidos(){
+        return medicoManager.retornarAgendamentosConcluidos();
+    }
+
     public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
        
         medico.atualizarHorario(antigo, novo);
