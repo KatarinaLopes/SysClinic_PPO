@@ -1,6 +1,7 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
@@ -131,14 +132,25 @@ public class PacienteManager implements Serializable{
             
             atual = agendamento.getPaciente();
             
-            if(!atual.equals(anterior)){
-            
                 atual.getFeed().incluirMensagensExclusaoDeAgendamento(excluido, 
                     agendamento.getDataPrevista());
                 atualizar(atual);
+        }
+    }
+    
+    public void inserirMensagemDeAtualizacaoDeHorario(Medico medico, 
+            Date novoHorario){
+        
+        List<Agendamento> agendamentos = medico.getAgenda().
+                listarPacientesAgendados(novoHorario);
+        
+        for (Agendamento agendamento : agendamentos) {
+            
+            atual = agendamento.getPaciente();
+            
+            atual.getFeed().incluirMensagensAlteracaoDeHorario(agendamento.getDataPrevista(), novoHorario, medico);
+            atualizar(atual);
                 
-                anterior = atual;
-            }
         }
     }
 }

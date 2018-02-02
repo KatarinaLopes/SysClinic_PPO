@@ -378,7 +378,13 @@
                                         atualizarHorario(controllerMedico.
                                         medicoSelecionado,
                                         horario, builderHorario.build())}"
+                            
                             update="tabela-editar-horarios"/>
+                    <p:ajax event="rowEdit"
+                            listener="#{controllerPaciente.
+                                        incluirMensagemDeAlteracaoDeHorario(
+                                        controllerMedico.medicoSelecionado, 
+                                        builderHorario.horarioInicial)}"/>
 
                     <p:column headerText="Dia">
                         <p:cellEditor>

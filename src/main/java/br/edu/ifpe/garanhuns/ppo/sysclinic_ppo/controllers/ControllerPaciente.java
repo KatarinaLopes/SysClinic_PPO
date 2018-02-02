@@ -13,11 +13,13 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -243,18 +245,15 @@ public class ControllerPaciente implements
 
     }
 
-    /*
-    public void incluirMensagemDeAlteracaoDeHorario(Medico m,
-            Date horarioAnterior, Date horarioNovo) {
-
-        List<Paciente> pacientesAgendados = m.getAgenda().
-                listarPacientesMarcados(horarioAnterior);
-
-        //FeedManager.inserirMensagemDeAtualizacaoDeHorario(pacientesAgendados, 
-        //      horarioAnterior, horarioNovo, m);
+    public void incluirMensagemDeAlteracaoDeHorario(Medico medico, 
+            Date novoHorario) {
+        
+        pacienteManager.inserirMensagemDeAtualizacaoDeHorario(medico, 
+                novoHorario);
+        
     }
 
-    public List<Mensagem> exibirMensagens() {
+    /*public List<Mensagem> exibirMensagens() {
         return pacienteManager.retornarTodasAsMensagens(retornarPacienteLogado());
     }
 
