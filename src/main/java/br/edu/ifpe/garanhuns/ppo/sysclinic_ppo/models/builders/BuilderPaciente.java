@@ -7,7 +7,9 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.builders;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Feed;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,7 +122,8 @@ public class BuilderPaciente implements BuilderGenerico<Paciente>{
     @Override
     public Paciente build() {
         return new Paciente(id, dataAdmissao, nome, sexo, dataNascimento, 
-                telefoneContato, celular, email, cpf, senha, new Feed());
+                telefoneContato, celular, email, cpf, senha, new Feed(
+                        new ArrayList<Mensagem>()));
     }
     
 }

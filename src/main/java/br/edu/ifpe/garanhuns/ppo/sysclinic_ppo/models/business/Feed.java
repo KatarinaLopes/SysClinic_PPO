@@ -9,13 +9,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -39,8 +36,8 @@ public class Feed implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Mensagem> mensagens;
 
-    public Feed() {
-        mensagens = new ArrayList<>();
+    public Feed(List<Mensagem> mensagens) {
+        this.mensagens = mensagens;
     }
 
     public List<Mensagem> getMensagens() {
@@ -71,7 +68,7 @@ public class Feed implements Serializable {
                 medico.getEspecialidade(), dataPrevista);
 
         incluirMensagem(new Mensagem(new Date(System.currentTimeMillis()),
-                conteudoMensagem, "Alerta"));
+                conteudoMensagem));
 
     }
 
@@ -84,7 +81,7 @@ public class Feed implements Serializable {
                 new SimpleDateFormat("HH:mm").format(horarioNovo));
 
         incluirMensagem(new Mensagem(new Date(System.
-                currentTimeMillis()), conteudo, "Alerta"));
+                currentTimeMillis()), conteudo));
 
     }
 

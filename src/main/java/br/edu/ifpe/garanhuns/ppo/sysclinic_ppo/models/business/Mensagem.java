@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,17 +22,15 @@ public class Mensagem implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
     private String conteudo;
-    private String categoria;
 
     @Deprecated
     public Mensagem(){
         
     }
     
-    public Mensagem(Date data, String conteudo, String categoria) {
+    public Mensagem(Date data, String conteudo) {
         this.data = data;
         this.conteudo = conteudo;
-        this.categoria = categoria;
     }
     
     public Date getData() {
@@ -51,22 +48,12 @@ public class Mensagem implements Serializable{
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    
+ 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 53 * hash + Objects.hashCode(this.data);
         hash = 53 * hash + Objects.hashCode(this.conteudo);
-        hash = 53 * hash + Objects.hashCode(this.categoria);
         return hash;
     }
 
@@ -83,9 +70,6 @@ public class Mensagem implements Serializable{
         }
         final Mensagem other = (Mensagem) obj;
         if (!Objects.equals(this.conteudo, other.conteudo)) {
-            return false;
-        }
-        if (!Objects.equals(this.data, other.data)) {
             return false;
         }
         
