@@ -8,7 +8,6 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -107,49 +106,7 @@ public class Agenda implements Serializable {
 
         return qtde < limite;
     }
-
-    /*
-    public List<Integer> pegarDiasLivres() {
-        List<Integer> dias = new ArrayList();
-
-        for (Horario horario : medico.getHorarios()) {
-
-            dias.add(horario.getDia());
-        }
-
-        return dias;
-    }
-
-    public List<Horario> pegarHorariosLivres(Date data) {
-
-        Calendar c = new GregorianCalendar();
-        c.setTime(data);
-        int dia = c.get(Calendar.DAY_OF_WEEK) - 1;
-        List<Horario> horariosDisponiveis = new ArrayList();
-
-        for (Horario horario : medico.getHorarios()) {
-
-            if (dia == horario.getDia()) {
-                //if (verificarSeDiaEstaLivre(dia)) {
-                    horariosDisponiveis.add(horario);
-                //}
-            }
-        }
-
-        return horariosDisponiveis;
-    }
-    
-    public Horario retornarHorario(int dia){
-        for (Horario horario : medico.getHorarios()) {
-            if(horario.getDia() == dia){
-                return horario;
-               
-            }
-            
-        }
-        
-        return null;
-    }*/
+*/
     public void adicionarAgendamento(Agendamento a) {
 
         agendamentos.add(a);
@@ -190,18 +147,6 @@ public class Agenda implements Serializable {
                 agendamento.setPeriodo(novo);
             }
         }
-    }
-
-    public List<Paciente> listarPacientesMarcados(Date periodo) {
-        List<Paciente> pacientesMarcados = new ArrayList<>();
-
-        for (Agendamento agendamento : agendamentos) {
-            if (agendamento.getPeriodo().equals(periodo)) {
-                pacientesMarcados.add(agendamento.getPaciente());
-            }
-        }
-
-        return pacientesMarcados;
     }
     
     public List<Paciente> listarPacientesAgendados(){
