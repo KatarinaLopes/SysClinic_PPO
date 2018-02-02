@@ -12,12 +12,10 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         manager.DaoGenerico;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import javax.faces.context.ExternalContext;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import javax.faces.context.FacesContext;
-import javax.validation.ElementKind;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,7 +33,7 @@ public class LoginFuncionarioTest {
     private LoginFuncionario loginFuncionario;
     private DaoGenerico daoFuncionario;
     private FacesContext facesContext;
-    
+    private LoginSessionUtil loginSessionUtil;
     
     public LoginFuncionarioTest() {
     }
@@ -51,8 +49,9 @@ public class LoginFuncionarioTest {
     @Before
     public void setUp() {
         daoFuncionario = mock(DaoFuncionario.class);
+        loginSessionUtil = mock(LoginSessionUtil.class);
         loginFuncionario = new LoginFuncionario((DaoFuncionario) 
-                daoFuncionario);
+                daoFuncionario, loginSessionUtil);
         facesContext = mock(FacesContext.class);
     }
     
@@ -76,15 +75,18 @@ public class LoginFuncionarioTest {
         
         when(daoFuncionario.recuperarPorAtributo("matricula", matricula)).
                 thenReturn(funcionario);
+        when(loginSessionUtil.setarLogadoNaSessao("funcionarioLogado", 
+                funcionario, facesContext)).thenReturn(funcionario);
         
-        loginFuncionario.login(matricula, senha);
+        loginFuncionario.login(matricula, senha, facesContext);
         
         assertNotNull(loginFuncionario.getFuncionarioLogado());
         assertEquals(funcionario, loginFuncionario.getFuncionarioLogado());
     }
 
     @Test
-    public void deveTestarLoginLancandoDAOExceptionMatricula() throws Exception{
+    public void deveTestarLoginLancandoDAOExceptionMatricula() 
+            throws Exception{
         int matricula = 1234;
         String senha = "123";
         String mensagem = "";
@@ -93,7 +95,7 @@ public class LoginFuncionarioTest {
                 thenReturn(null);
         
         try{
-            loginFuncionario.login(matricula, senha);
+            loginFuncionario.login(matricula, senha, facesContext);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -119,7 +121,7 @@ public class LoginFuncionarioTest {
                 thenReturn(funcionario);
         
         try{
-            loginFuncionario.login(matricula, senhaIncorreta);
+            loginFuncionario.login(matricula, senhaIncorreta, facesContext);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -134,7 +136,7 @@ public class LoginFuncionarioTest {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(0, "123");
+            loginFuncionario.login(0, "123", facesContext);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -145,11 +147,11 @@ public class LoginFuncionarioTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaNull() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(1234, null);
+            loginFuncionario.login(1234, null, facesContext);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -160,11 +162,11 @@ public class LoginFuncionarioTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaEmpty() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(1234, "");
+            loginFuncionario.login(1234, "", facesContext);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -174,13 +176,18 @@ public class LoginFuncionarioTest {
     }
     
     @Test
-    public void deveTestarLogoutPassandoNoTeste() {
+    public void deveTestarLogoutPassandoNoTeste() throws InternalException {
         
-        loginFuncionario.setFuncionarioLogado(new Funcionario());
+        Funcionario funcionario = mock(Funcionario.class);
+        
+        loginFuncionario.setFuncionarioLogado(funcionario);
         
         assertNotNull(loginFuncionario.getFuncionarioLogado());
         
-        loginFuncionario.logout();
+        when(loginSessionUtil.removerLogadoNaSessao("funcionarioLogado", 
+                facesContext)).thenReturn(funcionario);
+        
+        loginFuncionario.logout(facesContext);
         
         assertNull(loginFuncionario.getFuncionarioLogado());
     }
@@ -342,55 +349,5 @@ public class LoginFuncionarioTest {
         
         assertEquals("Matrícula e senha não podem estar vazios", mensagem);
     }
-
-    @Test
-    public void deveTestarSetarFuncionarioLogadoNaSessaoPassando() {
-        Funcionario funcionarioLogado = mock(Funcionario.class);
-        
-        ExternalContext externalContext = mock(ExternalContext.class);
-        Map<String, Object> sessionMap = mock(Map.class);
-        
-        when(facesContext.getExternalContext()).thenReturn(externalContext);
-        when(facesContext.getExternalContext().getSessionMap()).
-                thenReturn(sessionMap);
-        
-        when(facesContext.getExternalContext().getSessionMap().
-               put("funcionarioLogado", funcionarioLogado)).
-                thenReturn(funcionarioLogado);
-        
-        loginFuncionario.setarFuncionarioLogadoNaSessao();
-    }
-    
-    @Test
-    public void deveTestarSetarFuncionarioLogadoNaSessaoFalhando(){ 
-        Funcionario funcionarioLogado = mock(Funcionario.class);
-        String mensagem = "";
-        ExternalContext externalContext = mock(ExternalContext.class);
-        Map<String, Object> sessionMap = mock(Map.class);
-        
-        when(facesContext.getExternalContext()).thenReturn(externalContext);
-        when(facesContext.getExternalContext().getSessionMap()).
-                thenReturn(sessionMap);
-        
-        when(facesContext.getExternalContext().getSessionMap().
-                put("funcionarioLogado", funcionarioLogado)).
-                thenThrow(IllegalStateException.class);
-        
-        try{
-            loginFuncionario.setFuncionarioLogado(funcionarioLogado);
-            loginFuncionario.setarFuncionarioLogadoNaSessao();
-            fail();
-        }catch(IllegalStateException ex){
-            mensagem = ex.getMessage();
-        }
-        
-        assertEquals("Ocorreu um erro. Recarregue a página e tente novamente", 
-                mensagem);
-    }
-
-    @Test
-    public void testTirarFuncionarioLogadoDaSessao() {
-        
-    }
-    
+  
 }

@@ -12,11 +12,15 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -42,7 +46,8 @@ public class ControllerFuncionario implements
     private final FuncionarioManager funcionarioManager;
 
     public ControllerFuncionario(){
-        loginFuncionario = new LoginFuncionario(daoFuncionarios);
+        loginFuncionario = new LoginFuncionario(daoFuncionarios, 
+                new LoginSessionUtil());
         funcionarioManager = new FuncionarioManager(daoFuncionarios);
     }
 
@@ -208,13 +213,13 @@ public class ControllerFuncionario implements
         
         try {
             String senhaCriptografada = Operacoes.criptografarSenha(senha);
-            loginFuncionario.login(login, senhaCriptografada);
-            loginFuncionario.setarFuncionarioLogadoNaSessao();
+            loginFuncionario.login(login, senhaCriptografada, fc);
 
             fm = new FacesMessage("Sucesso!", "Você será redirecionado em "
                     + "alguns instantes");
             retorno = pegarPaginaDeRedirecionamento();
-        } catch (DaoException | IllegalArgumentException ex) {
+        } catch (DaoException | IllegalArgumentException | 
+                InternalException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Erro", ex.getMessage());
         }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
@@ -294,10 +299,22 @@ public class ControllerFuncionario implements
      * @return login_intranet.xhtml
      */
     public String logout() {
-            loginFuncionario.logout();
-            loginFuncionario.tirarFuncionarioLogadoDaSessao();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        String retorno = null;
+        
+        try {
+            loginFuncionario.logout(fc);
+            fm = new FacesMessage("Sucesso!", 
+                    "Você saiu com sucesso da aplicação!");
+            retorno = "/login/login_intranet.xhtml?faces-redirect=true";
+        } catch (InternalException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    ex.getMessage());
+        }
 
-            return "/login/login_intranet.xhtml?faces-redirect=true";
+        fc.addMessage(null, fm);
+        return retorno;
     }
 
     /**

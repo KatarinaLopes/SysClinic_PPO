@@ -17,10 +17,15 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -46,7 +51,8 @@ public class ControllerPaciente implements
     private final PacienteManager pacienteManager;
 
     public ControllerPaciente() {
-        loginPaciente = new LoginPaciente((DaoPaciente) daoPacientes);
+        loginPaciente = new LoginPaciente((DaoPaciente) daoPacientes, 
+                new LoginSessionUtil());
         pacienteManager = new PacienteManager((DaoPaciente) daoPacientes);
     }
 
@@ -182,10 +188,10 @@ public class ControllerPaciente implements
         try {
             String senhaCriptografada = Operacoes.
                     criptografarSenha(senhaConfirmacao);
-            loginPaciente.login(login, senhaCriptografada);
-            loginPaciente.setarPacienteLogadoNaSessao();
+            loginPaciente.login(login, senhaCriptografada, fc);
             retorno = "/pacientes/home_paciente.xhtml?faces-redirect=true";
-        } catch (DaoException | IllegalArgumentException ex) {
+        } catch (DaoException | IllegalArgumentException | 
+                InternalException ex) {
             detail = ex.getMessage();
         }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
             detail = "Recarregue a página e tente novamente";
@@ -233,10 +239,22 @@ public class ControllerPaciente implements
      * @return página de login
      */
     public String fazerLogout() {
-        loginPaciente.logout();
-        loginPaciente.tirarPacienteLogadoDaSessao();
-
-        return "/login/login_paciente.xhtml?faces-redirect=true";
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        String retorno = null;
+        
+        try {
+            loginPaciente.logout(FacesContext.getCurrentInstance());
+            fm = new FacesMessage("Sucesso!", 
+                    "Você saiu com sucesso da aplicação!");
+            retorno = "/login/login_paciente.xhtml?faces-redirect=true";
+        } catch (InternalException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    ex.getMessage());
+        }
+        
+        fc.addMessage(null, fm);
+        return retorno;
     }
 
     public void incluirMensagensDeExclusaoDeAgendamento(Medico excluido) {

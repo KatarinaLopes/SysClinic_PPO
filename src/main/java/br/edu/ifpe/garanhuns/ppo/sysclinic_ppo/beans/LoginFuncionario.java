@@ -6,9 +6,14 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        dao.DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
 
@@ -23,10 +28,13 @@ import javax.faces.context.FacesContext;
 public class LoginFuncionario implements Serializable{
 
     private Funcionario funcionarioLogado;
-    private DaoGenerico daoFuncionarios;
+    private final DaoGenerico daoFuncionarios;
+    private LoginSessionUtil loginSessionUtil;
 
-    public LoginFuncionario(DaoFuncionario daoFuncionarios){
+    public LoginFuncionario(DaoFuncionario daoFuncionarios, 
+            LoginSessionUtil loginSessionUtil){
         this.daoFuncionarios = daoFuncionarios;
+        this.loginSessionUtil = loginSessionUtil;
     }
     
     public void setFuncionarioLogado(Funcionario funcionarioLogado) {
@@ -54,12 +62,12 @@ public class LoginFuncionario implements Serializable{
      *
      * @param matricula, representing the login | representando o login
      * @param senha, representing the password | representando a senha
-     * @param daoFuncionario, representing the DB where the data is going to 
-     * be retrieved from | representando o BD de onde os dados serão 
-     * recuperados
+     * @param fc
      * @throws DaoException
+     * @throws InternalException
      */
-    public void login(int matricula, String senha) throws DaoException {
+    public void login(int matricula, String senha, FacesContext fc) 
+            throws DaoException, InternalException {
 
         validar(matricula, senha);
         
@@ -71,8 +79,9 @@ public class LoginFuncionario implements Serializable{
         }
         
         if (funcionario.getSenha().equals(senha)) {
+            loginSessionUtil.setarLogadoNaSessao("funcionarioLogado", 
+                    funcionario, fc);
             funcionarioLogado = funcionario;
-            //setarFuncionarioLogadoNaSessao();
 
         } else {
             throw new IllegalArgumentException("As senhas não correspondem!");
@@ -85,8 +94,11 @@ public class LoginFuncionario implements Serializable{
      *
      * PT-BR 
      * Faz logout do paciente logado
+     * @param fc
+     * @throws InternalException
      */
-    public void logout() {
+    public void logout(FacesContext fc) throws InternalException {
+        loginSessionUtil.removerLogadoNaSessao("funcionarioLogado", fc);
         funcionarioLogado = null;
 
     }
@@ -138,36 +150,4 @@ public class LoginFuncionario implements Serializable{
                 !funcionarioLogado.isAdministrador();
     }  
     
-
-    /**
-     * EN-US
-     * Sets the funcionarioLogado in the session
-     * 
-     * PT-BR
-     * Seta o funcionarioLogado na sessão
-     */
-    public void setarFuncionarioLogadoNaSessao() {
-        try{
-            FacesContext.getCurrentInstance().getExternalContext().
-                    getSessionMap().put("funcionarioLogado", 
-                            funcionarioLogado);
-        }catch(Exception ex){
-            funcionarioLogado = null;
-            throw new IllegalStateException("Ocorreu um erro. Recarregue a "
-                    + "página e tente novamente");
-        }
-    }
-
-    /**
-     * EN-US
-     * Removes the funcionarioLogado from the session
-     * 
-     * PT-BR
-     * Remove o funcionário logado da sessão
-     * 
-     */
-    public void tirarFuncionarioLogadoDaSessao() {
-        FacesContext.getCurrentInstance().getExternalContext().
-                getSessionMap().remove("funcionarioLogado");
-    }
 }

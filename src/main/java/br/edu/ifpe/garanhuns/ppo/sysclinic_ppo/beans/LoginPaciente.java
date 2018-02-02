@@ -11,6 +11,8 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import javax.faces.context.FacesContext;
 
 /**
@@ -26,9 +28,12 @@ public class LoginPaciente {
 
     private Paciente pacienteLogado;
     private final DaoGenerico daoPacientes;
+    private LoginSessionUtil loginSessionUtil;
 
-    public LoginPaciente(DaoPaciente daoPacientes) {
+    public LoginPaciente(DaoPaciente daoPacientes, 
+            LoginSessionUtil loginSessionUtil) {
         this.daoPacientes = daoPacientes;
+        this.loginSessionUtil = loginSessionUtil;
     }
 
     public void setPacienteLogado(Paciente pacienteLogado) {
@@ -64,11 +69,13 @@ public class LoginPaciente {
      *
      * @param cpf representing the login | representando o login
      * @param senha representing the password | representando a senha
+     * @param fc
      * @throws DaoException if there's no Paciente with the given CPF in DB
      * @throws IllegalArgumentException if the senha is incorrect
+     * @throws InternalException
      */
-    public void login(String cpf, String senha) throws DaoException,
-            IllegalArgumentException {
+    public void login(String cpf, String senha, FacesContext fc) 
+            throws DaoException, IllegalArgumentException, InternalException{
 
         validar(cpf, senha);
 
@@ -80,6 +87,8 @@ public class LoginPaciente {
         }
 
         if (paciente.getSenha().equals(senha)) {
+            loginSessionUtil.setarLogadoNaSessao("pacienteLogado", paciente,
+                    fc);
             pacienteLogado = paciente;
 
         } else {
@@ -94,10 +103,14 @@ public class LoginPaciente {
      *
      * PT-BR 
      * Faz logout do paciente logado, ao setar pacienteLogado como nulo
+     * 
+     * @param fc
+     * @throws InternalException
      */
-    public void logout() {
+    public void logout(FacesContext fc) throws InternalException {
 
-        pacienteLogado = null;
+       loginSessionUtil.removerLogadoNaSessao("pacienteLogado", fc);
+       pacienteLogado = null;
     }
 
     /**
@@ -114,28 +127,4 @@ public class LoginPaciente {
         return pacienteLogado != null;
     }
 
-    /**
-     * EN-US
-     * Sets the current logged Paciente in the session
-     * 
-     * PT-BR
-     * Seta o paciente logado atual na sessão
-     */
-    public void setarPacienteLogadoNaSessao() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().
-                put("pacienteLogado", pacienteLogado);
-    }
-
-    /**
-     * EN-US
-     * Removes the attribute pacienteLogado (which is already null) from the 
-     * session
-     * 
-     * PT-BR
-     * Remove o atributo pacienteLogado (que já deve estar nulo) da sessão
-     */
-    public void tirarPacienteLogadoDaSessao() {
-        FacesContext.getCurrentInstance().getExternalContext().
-                getSessionMap().remove("pacienteLogado");
-    }
 }

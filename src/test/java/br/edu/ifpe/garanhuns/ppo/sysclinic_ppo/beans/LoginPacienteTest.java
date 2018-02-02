@@ -12,6 +12,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         dao.manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
+import javax.faces.context.FacesContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,6 +31,8 @@ public class LoginPacienteTest {
     
     LoginPaciente loginPaciente;
     DaoGenerico daoPaciente;
+    FacesContext fc;
+    LoginSessionUtil loginSessionUtil;
     
     public LoginPacienteTest() {
     }
@@ -43,7 +48,10 @@ public class LoginPacienteTest {
     @Before
     public void setUp() {
         daoPaciente = mock(DaoPaciente.class);
-        loginPaciente = new LoginPaciente((DaoPaciente) daoPaciente);
+        loginSessionUtil = mock(LoginSessionUtil.class);
+        loginPaciente = new LoginPaciente((DaoPaciente) daoPaciente, 
+                loginSessionUtil);
+        fc = mock(FacesContext.class);
     }
     
     @After
@@ -66,15 +74,19 @@ public class LoginPacienteTest {
         
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).
                 thenReturn(paciente);
+        when(loginSessionUtil.
+                setarLogadoNaSessao("pacienteLogado", senha, fc)).
+                thenReturn(paciente);
         
-        loginPaciente.login(cpf, senha);
+        loginPaciente.login(cpf, senha, fc);
         
         assertNotNull(loginPaciente.getPacienteLogado());
         assertEquals(paciente, loginPaciente.getPacienteLogado());
     }
 
     @Test
-    public void deveTestarLoginLancandoDAOExceptionCPF() {
+    public void deveTestarLoginLancandoDAOExceptionCPF() 
+            throws IllegalArgumentException, InternalException {
         String cpf = "111.111.111-11";
         String senha = "123";
         String mensagem = "";
@@ -82,7 +94,7 @@ public class LoginPacienteTest {
         when(daoPaciente.recuperarPorAtributo("cpf", cpf)).thenReturn(null);
         
         try{
-            loginPaciente.login(cpf, senha);
+            loginPaciente.login(cpf, senha, fc);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -94,7 +106,7 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancadoIlgArgmtExceptionSenha() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String cpf = "111.111.111-11";
         String senhaCorreta = "123";
         String mensagem = "";
@@ -109,7 +121,7 @@ public class LoginPacienteTest {
                 thenReturn(paciente);
         
         try{
-            loginPaciente.login(cpf, senhaIncorreta);
+            loginPaciente.login(cpf, senhaIncorreta, fc);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -120,11 +132,11 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionCPFNull() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginPaciente.login(null, "123");
+            loginPaciente.login(null, "123", fc);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -135,11 +147,11 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionCPFEmpty() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginPaciente.login("", "123");
+            loginPaciente.login("", "123", fc);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -150,11 +162,11 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaNull() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginPaciente.login("111.111.111-11", null);
+            loginPaciente.login("111.111.111-11", null, fc);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -165,11 +177,11 @@ public class LoginPacienteTest {
     
     @Test
     public void deveTestarLoginLancandoIllegalArgumentExceptionSenhaEmpty() 
-            throws DaoException {
+            throws DaoException, InternalException {
         String mensagem = "";
         
         try{
-            loginPaciente.login("111.111.111-11", "");
+            loginPaciente.login("111.111.111-11", "", fc);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -179,13 +191,18 @@ public class LoginPacienteTest {
     }
     
     @Test
-    public void deveTestarLogoutPassandoNoTeste() {
+    public void deveTestarLogoutPassandoNoTeste() throws InternalException {
         
-        loginPaciente.setPacienteLogado(new Paciente());
+        Paciente paciente = mock(Paciente.class);
+        
+        loginPaciente.setPacienteLogado(paciente);
         
         assertNotNull(loginPaciente.getPacienteLogado());
         
-        loginPaciente.logout();
+        when(loginSessionUtil.removerLogadoNaSessao("pacienteLogado", fc)).
+                thenReturn(paciente);
+        
+        loginPaciente.logout(fc);
         
         assertNull(loginPaciente.getPacienteLogado());
     }
