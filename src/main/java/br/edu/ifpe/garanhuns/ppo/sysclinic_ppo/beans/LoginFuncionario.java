@@ -9,6 +9,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import java.io.Serializable;
 import javax.faces.context.FacesContext;
 
@@ -23,7 +24,12 @@ import javax.faces.context.FacesContext;
 public class LoginFuncionario implements Serializable{
 
     private Funcionario funcionarioLogado;
+    private DaoGenerico daoFuncionarios;
 
+    public LoginFuncionario(DaoFuncionario daoFuncionarios){
+        this.daoFuncionarios = daoFuncionarios;
+    }
+    
     public void setFuncionarioLogado(Funcionario funcionarioLogado) {
         this.funcionarioLogado = funcionarioLogado;
     }
@@ -54,12 +60,11 @@ public class LoginFuncionario implements Serializable{
      * recuperados
      * @throws DaoException
      */
-    public void login(int matricula, String senha,
-            DaoFuncionario daoFuncionario) throws DaoException {
+    public void login(int matricula, String senha) throws DaoException {
 
         validar(matricula, senha);
         
-        Funcionario funcionario = daoFuncionario.
+        Funcionario funcionario = (Funcionario) daoFuncionarios.
                 recuperarPorAtributo("matricula", matricula);
 
         if (funcionario == null) {
@@ -71,7 +76,7 @@ public class LoginFuncionario implements Serializable{
             //setarFuncionarioLogadoNaSessao();
 
         } else {
-            throw new DaoException(DaoException.SENHA_NAO_CORRESPONDE);
+            throw new IllegalArgumentException("As senhas não correspondem!");
         }
     }
 

@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
 public class ControllerFuncionario implements 
         ControllerGenerico<Funcionario, Integer>, Serializable {
 
-    private final DaoFuncionario funcionarios = new DaoFuncionario();
+    private final DaoFuncionario daoFuncionarios = new DaoFuncionario();
 
     @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
@@ -42,8 +42,8 @@ public class ControllerFuncionario implements
     private final FuncionarioManager funcionarioManager;
 
     public ControllerFuncionario(){
-        loginFuncionario = new LoginFuncionario();
-        funcionarioManager = new FuncionarioManager(funcionarios);
+        loginFuncionario = new LoginFuncionario(daoFuncionarios);
+        funcionarioManager = new FuncionarioManager(daoFuncionarios);
     }
 
     public Funcionario getFuncionarioSelecionado() {
@@ -152,7 +152,7 @@ public class ControllerFuncionario implements
     public void deletar(Funcionario funcionario) {
 
         if (existeMaisDeUm(funcionario.isAdministrador())) {
-            funcionarios.deletar(funcionario);
+            daoFuncionarios.deletar(funcionario);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",
@@ -208,15 +208,14 @@ public class ControllerFuncionario implements
         
         try {
             String senhaCriptografada = Operacoes.criptografarSenha(senha);
-            loginFuncionario.login(login, senhaCriptografada,
-                    (DaoFuncionario) funcionarios);
+            loginFuncionario.login(login, senhaCriptografada);
             loginFuncionario.setarFuncionarioLogadoNaSessao();
 
             fm = new FacesMessage("Sucesso!", "Você será redirecionado em "
                     + "alguns instantes");
             retorno = pegarPaginaDeRedirecionamento();
         } catch (DaoException | IllegalArgumentException ex) {
-            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Erro", ex.getMessage());
         }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 

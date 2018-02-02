@@ -42,8 +42,9 @@ public class LoginFuncionarioTest {
     
     @Before
     public void setUp() {
-        loginFuncionario = new LoginFuncionario();
         daoFuncionario = mock(DaoFuncionario.class);
+        loginFuncionario = new LoginFuncionario((DaoFuncionario) 
+                daoFuncionario);
         facesContext = mock(FacesContext.class);
     }
     
@@ -68,8 +69,7 @@ public class LoginFuncionarioTest {
         when(daoFuncionario.recuperarPorAtributo("matricula", matricula)).
                 thenReturn(funcionario);
         
-        loginFuncionario.login(matricula, senha, 
-                (DaoFuncionario) daoFuncionario);
+        loginFuncionario.login(matricula, senha);
         
         assertNotNull(loginFuncionario.getFuncionarioLogado());
         assertEquals(funcionario, loginFuncionario.getFuncionarioLogado());
@@ -85,8 +85,7 @@ public class LoginFuncionarioTest {
                 thenReturn(null);
         
         try{
-            loginFuncionario.login(matricula, senha, (DaoFuncionario) 
-                    daoFuncionario);
+            loginFuncionario.login(matricula, senha);
             fail();
         }catch(DaoException ex){
             mensagem = ex.getMessage();
@@ -112,14 +111,13 @@ public class LoginFuncionarioTest {
                 thenReturn(funcionario);
         
         try{
-            loginFuncionario.login(matricula, senhaIncorreta, 
-                    (DaoFuncionario) daoFuncionario);
+            loginFuncionario.login(matricula, senhaIncorreta);
             fail();
-        }catch(DaoException ex){
+        }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
         }
         
-        assertEquals(DaoException.SENHA_NAO_CORRESPONDE, mensagem);
+        assertEquals("As senhas não correspondem!", mensagem);
     }
     
     @Test
@@ -128,7 +126,7 @@ public class LoginFuncionarioTest {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(0, "123", (DaoFuncionario) daoFuncionario);
+            loginFuncionario.login(0, "123");
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -143,8 +141,7 @@ public class LoginFuncionarioTest {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(1234, null, 
-                    (DaoFuncionario) daoFuncionario);
+            loginFuncionario.login(1234, null);
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
@@ -159,8 +156,7 @@ public class LoginFuncionarioTest {
         String mensagem = "";
         
         try{
-            loginFuncionario.login(1234, "", 
-                    (DaoFuncionario) daoFuncionario);
+            loginFuncionario.login(1234, "");
             fail();
         }catch(IllegalArgumentException ex){
             mensagem = ex.getMessage();
