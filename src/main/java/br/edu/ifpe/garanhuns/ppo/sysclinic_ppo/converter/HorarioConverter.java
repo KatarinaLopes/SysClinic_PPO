@@ -45,8 +45,6 @@ public class HorarioConverter implements Converter {
             Object value) {
         if (value != null) {
             
-            
-            
             return String.valueOf(((Horario) value).getHorarioInicial());
         }
         return null;
