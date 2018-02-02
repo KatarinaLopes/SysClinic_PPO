@@ -7,12 +7,16 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         manager.DaoGenerico;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -202,19 +206,196 @@ public class MedicoManagerTest {
     }
 
     @Test
-    public void testRetornarDiasLivres() {
+    public void devePassarRetornarDiasLivres() {
+        Medico medico = mock(Medico.class);
+        List<Integer> lista = new ArrayList();
+        lista.add(1);
+        lista.add(2);
+        lista.add(5);
+        
+        when(medico.pegarDiasLivres()).thenReturn(lista);
+        
+        String retorno = medicoManager.retornarDiasLivres(medico);
+        String json = "[1,2,5]";
+        
+        assertEquals(json, retorno);
     }
 
     @Test
-    public void testRetornarHorariosLivres() {
+    public void devePassarRetornarHorariosLivres() {
+        Medico medico = mock(Medico.class);
+        Date data = mock(Date.class);
+        List<Horario> horarios = mock(List.class);
+        
+        when(medico.pegarHorariosLivres(data)).thenReturn(horarios);
+        
+        List retorno = medicoManager.retornarHorariosLivres(medico, data);
+        
+        assertEquals(horarios, retorno);
     }
 
     @Test
-    public void testRetornarAgendamentosConcluidos_Paciente() {
+    public void devePassarRetornarAgendamentosConcluidos_Paciente() {
+        Paciente paciente = mock(Paciente.class);
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
+        Agendamento agendamento = new Agendamento();
+        agendamento.setRealizada(true);
+        agendamento.setPaciente(paciente);
+        medico.getAgenda().getAgendamentos().add(agendamento);
+        List<Medico> medicos = new ArrayList();
+        medicos.add(medico);
+        medicos.add(medico);
+        medicos.add(medico);
+        
+        when(daoMedicos.recuperarTodos()).thenReturn(medicos);
+        
+        List<Agendamento> retorno = medicoManager.
+                retornarAgendamentosConcluidos(paciente);
+        
+        assertNotNull(retorno);
+        assertEquals(3, retorno.size());
+    }
+    
+    /*@Test
+    public void devePassarRetornarAgendamentosConcluidos2Pacientes(){
+        Paciente paciente = mock(Paciente.class);
+        Paciente paciente2 = mock(Paciente.class);
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
+        
+        Agendamento agendamento = new Agendamento();
+        agendamento.setRealizada(true);
+        agendamento.setPaciente(paciente);
+        
+        Agendamento agendamento2 = new Agendamento();
+        agendamento2.setRealizada(true);
+        agendamento2.setPaciente(paciente2);
+        
+        medico.getAgenda().getAgendamentos().add(agendamento);
+        medico.getAgenda().getAgendamentos().add(agendamento2);
+        
+        List<Medico> medicos = new ArrayList();
+        
+        medicos.add(medico);
+        medicos.add(medico);
+        medicos.add(medico);
+        
+        when(daoMedicos.recuperarTodos()).thenReturn(medicos);
+        
+        List<Agendamento> retorno = medicoManager.
+                retornarAgendamentosConcluidos(paciente);
+        
+        assertNotNull(retorno);
+        assertEquals(3, retorno.size());
+    }*/
+    
+    @Test
+    public void devePassarRetornarAgendamentoPaciente2ConcluidosNaoConcluido(){
+        Paciente paciente = mock(Paciente.class);
+        Paciente paciente2 = mock(Paciente.class);
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
+        
+        Agendamento agendamento = new Agendamento();
+        agendamento.setRealizada(true);
+        agendamento.setPaciente(paciente);
+        
+        Agendamento agendamento2 = new Agendamento();
+        agendamento2.setRealizada(false);
+        agendamento2.setPaciente(paciente2);
+        
+        medico.getAgenda().getAgendamentos().add(agendamento);
+        medico.getAgenda().getAgendamentos().add(agendamento2);
+        List<Medico> medicos = new ArrayList();
+        medicos.add(medico);
+        medicos.add(medico);
+        medicos.add(medico);
+        
+        when(daoMedicos.recuperarTodos()).thenReturn(medicos);
+        
+        List<Agendamento> retorno = medicoManager.
+                retornarAgendamentosConcluidos(paciente);
+        
+        assertNotNull(retorno);
+        assertEquals(3, retorno.size());
+    }
+    
+    @Test
+    public void devePassarRetornarAgendamentosConcluidosNaoConcluidos(){
+        Paciente paciente = mock(Paciente.class);
+        Paciente paciente2 = mock(Paciente.class);
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
+        Agendamento agendamento = new Agendamento();
+        agendamento.setRealizada(false);
+        agendamento.setPaciente(paciente);
+        Agendamento agendamento2 = new Agendamento();
+        agendamento.setRealizada(false);
+        agendamento.setPaciente(paciente2);
+        medico.getAgenda().getAgendamentos().add(agendamento);
+        medico.getAgenda().getAgendamentos().add(agendamento2);
+        List<Medico> medicos = new ArrayList();
+        medicos.add(medico);
+        medicos.add(medico);
+        medicos.add(medico);
+        
+        when(daoMedicos.recuperarTodos()).thenReturn(medicos);
+        
+        List<Agendamento> retorno = medicoManager.
+                retornarAgendamentosConcluidos(paciente);
+        
+        assertNotNull(retorno);
+        assertEquals(0, retorno.size());
     }
 
     @Test
-    public void testRetornarAgendamentosConcluidos_0args() {
+    public void devePassarRetornarAgendamentosConcluidos_0args() {
+        Medico medico = new Medico();
+        medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
+        Agendamento agendamento = new Agendamento();
+        agendamento.setRealizada(true);
+        medico.getAgenda().getAgendamentos().add(agendamento);
+        List<Medico> medicos = new ArrayList();
+        medicos.add(medico);
+        medicos.add(medico);
+        medicos.add(medico);
+        
+        when(daoMedicos.recuperarTodos()).thenReturn(medicos);
+        
+        List<Agendamento> retorno = medicoManager.
+                retornarAgendamentosConcluidos();
+        
+        assertNotNull(retorno);
+        assertEquals(3, retorno.size());
+    }
+
+    @Test
+    public void testValidar() {
+    }
+
+    @Test
+    public void testCadastrar() {
+    }
+
+    @Test
+    public void testRecuperar() {
+    }
+
+    @Test
+    public void testAtualizar() {
+    }
+
+    @Test
+    public void testDeletar() {
+    }
+
+    @Test
+    public void testRecuperarTodos() {
+    }
+
+    @Test
+    public void testMarcarAgendamento() {
     }
     
 }
