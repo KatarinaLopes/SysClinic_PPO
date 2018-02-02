@@ -6,7 +6,6 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -105,10 +104,7 @@ public class Horario implements Serializable{
         if (!Objects.equals(this.horarioInicial, other.horarioInicial)) {
             return false;
         }
-        if (!Objects.equals(this.horarioFinal, other.horarioFinal)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.horarioFinal, other.horarioFinal);
     }
       
     
