@@ -13,6 +13,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         exception.DaoException;
 import java.io.UnsupportedEncodingException;
@@ -236,16 +237,13 @@ public class ControllerPaciente implements
         return "/login/login_paciente.xhtml?faces-redirect=true";
     }
 
-    /*public void incluirMensagensDeExclusaoDeAgendamento(Medico m) {
-        System.out.println(m);
+    public void incluirMensagensDeExclusaoDeAgendamento(Medico excluido) {
 
-        List<Agendamento> pacientesMarcados = m.getAgenda().getAgendamentos();
+        pacienteManager.inserirMensagemDeExclusaoParaTodosPacientes(excluido);
 
-        pacienteManager.inserirMensagemDeExclusaoNoFeed(pacientesMarcados, m);
-
-        //FeedManager.inserirMensagemDeExclusao(pacientesMarcados, m);
     }
 
+    /*
     public void incluirMensagemDeAlteracaoDeHorario(Medico m,
             Date horarioAnterior, Date horarioNovo) {
 

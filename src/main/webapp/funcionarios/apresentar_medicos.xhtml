@@ -299,9 +299,11 @@
             Todos os agendamentos serão excluídos.
             <br/>
             <p:commandButton value="Sim"
+                  actionListener="#{controllerPaciente.
+                     incluirMensagensDeExclusaoDeAgendamento(controllerMedico.
+                     medicoSelecionado)}"
                              action="#{controllerMedico.
-                                       deletar(
-                                       controllerMedico.
+                                       deletar(controllerMedico.
                                        medicoSelecionado)}"
                     oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"
                   update=":form-apresentar-medicos:tabela-apresentar-medicos"/>

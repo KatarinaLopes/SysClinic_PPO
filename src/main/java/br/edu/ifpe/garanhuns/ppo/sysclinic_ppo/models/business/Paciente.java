@@ -6,22 +6,14 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -70,7 +62,9 @@ public class Paciente implements Serializable{
     public Paciente() {
     }
 
-    public Paciente(int id, Date dataAdmissao, String nome, String sexo, Date dataNascimento, String telefoneContato, String celular, String email, String cpf, String senha) {
+    public Paciente(int id, Date dataAdmissao, String nome, String sexo, 
+            Date dataNascimento, String telefoneContato, String celular, 
+            String email, String cpf, String senha, Feed feed) {
         this.id = id;
         this.dataAdmissao = dataAdmissao;
         this.nome = nome;
@@ -82,7 +76,7 @@ public class Paciente implements Serializable{
         this.cpf = cpf;
         this.senha = senha;
         //this.agendamentos = agendamentos;
-        this.feed = new Feed();
+        this.feed = feed;
     }
 
     public int getId() {
