@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 public class Mensagem implements Serializable{  
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date data;
+    private Date dataInclusao;
     private String conteudo;
 
     @Deprecated
@@ -29,16 +29,16 @@ public class Mensagem implements Serializable{
     }
     
     public Mensagem(Date data, String conteudo) {
-        this.data = data;
+        this.dataInclusao = data;
         this.conteudo = conteudo;
     }
     
     public Date getData() {
-        return data;
+        return dataInclusao;
     }
 
     public void setData(Date data) {
-        this.data = data;
+        this.dataInclusao = data;
     }
 
     public String getConteudo() {
@@ -52,7 +52,7 @@ public class Mensagem implements Serializable{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.data);
+        hash = 53 * hash + Objects.hashCode(this.dataInclusao);
         hash = 53 * hash + Objects.hashCode(this.conteudo);
         return hash;
     }
@@ -69,11 +69,7 @@ public class Mensagem implements Serializable{
             return false;
         }
         final Mensagem other = (Mensagem) obj;
-        if (!Objects.equals(this.conteudo, other.conteudo)) {
-            return false;
-        }
-        
-        return true;
+        return Objects.equals(this.conteudo, other.conteudo);
     }
     
     
