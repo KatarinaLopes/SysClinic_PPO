@@ -143,7 +143,8 @@ public class Agenda implements Serializable {
 
         for (Agendamento agendamento : agendamentos) {
             System.out.println(agendamento.getPeriodo());
-            if (agendamento.getPeriodo().equals(antigo)) {
+            if (agendamento.getPeriodo().equals(antigo) && 
+                    !agendamento.isRealizada()) {
                 agendamento.setPeriodo(novo);
             }
         }
