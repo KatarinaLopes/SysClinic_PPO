@@ -136,6 +136,18 @@ public class Agenda implements Serializable {
 
         return agendamentosConcluidos;
     }
+    
+    public List<Agendamento> retornarAgendamentosNaoConcluidos(){
+        List<Agendamento> agendamentosNaoConcluidos = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(!agendamento.isRealizada()){
+                agendamentosNaoConcluidos.add(agendamento);
+            }
+        }
+        
+        return agendamentosNaoConcluidos;
+    }
 
     public void atualizarAgendamentoHorario(Date antigo, Date novo) {
         System.out.println(antigo + " f "
@@ -165,7 +177,8 @@ public class Agenda implements Serializable {
         List<Agendamento> pacientesAgendados = new ArrayList<>();
         
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.getPeriodo().equals(horarioInicial)){
+            if(agendamento.getPeriodo().equals(horarioInicial) && 
+                    !agendamento.isRealizada()){
                 
                 pacientesAgendados.add(agendamento);
             }

@@ -5,6 +5,7 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,15 @@ public class AgendaTest {
     }
 
     @Test
-    public void testAdicionarAgendamento() {
+    public void deveTestarAdicionarAgendamento() {
+        Agenda agenda = new Agenda(new ArrayList<Agendamento>());
+        
+        agenda.adicionarAgendamento(mock(Agendamento.class));
+        agenda.adicionarAgendamento(mock(Agendamento.class));
+        
+        int tamanho = agenda.getAgendamentos().size();
+        
+        assertEquals(2, tamanho);
     }
 
     @Test
@@ -212,7 +221,30 @@ public class AgendaTest {
         List retorno = agenda.listarPacientesAgendados(horario1);
         
         assertNotNull(retorno);
-        assertEquals(2, retorno.size());
+        assertEquals(1, retorno.size());
+    }
+    
+    @Test
+    public void deveTestarRetornarAgendamentosNaoConcluidos(){
+        Agenda a = new Agenda(new ArrayList<Agendamento>());
+        
+        Paciente p = new Paciente(1, null, null, null, null, null, null, null,
+                null, null, null);
+        Paciente paciente2 = new Paciente(2, null, null, null, null, null, 
+                null, null, null, null, null);
+        
+        a.getAgendamentos().add(new Agendamento(0, new Date(), p , 
+                new Date(), true));
+        a.getAgendamentos().add(new Agendamento(0, new Date(), p, 
+                new Date(), false));
+         a.getAgendamentos().add(new Agendamento(0, new Date(), paciente2 , 
+                new Date(), true));
+        a.getAgendamentos().add(new Agendamento(0, new Date(), paciente2, 
+                new Date(), false));
+        
+        List<Agendamento> recuperados = a.retornarAgendamentosNaoConcluidos();
+        
+        assertEquals(2, recuperados.size());
     }
     
 }

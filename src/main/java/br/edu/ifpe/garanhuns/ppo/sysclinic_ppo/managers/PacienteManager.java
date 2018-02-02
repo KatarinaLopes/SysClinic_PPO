@@ -10,6 +10,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import java.util.List;
 public class PacienteManager implements Serializable{
 
     private final DaoGenerico daoPaciente;
-
+    
     public PacienteManager(DaoPaciente daoPacientes) {
         this.daoPaciente = daoPacientes;
     }
@@ -149,8 +150,6 @@ public class PacienteManager implements Serializable{
         for (Agendamento agendamento : agendamentos) {
         
             Paciente paciente = agendamento.getPaciente();
-            
-            paciente = agendamento.getPaciente();
             
             paciente.getFeed().incluirMensagensAlteracaoDeHorario(agendamento.getDataPrevista(), novoHorario, medico);
             atualizar(paciente);

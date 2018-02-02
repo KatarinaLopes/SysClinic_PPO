@@ -257,10 +257,12 @@ public class MedicoManagerTest {
         assertEquals(3, retorno.size());
     }
     
-    /*@Test
+    @Test
     public void devePassarRetornarAgendamentosConcluidos2Pacientes(){
-        Paciente paciente = mock(Paciente.class);
-        Paciente paciente2 = mock(Paciente.class);
+        Paciente paciente = new Paciente(1, null, null, null, null, null, null, 
+                null, null, null, null);
+        Paciente paciente2 = new Paciente(2, null, null, null, null, null, 
+                null, null, null, null, null);
         Medico medico = new Medico();
         medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
         
@@ -288,7 +290,7 @@ public class MedicoManagerTest {
         
         assertNotNull(retorno);
         assertEquals(3, retorno.size());
-    }*/
+    }
     
     @Test
     public void devePassarRetornarAgendamentoPaciente2ConcluidosNaoConcluido(){
