@@ -88,21 +88,6 @@ public class MedicoManager {
     }
 
     /**
-     *
-     * 
-     * @param medico
-     * @param agendamento 
-     */
-    public void marcarAgendamento(Medico medico, Agendamento agendamento) {
-        if(agendamento == null || medico == null){
-            throw new IllegalArgumentException("Agendamento ou médico são "
-                    + "inválidos, recarregue a página e tente novamente");
-        }
-        
-        //medico.getAgenda().adicionarAgendamento(agendamento);
-    }
-
-    /**
      * 
      * @param medico
      * @return 
@@ -156,6 +141,10 @@ public class MedicoManager {
         }
 
         return agendamentosConclidos;
+    }
+    
+    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
+        medico.atualizarHorario(antigo, novo);
     }
     
     /*public List<Map.Entry<Agendamento, Medico>>

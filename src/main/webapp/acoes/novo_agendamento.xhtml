@@ -86,16 +86,16 @@
                 </p:panelGrid>
 
                 <p:commandButton value="Incluir" 
-                                 action="#{controllerMedico.
+                                 action="#{controllerAgenda.
                                     salvarAgendamento(builderAgendamento.
-                                    build(), builderAgendamento.medico)}"
+                                    build())}"
                                  update=":form-agendamento-consultas"
                                  rendered="#{controllerFuncionario.
                                             existeLogadoNaoAdministrador()}"/>
                 <p:commandButton value="Incluir" 
-                                 action="#{controllerMedico.
+                                 action="#{controllerAgenda.
                                     salvarAgendamento(builderAgendamento.
-                                    build(), builderAgendamento.medico)}"
+                                    build())}"
                                  update=":form-agendamento-consultas"
                                  rendered="#{controllerPaciente.
                                              existePacienteLogado()}">

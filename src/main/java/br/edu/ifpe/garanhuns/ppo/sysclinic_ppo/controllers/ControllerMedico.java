@@ -164,13 +164,7 @@ public class ControllerMedico implements Serializable{
         return medicoManager.recuperarTodos();
    }
 
-    /*public String salvarAgendamento(Agendamento agendamento, Medico medico) {
-        medico.getAgenda().getAgendamentos().add(agendamento);
-
-        atualizar(medico);
-
-        return "/acoes/agendamentos_pendentes.xhtml?faces-redirect=true";
-    }*/
+   
 
     /**
      * Adiciona ao atributo diasDisponiveis os dias da semana (representados por
