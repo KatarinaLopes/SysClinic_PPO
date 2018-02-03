@@ -73,7 +73,7 @@
                                            setPacienteSelecionado
                                            (controllerPaciente.
                                            retornarPacienteLogado())}"
-                                 update=":dial-alterar-info"
+                                 update="@all"
                                  oncomplete="PF('wid-panel-alterar').show()"/>
             </p:panel>
             <p:panel>
@@ -91,9 +91,10 @@
                                  oncomplete="PF('wid-dial-senha').show()"/>
             </p:panel>
         </h:form>
-        <p:dialog closable="true" dynamic="false" id="dial-alterar-info"
+        <p:dialog closable="true" id="dial-alterar-info"
                   header="Alterar suas informações" visible="false" 
-                  widgetVar="wid-panel-alterar" modal="true">
+                  widgetVar="wid-panel-alterar" modal="true" 
+                  responsive="true">
             <h:form id="form-dial-alterar">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>

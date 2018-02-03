@@ -64,12 +64,6 @@ public class ControllerPaciente implements
 
     public void setPacienteSelecionado(Paciente pacienteSelecionado) {
         this.pacienteSelecionado = pacienteSelecionado;
-
-        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().
-                getSession(true);
-
-        s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
     }
 
     public Paciente getPacienteClonado() {
