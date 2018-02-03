@@ -14,14 +14,20 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.HibernateUtil;
  */
 public class DaoAgenda  {
     
-    
-    public Agenda recuperar(){
-        return (Agenda) HibernateUtil.getInstance().recover("from Agenda").
-                get(0);
+    public void cadastrar(Agenda agenda){
+        HibernateUtil.getInstance().persist(agenda);
     }
     
-    public void atualizar(){
-        Agenda agenda = recuperar();
+    public Agenda recuperar(int id){
+        try {
+            return (Agenda) HibernateUtil.getInstance().
+                    recover("from Agenda where id = " + id).get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            return null;
+        }
+    }
+    
+    public void atualizar(Agenda agenda){
         HibernateUtil.getInstance().update(agenda);
     }
 }

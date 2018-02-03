@@ -28,7 +28,7 @@ public class Agenda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
+    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true)
     private List<Agendamento> agendamentos;

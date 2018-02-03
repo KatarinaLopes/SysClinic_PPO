@@ -58,7 +58,6 @@
 
             <p:selectBooleanCheckbox  id="administrador" 
                                       itemLabel="É um administrador"
-
                                       value="#{
                                       builderFuncionario.administrador}"/>
             <p:spacer/><p:spacer/>
@@ -77,6 +76,8 @@
         </p:panelGrid>
 
         <p:commandButton value="Cadastrar" 
+                         actionListener="#{controllerAgenda.
+                                           verificarCadastrarNovaAgenda()}"
                          action="#{controllerFuncionario.cadastrar(
                                    builderFuncionario.build(), 
                                    confirmeSenha)}"

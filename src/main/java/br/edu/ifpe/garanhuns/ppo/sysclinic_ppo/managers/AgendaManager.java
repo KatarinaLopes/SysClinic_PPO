@@ -5,8 +5,11 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
+import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -14,14 +17,34 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
  */
 public class AgendaManager {
     
-    private DaoAgenda daoAgenda;
+    private final DaoAgenda daoAgenda;
+    private Agenda agenda;
+    private boolean primeiroAcesso;
+    
     
     public AgendaManager (DaoAgenda daoAgenda){
         this.daoAgenda = daoAgenda;
     }
+
+    public boolean isPrimeiroAcesso() {
+        primeiroAcesso = agenda == null;
+        return primeiroAcesso;
+    }
+
+    public void setPrimeiroAcesso(boolean primeiroAcesso) {
+        this.primeiroAcesso = primeiroAcesso;
+    }
     
     public void atualizar(){
-        daoAgenda.atualizar();
+        daoAgenda.atualizar(agenda);
+    }
+    
+    public void cadastrar(Agenda agenda){
+        daoAgenda.cadastrar(agenda);
+    }
+    
+    public Agenda recuperar(int id){
+        return daoAgenda.recuperar(id);
     }
     
     /**
@@ -35,5 +58,16 @@ public class AgendaManager {
                     + "recarregue a página e tente novamente");
         }
         
+        agenda.adicionarAgendamento(agendamento);
+    }
+    
+    public void verificarCadastrarNovaAgenda(){
+        Agenda agenda = recuperar(1);
+        System.out.println(agenda);
+        if(agenda == null){
+            System.out.println("verificar");
+            Agenda novaAgenda = new Agenda(new ArrayList<Agendamento>());
+            cadastrar(novaAgenda);
+        }
     }
 }

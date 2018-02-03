@@ -6,9 +6,12 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.AgendaManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
 import java.io.Serializable;
+import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -20,7 +23,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class ControllerAgenda implements Serializable{
+public class ControllerAgenda implements Serializable {
 
     private final AgendaManager agendaManager;
 
@@ -49,4 +52,11 @@ public class ControllerAgenda implements Serializable{
         return retorno;
     }
 
+    public boolean ehPrimeiroAcesso() {
+        return agendaManager.isPrimeiroAcesso();
+    }
+
+    public void verificarCadastrarNovaAgenda() {
+        agendaManager.verificarCadastrarNovaAgenda();
+    }
 }
