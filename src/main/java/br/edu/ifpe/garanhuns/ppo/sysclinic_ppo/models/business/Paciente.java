@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
  * @author Katarina
  */
 @Entity
-public class Paciente implements Serializable{
+public class Paciente implements Serializable, Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -217,5 +217,7 @@ public class Paciente implements Serializable{
         return true;
     }
 
-    
+    public Paciente retornarClone() throws CloneNotSupportedException{
+        return (Paciente) clone();
+    }
 }

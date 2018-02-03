@@ -164,4 +164,9 @@ public class PacienteManager implements Serializable{
     public void excluirMensagens(Mensagem mensagem, Paciente paciente){
         paciente.getFeed().excluirMensagem(mensagem);
     }
+    
+    public Paciente retornarClone(Paciente paciente) 
+            throws CloneNotSupportedException{
+        return paciente.retornarClone();
+    }
 }

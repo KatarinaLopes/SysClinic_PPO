@@ -49,6 +49,8 @@ public class ControllerPaciente implements
     private final LoginPaciente loginPaciente;
 
     private final PacienteManager pacienteManager;
+    
+    private Paciente pacienteClonado;
 
     public ControllerPaciente() {
         loginPaciente = new LoginPaciente((DaoPaciente) daoPacientes, 
@@ -72,6 +74,16 @@ public class ControllerPaciente implements
 
         s.setAttribute("pacienteSelecionado", this.pacienteSelecionado);
     }
+
+    public Paciente getPacienteClonado() {
+        return pacienteClonado;
+    }
+
+    public void setPacienteClonado(Paciente pacienteClonado) {
+        this.pacienteClonado = pacienteClonado;
+    }
+    
+    
 
     @Override
     @Deprecated
@@ -280,4 +292,7 @@ public class ControllerPaciente implements
         atualizar(retornarPacienteLogado());
     }
 
+    public void clonar(Paciente paciente) throws CloneNotSupportedException{
+        pacienteClonado = pacienteManager.retornarClone(paciente);
+    }
 }
