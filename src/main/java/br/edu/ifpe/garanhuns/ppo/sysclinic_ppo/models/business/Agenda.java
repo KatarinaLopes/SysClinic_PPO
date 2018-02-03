@@ -11,15 +11,23 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author Katarina
  */
-@Embeddable
+@Entity
 public class Agenda implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true)
@@ -28,8 +36,8 @@ public class Agenda implements Serializable {
     @Deprecated
     public Agenda() {
     }
-    
-    public Agenda(List<Agendamento> agendamentos){
+
+    public Agenda(List<Agendamento> agendamentos) {
         this.agendamentos = agendamentos;
     }
 
@@ -106,7 +114,7 @@ public class Agenda implements Serializable {
 
         return qtde < limite;
     }
-*/
+     */
     public void adicionarAgendamento(Agendamento a) {
 
         agendamentos.add(a);
@@ -136,16 +144,16 @@ public class Agenda implements Serializable {
 
         return agendamentosConcluidos;
     }
-    
-    public List<Agendamento> retornarAgendamentosNaoConcluidos(){
+
+    public List<Agendamento> retornarAgendamentosNaoConcluidos() {
         List<Agendamento> agendamentosNaoConcluidos = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(!agendamento.isRealizada()){
+            if (!agendamento.isRealizada()) {
                 agendamentosNaoConcluidos.add(agendamento);
             }
         }
-        
+
         return agendamentosNaoConcluidos;
     }
 
@@ -155,75 +163,74 @@ public class Agenda implements Serializable {
 
         for (Agendamento agendamento : agendamentos) {
             System.out.println(agendamento.getPeriodo());
-            if (agendamento.getPeriodo().equals(antigo) && 
-                    !agendamento.isRealizada()) {
+            if (agendamento.getPeriodo().equals(antigo)
+                    && !agendamento.isRealizada()) {
                 agendamento.setPeriodo(novo);
             }
         }
     }
-    
-    public List<Paciente> listarPacientesAgendados(){
+
+    public List<Paciente> listarPacientesAgendados() {
         List<Paciente> pacientesMarcados = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
             pacientesMarcados.add(agendamento.getPaciente());
         }
-        
+
         return pacientesMarcados;
     }
-    
-    public List<Agendamento> listarPacientesAgendados(Date 
-            horarioInicial){
+
+    public List<Agendamento> listarPacientesAgendados(Date horarioInicial) {
         List<Agendamento> pacientesAgendados = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.getPeriodo().equals(horarioInicial) && 
-                    !agendamento.isRealizada()){
-                
+            if (agendamento.getPeriodo().equals(horarioInicial)
+                    && !agendamento.isRealizada()) {
+
                 pacientesAgendados.add(agendamento);
             }
         }
-        
+
         return pacientesAgendados;
     }
 
     public List<Agendamento> retornarAgendamentosPendentesPacientes(
-            Paciente p){
+            Paciente p) {
         List<Agendamento> agendamentosPendentes = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(!agendamento.isRealizada() && agendamento.getPaciente().
-                    getId() == p.getId()){
+            if (!agendamento.isRealizada() && agendamento.getPaciente().
+                    getId() == p.getId()) {
                 agendamentosPendentes.add(agendamento);
             }
         }
-        
+
         return agendamentosPendentes;
     }
-    
-    public List<Agendamento> retornarAgendamentosPendentes(){
+
+    public List<Agendamento> retornarAgendamentosPendentes() {
         List<Agendamento> agendamentosPendentes = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(!agendamento.isRealizada()){
+            if (!agendamento.isRealizada()) {
                 agendamentosPendentes.add(agendamento);
             }
         }
-        
+
         return agendamentosPendentes;
     }
-    
-    public List<Agendamento> retornarAgendamentosDataAtual(){
+
+    public List<Agendamento> retornarAgendamentosDataAtual() {
         Date date = new Date();
-        
+
         List<Agendamento> agendamentosDataAtual = new ArrayList<>();
-        
+
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.getDataPrevista().equals(date)){
+            if (agendamento.getDataPrevista().equals(date)) {
                 agendamentosDataAtual.add(agendamento);
             }
         }
-        
+
         return agendamentosDataAtual;
     }
 }

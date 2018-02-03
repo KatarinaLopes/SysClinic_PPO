@@ -215,8 +215,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>, Serializable {
     @Override
     public Medico build() {
         return new Medico(id, matricula, dataAdmissao, nome, sexo, email,
-                telefone, conselho, especialidade, horarios, new Agenda(
-                        new ArrayList<Agendamento>()));
+                telefone, conselho, especialidade, horarios);
     }
 
 }

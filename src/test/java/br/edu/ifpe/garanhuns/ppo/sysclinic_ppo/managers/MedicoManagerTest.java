@@ -125,9 +125,9 @@ public class MedicoManagerTest {
                 mensagem);
     }
     
-    @Test
+    /*@Test
     public void deveTestarMarcarAgendamentoPassandoNoTeste() {
-        Medico medico = new Medico();
+        /*Medico medico = new Medico();
         medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
         Agendamento agendamento = new Agendamento();
         
@@ -137,11 +137,11 @@ public class MedicoManagerTest {
         
         int tamanhoAtual = medico.getAgenda().getAgendamentos().size();
         
-        assertEquals(tamnahoAnterior+1, tamanhoAtual);
+        assertEquals(tamnahoAnterior+1, tamanhoAtual);*/
         
     }
     
-    @Test
+    /*@Test
     public void deveTestarMarcarAgendamento10AgendamentosPassandoNoTeste(){
         Medico medico = new Medico();
         medico.setAgenda(new Agenda(new ArrayList<Agendamento>()));
@@ -400,5 +400,5 @@ public class MedicoManagerTest {
     @Test
     public void testMarcarAgendamento() {
     }
-    
-}
+    */
+

@@ -58,7 +58,7 @@ public class BuilderAgendamento {
     }
     
     public Agendamento build(){
-        return new Agendamento(0, dataPrevista, paciente, horarioPrevisto.
-                getHorarioInicial(), false);
+        return new Agendamento(0, dataPrevista, paciente, medico, 
+                horarioPrevisto.getHorarioInicial(), false);
     }
 }

@@ -99,7 +99,7 @@ public class MedicoManager {
                     + "inválidos, recarregue a página e tente novamente");
         }
         
-        medico.getAgenda().adicionarAgendamento(agendamento);
+        //medico.getAgenda().adicionarAgendamento(agendamento);
     }
 
     /**
@@ -135,8 +135,8 @@ public class MedicoManager {
         List<Medico> medicos = recuperarTodos();
 
         for (Medico medico : medicos) {
-            agendamentosConcluidos.addAll(medico.getAgenda().
-                    retornarAgendamentosConcluidosPacientes(paciente));
+            //agendamentosConcluidos.addAll(medico.getAgenda().
+              //      retornarAgendamentosConcluidosPacientes(paciente));
         }
 
         return agendamentosConcluidos;
@@ -151,8 +151,8 @@ public class MedicoManager {
         List<Medico> medicos = recuperarTodos();
 
         for (Medico medico : medicos) {
-            agendamentosConclidos.addAll(medico.getAgenda().
-                    retornarAgendamentosConcluidos());
+            //agendamentosConclidos.addAll(medico.getAgenda().
+              //      retornarAgendamentosConcluidos());
         }
 
         return agendamentosConclidos;

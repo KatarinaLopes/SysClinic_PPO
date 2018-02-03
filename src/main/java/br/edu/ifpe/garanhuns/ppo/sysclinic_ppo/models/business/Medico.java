@@ -58,9 +58,6 @@ public class Medico implements Serializable {
 
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //private List<Agendamento> agendamento;
-    
-    @Embedded
-    private Agenda agenda;
 
     @Deprecated
     public Medico() {
@@ -68,7 +65,7 @@ public class Medico implements Serializable {
 
     public Medico(int id, int matricula, Date dataAdmissao, String nome, 
             String sexo, String email, String telefone, String conselho, 
-            String especialidade, List<Horario> horarios, Agenda agenda) {
+            String especialidade, List<Horario> horarios) {
         this.id = id;
         this.matricula = matricula;
         this.dataAdmissao = dataAdmissao;
@@ -79,7 +76,6 @@ public class Medico implements Serializable {
         this.conselho = conselho;
         this.especialidade = especialidade;
         this.horarios = horarios;
-        this.agenda = agenda;
     }
 
     
@@ -162,14 +158,6 @@ public class Medico implements Serializable {
 
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
-    }
-
-    public Agenda getAgenda() {
-        return agenda;
-    }
-
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
     }
 
     @Override
@@ -338,6 +326,6 @@ public class Medico implements Serializable {
             }
         }
         
-        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
+        //agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
     }
 }

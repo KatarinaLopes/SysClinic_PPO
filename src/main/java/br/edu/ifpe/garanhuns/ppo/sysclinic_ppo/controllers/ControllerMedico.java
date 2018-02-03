@@ -164,13 +164,13 @@ public class ControllerMedico implements Serializable{
         return medicoManager.recuperarTodos();
    }
 
-    public String salvarAgendamento(Agendamento agendamento, Medico medico) {
+    /*public String salvarAgendamento(Agendamento agendamento, Medico medico) {
         medico.getAgenda().getAgendamentos().add(agendamento);
 
         atualizar(medico);
 
         return "/acoes/agendamentos_pendentes.xhtml?faces-redirect=true";
-    }
+    }*/
 
     /**
      * Adiciona ao atributo diasDisponiveis os dias da semana (representados por
@@ -224,7 +224,7 @@ public class ControllerMedico implements Serializable{
         }
         
         return agendamentosPendentes;
-    }*/
+    }
     
     public void excluirAgendamento(Agendamento a){
         
@@ -241,6 +241,6 @@ public class ControllerMedico implements Serializable{
     
     public List<Map.Entry<Agendamento,Medico>> retornarAgendamentosDataAtual(){
         return medicoManager.retornarAgendamentosDataAtual();
-    }
+    }*/
     
 }

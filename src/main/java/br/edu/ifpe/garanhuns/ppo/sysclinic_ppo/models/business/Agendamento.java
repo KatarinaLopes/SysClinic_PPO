@@ -33,6 +33,8 @@ public class Agendamento implements Serializable{
     private Date dataPrevista;
     @OneToOne
     private Paciente paciente;
+    @OneToOne
+    private Medico medico;
     @Temporal(TemporalType.TIME)
     private Date periodo;
     private boolean realizada = false;
@@ -42,10 +44,11 @@ public class Agendamento implements Serializable{
     }
 
     public Agendamento(int id, Date dataPrevista, Paciente paciente, 
-            Date periodo, boolean realizada) {
+            Medico medico, Date periodo, boolean realizada) {
         this.id = id;
         this.dataPrevista = dataPrevista;
         this.paciente = paciente;
+        this.medico = medico;
         this.periodo = periodo;
         this.realizada = realizada;
     }
@@ -86,6 +89,15 @@ public class Agendamento implements Serializable{
         this.realizada = realizada;
     }
 
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -121,8 +133,16 @@ public class Agendamento implements Serializable{
         if (!Objects.equals(this.paciente, other.paciente)) {
             return false;
         }
-        return Objects.equals(this.periodo, other.periodo);
+        if (!Objects.equals(this.medico, other.medico)) {
+            return false;
+        }
+        if (!Objects.equals(this.periodo, other.periodo)) {
+            return false;
+        }
+        return true;
     }
+
+    
  
     
 }

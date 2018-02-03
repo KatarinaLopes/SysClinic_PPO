@@ -62,7 +62,7 @@ public class AgendaTest {
         assertEquals(2, tamanho);
     }
 
-    @Test
+    /*@Test
     public void testRetornarAgendamentosConcluidos() {
         Agenda a = new Agenda(new ArrayList<Agendamento>());
         
@@ -246,5 +246,5 @@ public class AgendaTest {
         
         assertEquals(2, recuperados.size());
     }
-    
+*/    
 }

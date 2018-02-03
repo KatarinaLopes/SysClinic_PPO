@@ -116,36 +116,36 @@ public class PacienteManager implements Serializable {
     }
 
     public void inserirMensagemDeExclusaoParaTodosPacientes(Medico excluido) {
-        List<Agendamento> agendamentos = excluido.getAgenda().
-                getAgendamentos();
+        //List<Agendamento> agendamentos = excluido.getAgenda().
+          //      getAgendamentos();
 
         Paciente anterior = null;
         Paciente atual = null;
 
-        for (Agendamento agendamento : agendamentos) {
+        /*for (Agendamento agendamento : agendamentos) {
 
             atual = agendamento.getPaciente();
 
             atual.getFeed().incluirMensagensExclusaoDeAgendamento(excluido,
                     agendamento.getDataPrevista());
             atualizar(atual);
-        }
+        }*/
     }
 
     public void inserirMensagemDeAtualizacaoDeHorario(Medico medico,
             Date novoHorario) {
 
-        List<Agendamento> agendamentos = medico.getAgenda().
-                listarPacientesAgendados(novoHorario);
+        /*List<Agendamento> agendamentos = medico.getAgenda().
+          //      listarPacientesAgendados(novoHorario);
 
-        for (Agendamento agendamento : agendamentos) {
+        //for (Agendamento agendamento : agendamentos) {
 
             Paciente paciente = agendamento.getPaciente();
 
             paciente.getFeed().incluirMensagensAlteracaoDeHorario(agendamento.getDataPrevista(), novoHorario, medico);
             atualizar(paciente);
 
-        }
+        }*/
     }
 
     public List<Mensagem> exibirMensagens(Paciente paciente) {

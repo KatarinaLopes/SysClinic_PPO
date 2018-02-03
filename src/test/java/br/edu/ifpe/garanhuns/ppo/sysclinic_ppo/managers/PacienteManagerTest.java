@@ -129,7 +129,7 @@ public class PacienteManagerTest {
     public void testRecuperarTodos() {
     }
 
-    @Test
+    /*@Test
     public void devePassarInserirMensagemDeExclusaoNoFeed() {
         Paciente paciente1 = new Paciente();
         paciente1.setFeed(new Feed(new ArrayList<Mensagem>()));
@@ -162,7 +162,7 @@ public class PacienteManagerTest {
         assertEquals(tamanho1, tamanho2);
         assertEquals(tamanho1, 1);
         
-    }
+    }*/
 
     @Test
     public void testInserirMensagemDeAlteracaoDeHorarioNoFeed() {
