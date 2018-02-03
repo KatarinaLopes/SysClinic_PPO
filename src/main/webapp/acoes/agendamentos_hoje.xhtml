@@ -11,43 +11,44 @@
     <h:body>
         <h:form id="form-agendamentos-feitos">
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
-            
+
             <h1>Agendamentos para hoje</h1>
-        
-        <h:link value="Voltar à página principal" outcome="home_paciente.xhtml"/>
-            
+
+            <h:link value="Voltar à página principal" 
+                    outcome="home_paciente.xhtml"/>
+
             <h:link value="Fazer novo agendamento" 
                     outcome="novo_agendamento.xhtml"/>
-            
+
             <p:dataTable id="tabela_pendentes" paginator="true" 
                          value="#{controllerMedico.
-                                  retornarAgendamentosPendentes()}"
+                                  retornarAgendamentosDataAtual()}"
                          var="agendamento">
                 <p:column headerText="Id">
-                    <h:outputText value="#{agendamento.id}"/>
+                    <h:outputText value="#{agendamento.key.id}"/>
                 </p:column>
                 <p:column headerText="Paciente" 
-                          rendered="#{controllerPaciente.
-                                      pacienteLogado == null}">
-                    <h:outputText value="#{agendamento.paciente.nome} - 
-                                  #{agendamento.paciente.cpf}"/>
+                          rendered="#{!controllerPaciente.
+                                      existePacienteLogado()}">
+                    <h:outputText value="#{agendamento.key.paciente.nome} - 
+                                  #{agendamento.key.paciente.cpf}"/>
                 </p:column>
                 <p:column headerText="Médico">
-                    <h:outputText value="#{agendamento.medico.nome} - 
-                                  #{agendamento.medico.conselho}"/>
+                    <h:outputText value="#{agendamento.value.nome} - 
+                                  #{agendamento.value.conselho}"/>
                 </p:column>
                 <p:column headerText="Data para realização">
-                    <h:outputText value="#{agendamento.dataPrevista}"/>
+                    <h:outputText value="#{agendamento.key.dataPrevista}"/>
                 </p:column>
                 <p:column headerText="Operações">
                     <p:commandButton value="Alterar" 
-                                 oncomplete="PF('wid-dial-atualizar').show()">
+                                     oncomplete="PF('wid-dial-atualizar').show()">
                         <f:setPropertyActionListener
                             target="#{controllerMedico.agendamentoSelecionado}"
                             value="#{agendamento}"/>
                     </p:commandButton>
                     <p:commandButton value="Excluir" 
-                                  oncomplete="PF('wid-dial-excluir').show()"
+                                     oncomplete="PF('wid-dial-excluir').show()"
                                      update=
                                      ":form-visualizar-agendamentos-pendentes">
                         <f:setPropertyActionListener 
@@ -56,12 +57,12 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-            
+
             <p:dialog header="Confirmar exclusão de agendamento" modal="true"
-                             visible="false" widgetVar="wid-dial-excluir">
+                      visible="false" widgetVar="wid-dial-excluir">
                 <p:commandButton 
                     value="Sim" 
-                   action="#{controllerMedico.
+                    action="#{controllerMedico.
                               excluirAgendamento(controllerMedico.
                               agendamentoSelecionado)}"
                     oncomplete="PF('wid-dial-excluir').hide()"
@@ -90,11 +91,11 @@
                                         pacienteLogado == null}"
                             value="Selecionar"/>
                         <p:message for="idPaciente"/>
-                        
+
                         <h:outputText value="Médico"/>
                         <p:inputText id='idMedico' value="#{medico}"/>
                     </p:panelGrid>
-                    
+
                 </h:form>
             </p:dialog>
         </h:form>

@@ -16,7 +16,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * EN-US
@@ -155,5 +157,22 @@ public class MedicoManager {
 
         return agendamentosConclidos;
     }
+    
+    /*public List<Map.Entry<Agendamento, Medico>>
+        retornarAgendamentosDataAtual(){
+        
+        List<Medico> medicos = recuperarTodos();
+        List<Agendamento> agendamentos = new ArrayList<>();
+        HashMap<Agendamento, Medico> agendamentosPorMedico = 
+                new HashMap<>();
+        
+        for (Medico medico : medicos) {
+            for (Object object : medico.getAgenda().) {
+                
+            }
+            agendamentos = medico.getAgenda().retornarAgendamentosDataAtual();
+            agendamentosPorMedico.put(medico, agendamentos);
+        }
+    }*/
 
 }

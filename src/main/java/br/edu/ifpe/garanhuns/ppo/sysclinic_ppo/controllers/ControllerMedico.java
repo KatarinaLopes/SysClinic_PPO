@@ -16,7 +16,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -235,6 +237,10 @@ public class ControllerMedico implements Serializable{
         System.err.println("whg");
         
         atualizar(m);
+    }
+    
+    public List<Map.Entry<Agendamento,Medico>> retornarAgendamentosDataAtual(){
+        return medicoManager.retornarAgendamentosDataAtual();
     }
     
 }

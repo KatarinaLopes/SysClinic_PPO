@@ -212,4 +212,18 @@ public class Agenda implements Serializable {
         
         return agendamentosPendentes;
     }
+    
+    public List<Agendamento> retornarAgendamentosDataAtual(){
+        Date date = new Date();
+        
+        List<Agendamento> agendamentosDataAtual = new ArrayList<>();
+        
+        for (Agendamento agendamento : agendamentos) {
+            if(agendamento.getDataPrevista().equals(date)){
+                agendamentosDataAtual.add(agendamento);
+            }
+        }
+        
+        return agendamentosDataAtual;
+    }
 }

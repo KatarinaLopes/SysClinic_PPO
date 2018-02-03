@@ -14,6 +14,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.MedicoManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
