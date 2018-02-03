@@ -59,10 +59,7 @@ public class ControllerPaciente implements
     }
 
     public Paciente getPacienteSelecionado() {
-        HttpSession s = (HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true);
-
-        return (Paciente) s.getAttribute("pacienteSelecionado");
+        return this.pacienteSelecionado;
     }
 
     public void setPacienteSelecionado(Paciente pacienteSelecionado) {
@@ -314,6 +311,6 @@ public class ControllerPaciente implements
                     ex.getMessage());
         }
         
-        fc.addMessage(null, fm);
+        fc.addMessage(null,fm);
     }
 }

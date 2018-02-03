@@ -208,5 +208,19 @@ public class PacienteManagerTest {
     @Test
     public void testExcluirMensagens() {
     }
+
+    @Test
+    public void testVerificarCorrespondenciaSenha() {
+    }
+
+    @Test
+    public void devePassarAlterarSenha() throws Exception {
+        Paciente paciente = new Paciente();
+        paciente.setSenha("123");
+        
+        String senhaAntiga = "123";
+        String senhaNova = "124";
+        String confirmacao = "124";
+    }
     
 }

@@ -15,7 +15,7 @@
 
             <h:link value="Voltar à página principal" 
                     outcome="home_paciente.xhtml"/>
-            
+
             <p:panel visible="true" widgetVar="wid-panel-visualizar">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>
@@ -73,8 +73,8 @@
                                            setPacienteSelecionado
                                            (controllerPaciente.
                                            retornarPacienteLogado())}"
-                                 oncomplete="PF('wid-panel-alterar').show()"
-                                 update="dial-alterar-info"/>
+                                 update=":dial-alterar-info"
+                                 oncomplete="PF('wid-panel-alterar').show()"/>
             </p:panel>
             <p:panel>
                 <h3>Alteração de senha</h3>
@@ -154,32 +154,37 @@
                   header="Alterar sua senha" 
                   modal="true" responsive="true" visible="false" 
                   widgetVar="wid-dial-senha">
-            <h:form>
+            <h:form id="form-dial-alterar-senha">
+                
+                <p:poll>
+                <p:messages id="msgs"/>
+                </p:poll>
                 <p:panelGrid columns="3">
                     <h:outputText value="Senha antiga"/>
                     <p:inputText id="senhaAntiga" value="#{senhaAntiga}"
                                  required="true"
                                  requiredMessage="Campo obrigatório"/>
-                    <p:messages for="senhaAntiga"/>
+                    <p:message id="msg-antiga" for="senhaAntiga"/>
                     
                     <h:outputText value="Senha nova"/>
                     <p:inputText value="#{senhaNova}" id="senhaNova"
                                  required="true" 
                                  requiredMessage="Campo obrigatório"/>
-                    <p:messages for="senhaNova"/>
+                    <p:message for="senhaNova"/>
                     
                     <h:outputText value="Confirme a senha nova"/>
                     <p:inputText value="#{confirmacao}" 
                                  id="confirmacao" required="true"
                                  requiredMessage="Campo obrigatório"/>
-                    <p:messages for="confirmacao"/>
+                    <p:message for="confirmacao"/>
                 </p:panelGrid>
                 <p:commandButton value="Alterar" 
                                  action="#{controllerPaciente.
                                            alterarSenha(controllerPaciente.
                                            pacienteSelecionado, senhaAntiga, 
                                            senhaNova, confirmacao)}"
-                                 update="@form" ajax="false"
+                                 update="form-dial-alterar-senha
+                                 form-informacoes-pessoais"
                                  oncomplete="PF('wid-dial-senha').hide()"/>
             </h:form>
         </p:dialog>

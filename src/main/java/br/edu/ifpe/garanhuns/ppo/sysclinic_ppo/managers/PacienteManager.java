@@ -180,7 +180,7 @@ public class PacienteManager implements Serializable {
         
         String novaCriptografada = Operacoes.criptografarSenha(senhaNova);
         
-        paciente.setSenha(senhaNova);
+        paciente.setSenha(novaCriptografada);
         
     }
 }
