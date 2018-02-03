@@ -292,7 +292,28 @@ public class ControllerPaciente implements
         atualizar(retornarPacienteLogado());
     }
 
-    public void clonar(Paciente paciente) throws CloneNotSupportedException{
-        pacienteClonado = pacienteManager.retornarClone(paciente);
+    public void alterarSenha(Paciente paciente, String senhaAntiga, 
+            String senhaNova, String confirmacao){
+        
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        
+    
+        try {
+            pacienteManager.
+                    alterarSenha(paciente, senhaAntiga, senhaNova, 
+                            confirmacao);
+            pacienteManager.atualizar(paciente);
+            fm = new FacesMessage("Sucesso!", "A senha foi alterada com "
+                    + "sucesso!");
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    "Recarregue a página e tente novamente");
+        }catch(IllegalArgumentException ex){
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    ex.getMessage());
+        }
+        
+        fc.addMessage(null, fm);
     }
 }

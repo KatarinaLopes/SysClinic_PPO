@@ -217,7 +217,4 @@ public class Paciente implements Serializable, Cloneable{
         return true;
     }
 
-    public Paciente retornarClone() throws CloneNotSupportedException{
-        return (Paciente) clone();
-    }
-}
+ }

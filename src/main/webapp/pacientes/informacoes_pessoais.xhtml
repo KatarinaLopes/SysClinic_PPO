@@ -15,6 +15,7 @@
 
             <h:link value="Voltar à página principal" 
                     outcome="home_paciente.xhtml"/>
+            
             <p:panel visible="true" widgetVar="wid-panel-visualizar">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>
@@ -75,6 +76,20 @@
                                  oncomplete="PF('wid-panel-alterar').show()"
                                  update="dial-alterar-info"/>
             </p:panel>
+            <p:panel>
+                <h3>Alteração de senha</h3>
+                
+                <p>Se seu cadastro foi feito por terceiros, recomenda-se que 
+                você troque sua senha em seu primeiro acesso. Assim, evitará 
+                que outras pessoas tenham acesso às suas informações.</p>
+                
+                <p:commandButton value="Alterar a senha" 
+                                 action="#{controllerPaciente.
+                                           setPacienteSelecionado(
+                                           controllerPaciente.
+                                           retornarPacienteLogado())}"
+                                 oncomplete="PF('wid-dial-senha').show()"/>
+            </p:panel>
         </h:form>
         <p:dialog closable="true" dynamic="false" id="dial-alterar-info"
                   header="Alterar suas informações" visible="false" 
@@ -133,6 +148,39 @@
                                            pacienteSelecionado)}"
                                  update="@form" ajax="false"
                                  oncomplete="PF('wid-panel-alterar').hide()"/>
+            </h:form>
+        </p:dialog>
+        <p:dialog closable="true" dynamic="false" id="dial-senha"
+                  header="Alterar sua senha" 
+                  modal="true" responsive="true" visible="false" 
+                  widgetVar="wid-dial-senha">
+            <h:form>
+                <p:panelGrid columns="3">
+                    <h:outputText value="Senha antiga"/>
+                    <p:inputText id="senhaAntiga" value="#{senhaAntiga}"
+                                 required="true"
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:messages for="senhaAntiga"/>
+                    
+                    <h:outputText value="Senha nova"/>
+                    <p:inputText value="#{senhaNova}" id="senhaNova"
+                                 required="true" 
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:messages for="senhaNova"/>
+                    
+                    <h:outputText value="Confirme a senha nova"/>
+                    <p:inputText value="#{confirmacao}" 
+                                 id="confirmacao" required="true"
+                                 requiredMessage="Campo obrigatório"/>
+                    <p:messages for="confirmacao"/>
+                </p:panelGrid>
+                <p:commandButton value="Alterar" 
+                                 action="#{controllerPaciente.
+                                           alterarSenha(controllerPaciente.
+                                           pacienteSelecionado, senhaAntiga, 
+                                           senhaNova, confirmacao)}"
+                                 update="@form" ajax="false"
+                                 oncomplete="PF('wid-dial-senha').hide()"/>
             </h:form>
         </p:dialog>
     </h:body>
