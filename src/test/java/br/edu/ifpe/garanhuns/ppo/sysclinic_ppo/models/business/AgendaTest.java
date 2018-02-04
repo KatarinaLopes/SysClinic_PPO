@@ -23,6 +23,14 @@ import static org.mockito.Mockito.*;
  */
 public class AgendaTest {
     
+    Medico medico;
+    Medico medico2;
+    Agenda agenda;
+    Date data;
+    Date data2;
+    Date horario;
+    Date horario2;
+    
     public AgendaTest() {
     }
     
@@ -36,6 +44,74 @@ public class AgendaTest {
     
     @Before
     public void setUp() {
+        medico = new Medico();
+        medico.setMatricula(1231);
+        medico2 = new Medico();
+        medico2.setMatricula(1234);
+        Paciente paciente = new Paciente();
+        data = new Date();
+        data2 = new Date(300);
+        horario = new Date();
+        horario2 = new Date(300);
+        
+        agenda = new Agenda(new ArrayList<Agendamento>());
+        
+        Agendamento agendamentoDataHorarioNaoRealizada = new Agendamento(1, 
+                data, paciente, medico, horario, false);
+        Agendamento agendamentoDataHorario2NaoRealizada = new Agendamento(2, 
+                data, paciente, medico, horario2, false);
+        Agendamento agendamentoData2HorarioNaoRealizada = new Agendamento(3, 
+                data2, paciente, medico, horario, false);
+        Agendamento agendamentoData2Horario2NaoRealizada = new Agendamento(4, 
+                data2, paciente, medico, horario2, false);
+        Agendamento agendamentoDataHorarioRealizada = new Agendamento(5, 
+                data, paciente, medico, horario, true);
+        Agendamento agendamentoDataHorario2Realizada = new Agendamento(6, 
+                data, paciente, medico, horario2, true);
+        Agendamento agendamentoData2HorarioRealizada = new Agendamento(7, 
+                data2, paciente, medico, horario, true);
+        Agendamento agendamentoData2Horario2Realizada = new Agendamento(8, 
+                data2, paciente, medico, horario2, true);
+         Agendamento agendamentoDataHorarioNaoRealizadaMedico2 = 
+                new Agendamento(9, data, paciente, medico2, horario, false);
+        Agendamento agendamentoDataHorario2NaoRealizadaMedico2 = 
+                new Agendamento(10, 
+                data, paciente, medico, horario2, false);
+        Agendamento agendamentoData2HorarioNaoRealizadaMedico2 = 
+                new Agendamento(11, data2, paciente, medico2, horario, false);
+        Agendamento agendamentoData2Horario2NaoRealizadaMedico2 = 
+                new Agendamento(12, data2, paciente, medico2, horario2, false);
+        Agendamento agendamentoDataHorarioRealizadaMedico2= 
+                new Agendamento(13, data, paciente, medico2, horario, true);
+        Agendamento agendamentoDataHorario2RealizadaMedico2 = 
+                new Agendamento(14,data, paciente, medico2, horario2, true);
+        Agendamento agendamentoData2HorarioRealizadaMedico2 = 
+                new Agendamento(15, data2, paciente, medico2, horario, true);
+        Agendamento agendamentoData2Horario2RealizadaMedico2 = 
+                new Agendamento(16, data2, paciente, medico2, horario2, true);
+        
+        agenda.getAgendamentos().add(agendamentoDataHorarioNaoRealizada);
+        agenda.getAgendamentos().add(agendamentoDataHorario2NaoRealizada);
+        agenda.getAgendamentos().add(agendamentoData2HorarioNaoRealizada);
+        agenda.getAgendamentos().add(agendamentoData2Horario2NaoRealizada);
+        agenda.getAgendamentos().add(agendamentoDataHorarioRealizada);
+        agenda.getAgendamentos().add(agendamentoData2HorarioRealizada);
+        agenda.getAgendamentos().add(agendamentoData2HorarioRealizada);
+        agenda.getAgendamentos().add(agendamentoData2Horario2Realizada);
+        agenda.getAgendamentos().
+                add(agendamentoDataHorarioNaoRealizadaMedico2);
+        agenda.getAgendamentos().
+                add(agendamentoDataHorario2NaoRealizadaMedico2);
+        agenda.getAgendamentos().
+                add(agendamentoData2HorarioNaoRealizadaMedico2);
+        agenda.getAgendamentos().
+                add(agendamentoData2Horario2NaoRealizadaMedico2);
+        agenda.getAgendamentos().
+                add(agendamentoDataHorarioRealizadaMedico2);
+        agenda.getAgendamentos().add(agendamentoData2HorarioRealizadaMedico2);
+        agenda.getAgendamentos().add(agendamentoData2HorarioRealizadaMedico2);
+        agenda.getAgendamentos().
+                add(agendamentoData2Horario2RealizadaMedico2);
     }
     
     @After
@@ -257,81 +333,128 @@ public class AgendaTest {
 
     @Test
     public void testRetornarAgendamentos() {
-        Medico medico = new Medico();
-        medico.setMatricula(1231);
-        Medico medico2 = new Medico();
-        medico2.setMatricula(1234);
-        Paciente paciente = new Paciente();
-        Date data = new Date();
-        Date data2 = new Date(300);
-        Date horario = new Date();
-        Date horario2 = new Date(300);
         
-        System.out.println(medico.equals(medico2));
-        
-        Agenda agenda = new Agenda(new ArrayList<Agendamento>());
-        
-        Agendamento agendamentoDataHorarioNaoRealizada = new Agendamento(1, 
-                data, paciente, medico, horario, false);
-        Agendamento agendamentoDataHorario2NaoRealizada = new Agendamento(2, 
-                data, paciente, medico, horario2, false);
-        Agendamento agendamentoData2HorarioNaoRealizada = new Agendamento(3, 
-                data2, paciente, medico, horario, false);
-        Agendamento agendamentoData2Horario2NaoRealizada = new Agendamento(4, 
-                data2, paciente, medico, horario2, false);
-        Agendamento agendamentoDataHorarioRealizada = new Agendamento(5, 
-                data, paciente, medico, horario, true);
-        Agendamento agendamentoDataHorario2Realizada = new Agendamento(6, 
-                data, paciente, medico, horario2, true);
-        Agendamento agendamentoData2HorarioRealizada = new Agendamento(7, 
-                data2, paciente, medico, horario, true);
-        Agendamento agendamentoData2Horario2Realizada = new Agendamento(8, 
-                data2, paciente, medico, horario2, true);
-         Agendamento agendamentoDataHorarioNaoRealizadaMedico2 = 
-                new Agendamento(9, data, paciente, medico2, horario, false);
-        Agendamento agendamentoDataHorario2NaoRealizadaMedico2 = 
-                new Agendamento(10, 
-                data, paciente, medico, horario2, false);
-        Agendamento agendamentoData2HorarioNaoRealizadaMedico2 = 
-                new Agendamento(11, data2, paciente, medico2, horario, false);
-        Agendamento agendamentoData2Horario2NaoRealizadaMedico2 = 
-                new Agendamento(12, data2, paciente, medico2, horario2, false);
-        Agendamento agendamentoDataHorarioRealizadaMedico2= 
-                new Agendamento(13, data, paciente, medico2, horario, true);
-        Agendamento agendamentoDataHorario2RealizadaMedico2 = 
-                new Agendamento(14,data, paciente, medico2, horario2, true);
-        Agendamento agendamentoData2HorarioRealizadaMedico2 = 
-                new Agendamento(15, data2, paciente, medico2, horario, true);
-        Agendamento agendamentoData2Horario2RealizadaMedico2 = 
-                new Agendamento(16, data2, paciente, medico2, horario2, true);
-        
-        agenda.getAgendamentos().add(agendamentoDataHorarioNaoRealizada);
-        agenda.getAgendamentos().add(agendamentoDataHorario2NaoRealizada);
-        agenda.getAgendamentos().add(agendamentoData2HorarioNaoRealizada);
-        agenda.getAgendamentos().add(agendamentoData2Horario2NaoRealizada);
-        agenda.getAgendamentos().add(agendamentoDataHorarioRealizada);
-        agenda.getAgendamentos().add(agendamentoData2HorarioRealizada);
-        agenda.getAgendamentos().add(agendamentoData2HorarioRealizada);
-        agenda.getAgendamentos().add(agendamentoData2Horario2Realizada);
-        agenda.getAgendamentos().
-                add(agendamentoDataHorarioNaoRealizadaMedico2);
-        agenda.getAgendamentos().
-                add(agendamentoDataHorario2NaoRealizadaMedico2);
-        agenda.getAgendamentos().
-                add(agendamentoData2HorarioNaoRealizadaMedico2);
-        agenda.getAgendamentos().
-                add(agendamentoData2Horario2NaoRealizadaMedico2);
-        agenda.getAgendamentos().
-                add(agendamentoDataHorarioRealizadaMedico2);
-        agenda.getAgendamentos().add(agendamentoData2HorarioRealizadaMedico2);
-        agenda.getAgendamentos().add(agendamentoData2HorarioRealizadaMedico2);
-        agenda.getAgendamentos().
-                add(agendamentoData2Horario2RealizadaMedico2);
         
         List<Agendamento> retorno = agenda.
                 retornarAgendamentos(medico, data, horario);
         
         assertEquals(1, retorno.size());
         
+    }
+
+    @Test
+    public void devePassarAtualizarDataAgendamento() {
+        int idAgendamento1 = 1;
+        int idAgendamento2 = 2;
+        Date novaData = new Date(10);
+        Date novoPeriodo = new Date(10);
+        
+        agenda.atualizarDataAgendamento(idAgendamento1, novaData, novoPeriodo);
+        agenda.atualizarDataAgendamento(idAgendamento2, novaData, horario2);
+        
+        Agendamento agendamento1 = agenda.getAgendamentos().get(0);
+        Agendamento agendamento2 = agenda.getAgendamentos().get(1);
+        
+        assertEquals(idAgendamento1, agendamento1.getId());
+        assertEquals(idAgendamento2, agendamento2.getId());
+        
+        assertEquals(novaData, agendamento1.getDataPrevista());
+        assertEquals(novaData, agendamento2.getDataPrevista());
+        
+        assertEquals(novoPeriodo, agendamento1.getPeriodo());
+        assertEquals(horario2, agendamento2.getPeriodo());
+        
+    }
+    
+    @Test
+    public void deveLancarExcecaoIdInvalidoAtualizarDataAgendamento(){
+        int idAgendamento = 17;
+        Date novaData = new Date(10);
+        Date novoPeriodo = new Date(10);
+        String message = "";
+        
+        try{
+            agenda.atualizarDataAgendamento(idAgendamento, novaData, 
+                    novoPeriodo);
+            fail();
+        }catch(IllegalArgumentException ex){
+            message = ex.getMessage();
+        }
+        
+        assertEquals("Este agendamento não está cadastrado", message);
+    }
+    
+    @Test
+    public void deveLancarExcecaoId0AtualizarDataAgendamento(){
+        int idAgendamento = 0;
+        Date novaData = new Date(10);
+        Date novoPeriodo = new Date(10);
+        String message = "";
+        
+        try{
+            agenda.atualizarDataAgendamento(idAgendamento, novaData, 
+                    novoPeriodo);
+            fail();
+        }catch(IllegalArgumentException ex){
+            message = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento, data ou horário não podem estar vazios", 
+                message);
+    }
+    
+    @Test
+    public void deveLancarExcecaoDataNulaAtualizarDataAgendamento(){
+        int idAgendamento = 16;
+        Date novaData = null;
+        Date novoPeriodo = new Date(10);
+        String message = "";
+        
+        try{
+            agenda.atualizarDataAgendamento(idAgendamento, novaData, 
+                    novoPeriodo);
+            fail();
+        }catch(IllegalArgumentException ex){
+            message = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento, data ou horário não podem estar vazios", 
+                message);
+    }@Test
+    public void deveLancarExcecaoHorarioNuloAtualizarDataAgendamento(){
+        int idAgendamento = 16;
+        Date novaData = new Date(10);
+        Date novoPeriodo = null;
+        String message = "";
+        
+        try{
+            agenda.atualizarDataAgendamento(idAgendamento, novaData, 
+                    novoPeriodo);
+            fail();
+        }catch(IllegalArgumentException ex){
+            message = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento, data ou horário não podem estar vazios", 
+                message);
+    }
+    
+    @Test
+    public void deveLancarExcecaoId1NegativoAtualizarDataAgendamento(){
+        int idAgendamento = -1;
+        Date novaData = new Date(10);
+        Date novoPeriodo = new Date(10);
+        String message = "";
+        
+        try{
+            agenda.atualizarDataAgendamento(idAgendamento, novaData, 
+                    novoPeriodo);
+            fail();
+        }catch(IllegalArgumentException ex){
+            message = ex.getMessage();
+        }
+        
+        assertEquals("Agendamento, data ou horário não podem estar vazios", 
+                message);
     }
 }

@@ -213,4 +213,25 @@ public class Agenda implements Serializable {
 
         return agendamentosDataAtual;
     }
+    
+    public void atualizarDataAgendamento(int idAgendamento, Date novaData, 
+            Date novoHorario){
+        
+        if(idAgendamento <= 0 || novaData == null || novoHorario == null){
+            throw new IllegalArgumentException("Agendamento, data ou horário "
+                    + "não podem estar vazios");
+        }
+        
+        for (Agendamento agendamento1 : agendamentos) {
+            if(agendamento1.getId() == idAgendamento){
+                agendamento1.setDataPrevista(novaData);
+                agendamento1.setPeriodo(novoHorario);
+                
+                return;
+            }
+        }
+        
+        throw new IllegalArgumentException("Este agendamento não está "
+                + "cadastrado");
+    }
 }
