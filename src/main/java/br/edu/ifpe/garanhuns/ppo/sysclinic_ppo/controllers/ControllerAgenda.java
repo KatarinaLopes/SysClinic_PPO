@@ -20,6 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -32,6 +36,8 @@ public class ControllerAgenda implements Serializable {
     private final AgendaManager agendaManager;
 
     private Agendamento agendamentoSelecionado;
+    
+    private ScheduleEvent eventAgendamento = new DefaultScheduleEvent();
 
     public ControllerAgenda() {
         agendaManager = new AgendaManager(new DaoAgenda());
@@ -44,6 +50,16 @@ public class ControllerAgenda implements Serializable {
     public void setAgendamentoSelecionado(Agendamento agendamentoSelecionado) {
         this.agendamentoSelecionado = agendamentoSelecionado;
     }
+
+    public ScheduleEvent getEventAgendamento() {
+        return eventAgendamento;
+    }
+
+    public void setEventAgendamento(ScheduleEvent eventAgendamento) {
+        this.eventAgendamento = eventAgendamento;
+    }
+    
+    
 
     public String salvarAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -115,4 +131,12 @@ public class ControllerAgenda implements Serializable {
 
         fc.addMessage(null, fm);
     }
+    
+    public ScheduleModel retornarScheduleAgendamentos(int tipo, 
+            Paciente pacienteLogado){
+        return agendaManager.retornarScheduleAgendamentos(tipo, 
+                pacienteLogado);
+    }
+     
 }
+    

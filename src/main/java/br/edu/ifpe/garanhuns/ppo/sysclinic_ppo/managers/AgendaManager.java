@@ -17,19 +17,22 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
  * @author Katarina
  */
 public class AgendaManager {
-    
+
     private final DaoAgenda daoAgenda;
     private Agenda agenda;
     private boolean primeiroAcesso;
-    
-    
-    public AgendaManager (DaoAgenda daoAgenda){
+
+    public AgendaManager(DaoAgenda daoAgenda) {
         this.daoAgenda = daoAgenda;
         agenda = recuperar(1);
     }
@@ -42,103 +45,141 @@ public class AgendaManager {
     public void setPrimeiroAcesso(boolean primeiroAcesso) {
         this.primeiroAcesso = primeiroAcesso;
     }
-    
-    public void atualizar(){
+
+    public void atualizar() {
         daoAgenda.atualizar(agenda);
     }
-    
-    public void cadastrar(Agenda agenda){
+
+    public void cadastrar(Agenda agenda) {
         daoAgenda.cadastrar(agenda);
     }
-    
-    public Agenda recuperar(int id){
+
+    public Agenda recuperar(int id) {
         return daoAgenda.recuperar(id);
     }
-    
+
     /**
      *
-     * 
-     * @param agendamento 
+     *
+     * @param agendamento
      */
     public void marcarAgendamento(Agendamento agendamento) {
-        if(agendamento == null){
+        if (agendamento == null) {
             throw new IllegalArgumentException("Agendamento inválido, "
                     + "recarregue a página e tente novamente");
         }
-        
+
         agenda.adicionarAgendamento(agendamento);
     }
-    
-    public void verificarCadastrarNovaAgenda(){
+
+    public void verificarCadastrarNovaAgenda() {
         Agenda agenda = recuperar(1);
-        if(agenda == null){
+        if (agenda == null) {
             Agenda novaAgenda = new Agenda(new ArrayList<Agendamento>());
             cadastrar(novaAgenda);
         }
     }
-    
+
     /**
-     * 
+     *
      * @param paciente
-     * @return 
+     * @return
      */
     public List<Agendamento> retornarAgendamentosConcluidos(Paciente paciente) {
         List<Agendamento> agendamentosConcluidos = agenda.
                 retornarAgendamentosConcluidosPacientes(paciente);
-        
+
         return agendamentosConcluidos;
-    }    
-    
+    }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConclidos = agenda.
                 retornarAgendamentosConcluidos();
         return agendamentosConclidos;
     }
-    
-    public List<Agendamento> alternarRetornarAgendamentosConcluidos(Paciente 
-            pacienteLogado) {
-        if(pacienteLogado != null){
+
+    public List<Agendamento> alternarRetornarAgendamentosConcluidos(Paciente pacienteLogado) {
+        if (pacienteLogado != null) {
             return retornarAgendamentosConcluidos(pacienteLogado);
         }
-        
+
         return retornarAgendamentosConcluidos();
     }
-    
-    public List<Agendamento> retornarAgendamentosPendentes(){
+
+    public List<Agendamento> retornarAgendamentosPendentes() {
         return agenda.retornarAgendamentosPendentes();
     }
-    
-    public List<Agendamento> retornarAgendamentosPendentes(Paciente p){
+
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente p) {
         return agenda.retornarAgendamentosPendentesPacientes(p);
     }
-    
-    public String excluirAgendamento(Agendamento a){
+
+    public List<Agendamento> alternarAgendamentosPendentes(Paciente pacienteLogado) {
+        if (pacienteLogado == null) {
+            return retornarAgendamentosPendentes();
+        }
+
+        return retornarAgendamentosPendentes(pacienteLogado);
+    }
+
+    public String excluirAgendamento(Agendamento a) {
         boolean removeu = agenda.excluirAgendamento(a);
         String mensagem;
-        
-        
-        if(removeu){
+
+        if (removeu) {
             atualizar();
             mensagem = "Agendamento removido com sucesso!";
-        }else{
+        } else {
             mensagem = "Falha ao tentar remover agendamento. "
                     + "Recarregue a página e tente novamente.";
         }
-        
+
         return mensagem;
     }
-    
-    public List<Agendamento> retornarAgendamentosDataAtual(){
+
+    public List<Agendamento> retornarAgendamentosDataAtual() {
         return agenda.retornarAgendamentosDataAtual();
     }
-    
-    public void atualizarHorariosAgendamentos(Date horarioNovo, 
-            Date horarioAntigo, Medico medico){
-        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo, 
+
+    public void atualizarHorariosAgendamentos(Date horarioNovo,
+            Date horarioAntigo, Medico medico) {
+        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo,
                 medico);
+    }
+
+    public ScheduleModel retornarScheduleAgendamentos(int tipo,
+            Paciente paciente) {
+        List<Agendamento> lista = alternarAgendamentosPendentes(paciente);
+        /*switch (tipo) {
+            case 1:
+                lista = alternarRetornarAgendamentosConcluidos(paciente);
+                break;
+            case 2:
+                lista = alternarAgendamentosPendentes(paciente);
+                break;
+            case 3:
+                lista = retornarAgendamentosDataAtual();
+                break;
+        }*/
+        
+        return comporSchedule(lista);
+    }
+
+    public ScheduleModel comporSchedule(List<Agendamento> agendamentos) {
+        ScheduleModel schedule = new DefaultScheduleModel();
+
+        for (Agendamento agendamento : agendamentos) {
+            String title = agendamento.getMedico().getNome() + " - "
+                    + agendamento.getMedico().getMatricula();
+            schedule.addEvent(new DefaultScheduleEvent(title, agendamento.
+                    getDataPrevista(), agendamento.getDataPrevista(), 
+                    agendamento));
+        }
+
+        return schedule;
     }
 }
