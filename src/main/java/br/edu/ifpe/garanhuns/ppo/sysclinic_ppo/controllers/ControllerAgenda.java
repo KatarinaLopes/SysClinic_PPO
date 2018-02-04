@@ -30,10 +30,21 @@ import javax.faces.context.FacesContext;
 public class ControllerAgenda implements Serializable {
 
     private final AgendaManager agendaManager;
+    
+    private Agendamento agendamentoSelecionado;
 
     public ControllerAgenda() {
         agendaManager = new AgendaManager(new DaoAgenda());
     }
+
+    public Agendamento getAgendamentoSelecionado() {
+        return agendamentoSelecionado;
+    }
+
+    public void setAgendamentoSelecionado(Agendamento agendamentoSelecionado) {
+        this.agendamentoSelecionado = agendamentoSelecionado;
+    }
+    
 
     public String salvarAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -101,6 +112,8 @@ public class ControllerAgenda implements Serializable {
         
         agendaManager.atualizarHorariosAgendamentos(horarioAntigo, 
                 horarioNovo, medico);
+        agendaManager.atualizar();
+        
         fm = new FacesMessage("Sucesso!", 
                 "Os horarios dos agendamentos foram alteradas com sucesso!");
         

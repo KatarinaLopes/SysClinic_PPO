@@ -21,30 +21,30 @@
                     outcome="novo_agendamento.xhtml"/>
 
             <p:dataTable id="tabela_pendentes" paginator="true" 
-                         value="#{controllerMedico.
+                         value="#{controllerAgenda.
                                   retornarAgendamentosDataAtual()}"
                          var="agendamento">
                 <p:column headerText="Id">
-                    <h:outputText value="#{agendamento.key.id}"/>
+                    <h:outputText value="#{agendamento.id}"/>
                 </p:column>
                 <p:column headerText="Paciente" 
                           rendered="#{!controllerPaciente.
                                       existePacienteLogado()}">
-                    <h:outputText value="#{agendamento.key.paciente.nome} - 
-                                  #{agendamento.key.paciente.cpf}"/>
+                    <h:outputText value="#{agendamento.paciente.nome} - 
+                                  #{agendamento.paciente.cpf}"/>
                 </p:column>
                 <p:column headerText="Médico">
-                    <h:outputText value="#{agendamento.value.nome} - 
-                                  #{agendamento.value.conselho}"/>
+                    <h:outputText value="#{agendamento.medico.nome} - 
+                                  #{agendamento.medico.conselho}"/>
                 </p:column>
                 <p:column headerText="Data para realização">
-                    <h:outputText value="#{agendamento.key.dataPrevista}"/>
+                    <h:outputText value="#{agendamento.dataPrevista}"/>
                 </p:column>
                 <p:column headerText="Operações">
                     <p:commandButton value="Alterar" 
                                      oncomplete="PF('wid-dial-atualizar').show()">
                         <f:setPropertyActionListener
-                            target="#{controllerMedico.agendamentoSelecionado}"
+                            target="#{controllerAgenda.agendamentoSelecionado}"
                             value="#{agendamento}"/>
                     </p:commandButton>
                     <p:commandButton value="Excluir" 
@@ -52,7 +52,7 @@
                                      update=
                                      ":form-visualizar-agendamentos-pendentes">
                         <f:setPropertyActionListener 
-                            target="#{controllerMedico.agendamentoSelecionado}"
+                            target="#{controllerAgenda.agendamentoSelecionado}"
                             value="#{agendamento}"/>
                     </p:commandButton>
                 </p:column>
@@ -62,8 +62,8 @@
                       visible="false" widgetVar="wid-dial-excluir">
                 <p:commandButton 
                     value="Sim" 
-                    action="#{controllerMedico.
-                              excluirAgendamento(controllerMedico.
+                    action="#{controllerAgenda.
+                              excluirAgendamento(controllerAgenda.
                               agendamentoSelecionado)}"
                     oncomplete="PF('wid-dial-excluir').hide()"
                     update="@all"/>
@@ -78,17 +78,17 @@
                 <h:form id="form-atualizar">
                     <p:panelGrid columns="4">
                         <h:outputText 
-                            rendered="#{controllerPaciente.
-                                        pacienteLogado == null}"
+                            rendered="#{!controllerPaciente.
+                                        existePacienteLogado()}"
                             value="Paciente"/>
                         <p:inputText 
                             id='idPaciente'
-                            rendered="#{controllerPaciente.
-                                        pacienteLogado == null}"
+                            rendered="#{!controllerPaciente.
+                                        existePacienteLogado()}"
                             value="#{idPaciente}"/>
                         <p:commandButton 
-                            rendered="#{controllerPaciente.
-                                        pacienteLogado == null}"
+                            rendered="#{!controllerPaciente.
+                                        existePacienteLogado()}"
                             value="Selecionar"/>
                         <p:message for="idPaciente"/>
 

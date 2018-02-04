@@ -30,7 +30,7 @@
             </p:panelGrid>
             <p:dataTable id="tabela_concluidos" paginator="true" 
 
-                         value="#{controllerMedico.
+                         value="#{controllerAgenda.
                                   retornarAgendamentosConcluidos()}"
                          var="agendamento">
                 <p:column headerText="Id">
@@ -52,7 +52,7 @@
                                      update=
                                      "form-visualizar-agentamentos-concluidos">
                         <f:setPropertyActionListener 
-                            target="#{controllerMedico.agendamentoSelecionado}"
+                            target="#{controllerAgenda.agendamentoSelecionado}"
                             value="#{agendamento}"/>
                     </p:commandButton>
                 </p:column>
@@ -65,14 +65,14 @@
             <h:form id="form">
                 <p:panelGrid columns="2">
                     <h:outputText value="Id"/>
-                    <h:outputText value="#{controllerMedico.
+                    <h:outputText value="#{controllerAgenda.
                                            agendamentoSelecionado.id}"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               existeLogadoNaoAdministrador()}"
                                   value="Nome do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               existeLogadoNaoAdministrador()}"
-                                  value="#{controllerMedico.
+                                  value="#{controllerAgenda.
                                            agendamentoSelecionado.paciente.
                                            nome}"/>
                     <h:outputText rendered="#{controllerFuncionario.
@@ -80,7 +80,7 @@
                                   value="Número de registro do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               existeLogadoNaoAdministrador()}" 
-                                  value="#{controllerMedico.
+                                  value="#{controllerAgenda.
                                            agendamentoSelecionado.paciente.
                                            id}"/>
                     <h:outputText rendered="#{controllerFuncionario.
@@ -88,23 +88,23 @@
                                   value="CPF do paciente"/>
                     <h:outputText rendered="#{controllerFuncionario.
                                               existeLogadoNaoAdministrador()}"
-                                  value="#{controllerMedico.
+                                  value="#{controllerAgenda.
                                            agendamentoSelecionado.paciente.
                                            cpf}"/>
                     <h:outputText value="Nome do médico"/>
-                    <h:outputText value="#{controllerMedico.
+                    <h:outputText value="#{controllerAgenda.
                                            agendamentoSelecionado.medico.
                                            nome}"/>
                     <h:outputText value="Conselho"/>
-                    <h:outputText value="#{controllerMedico.
+                    <h:outputText value="#{controllerAgenda.
                                            agendamentoSelecionado.medico.
                                            conselho}"/>
                     <h:outputText value="Data de realização"/>
-                    <h:outputText value="#{controllerMedico.
+                    <h:outputText value="#{controllerAgenda.
                                            agendamentoSelecionado.
                                            dataPrevista}"/>
                     <h:outputText value="Horário de início"/>
-                    <h:outputText value="#{controllerMedico.
+                    <h:outputText value="#{controllerAgenda.
                                            agendamentoSelecionado.periodo}"/>
                 </p:panelGrid>
                 <p:commandButton value="Fechar" 
