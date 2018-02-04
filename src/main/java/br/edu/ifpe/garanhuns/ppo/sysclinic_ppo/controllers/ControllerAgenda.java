@@ -138,5 +138,9 @@ public class ControllerAgenda implements Serializable {
                 pacienteLogado);
     }
      
+    public void atualizarStatusAgendamento(Agendamento agendamento, 
+            boolean concluido){
+        //agendaManager.atualizarStatusAgendamento(agendamento, concluido);
+    }
 }
     
