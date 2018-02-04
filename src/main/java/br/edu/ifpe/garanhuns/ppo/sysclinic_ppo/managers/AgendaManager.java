@@ -24,6 +24,7 @@ public class AgendaManager {
     
     public AgendaManager (DaoAgenda daoAgenda){
         this.daoAgenda = daoAgenda;
+        agenda = recuperar(1);
     }
 
     public boolean isPrimeiroAcesso() {
