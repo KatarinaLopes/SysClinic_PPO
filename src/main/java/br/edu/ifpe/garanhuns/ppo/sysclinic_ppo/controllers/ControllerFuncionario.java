@@ -97,8 +97,8 @@ public class ControllerFuncionario implements
             fm = new FacesMessage("Sucesso!", "O funcionário foi cadastrado "
                     + "com sucesso!");
             
-            retorno = "/administrador/apresentar_funcionarios.xhtml?faces-"
-                    + "redirect=true";
+            retorno = "/administrador/apresentar_funcionarios.xhtml?"
+                    + "faces-redirect=true";
             
         } catch(IllegalArgumentException ex){
             
@@ -246,9 +246,11 @@ public class ControllerFuncionario implements
      */
     private String pegarPaginaDeRedirecionamento() {
         if (loginFuncionario.existeLogadoAdministrador()) {
-            return "/administrador/home_admin.xhtml?faces-redirect=true";
+            return "/administrador/home_admin.xhtml?"
+                    + "faces-redirect=true";
         } else {
-            return "/funcionarios/home_funcionario.xhtml?faces-redirect=true";
+            return "/funcionarios/home_funcionario.xhtml?"
+                    + "faces-redirect=true";
         }
     }
     
@@ -307,7 +309,8 @@ public class ControllerFuncionario implements
             loginFuncionario.logout(fc);
             fm = new FacesMessage("Sucesso!", 
                     "Você saiu com sucesso da aplicação!");
-            retorno = "/login/login_intranet.xhtml?faces-redirect=true";
+            retorno = "/login/login_intranet.xhtml?"
+                    + "faces-redirect=true";
         } catch (InternalException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
                     ex.getMessage());

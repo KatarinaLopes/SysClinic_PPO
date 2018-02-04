@@ -27,7 +27,7 @@ public class AgendaManager {
     }
 
     public boolean isPrimeiroAcesso() {
-        primeiroAcesso = agenda == null;
+        primeiroAcesso = recuperar(1) == null;
         return primeiroAcesso;
     }
 
@@ -63,9 +63,7 @@ public class AgendaManager {
     
     public void verificarCadastrarNovaAgenda(){
         Agenda agenda = recuperar(1);
-        System.out.println(agenda);
         if(agenda == null){
-            System.out.println("verificar");
             Agenda novaAgenda = new Agenda(new ArrayList<Agendamento>());
             cadastrar(novaAgenda);
         }

@@ -13,6 +13,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
+import java.io.Serializable;
 import javax.faces.context.FacesContext;
 
 /**
@@ -24,7 +25,7 @@ import javax.faces.context.FacesContext;
  *
  * @author Katarina
  */
-public class LoginPaciente {
+public class LoginPaciente implements Serializable{
 
     private Paciente pacienteLogado;
     private final DaoGenerico daoPacientes;

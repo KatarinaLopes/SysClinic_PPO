@@ -114,7 +114,8 @@ public class ControllerPaciente implements
             fm = new FacesMessage("Sucesso", 
                     "O cadastro foi efetuado com sucesso");
             
-            retorno = "/acoes/novo_agendamento.xhtml?faces-redirect=true";
+            retorno = "/acoes/novo_agendamento.xhtml?"
+                    + "faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     ex.getMessage());
@@ -192,7 +193,8 @@ public class ControllerPaciente implements
             String senhaCriptografada = Operacoes.
                     criptografarSenha(senhaConfirmacao);
             loginPaciente.login(login, senhaCriptografada, fc);
-            retorno = "/pacientes/home_paciente.xhtml?faces-redirect=true";
+            retorno = "/pacientes/home_paciente.xhtml?"
+                    + "faces-redirect=true";
         } catch (DaoException | IllegalArgumentException | 
                 InternalException ex) {
             detail = ex.getMessage();
@@ -250,7 +252,8 @@ public class ControllerPaciente implements
             loginPaciente.logout(FacesContext.getCurrentInstance());
             fm = new FacesMessage("Sucesso!", 
                     "Você saiu com sucesso da aplicação!");
-            retorno = "/login/login_paciente.xhtml?faces-redirect=true";
+            retorno = "/login/login_paciente.xhtml?"
+                    + "faces-redirect=true";
         } catch (InternalException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
                     ex.getMessage());
