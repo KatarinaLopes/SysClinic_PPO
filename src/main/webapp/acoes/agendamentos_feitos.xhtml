@@ -9,110 +9,22 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form id="form-visualizar-agentamentos-concluidos">
+        <f:metadata>
+            <f:viewAction 
+                action="#{beanPaginas.setPaginaAtual(beanPaginas.
+                          concluidosTabela)}"/>
+        </f:metadata>
+        
+        <h:form>
 
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
 
             <h1>Agendamentos feitos</h1>
 
-            <p:panelGrid columns="2">
-                <h:link rendered="#{controllerPaciente.existePacienteLogado()}" 
-                        value="Voltar à página principal" 
-                        outcome="/pacientes/home_paciente.xhtml"/>
-                <h:link 
-                    rendered="#{controllerFuncionario.
-                                existeLogadoNaoAdministrador()}" 
-                    value="Voltar à página principal"
-                    outcome="/funcionarios/home_funcionario.xhtml"/>
-                <h:link value="Fazer novo agendamento" 
-                        outcome="novo_agendamento.xhtml"/>
-            </p:panelGrid>
-            <p:dataTable id="tabela_concluidos" paginator="true" 
-
-                         value="#{controllerAgenda.
-                                  retornarAgendamentosConcluidos(
-                                  controllerPaciente.
-                                  retornarPacienteLogado())}"
-                         var="agendamento">
-                <p:column headerText="Id">
-                    <h:outputText value="#{agendamento.id}"/>
-                </p:column>
-                <p:column rendered="#{controllerFuncionario.
-                                      existeLogadoNaoAdministrador()}"
-                          headerText="Paciente">
-                    <h:outputText 
-                        value="#{agendamento.paciente.nome} - 
-                        #{agendamento.paciente.cpf}"/>
-                </p:column>
-                <p:column headerText="Data de realização">
-                    <h:outputText value="#{agendamento.dataPrevista}"/>
-                </p:column>
-                <p:column headerText="Operações">
-                    <p:commandButton value="Visualizar" 
-                                     oncomplete="PF('wid-dial-feitos').show()"
-                                     update=
-                                     "form-visualizar-agentamentos-concluidos">
-                        <f:setPropertyActionListener 
-                            target="#{controllerAgenda.agendamentoSelecionado}"
-                            value="#{agendamento}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>                        
         </h:form>
-
-        <p:dialog closable="true" dynamic="true" id="dial-feitos" modal="true"
-                  visible="false"
-                  widgetVar="wid-dial-feitos">
-            <h:form id="form">
-                <p:panelGrid columns="2">
-                    <h:outputText value="Id"/>
-                    <h:outputText value="#{controllerAgenda.
-                                           agendamentoSelecionado.id}"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}"
-                                  value="Nome do paciente"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}"
-                                  value="#{controllerAgenda.
-                                           agendamentoSelecionado.paciente.
-                                           nome}"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}"
-                                  value="Número de registro do paciente"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}" 
-                                  value="#{controllerAgenda.
-                                           agendamentoSelecionado.paciente.
-                                           id}"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}"
-                                  value="CPF do paciente"/>
-                    <h:outputText rendered="#{controllerFuncionario.
-                                              existeLogadoNaoAdministrador()}"
-                                  value="#{controllerAgenda.
-                                           agendamentoSelecionado.paciente.
-                                           cpf}"/>
-                    <h:outputText value="Nome do médico"/>
-                    <h:outputText value="#{controllerAgenda.
-                                           agendamentoSelecionado.medico.
-                                           nome}"/>
-                    <h:outputText value="Conselho"/>
-                    <h:outputText value="#{controllerAgenda.
-                                           agendamentoSelecionado.medico.
-                                           conselho}"/>
-                    <h:outputText value="Data de realização"/>
-                    <h:outputText value="#{controllerAgenda.
-                                           agendamentoSelecionado.
-                                           dataPrevista}"/>
-                    <h:outputText value="Horário de início"/>
-                    <h:outputText value="#{controllerAgenda.
-                                           agendamentoSelecionado.periodo}"/>
-                </p:panelGrid>
-                <p:commandButton value="Fechar" 
-                                 oncomplete="PF(1wid-dial-feitos).hide()"/>
-            </h:form>
-        </p:dialog>
+        
+        <ui:include src="#{beanPaginas.paginaAtual}"/>
     </h:body>   
 </html>
 

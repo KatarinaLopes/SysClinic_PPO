@@ -21,15 +21,23 @@ public class BeanPaginas implements Serializable{
     private String pendenteTabela = 
             "/restricted/acoes/include_pendentes_tabela.xhtml";
 
-    private String pendenteSchedule = 
+    private final String pendenteSchedule = 
             "/restricted/acoes/include_pendente_schedule.xhtml";
     
-    private String hojeTabela = "/restricted/acoes/include_hoje_tabela.xhtml";
+    private final String hojeTabela = 
+            "/restricted/acoes/include_hoje_tabela.xhtml";
     
-    private String hojeSchedule = 
+    private final String hojeSchedule = 
             "/restricted/acoes/include_hoje_schedule.xhtml";
     
+    private final String concluidosTabela = 
+            "/restricted/acoes/include_concluidos_tabela.xhtml";
+    
+    private final String concluidosSchedule = 
+            "/restricted/acoes/include_concluidos_schedule.xhtml";
+    
     private String paginaAtual = "";
+    
     
     public String getPendenteTabela() {
         return pendenteTabela;
@@ -58,6 +66,14 @@ public class BeanPaginas implements Serializable{
 
     public String getHojeSchedule() {
         return hojeSchedule;
+    }
+
+    public String getConcluidosTabela() {
+        return concluidosTabela;
+    }
+
+    public String getConcluidosSchedule() {
+        return concluidosSchedule;
     }
     
     

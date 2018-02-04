@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="form-visualizar-agentamentos-concluidos">
+        
+        <p:commandButton 
+            action="#{beanPaginas.
+                      setPaginaAtual(beanPaginas.concluidosSchedule)}" 
+            ajax="false" update="@form" value="Visualizar como calendário"/>
+        
+        <p:panelGrid columns="2">
+            <h:link rendered="#{controllerPaciente.existePacienteLogado()}" 
+                    value="Voltar à página principal" 
+                    outcome="/pacientes/home_paciente.xhtml"/>
+            <h:link 
+                rendered="#{controllerFuncionario.
+                            existeLogadoNaoAdministrador()}" 
+                value="Voltar à página principal"
+                outcome="/funcionarios/home_funcionario.xhtml"/>
+            <h:link value="Fazer novo agendamento" 
+                    outcome="novo_agendamento.xhtml"/>
+        </p:panelGrid>
+        <p:dataTable id="tabela_concluidos" paginator="true" 
+
+                     value="#{controllerAgenda.
+                              retornarAgendamentosConcluidos(
+                              controllerPaciente.
+                              retornarPacienteLogado())}"
+                     var="agendamento">
+            <p:column headerText="Id">
+                <h:outputText value="#{agendamento.id}"/>
+            </p:column>
+            <p:column rendered="#{controllerFuncionario.
+                                  existeLogadoNaoAdministrador()}"
+                      headerText="Paciente">
+                <h:outputText 
+                    value="#{agendamento.paciente.nome} - 
+                    #{agendamento.paciente.cpf}"/>
+            </p:column>
+            <p:column headerText="Data de realização">
+                <h:outputText value="#{agendamento.dataPrevista}"/>
+            </p:column>
+            <p:column headerText="Horário de realização">
+                <h:outputText value="#{agendamento.periodo}"/>
+            </p:column>
+        </p:dataTable>                        
+    </h:form>
+
+</ui:composition>
+
