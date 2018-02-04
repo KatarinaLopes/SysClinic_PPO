@@ -102,7 +102,8 @@ public class AgendaManager {
         return agendamentosConclidos;
     }
 
-    public List<Agendamento> alternarRetornarAgendamentosConcluidos(Paciente pacienteLogado) {
+    public List<Agendamento> alternarRetornarAgendamentosConcluidos(Paciente 
+            pacienteLogado) {
         if (pacienteLogado != null) {
             return retornarAgendamentosConcluidos(pacienteLogado);
         }
@@ -118,7 +119,8 @@ public class AgendaManager {
         return agenda.retornarAgendamentosPendentesPacientes(p);
     }
 
-    public List<Agendamento> alternarAgendamentosPendentes(Paciente pacienteLogado) {
+    public List<Agendamento> alternarAgendamentosPendentes(Paciente 
+            pacienteLogado) {
         if (pacienteLogado == null) {
             return retornarAgendamentosPendentes();
         }
@@ -153,8 +155,8 @@ public class AgendaManager {
 
     public ScheduleModel retornarScheduleAgendamentos(int tipo,
             Paciente paciente) {
-        List<Agendamento> lista = alternarAgendamentosPendentes(paciente);
-        /*switch (tipo) {
+        List<Agendamento> lista = new ArrayList<>();
+        switch (tipo) {
             case 1:
                 lista = alternarRetornarAgendamentosConcluidos(paciente);
                 break;
@@ -164,7 +166,7 @@ public class AgendaManager {
             case 3:
                 lista = retornarAgendamentosDataAtual();
                 break;
-        }*/
+        }
         
         return comporSchedule(lista);
     }
@@ -182,5 +184,8 @@ public class AgendaManager {
 
         return schedule;
     }
-    
+ 
+    public void atualizarStatusAgendamento(Agendamento agendamento){
+        agendamento.setRealizada(!agendamento.isRealizada());
+    }
 }

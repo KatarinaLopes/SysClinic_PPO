@@ -209,7 +209,7 @@ public class BuilderMedico implements BuilderGenerico<Medico>, Serializable {
         diasDaSemana.put("Quinta-feira", 4);
         diasDaSemana.put("Sexta-feira", 5);
         diasDaSemana.put("Sábado", 6);
-        diasDaSemana.put("Domingo", 7);
+        diasDaSemana.put("Domingo", 0);
     }
 
     @Override

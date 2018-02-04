@@ -6,11 +6,11 @@
                 xmlns:p="http://primefaces.org/ui">
     <h:form id="form-hoje-schedule">
         <p:commandButton 
-            action="#{beanPaginas.setPaginaAtual(beanPaginas.pendenteTabela)}"
+            action="#{beanPaginas.setPaginaAtual(beanPaginas.hojeTabela)}"
             ajax="false" update="@form" value="Visualizar como tabela"/>
 
         <p:schedule displayEventEnd="false" id="schedule" allDaySlot="false"
-                    value="#{controllerAgenda.retornarScheduleAgendamentos(2, 
+                    value="#{controllerAgenda.retornarScheduleAgendamentos(3, 
                              controllerPaciente.retornarPacienteLogado())}">
         </p:schedule>
     </h:form>

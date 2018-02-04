@@ -133,9 +133,16 @@ public class ControllerAgenda implements Serializable {
                 pacienteLogado);
     }
      
-    public void atualizarStatusAgendamento(Agendamento agendamento, 
-            boolean concluido){
-        //agendaManager.atualizarStatusAgendamento(agendamento, concluido);
+    public void atualizarStatusAgendamento(Agendamento agendamento){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        
+        agendaManager.atualizarStatusAgendamento(agendamento);
+        agendaManager.atualizar();
+        fm = new FacesMessage("Sucesso!", 
+                "O status do agendamento foi alterado com sucesso.");
+        
+        fc.addMessage(null, fm);
     }
 }
     

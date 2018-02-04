@@ -7,12 +7,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>SysClinic - </title>
+        <f:metadata>
+            <f:viewAction action="#{beanPaginas.setPaginaAtual(beanPaginas.
+                            pendenteSchedule)}"/>
+        </f:metadata>
     </h:head>
     <h:body id="body">
-        <p:ajax event="load" 
-                listener="#{beanPaginas.setPaginaAtual(beanPaginas.
-                            pendenteSchedule)}"
-                update="@form"/>
+        
         
         <h:form id="form-inicial">
 

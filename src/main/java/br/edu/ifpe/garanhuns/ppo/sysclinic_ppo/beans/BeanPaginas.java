@@ -16,7 +16,7 @@ import javax.faces.bean.ViewScoped;
  * @author Katarina
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BeanPaginas implements Serializable{
     private String pendenteTabela = 
             "/restricted/acoes/include_pendentes_tabela.xhtml";
@@ -24,7 +24,12 @@ public class BeanPaginas implements Serializable{
     private String pendenteSchedule = 
             "/restricted/acoes/include_pendente_schedule.xhtml";
     
-    private String paginaAtual = pendenteSchedule;
+    private String hojeTabela = "/restricted/acoes/include_hoje_tabela.xhtml";
+    
+    private String hojeSchedule = 
+            "/restricted/acoes/include_hoje_schedule.xhtml";
+    
+    private String paginaAtual = "";
     
     public String getPendenteTabela() {
         return pendenteTabela;
@@ -47,8 +52,12 @@ public class BeanPaginas implements Serializable{
         return pendenteSchedule;
     }
 
-    public void setPendenteSchedule(String pendenteSchedule) {
-        this.pendenteSchedule = pendenteSchedule;
+    public String getHojeTabela() {
+        return hojeTabela;
+    }
+
+    public String getHojeSchedule() {
+        return hojeSchedule;
     }
     
     

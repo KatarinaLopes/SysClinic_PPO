@@ -9,7 +9,12 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form id="form-agendamentos-feitos">
+        <f:metadata>
+            <f:viewAction 
+                action="#{beanPaginas.setPaginaAtual(beanPaginas.
+                          hojeSchedule)}"/>
+        </f:metadata>
+        <h:form>
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
 
             <h1>Agendamentos para hoje</h1>
@@ -19,86 +24,8 @@
 
             <h:link value="Fazer novo agendamento" 
                     outcome="novo_agendamento.xhtml"/>
-
-            <p:dataTable id="tabela_pendentes" paginator="true" 
-                         value="#{controllerAgenda.
-                                  retornarAgendamentosDataAtual()}"
-                         var="agendamento">
-                <p:column headerText="Id">
-                    <h:outputText value="#{agendamento.id}"/>
-                </p:column>
-                <p:column headerText="Paciente" 
-                          rendered="#{!controllerPaciente.
-                                      existePacienteLogado()}">
-                    <h:outputText value="#{agendamento.paciente.nome} - 
-                                  #{agendamento.paciente.cpf}"/>
-                </p:column>
-                <p:column headerText="Médico">
-                    <h:outputText value="#{agendamento.medico.nome} - 
-                                  #{agendamento.medico.conselho}"/>
-                </p:column>
-                <p:column headerText="Data para realização">
-                    <h:outputText value="#{agendamento.dataPrevista}"/>
-                </p:column>
-                <p:column headerText="Operações">
-                    <p:commandButton value="Alterar" 
-                                     oncomplete="PF('wid-dial-atualizar').show()">
-                        <f:setPropertyActionListener
-                            target="#{controllerAgenda.agendamentoSelecionado}"
-                            value="#{agendamento}"/>
-                    </p:commandButton>
-                    <p:commandButton value="Excluir" 
-                                     oncomplete="PF('wid-dial-excluir').show()"
-                                     update=
-                                     ":form-visualizar-agendamentos-pendentes">
-                        <f:setPropertyActionListener 
-                            target="#{controllerAgenda.agendamentoSelecionado}"
-                            value="#{agendamento}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-
-            <p:dialog header="Confirmar exclusão de agendamento" modal="true"
-                      visible="false" widgetVar="wid-dial-excluir">
-                <p:commandButton 
-                    value="Sim" 
-                    action="#{controllerAgenda.
-                              excluirAgendamento(controllerAgenda.
-                              agendamentoSelecionado)}"
-                    oncomplete="PF('wid-dial-excluir').hide()"
-                    update="@all"/>
-
-                <p:commandButton value="Não"
-                                 oncomplete="PF('wid-dial-excluir').hide()"/>
-            </p:dialog>
-
-            <p:dialog header="Atualizar informações do agendamento" 
-                      modal="true" visible="false" 
-                      widgetVar="wid-dial-atualizar">
-                <h:form id="form-atualizar">
-                    <p:panelGrid columns="4">
-                        <h:outputText 
-                            rendered="#{!controllerPaciente.
-                                        existePacienteLogado()}"
-                            value="Paciente"/>
-                        <p:inputText 
-                            id='idPaciente'
-                            rendered="#{!controllerPaciente.
-                                        existePacienteLogado()}"
-                            value="#{idPaciente}"/>
-                        <p:commandButton 
-                            rendered="#{!controllerPaciente.
-                                        existePacienteLogado()}"
-                            value="Selecionar"/>
-                        <p:message for="idPaciente"/>
-
-                        <h:outputText value="Médico"/>
-                        <p:inputText id='idMedico' value="#{medico}"/>
-                    </p:panelGrid>
-
-                </h:form>
-            </p:dialog>
         </h:form>
+        <ui:include src="#{beanPaginas.paginaAtual}"/>
     </h:body>
 </html>
 
