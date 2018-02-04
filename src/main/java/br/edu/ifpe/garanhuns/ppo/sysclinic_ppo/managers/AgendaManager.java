@@ -10,10 +10,13 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -94,6 +97,15 @@ public class AgendaManager {
         List<Agendamento> agendamentosConclidos = agenda.
                 retornarAgendamentosConcluidos();
         return agendamentosConclidos;
+    }
+    
+    public List<Agendamento> alternarRetornarAgendamentosConcluidos(Paciente 
+            pacienteLogado) {
+        if(pacienteLogado != null){
+            return retornarAgendamentosConcluidos(pacienteLogado);
+        }
+        
+        return retornarAgendamentosConcluidos();
     }
     
     public List<Agendamento> retornarAgendamentosPendentes(){

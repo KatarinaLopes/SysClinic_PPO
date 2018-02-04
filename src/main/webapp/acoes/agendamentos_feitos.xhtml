@@ -31,7 +31,9 @@
             <p:dataTable id="tabela_concluidos" paginator="true" 
 
                          value="#{controllerAgenda.
-                                  retornarAgendamentosConcluidos()}"
+                                  retornarAgendamentosConcluidos(
+                                  controllerPaciente.
+                                  retornarPacienteLogado())}"
                          var="agendamento">
                 <p:column headerText="Id">
                     <h:outputText value="#{agendamento.id}"/>

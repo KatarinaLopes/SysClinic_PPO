@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
 public class ControllerAgenda implements Serializable {
 
     private final AgendaManager agendaManager;
-    
+
     private Agendamento agendamentoSelecionado;
 
     public ControllerAgenda() {
@@ -44,7 +44,6 @@ public class ControllerAgenda implements Serializable {
     public void setAgendamentoSelecionado(Agendamento agendamentoSelecionado) {
         this.agendamentoSelecionado = agendamentoSelecionado;
     }
-    
 
     public String salvarAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -74,49 +73,46 @@ public class ControllerAgenda implements Serializable {
     public void verificarCadastrarNovaAgenda() {
         agendaManager.verificarCadastrarNovaAgenda();
     }
-    
-    public List<Agendamento> retornarAgendamentosConcluidos
-        (Paciente paciente){
-        return agendaManager.retornarAgendamentosConcluidos(paciente);
+
+    public List<Agendamento> retornarAgendamentosConcluidos(Paciente 
+            pacienteLogado) {
+        return agendaManager.
+                alternarRetornarAgendamentosConcluidos(pacienteLogado);
     }
-        
-    public List<Agendamento> retornarAgendamentosConcluidos(){
-        return agendaManager.retornarAgendamentosConcluidos();
-    }
-    
-    public List<Agendamento> retornarAgendamentosPendentes(){
-        
+
+    public List<Agendamento> retornarAgendamentosPendentes() {
+
         return agendaManager.retornarAgendamentosPendentes();
     }
-    
-    public List<Agendamento> retornarAgendamentosPendentes(Paciente p){
-        
+
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente p) {
+
         return agendaManager.retornarAgendamentosPendentes(p);
     }
-    
-     public void excluirAgendamento(Agendamento a){
+
+    public void excluirAgendamento(Agendamento a) {
         FacesContext fc = FacesContext.getCurrentInstance();
         String retorno = agendaManager.excluirAgendamento(a);
         FacesMessage fm = new FacesMessage(retorno);
         fc.addMessage(null, fm);
     }
-     
-    public List<Agendamento> retornarAgendamentosDataAtual(){
+
+    public List<Agendamento> retornarAgendamentosDataAtual() {
         return agendaManager.retornarAgendamentosDataAtual();
     }
-    
-    public void atualizarHorariosAgendamentos(Date horarioAntigo, 
-            Date horarioNovo, Medico medico){
+
+    public void atualizarHorariosAgendamentos(Date horarioAntigo,
+            Date horarioNovo, Medico medico) {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
-        
-        agendaManager.atualizarHorariosAgendamentos(horarioAntigo, 
+
+        agendaManager.atualizarHorariosAgendamentos(horarioAntigo,
                 horarioNovo, medico);
         agendaManager.atualizar();
-        
-        fm = new FacesMessage("Sucesso!", 
+
+        fm = new FacesMessage("Sucesso!",
                 "Os horarios dos agendamentos foram alteradas com sucesso!");
-        
+
         fc.addMessage(null, fm);
     }
 }
