@@ -6,6 +6,8 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -235,11 +237,16 @@ public class Agenda implements Serializable {
 
     public List<Agendamento> retornarAgendamentosDataAtual() {
         Date date = new Date();
+        
+        DateFormat df = new SimpleDateFormat("dd/MM/YYYY");
+        
+        String dateHoje = df.format(date);
 
         List<Agendamento> agendamentosDataAtual = new ArrayList<>();
 
         for (Agendamento agendamento : agendamentos) {
-            if (agendamento.getDataPrevista().equals(date)) {
+            String dateAgendamento = df.format(agendamento.getDataPrevista());
+            if (dateAgendamento.equals(dateHoje)) {
                 agendamentosDataAtual.add(agendamento);
             }
         }
