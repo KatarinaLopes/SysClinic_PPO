@@ -92,7 +92,59 @@ public class MedicoTest {
     }
 
     @Test
-    public void testPegarHorariosLivres() {
+    public void deveTestarRetornarLimiteDeVagasRetornandoNao0() {
+        Date data = new Date(300);
+                
+        Date horarioInicial = new Date(300);
+        Date horarioInicial2 = new Date(310);
+        Date horarioFinal = new Date(100);
+        
+        Medico medico = new Medico();
+        
+        Horario horario1 = new Horario(4, horarioInicial, horarioFinal, 12);
+        Horario horario2 = new Horario(1, horarioInicial, horarioFinal, 11);
+        Horario horario3 = new Horario(4, horarioInicial2, horarioFinal, 10);
+        
+        List<Horario> horarios = new ArrayList<>();
+        
+        horarios.add(horario1);
+        horarios.add(horario2);
+        horarios.add(horario3);
+        
+        medico.setHorarios(horarios);
+        
+        int vagas = medico.retornarLimiteDeVagas(data, horarioInicial);
+        
+        assertEquals(12, vagas);
+        
+    }
+    
+    @Test
+    public void deveTestarRetornarLimiteDeVagasRetornando0() {
+        Date data = new Date(300);
+                
+        Date horarioInicial = new Date(300);
+        Date horarioInicial2 = new Date(310);
+        Date horarioFinal = new Date(100);
+        
+        Medico medico = new Medico();
+        
+        Horario horario1 = new Horario(3, horarioInicial, horarioFinal, 12);
+        Horario horario2 = new Horario(1, horarioInicial, horarioFinal, 11);
+        Horario horario3 = new Horario(3, horarioInicial2, horarioFinal, 10);
+        
+        List<Horario> horarios = new ArrayList<>();
+        
+        horarios.add(horario1);
+        horarios.add(horario2);
+        horarios.add(horario3);
+        
+        medico.setHorarios(horarios);
+        
+        int vagas = medico.retornarLimiteDeVagas(data, horarioInicial);
+        
+        assertEquals(0, vagas);
+        
     }
 
 }

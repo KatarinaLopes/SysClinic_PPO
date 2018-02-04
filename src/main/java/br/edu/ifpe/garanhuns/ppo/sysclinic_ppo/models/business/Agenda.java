@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -30,7 +31,7 @@ public class Agenda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true)
     private List<Agendamento> agendamentos;
@@ -51,78 +52,37 @@ public class Agenda implements Serializable {
         this.agendamentos = agendamentos;
     }
 
-    /*public boolean verificarSeDataEPossivel(Date data) {
+    public boolean dataEstaDisponivel(Date data, Date horarioInicial,
+            Medico medico) {
+        int vagasPreenchidas = retornarAgendamentos(medico, data,
+                horarioInicial).size();
+        int limiteDeVagas = medico.retornarLimiteDeVagas(data, horarioInicial);
 
-        Calendar calendar = new GregorianCalendar();
+        return vagasPreenchidas < limiteDeVagas;
+    }
 
-        calendar.setTime(data);
+    public List<Agendamento> retornarAgendamentos(Medico medico, Date data,
+            Date horarioInicial) {
+        List<Agendamento> agendamentosMedico = new ArrayList<>();
 
-        for (Horario horario : medico.getHorarios()) {
-            if (horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)) {
-                return true;
+        for (Agendamento agendamento : agendamentos) {
+            if (!agendamento.isRealizada()
+                    && agendamento.getMedico().equals(medico)
+                    && agendamento.getDataPrevista().equals(data)
+                    && agendamento.getPeriodo().equals(horarioInicial)) {
+                agendamentosMedico.add(agendamento);
             }
         }
 
-        return false;
-
-    }
-    
-    public boolean verificarSeDataEstaLivre(Date data) {
-
-        if (data == null) {
-            return false;
-        }
-
-        if (!verificarSeDataEPossivel(data)) {
-            return false;
-        }
-
-        if (agendamentos.isEmpty() || agendamentos == null) {
-            return false;
-        }
-
-        int qtde = 0;
-        int qtdeDeAten = medico.pegarHorario(data).getLimiteDeAgendamentos();
-        Date dia = agendamentos.get(0).getPeriodo();
-        for (Agendamento agendamento1 : agendamentos) {
-
-            if (!agendamento1.isRealizada()
-                    && agendamento1.getDataPrevista().equals(data)
-                    && agendamento1.getPeriodo().equals(dia)) {
-
-                qtde++;
-            }
-
-            dia = agendamento1.getPeriodo();
-        }
-        
-
-        return qtde < qtdeDeAten;
-
+        return agendamentosMedico;
     }
 
-    public boolean verificarSeDiaEstaLivre(int dia) {
-        int qtde = 0;
-        Calendar calendar = new GregorianCalendar();
-
-        for (Agendamento agendamento1 : agendamentos) {
-            calendar.setTime(agendamento1.getDataPrevista());
-            if ((calendar.get(Calendar.DAY_OF_WEEK) - 1) == dia) {
-                qtde++;
-            }
-        }
-        
-        int limite = retornarHorario(dia).getLimiteDeAgendamentos();
-
-        return qtde < limite;
-    }
-     */
     public void adicionarAgendamento(Agendamento a) {
 
         agendamentos.add(a);
     }
-    
-    public boolean excluirAgendamento(Agendamento a){
+
+    public boolean excluirAgendamento(Agendamento a) {
         return agendamentos.remove(a);
     }
 
@@ -162,8 +122,8 @@ public class Agenda implements Serializable {
 
         return agendamentosNaoConcluidos;
     }
-    
-    public void atualizarAgendamentoHorario(Date antigo, Date novo, 
+
+    public void atualizarAgendamentoHorario(Date antigo, Date novo,
             Medico medico) {
         List<Agendamento> porMedico = retornarAgendamentos(medico);
         for (Agendamento agendamento : porMedico) {
@@ -173,15 +133,15 @@ public class Agenda implements Serializable {
             }
         }
     }
-    
-    public List<Agendamento> retornarAgendamentos(Medico medico){
+
+    public List<Agendamento> retornarAgendamentos(Medico medico) {
         List<Agendamento> agendamentosPorMedico = new ArrayList<>();
         for (Agendamento agendamento : agendamentos) {
-            if(agendamento.getMedico().equals(medico)){
+            if (agendamento.getMedico().equals(medico)) {
                 agendamentosPorMedico.add(agendamento);
             }
         }
-        
+
         return agendamentosPorMedico;
     }
 
@@ -237,9 +197,9 @@ public class Agenda implements Serializable {
 
     public List<Agendamento> retornarAgendamentosDataAtual() {
         Date date = new Date();
-        
+
         DateFormat df = new SimpleDateFormat("dd/MM/YYYY");
-        
+
         String dateHoje = df.format(date);
 
         List<Agendamento> agendamentosDataAtual = new ArrayList<>();

@@ -181,24 +181,28 @@ public class Medico implements Serializable {
             return false;
         }
         final Medico other = (Medico) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.matricula != other.matricula) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.conselho, other.conselho)) {
+            return false;
+        }
+        if (!Objects.equals(this.especialidade, other.especialidade)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataAdmissao, other.dataAdmissao)) {
+            return false;
+        }
         return true;
     }
 
-   /* public boolean verificarSeDataEPossivel(Date data) {
-
-        Calendar calendar = new GregorianCalendar();
-
-        calendar.setTime(data);
-
-        for (Horario horario : horarios) {
-            if (horario.getDia() == calendar.get(Calendar.DAY_OF_WEEK)) {
-                return true;
-            }
-        }
-
-        return false;
-
-    }*/
+    
     
     /**
      * Retorna o horario correspondente à data
@@ -327,5 +331,22 @@ public class Medico implements Serializable {
         }
         
         //agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo);
+    }
+    
+    public int retornarLimiteDeVagas(Date data, Date horarioInicial){
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(data);
+        
+        int diaData = calendar.get(Calendar.DAY_OF_WEEK);
+        
+        for (Horario horario : horarios) {
+            if(horario.getDia() == diaData && horario.getHorarioInicial().
+                    equals(horarioInicial)){
+                return horario.getLimiteDeAgendamentos();
+            }
+        }
+        
+        return 0;
+
     }
 }
