@@ -96,14 +96,9 @@ public class ControllerAgenda implements Serializable {
                 alternarRetornarAgendamentosConcluidos(pacienteLogado);
     }
 
-    public List<Agendamento> retornarAgendamentosPendentes() {
-
-        return agendaManager.retornarAgendamentosPendentes();
-    }
-
-    public List<Agendamento> retornarAgendamentosPendentes(Paciente p) {
-
-        return agendaManager.retornarAgendamentosPendentes(p);
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente 
+            pacienteLogado){
+        return agendaManager.alternarAgendamentosPendentes(pacienteLogado);
     }
 
     public void excluirAgendamento(Agendamento a) {

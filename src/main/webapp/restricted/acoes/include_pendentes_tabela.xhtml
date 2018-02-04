@@ -17,7 +17,9 @@
                          id="tabela-pendentes" paginator="true"
                          resizableColumns="true" rows="6" 
                          value="#{controllerAgenda.
-                                  retornarAgendamentosPendentes()}"
+                                  retornarAgendamentosPendentes(
+                                  controllerPaciente.
+                                  retornarPacienteLogado())}"
                          var="agendamento">
                 <p:column filterable="true" filterMatchMode="contains"
                           headerText="Id">
