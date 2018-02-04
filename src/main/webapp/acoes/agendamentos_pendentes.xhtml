@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>SysClinic - </title>
     </h:head>
@@ -22,7 +24,100 @@
                             existeLogadoNaoAdministrador()}"
                     value="Voltar à página principal"
                     outcome="/funcionarios/home_funcionario.xhtml"/>
+            
+            <p:panel>
+                <p:dataTable disabledSelection="true" emptyMessage="Não há 
+                             agendamentos para serem exibidos" 
+                             id="tabela-pendentes" paginator="true"
+                             rows="6" 
+                             value="#{controllerAgenda.
+                                      retornarAgendamentosPendentes()}"
+                             var="agendamento">
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Id">
+                        <h:outputText value="#{agendamento.id}"/>
+                    </p:column>
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Paciente/CPF"
+                              rendered="#{controllerPaciente.
+                                          existePacienteLogado()}">
+                        <h:outputText value="#{agendamento.paciente.nome} - 
+                                      #{agendamento.paciente.cpf}"/>
+                    </p:column>
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Medico/Matrícula">
+                        <h:outputText value="#{agendamento.medico.nome} - 
+                                      #{agendamento.medico.matricula}"/>
+                    </p:column>
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Especialidade médica">
+                        <h:outputText 
+                            value="#{agendamento.medico.especialidade}"/>
+                    </p:column>
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Data prevista">
+                        <h:outputText value="#{agendamento.dataPrevista}">
+                            <f:convertDateTime dateStyle="short" 
+                                               pattern="dd/MM/yyyy"
+                                               type="date"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterable="true" filterMatchMode="contains"
+                              headerText="Horário previsto">
+                        <h:outputText value="#{agendamento.periodo}">
+                            <f:convertDateTime pattern="HH:mm" 
+                                               timeStyle="short"
+                                               timeZone="#{param.timeZone}"
+                                               type="time"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Operações">
+                        <p:commandButton 
+                            action="/acoes/alterar_agendamento.xhtml"
+                            icon="fa fa-pencil">
+                            <f:setPropertyActionListener 
+                                target="#{controllerAgenda.
+                                          agendamentoSelecionado}"
+                                value="#{agendamento}"/>
+                        </p:commandButton>
+                        <p:commandButton icon="fa fa-close"
+                                     oncomplete="PF('wid-dial-exc-ag').show()"
+                                         update="dial-exc-age">
+                            <f:setPropertyActionListener 
+                                target="#{controllerAgenda.
+                                          agendamentoSelecionado}"
+                                value="#{agendamento}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
+        
+        <p:dialog closable="true" draggable="true" dynamic="true" 
+                  header="Excluir agendamento" id="dial-exc-age" modal="true"
+                  visible="false" widgetVar="wid-dial-exc-ag">
+            <h:form id="form-exc-ag">
+                <h3>Deseja realmente excluir o agendamento 
+                    <h:outputText value="#{controllerAgenda.
+                                           agendamentoSelecionado.id}"/>, 
+                    para o paciente 
+                    <h:outputText value="#{controllerAgenda.
+                                           agendamentoSelecionado.paciente.
+                                           nome}"/></h3>
+                    
+                    <p>A operação não poderá ser desfeita. As vagas podem não 
+                        estar mais disponíveis para esta data ou horário</p>
+                
+                <p:commandButton 
+                    action="#{controllerAgenda.
+                              excluirAgendamento(controllerAgenda.
+                              agendamentoSelecionado)}" 
+                    oncomplete="PF('wid-dial-exc-ag').hide()" 
+                    update="@form" value="Sim"/>
+                <p:commandButton oncomplete="PF('wid-dial-exc-ag').hide()"
+                                 update="@form" value="Não"/>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 
