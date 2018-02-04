@@ -8,9 +8,13 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.AgendaManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -58,5 +62,48 @@ public class ControllerAgenda implements Serializable {
 
     public void verificarCadastrarNovaAgenda() {
         agendaManager.verificarCadastrarNovaAgenda();
+    }
+    
+    public List<Agendamento> retornarAgendamentosConcluidos
+        (Paciente paciente){
+        return agendaManager.retornarAgendamentosConcluidos(paciente);
+    }
+        
+    public List<Agendamento> retornarAgendamentosConcluidos(){
+        return agendaManager.retornarAgendamentosConcluidos();
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(){
+        
+        return agendaManager.retornarAgendamentosPendentes();
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente p){
+        
+        return agendaManager.retornarAgendamentosPendentes(p);
+    }
+    
+     public void excluirAgendamento(Agendamento a){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        String retorno = agendaManager.excluirAgendamento(a);
+        FacesMessage fm = new FacesMessage(retorno);
+        fc.addMessage(null, fm);
+    }
+     
+    public List<Agendamento> retornarAgendamentosDataAtual(){
+        return agendaManager.retornarAgendamentosDataAtual();
+    }
+    
+    public void atualizarHorariosAgendamentos(Date horarioAntigo, 
+            Date horarioNovo, Medico medico){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        
+        agendaManager.atualizarHorariosAgendamentos(horarioAntigo, 
+                horarioNovo, medico);
+        fm = new FacesMessage("Sucesso!", 
+                "Os horarios dos agendamentos foram alteradas com sucesso!");
+        
+        fc.addMessage(null, fm);
     }
 }

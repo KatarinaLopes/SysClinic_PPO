@@ -110,58 +110,10 @@ public class MedicoManager {
         return horarios;
     }
 
-    /**
-     * 
-     * @param paciente
-     * @return 
-     */
-    public List<Agendamento> retornarAgendamentosConcluidos(Paciente paciente) {
-        List<Agendamento> agendamentosConcluidos = new ArrayList();
-        List<Medico> medicos = recuperarTodos();
-
-        for (Medico medico : medicos) {
-            //agendamentosConcluidos.addAll(medico.getAgenda().
-              //      retornarAgendamentosConcluidosPacientes(paciente));
-        }
-
-        return agendamentosConcluidos;
-    }    
-    
-    /**
-     * 
-     * @return 
-     */
-    public List<Agendamento> retornarAgendamentosConcluidos() {
-        List<Agendamento> agendamentosConclidos = new ArrayList<>();
-        List<Medico> medicos = recuperarTodos();
-
-        for (Medico medico : medicos) {
-            //agendamentosConclidos.addAll(medico.getAgenda().
-              //      retornarAgendamentosConcluidos());
-        }
-
-        return agendamentosConclidos;
-    }
     
     public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
         medico.atualizarHorario(antigo, novo);
     }
     
-    /*public List<Map.Entry<Agendamento, Medico>>
-        retornarAgendamentosDataAtual(){
-        
-        List<Medico> medicos = recuperarTodos();
-        List<Agendamento> agendamentos = new ArrayList<>();
-        HashMap<Agendamento, Medico> agendamentosPorMedico = 
-                new HashMap<>();
-        
-        for (Medico medico : medicos) {
-            for (Object object : medico.getAgenda().) {
-                
-            }
-            agendamentos = medico.getAgenda().retornarAgendamentosDataAtual();
-            agendamentosPorMedico.put(medico, agendamentos);
-        }
-    }*/
 
 }

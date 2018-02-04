@@ -181,15 +181,6 @@ public class ControllerMedico implements Serializable{
         horariosLivres = medicoManager.retornarHorariosLivres(medico, data);
     }
 
-    public List<Agendamento> retornarAgendamentosConcluidos
-        (Paciente paciente){
-        return medicoManager.retornarAgendamentosConcluidos(paciente);
-    }
-        
-    public List<Agendamento> retornarAgendamentosConcluidos(){
-        return medicoManager.retornarAgendamentosConcluidos();
-    }
-
     public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
        
         medico.atualizarHorario(antigo, novo);
@@ -197,44 +188,5 @@ public class ControllerMedico implements Serializable{
         atualizar(medico);
         
     }
-    
-    /*public List<Agendamento> retornarAgendamentosPendentes(){
-        Paciente p = (Paciente) ((HttpSession) FacesContext.getCurrentInstance().
-                getExternalContext().getSession(true)).
-                getAttribute("pacienteLogado");
-        
-        List<Agendamento> agendamentosPendentes = new ArrayList<>();
-        
-        if(p != null){
-            for (Medico medicosRegistrado : medicosRegistrados) {
-                agendamentosPendentes.addAll(medicosRegistrado.getAgenda().
-                        retornarAgendamentosPendentesPacientes(p));
-            }
-        }else{
-            for (Medico medicosRegistrado : medicosRegistrados) {
-                agendamentosPendentes.addAll(medicosRegistrado.getAgenda().
-                        retornarAgendamentosPendentes());
-            }
-        }
-        
-        return agendamentosPendentes;
-    }
-    
-    public void excluirAgendamento(Agendamento a){
-        
-        System.out.println("sjdhb " + a);
-        
-        Medico m = recuperar(1);
-        
-        m.getAgenda().getAgendamentos().remove(a);
-        
-        System.err.println("whg");
-        
-        atualizar(m);
-    }
-    
-    public List<Map.Entry<Agendamento,Medico>> retornarAgendamentosDataAtual(){
-        return medicoManager.retornarAgendamentosDataAtual();
-    }*/
     
 }

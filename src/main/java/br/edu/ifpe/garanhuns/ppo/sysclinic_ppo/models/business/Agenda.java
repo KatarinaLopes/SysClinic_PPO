@@ -119,6 +119,10 @@ public class Agenda implements Serializable {
 
         agendamentos.add(a);
     }
+    
+    public boolean excluirAgendamento(Agendamento a){
+        return agendamentos.remove(a);
+    }
 
     public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();
@@ -156,18 +160,27 @@ public class Agenda implements Serializable {
 
         return agendamentosNaoConcluidos;
     }
-
-    public void atualizarAgendamentoHorario(Date antigo, Date novo) {
-        System.out.println(antigo + " f "
-                + novo);
-
-        for (Agendamento agendamento : agendamentos) {
-            System.out.println(agendamento.getPeriodo());
+    
+    public void atualizarAgendamentoHorario(Date antigo, Date novo, 
+            Medico medico) {
+        List<Agendamento> porMedico = retornarAgendamentos(medico);
+        for (Agendamento agendamento : porMedico) {
             if (agendamento.getPeriodo().equals(antigo)
                     && !agendamento.isRealizada()) {
                 agendamento.setPeriodo(novo);
             }
         }
+    }
+    
+    public List<Agendamento> retornarAgendamentos(Medico medico){
+        List<Agendamento> agendamentosPorMedico = new ArrayList<>();
+        for (Agendamento agendamento : agendamentos) {
+            if(agendamento.getMedico().equals(medico)){
+                agendamentosPorMedico.add(agendamento);
+            }
+        }
+        
+        return agendamentosPorMedico;
     }
 
     public List<Paciente> listarPacientesAgendados() {

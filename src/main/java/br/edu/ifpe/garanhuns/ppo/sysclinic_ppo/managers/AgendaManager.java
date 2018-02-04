@@ -7,8 +7,12 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 /**
@@ -68,5 +72,61 @@ public class AgendaManager {
             Agenda novaAgenda = new Agenda(new ArrayList<Agendamento>());
             cadastrar(novaAgenda);
         }
+    }
+    
+    /**
+     * 
+     * @param paciente
+     * @return 
+     */
+    public List<Agendamento> retornarAgendamentosConcluidos(Paciente paciente) {
+        List<Agendamento> agendamentosConcluidos = agenda.
+                retornarAgendamentosConcluidosPacientes(paciente);
+        
+        return agendamentosConcluidos;
+    }    
+    
+    /**
+     * 
+     * @return 
+     */
+    public List<Agendamento> retornarAgendamentosConcluidos() {
+        List<Agendamento> agendamentosConclidos = agenda.
+                retornarAgendamentosConcluidos();
+        return agendamentosConclidos;
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(){
+        return agenda.retornarAgendamentosPendentes();
+    }
+    
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente p){
+        return agenda.retornarAgendamentosPendentesPacientes(p);
+    }
+    
+    public String excluirAgendamento(Agendamento a){
+        boolean removeu = agenda.excluirAgendamento(a);
+        String mensagem;
+        
+        
+        if(removeu){
+            atualizar();
+            mensagem = "Agendamento removido com sucesso!";
+        }else{
+            mensagem = "Falha ao tentar remover agendamento. "
+                    + "Recarregue a página e tente novamente.";
+        }
+        
+        return mensagem;
+    }
+    
+    public List<Agendamento> retornarAgendamentosDataAtual(){
+        return agenda.retornarAgendamentosDataAtual();
+    }
+    
+    public void atualizarHorariosAgendamentos(Date horarioNovo, 
+            Date horarioAntigo, Medico medico){
+        agenda.atualizarAgendamentoHorario(horarioAntigo, horarioNovo, 
+                medico);
     }
 }
