@@ -113,13 +113,11 @@
                 <p>Dica: Não utilize senhas fáceis, como sequencias (ex.: 1234) 
                     ou datas importantes (ex.: seu aniversário)</p>
 
-                <p:commandButton value="Cadastrar" 
-                                 action="#{controllerPaciente.
-                                           cadastrar(builderPaciente.build(), 
-                                           confirmeSenha)}"
-                                 update="@form"/>
+                <p:commandButton value="Cadastrar"
+                                 ajax="false"
+                                 update="@form" validateClient="true"/>
                 <p:commandButton value="Limpar campos"
-                                 type="reset" 
+                                 type="reset"
                                  title="Apaga os dados já preenchidos"
                                  update="@form"/>
             </p:panel>

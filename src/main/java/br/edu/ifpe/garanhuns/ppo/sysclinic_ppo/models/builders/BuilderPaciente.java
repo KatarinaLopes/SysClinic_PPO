@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -25,13 +28,31 @@ import javax.faces.bean.ManagedBean;
 public class BuilderPaciente implements BuilderGenerico<Paciente>{
     private int id;
     private Date dataAdmissao;
+    
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z\\sà-ùÀ-Ù]{0,}")
     private String nome;
+     
+    @NotNull @Pattern(regexp = "^[F | M]{1}")
     private String sexo;
+    
+    @NotNull @Past
     private Date dataNascimento;
+    
+    @NotNull @Pattern(regexp = "^\\([0-9]{2}\\)[2-9][0-9]{3,4}\\-[0-9]{4}")
     private String telefoneContato;
+    
+    @Pattern(regexp = "^\\([0-9]{2}\\)[2-9][0-9]{3,4}\\-[0-9]{4}")
     private String celular;
+    
+    @Pattern(regexp = "[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.].[a-zA-"
+                    + "Z0-9.]{1,}")
     private String email;
+    
+    @NotNull
     private String cpf;
+    
+    @NotNull
     private String senha;
     private List<Agendamento> agendamentos = new LinkedList();
 
