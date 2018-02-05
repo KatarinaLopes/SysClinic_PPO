@@ -6,21 +6,20 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.FuncionarioManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
         exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
+        exception.InternalException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -43,12 +42,10 @@ public class ControllerFuncionario implements
 
     private final LoginFuncionario loginFuncionario;
     
-    private final FuncionarioManager funcionarioManager;
-
     public ControllerFuncionario(){
         loginFuncionario = new LoginFuncionario(daoFuncionarios, 
                 new LoginSessionUtil());
-        funcionarioManager = new FuncionarioManager(daoFuncionarios);
+        Fachada.getInstance().setDaoFuncionario(daoFuncionarios);
     }
 
     public Funcionario getFuncionarioSelecionado() {
@@ -85,6 +82,7 @@ public class ControllerFuncionario implements
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;       
         String retorno = null;
+       
         
         try {
             String senhaCriptografada = Operacoes.
@@ -92,7 +90,8 @@ public class ControllerFuncionario implements
             funcionario.setSenha(Operacoes.criptografarSenha(funcionario.
                     getSenha()));
             
-            funcionarioManager.cadastrar(funcionario, senhaCriptografada);
+            Fachada.getInstance().getFuncionarioManager().
+                    cadastrar(funcionario, senhaCriptografada);
             
             fm = new FacesMessage("Sucesso!", "O funcionário foi cadastrado "
                     + "com sucesso!");
@@ -127,7 +126,8 @@ public class ControllerFuncionario implements
      */
     @Override
     public Funcionario recuperar(Integer id) {
-        return funcionarioManager.recuperar(id);
+        return (Funcionario) Fachada.getInstance().getFuncionarioManager().
+                recuperar(id);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ControllerFuncionario implements
      * atualizado
      */
     public void atualizar(Funcionario funcionario) {
-        funcionarioManager.atualizar(funcionario);
+        Fachada.getInstance().getFuncionarioManager().atualizar(funcionario);
     }
 
     
@@ -176,7 +176,7 @@ public class ControllerFuncionario implements
      * @return all saved funcionarios | todos os funcionarios salvos
      */
     public List<Funcionario> recuperarTodos() {
-        return funcionarioManager.recuperarTodos();
+        return Fachada.getInstance().getFuncionarioManager().recuperarTodos();
     }
 
     /**
@@ -192,7 +192,8 @@ public class ControllerFuncionario implements
      * se não tem
      */
     public boolean existeMaisDeUm(boolean admin){
-        return funcionarioManager.existeMaisDeUm(admin);
+        return Fachada.getInstance().getFuncionarioManager().
+                existeMaisDeUm(admin);
     }
     
     /**
