@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.converter;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers.ControllerMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
+import java.util.Date;
 import java.util.List;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -32,7 +33,7 @@ public class HorarioConverter implements Converter {
             
             for (Horario horario : horarios) {
                 if(String.valueOf(horario.getHorarioInicial()).equals(value)){
-                    return horario;
+                    return horario.getHorarioInicial();
                 }
             }
         }
@@ -45,7 +46,7 @@ public class HorarioConverter implements Converter {
             Object value) {
         if (value != null) {
             
-            return String.valueOf(((Horario) value).getHorarioInicial());
+            return String.valueOf((Date) value);
         }
         return null;
     }

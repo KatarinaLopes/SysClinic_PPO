@@ -68,6 +68,10 @@
                             target="#{controllerAgenda.
                                       agendamentoSelecionado}"
                             value="#{agendamento}"/>
+                        <f:setPropertyActionListener 
+                            target="#{controllerAgenda.
+                                      agendamentoSelecionadoClone}"
+                            value="#{agendamento}"/>
                     </p:commandButton>
                     <p:commandButton icon="fa fa-close"
                                      oncomplete="PF('wid-dial-exc-ag').show()"

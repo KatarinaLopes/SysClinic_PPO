@@ -188,4 +188,17 @@ public class AgendaManager {
     public void atualizarStatusAgendamento(Agendamento agendamento){
         agendamento.setRealizada(!agendamento.isRealizada());
     }
+    
+    public void remarcar(Date novaData, Date novoHorario, 
+            Agendamento agendamento) throws IllegalArgumentException{
+        boolean dataDisponivel = agenda.
+                dataEstaDisponivel(novaData, novoHorario,
+                        agendamento.getMedico());
+        
+        if(dataDisponivel){
+            agenda.atualizarDataAgendamento(agendamento.getId(), novaData, 
+                    novoHorario);
+        }
+        
+    }
 }

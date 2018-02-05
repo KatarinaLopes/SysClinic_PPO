@@ -23,7 +23,7 @@ public class BuilderAgendamento {
     private Paciente paciente;
     private Medico medico;
     private Date dataPrevista;
-    private Horario horarioPrevisto;
+    private Date horarioPrevisto;
 
     public Paciente getPaciente() {
         return paciente;
@@ -49,16 +49,16 @@ public class BuilderAgendamento {
         this.dataPrevista = dataPrevista;
     }
 
-    public Horario getHorarioPrevisto() {
+    public Date getHorarioPrevisto() {
         return horarioPrevisto;
     }
 
-    public void setHorarioPrevisto(Horario horarioPrevisto) {
+    public void setHorarioPrevisto(Date horarioPrevisto) {
         this.horarioPrevisto = horarioPrevisto;
     }
     
     public Agendamento build(){
         return new Agendamento(0, dataPrevista, paciente, medico, 
-                horarioPrevisto.getHorarioInicial(), false);
+                horarioPrevisto, false);
     }
 }

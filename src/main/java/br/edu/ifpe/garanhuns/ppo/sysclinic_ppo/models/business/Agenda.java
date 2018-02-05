@@ -215,7 +215,7 @@ public class Agenda implements Serializable {
     }
     
     public void atualizarDataAgendamento(int idAgendamento, Date novaData, 
-            Date novoHorario){
+            Date novoHorario) throws IllegalArgumentException {
         
         if(idAgendamento <= 0 || novaData == null || novoHorario == null){
             throw new IllegalArgumentException("Agendamento, data ou horário "

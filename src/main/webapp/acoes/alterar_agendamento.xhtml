@@ -8,9 +8,15 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        <f:metadata>
+            <f:viewAction 
+                action="#{controllerMedico.
+                          carregarDiasLivres(controllerAgenda.
+                          agendamentoSelecionado.medico)}"/>
+        </f:metadata>
         <h:form id="form-agendamento-consultas">
             <p:panel id="panel-novo-agendamento">
-                <p:panelGrid columns="4">                    
+                <p:panelGrid columns="3">                    
                     <h:outputText value="Paciente" 
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"/>
@@ -18,12 +24,8 @@
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"
                                   value="#{controllerAgenda.
-                                           agendamentoSelecionado.paciente.nome}"/>
-
-                    <p:commandButton icon="fa fa-search" 
-                           oncomplete="PF('wid-dial-listar-pacientes').show()"
-                                     rendered="#{!controllerPaciente.
-                                                 existePacienteLogado()}"/>                 
+                                           agendamentoSelecionado.
+                                           paciente.nome}"/>               
                     <p:message for="paciente-selecionado" 
                                rendered="#{!controllerPaciente.
                                            existePacienteLogado()}"/>
@@ -31,9 +33,8 @@
                     <h:outputText value="Médico"/>
                     <h:outputText id="idMedico" 
                                   value="#{controllerAgenda.
-                                           agendamentoSelecionado.medico.nome}"/>
-                    <p:commandButton icon="fa fa-search"
-                           oncomplete="PF('wid-dial-listar-medicos').show()"/>
+                                           agendamentoSelecionado.
+                                           medico.nome}"/>
                     <p:message for="idMedico"/>
 
                     <h:outputText value="Data prevista"/>
@@ -47,45 +48,42 @@
                         <p:ajax event="dateSelect" 
                                 listener="#{controllerMedico.
                                             carregarHorariosLivres
-                                            (controllerMedico.
+                                            (controllerAgenda.
                                             agendamentoSelecionado.dataPrevista, 
-                                            controllerMedico.
+                                            controllerAgenda.
                                             agendamentoSelecionado.medico)}"
                                 update=":form-agendamento-consultas:periodos"/> 
                     </p:calendar>
                     <p:message for="dataPrevista"/>
-                    <h:outputText/>
 
                     <h:outputText value="Horário de início"/>
                     <p:selectOneMenu converter="horariosConverter" 
                                      filter="true" 
                                      filterMatchMode="contains" id="periodos" 
                                      value="#{controllerAgenda.
-                                              agendamentoSelecionado.
-                                              horarioPrevisto}">
+                                              agendamentoSelecionado.periodo}">
                         <f:selectItem itemLabel="Selecione..." 
                                       itemDisabled="true"/>
                         <f:selectItems value="#{controllerMedico.
                                                 horariosLivres}"
                                        var="periodo" 
                                        itemLabel="#{periodo.horarioInicial}" 
-                                       itemValue="#{periodo}"/>
+                                       itemValue="#{periodo.horarioInicial}"/>
                     </p:selectOneMenu>
 
                 </p:panelGrid>
 
                 <p:commandButton value="Incluir" 
                                  action="#{controllerAgenda.
-                                           atualizarAgendamento(
+                                           atualizarDataAgendamento(
                                            controllerAgenda.
-                                           agendamentoSelecionado.
-                                           build())}"
+                                           agendamentoSelecionado)}"
                                  update=":form-agendamento-consultas"
                                  rendered="#{controllerFuncionario.
                                              existeLogadoNaoAdministrador()}"/>
                 <p:commandButton value="Incluir" 
                                  action="#{controllerAgenda.
-                                           atualizarAgendamento(
+                                           atualizarDataAgendamento(
                                            controllerAgenda.
                                            agendamentoSelecionado)}"
                                  update=":form-agendamento-consultas"
@@ -102,99 +100,6 @@
                               value="#{controllerMedico.diasDisponiveis}"/>
             </p:panel>
         </h:form>
-
-        <p:dialog closable="true" draggable="true" dynamic="true" 
-                  header="Pacientes cadastrados" id="dial-listar-pacientes"
-                  modal="true" visible="false" 
-                  widgetVar="wid-dial-listar-pacientes">
-
-            <h:form id="form-dial-listar-pacientes">
-                <p:dataTable disabledSelection="true" 
-                             id="tabela-apresentar-pacientes" 
-                             emptyMessage="Não há pacientes cadastrados" 
-                             paginator="true" rows="10" 
-                             value="#{controllerPaciente.recuperarTodos()}"
-                             var="paciente">
-                    <p:column headerText="Registro" filterBy="#{paciente.id}" 
-                              filterMatchMode="contains" 
-                              sortBy="#{paciente.id}">
-                        <h:outputText value="#{paciente.id}"/>
-                    </p:column>
-                    <p:column headerText="Nome" filterBy="#{paciente.nome}"
-                              filterMatchMode="contains" 
-                              sortBy="#{paciente.nome}">
-                        <h:outputText value="#{paciente.nome}"/>
-                    </p:column>
-                    <p:column headerText="CPF" filterBy="#{paciente.cpf}"
-                              filterMatchMode="contains" 
-                              sortBy="#{paciente.cpf}">
-                        <h:outputText value="#{paciente.cpf}"/>
-                    </p:column>
-                    <p:column>
-                        <p:commandButton icon="fa fa-selected"
-                            oncomplete="PF('wid-dial-listar-pacientes').hide()"
-                           update="form-agendamento-consultas:paciente-selecionado">
-                            <f:setPropertyActionListener 
-                                target="#{controllerMedico.
-                                          agendamentoSelecionado.paciente}"
-                                value="#{paciente}"/>
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-
-                <p:commandButton value="Fechar" 
-                        oncomplete="PF('wid-dial-listar-pacientes').hide()"/>
-            </h:form>
-        </p:dialog>
-
-        <p:dialog closable="true" draggable="true" dynamic="true" 
-                  header="Médicos cadastrados" id="dial-listar-medicos" 
-                  modal="true" responsive="true" visible="false" 
-                  widgetVar="wid-dial-listar-medicos">
-            <h:form id="form-dial-listar-medicos">          
-                <p:dataTable disabledSelection="true" 
-                             emptyMessage="Ainda não há médicos cadastrados"
-                             id="tabela-apresentar-medicos" paginator="true"
-                             rows="10" 
-                             value="#{controllerMedico.recuperarTodos()}"
-                             var="medico">
-                    <p:column headerText="Matrícula" 
-                              filterBy="#{medico.matricula}" 
-                              filterMatchMode="contains" 
-                              sortBy="#{medico.matricula}">
-                        <h:outputText value="#{medico.matricula}"/>
-                    </p:column>
-                    <p:column headerText="Nome" filterBy="#{medico.nome}"
-                              filterMatchMode="contains" 
-                              sortBy="#{medico.nome}">
-                        <h:outputText value="#{medico.nome}"/>
-                    </p:column>
-                    <p:column headerText="Especialidade" 
-                              filterBy="#{medico.especialidade}"
-                              filterMatchMode="contains" 
-                              sortBy="#{medico.especialidade}">
-                        <h:outputText value="#{medico.especialidade}"/>
-                    </p:column>
-                    <p:column>
-                        <p:commandButton icon="fa fa-select"
-                             oncomplete="PF('wid-dial-listar-medicos').hide()"
-                                        actionListener="#{controllerMedico.
-                                                  carregarDiasLivres(medico)}"
-                                  update=":form-agendamento-consultas:idMedico
-                                      :form-agendamento-consultas:dataPrevista
-                                      :form-agendamento-consultas:horarios">
-                            <f:setPropertyActionListener 
-                                target="#{controllerMedico.
-                                          agendamentoSelecionado.medico}" 
-                                value="#{medico}"/>
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-
-                <p:commandButton value="Fechar" 
-                           oncomplete="PF('wid-dial-listar-medicos').hide()"/>
-            </h:form>
-        </p:dialog>
 
         <script>
 

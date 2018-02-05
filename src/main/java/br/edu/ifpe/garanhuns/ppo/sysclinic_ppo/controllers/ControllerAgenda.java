@@ -8,6 +8,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.AgendaManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
@@ -37,6 +38,8 @@ public class ControllerAgenda implements Serializable {
 
     private Agendamento agendamentoSelecionado;
     
+    private Agendamento agendamentoSelecionadoClone;
+
     private ScheduleEvent eventAgendamento = new DefaultScheduleEvent();
 
     public ControllerAgenda() {
@@ -57,6 +60,14 @@ public class ControllerAgenda implements Serializable {
 
     public void setEventAgendamento(ScheduleEvent eventAgendamento) {
         this.eventAgendamento = eventAgendamento;
+    }
+
+    public Agendamento getAgendamentoSelecionadoClone() {
+        return agendamentoSelecionadoClone;
+    }
+
+    public void setAgendamentoSelecionadoClone(Agendamento agendamentoSelecionadoClone) {
+        this.agendamentoSelecionadoClone = agendamentoSelecionadoClone;
     }
     
     
@@ -90,14 +101,12 @@ public class ControllerAgenda implements Serializable {
         agendaManager.verificarCadastrarNovaAgenda();
     }
 
-    public List<Agendamento> retornarAgendamentosConcluidos(Paciente 
-            pacienteLogado) {
+    public List<Agendamento> retornarAgendamentosConcluidos(Paciente pacienteLogado) {
         return agendaManager.
                 alternarRetornarAgendamentosConcluidos(pacienteLogado);
     }
 
-    public List<Agendamento> retornarAgendamentosPendentes(Paciente 
-            pacienteLogado){
+    public List<Agendamento> retornarAgendamentosPendentes(Paciente pacienteLogado) {
         return agendaManager.alternarAgendamentosPendentes(pacienteLogado);
     }
 
@@ -126,23 +135,47 @@ public class ControllerAgenda implements Serializable {
 
         fc.addMessage(null, fm);
     }
-    
-    public ScheduleModel retornarScheduleAgendamentos(int tipo, 
-            Paciente pacienteLogado){
-        return agendaManager.retornarScheduleAgendamentos(tipo, 
+
+    public ScheduleModel retornarScheduleAgendamentos(int tipo,
+            Paciente pacienteLogado) {
+        return agendaManager.retornarScheduleAgendamentos(tipo,
                 pacienteLogado);
     }
-     
-    public void atualizarStatusAgendamento(Agendamento agendamento){
+
+    public void atualizarStatusAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
-        
+
         agendaManager.atualizarStatusAgendamento(agendamento);
         agendaManager.atualizar();
-        fm = new FacesMessage("Sucesso!", 
+        fm = new FacesMessage("Sucesso!",
                 "O status do agendamento foi alterado com sucesso.");
-        
+
         fc.addMessage(null, fm);
     }
+
+    public String atualizarDataAgendamento(Agendamento agendamento) {
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+        String retorno = null;
+        
+        try {
+            agendaManager.remarcar(agendamento.getDataPrevista(), 
+                    agendamento.getPeriodo(), agendamento);
+            agendaManager.atualizar();
+            
+            fm = new FacesMessage("Sucesso!", 
+                    "O agendamento foi remarcado com sucesso!");
+            
+            retorno = "/acoes/agendamentos_pendentes.xhtml?"
+                    + "faces-redirect=true";
+        } catch (IllegalArgumentException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    ex.getMessage());
+        }
+        
+        fc.addMessage(null, fm);
+        return retorno;
+    }
 }
-    
