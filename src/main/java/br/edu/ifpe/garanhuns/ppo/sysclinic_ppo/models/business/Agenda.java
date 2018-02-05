@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -213,25 +214,103 @@ public class Agenda implements Serializable {
 
         return agendamentosDataAtual;
     }
-    
-    public void atualizarDataAgendamento(int idAgendamento, Date novaData, 
+
+    public void atualizarDataAgendamento(int idAgendamento, Date novaData,
             Date novoHorario) throws IllegalArgumentException {
-        
-        if(idAgendamento <= 0 || novaData == null || novoHorario == null){
+
+        if (idAgendamento <= 0 || novaData == null || novoHorario == null) {
             throw new IllegalArgumentException("Agendamento, data ou horário "
                     + "não podem estar vazios");
         }
-        
+
         for (Agendamento agendamento1 : agendamentos) {
-            if(agendamento1.getId() == idAgendamento){
+            if (agendamento1.getId() == idAgendamento) {
                 agendamento1.setDataPrevista(novaData);
                 agendamento1.setPeriodo(novoHorario);
-                
+
                 return;
             }
         }
-        
+
         throw new IllegalArgumentException("Este agendamento não está "
                 + "cadastrado");
+    }
+
+    public Date retornarNovaDataPossivel(Date anterior, int diaAnterior,
+            int diaNovo, Date horarioNovo, Medico medico) {
+
+        final long diaMilisegundos = 864 * 10 ^ 5;
+        final long semanaMilisegundos = 6048 * 10 ^ 5;
+
+        int diasDeIntervalo = diaAnterior < diaNovo ? diaNovo - diaAnterior
+                : diaAnterior - diaNovo;
+
+        long dataMilisegundos = diasDeIntervalo * diaMilisegundos;
+
+        Date dataInicial = new Date(dataMilisegundos);
+
+        boolean possivel = false;
+        while (!possivel) {
+            possivel = dataEstaDisponivel(dataInicial, horarioNovo, medico);
+
+            if (!possivel) {
+
+                dataInicial.setTime(dataInicial.getTime() + semanaMilisegundos);
+            }
+        }
+
+        return dataInicial;
+
+    }
+
+    public List<Agendamento> retornarAgendamentos(int dia, Medico medico, 
+            boolean realizada) {
+        List<Agendamento> agendamentosDiaMedico = new ArrayList<>();
+
+        Calendar calendar = new GregorianCalendar();
+
+        for (Agendamento agendamento : agendamentos) {
+
+            if (agendamento.getMedico().equals(medico) 
+                    && agendamento.isRealizada() == realizada) {
+
+                calendar.setTime(agendamento.getDataPrevista());
+
+                int diaAgendamento = calendar.get(Calendar.DAY_OF_WEEK);
+                
+                if(diaAgendamento == dia){
+                    agendamentosDiaMedico.add(agendamento);
+                }
+            }
+        }
+        
+        return agendamentosDiaMedico;
+    }
+    
+    public void remarcarAgendamento(Date anterior, int diaAnterior, 
+            int diaNovo, Date horarioNovo, Medico medico){
+        
+        if(anterior == null || diaAnterior == 0 || diaNovo == 0 || 
+                horarioNovo == null || medico == null){
+            throw new IllegalArgumentException("Os campos não podem estar "
+                    + "vazios");
+        }
+        
+        if(diaAnterior < 0 || diaAnterior > 7 || diaNovo < 0 || diaNovo > 7){
+            throw new IllegalArgumentException("O campo de dia da semana "
+                    + "está inválido. Recarregue a página e tente "
+                    + "novamente.");
+        }
+        
+        List<Agendamento> agendamentosDiaMedico = retornarAgendamentos(
+                diaAnterior, medico, false);
+        
+        Date possivel;        
+        for (Agendamento agendamento : agendamentosDiaMedico) {
+            possivel = retornarNovaDataPossivel(anterior, diaAnterior, 
+                    diaNovo, horarioNovo, medico);
+            atualizarDataAgendamento(agendamento.getId(), possivel, 
+                    horarioNovo);
+        }
     }
 }
