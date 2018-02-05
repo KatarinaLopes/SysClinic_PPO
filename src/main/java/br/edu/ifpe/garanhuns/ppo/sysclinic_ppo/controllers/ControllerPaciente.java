@@ -6,13 +6,13 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginPaciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
         DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
         DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.PacienteManager;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Mensagem;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
@@ -24,13 +24,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -47,15 +44,13 @@ public class ControllerPaciente implements
     private Paciente pacienteSelecionado;
 
     private final LoginPaciente loginPaciente;
-
-    private final PacienteManager pacienteManager;
     
     private Paciente pacienteClonado;
 
     public ControllerPaciente() {
         loginPaciente = new LoginPaciente((DaoPaciente) daoPacientes, 
                 new LoginSessionUtil());
-        pacienteManager = new PacienteManager((DaoPaciente) daoPacientes);
+        Fachada.getInstance().setDaoPaciente(daoPacientes);
     }
 
     public Paciente getPacienteSelecionado() {
@@ -109,7 +104,8 @@ public class ControllerPaciente implements
             paciente.setSenha(Operacoes.criptografarSenha(paciente.
                     getSenha()));
             
-            pacienteManager.cadastrar(paciente, senhaConfirmacaoCriptografada);
+            Fachada.getInstance().getPacienteManager().cadastrar(paciente, 
+                    senhaConfirmacaoCriptografada);
             
             fm = new FacesMessage("Sucesso", 
                     "O cadastro foi efetuado com sucesso");
@@ -140,7 +136,7 @@ public class ControllerPaciente implements
      */
     @Override
     public Paciente recuperar(Integer id) {
-        return pacienteManager.recuperar(id);
+        return Fachada.getInstance().getPacienteManager().recuperar(id);
     }
 
     /**
@@ -152,7 +148,7 @@ public class ControllerPaciente implements
      * @param paciente representing the paciente | representando o paciente 
      */
     public void atualizar(Paciente paciente) {
-       pacienteManager.atualizar(paciente);
+       Fachada.getInstance().getPacienteManager().atualizar(paciente);
     }
 
     /**
@@ -164,7 +160,7 @@ public class ControllerPaciente implements
      * @return all Patients | todos os pacientes
      */
     public List<Paciente> recuperarTodos() {
-        return pacienteManager.recuperarTodos();
+        return Fachada.getInstance().getPacienteManager().recuperarTodos();
 
     }
 
@@ -265,24 +261,27 @@ public class ControllerPaciente implements
 
     public void incluirMensagensDeExclusaoDeAgendamento(Medico excluido) {
 
-        pacienteManager.inserirMensagemDeExclusaoParaTodosPacientes(excluido);
+        Fachada.getInstance().getPacienteManager().
+                inserirMensagemDeExclusaoParaTodosPacientes(excluido);
 
     }
 
     public void incluirMensagemDeAlteracaoDeHorario(Medico medico, 
             Date novoHorario) {
         
-        pacienteManager.inserirMensagemDeAtualizacaoDeHorario(medico, 
-                novoHorario);
+        Fachada.getInstance().getPacienteManager().
+                inserirMensagemDeAtualizacaoDeHorario(medico, novoHorario);
         
     }
 
     public List<Mensagem> exibirMensagens() {
-        return pacienteManager.exibirMensagens(retornarPacienteLogado());
+        return Fachada.getInstance().getPacienteManager().
+                exibirMensagens(retornarPacienteLogado());
     }
 
     public void excluirMensagem(Mensagem m) {
-        pacienteManager.excluirMensagens(m, retornarPacienteLogado());
+        Fachada.getInstance().getPacienteManager().
+                excluirMensagens(m, retornarPacienteLogado());
         atualizar(retornarPacienteLogado());
     }
 
@@ -294,10 +293,10 @@ public class ControllerPaciente implements
         
     
         try {
-            pacienteManager.
+            Fachada.getInstance().getPacienteManager().
                     alterarSenha(paciente, senhaAntiga, senhaNova, 
                             confirmacao);
-            pacienteManager.atualizar(paciente);
+            Fachada.getInstance().getPacienteManager().atualizar(paciente);
             fm = new FacesMessage("Sucesso!", "A senha foi alterada com "
                     + "sucesso!");
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
