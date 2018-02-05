@@ -181,12 +181,9 @@ public class ControllerMedico implements Serializable{
         horariosLivres = medicoManager.retornarHorariosLivres(medico, data);
     }
 
-    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
-       
+    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){  
         medico.atualizarHorario(antigo, novo);
-        
         atualizar(medico);
-        
     }
     
 }

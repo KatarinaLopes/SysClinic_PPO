@@ -381,11 +381,13 @@
                                         medicoSelecionado)}"/>
                     <p:ajax event="rowEdit" 
                             listener="#{controllerMedico.
-                                        atualizarHorario(controllerMedico.
+                                        atualizarHorario(controllerAgenda.,
+                                        controllerMedico.
                                         medicoSelecionado,
                                         horario, builderHorario.build())}"
-                            
+                            oncomplete="PF('wid-dial-confirm-ag').show()"
                             />
+                    </p:ajax>
                     <p:ajax event="rowEdit"
                             listener="#{controllerPaciente.
                                         incluirMensagemDeAlteracaoDeHorario(
@@ -478,6 +480,7 @@
                     value="Fechar"/>
             </h:form>
         </p:dialog>
+        
     </h:body>
 </html>
 

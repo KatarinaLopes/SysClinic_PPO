@@ -5,23 +5,17 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.AgendaManager;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -34,17 +28,11 @@ import org.primefaces.model.ScheduleModel;
 @SessionScoped
 public class ControllerAgenda implements Serializable {
 
-    private final AgendaManager agendaManager;
-
     private Agendamento agendamentoSelecionado;
 
     private Agendamento agendamentoSelecionadoClone;
 
     private ScheduleEvent eventAgendamento = new DefaultScheduleEvent();
-
-    public ControllerAgenda() {
-        agendaManager = new AgendaManager(new DaoAgenda());
-    }
 
     public Agendamento getAgendamentoSelecionado() {
         return agendamentoSelecionado;
@@ -69,15 +57,16 @@ public class ControllerAgenda implements Serializable {
     public void setAgendamentoSelecionadoClone(Agendamento agendamentoSelecionadoClone) {
         this.agendamentoSelecionadoClone = agendamentoSelecionadoClone;
     }
-
+    
     public String salvarAgendamento(Agendamento agendamento) {
+        Fachada fachada = Fachada.getInstance();
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
 
         try {
-            agendaManager.marcarAgendamento(agendamento);
-            agendaManager.atualizar();
+            fachada.getAgendaManager().marcarAgendamento(agendamento);
+            fachada.getAgendaManager().atualizar();
             fm = new FacesMessage("Sucesso!", "O agendamento foi marcado com "
                     + "sucesso!");
             retorno = "/acoes/agendamentos_pendentes.xhtml?"
@@ -92,41 +81,48 @@ public class ControllerAgenda implements Serializable {
     }
 
     public boolean ehPrimeiroAcesso() {
-        return agendaManager.isPrimeiroAcesso();
+        return Fachada.getInstance().getAgendaManager().isPrimeiroAcesso();
     }
 
     public void verificarCadastrarNovaAgenda() {
-        agendaManager.verificarCadastrarNovaAgenda();
+        Fachada.getInstance().getAgendaManager().
+                verificarCadastrarNovaAgenda();
     }
 
-    public List<Agendamento> retornarAgendamentosConcluidos(Paciente pacienteLogado) {
-        return agendaManager.
+    public List<Agendamento> retornarAgendamentosConcluidos(Paciente 
+            pacienteLogado) {
+        return Fachada.getInstance().getAgendaManager().
                 alternarRetornarAgendamentosConcluidos(pacienteLogado);
     }
 
     public List<Agendamento> retornarAgendamentosPendentes(Paciente pacienteLogado) {
-        return agendaManager.alternarAgendamentosPendentes(pacienteLogado);
+        return Fachada.getInstance().getAgendaManager().
+                alternarAgendamentosPendentes(pacienteLogado);
     }
 
     public void excluirAgendamento(Agendamento a) {
         FacesContext fc = FacesContext.getCurrentInstance();
-        String retorno = agendaManager.excluirAgendamento(a);
+        String retorno = Fachada.getInstance().getAgendaManager().
+                excluirAgendamento(a);
         FacesMessage fm = new FacesMessage(retorno);
         fc.addMessage(null, fm);
     }
 
     public List<Agendamento> retornarAgendamentosDataAtual() {
-        return agendaManager.retornarAgendamentosDataAtual();
+        return Fachada.getInstance().getAgendaManager().
+                retornarAgendamentosDataAtual();
     }
 
     public void atualizarHorariosAgendamentos(Date horarioAntigo,
             Date horarioNovo, Medico medico) {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
-
-        agendaManager.atualizarHorariosAgendamentos(horarioAntigo,
+        Fachada fachada = Fachada.getInstance();
+        
+        
+        fachada.getAgendaManager().atualizarHorariosAgendamentos(horarioAntigo,
                 horarioNovo, medico);
-        agendaManager.atualizar();
+        fachada.getAgendaManager().atualizar();
 
         fm = new FacesMessage("Sucesso!",
                 "Os horarios dos agendamentos foram alteradas com sucesso!");
@@ -136,16 +132,18 @@ public class ControllerAgenda implements Serializable {
 
     public ScheduleModel retornarScheduleAgendamentos(int tipo,
             Paciente pacienteLogado) {
-        return agendaManager.retornarScheduleAgendamentos(tipo,
-                pacienteLogado);
+        return Fachada.getInstance().getAgendaManager().
+                retornarScheduleAgendamentos(tipo, pacienteLogado);
     }
 
     public void atualizarStatusAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
+        
+        Fachada fachada = Fachada.getInstance();
 
-        agendaManager.atualizarStatusAgendamento(agendamento);
-        agendaManager.atualizar();
+        fachada.getAgendaManager().atualizarStatusAgendamento(agendamento);
+        fachada.getAgendaManager().atualizar();
         fm = new FacesMessage("Sucesso!",
                 "O status do agendamento foi alterado com sucesso.");
 
@@ -154,14 +152,15 @@ public class ControllerAgenda implements Serializable {
 
     public String atualizarDataAgendamento(Agendamento agendamento) {
 
+             
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
-
+        Fachada fachada = Fachada.getInstance();
         try {
-            agendaManager.remarcar(agendamento.getDataPrevista(),
+            fachada.getAgendaManager().remarcar(agendamento.getDataPrevista(),
                     agendamento.getPeriodo(), agendamento);
-            agendaManager.atualizar();
+            fachada.getAgendaManager().atualizar();
 
             fm = new FacesMessage("Sucesso!",
                     "O agendamento foi remarcado com sucesso!");
@@ -185,10 +184,12 @@ public class ControllerAgenda implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
 
+        Fachada fachada = Fachada.getInstance();
+        
         try {
-            agendaManager.remarcar(diaAnterior, diaNovo,
+            fachada.getAgendaManager().remarcar(diaAnterior, diaNovo,
                     horarioNovo, medico);
-            agendaManager.atualizar();
+            fachada.getAgendaManager().atualizar();
             fm = new FacesMessage("Sucesso!", "Os agendamentos foram "
                     + "remarcados com sucesso.");
         } catch (IllegalArgumentException ex) {
