@@ -5,20 +5,14 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.MedicoManager;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.
-        DaoGenerico;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -31,8 +25,6 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class ControllerMedico implements Serializable{
-
-    private final DaoGenerico daoMedico = new DaoMedico();
     
     private Medico medicoSelecionado;
 
@@ -47,12 +39,9 @@ public class ControllerMedico implements Serializable{
     private List<Agendamento> agendamentosPendentes = new ArrayList<>();
 
     private Agendamento agendamentoSelecionado;
-    
-    private final MedicoManager medicoManager;
-    
+        
     public ControllerMedico(){
         horariosLivres = new ArrayList();
-        medicoManager = new MedicoManager((DaoMedico) daoMedico);
     }
 
     public Medico getMedicoSelecionado() {
@@ -133,7 +122,8 @@ public class ControllerMedico implements Serializable{
         String retorno = null;
         
         try{
-            medicoManager.cadastrar(medico, conselho, numero);
+            Fachada.getInstance().getMedicoManager().cadastrar(medico, 
+                    conselho, numero);
             fm = new FacesMessage("Sucesso", "O médico foi cadastrado com "
                     + "sucesso!" );
             retorno = "/funcionarios/apresentar_medicos.xhtml?"
@@ -148,20 +138,20 @@ public class ControllerMedico implements Serializable{
     }
 
     public Medico recuperar(Integer i) {
-        return medicoManager.recuperar(i);
+        return Fachada.getInstance().getMedicoManager().recuperar(i);
     }
 
     public void atualizar(Medico c) {
-        medicoManager.atualizar(c);
+        Fachada.getInstance().getMedicoManager().atualizar(c);
     }
 
     public void deletar(Medico c) {
 
-        medicoManager.deletar(c);
+       Fachada.getInstance().getMedicoManager().deletar(c);
     }
 
       public List<Medico> recuperarTodos() {
-        return medicoManager.recuperarTodos();
+        return Fachada.getInstance().getMedicoManager().recuperarTodos();
    }
 
    
@@ -174,15 +164,18 @@ public class ControllerMedico implements Serializable{
      * @return
      */
     public void carregarDiasLivres(Medico medico) {
-        diasDisponiveis = medicoManager.retornarDiasLivres(medico);
+        diasDisponiveis = Fachada.getInstance().getMedicoManager().
+                retornarDiasLivres(medico);
     }
 
     public void carregarHorariosLivres(Date data, Medico medico) {
-        horariosLivres = medicoManager.retornarHorariosLivres(medico, data);
+        horariosLivres = Fachada.getInstance().getMedicoManager().
+                retornarHorariosLivres(medico, data);
     }
 
     public void atualizarHorario(Medico medico, Horario antigo, Horario novo){  
-        medico.atualizarHorario(antigo, novo);
+        Fachada.getInstance().getMedicoManager().atualizarHorario(medico, 
+                antigo, novo);
         atualizar(medico);
     }
     
