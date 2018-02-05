@@ -37,7 +37,7 @@ public class ControllerAgenda implements Serializable {
     private final AgendaManager agendaManager;
 
     private Agendamento agendamentoSelecionado;
-    
+
     private Agendamento agendamentoSelecionadoClone;
 
     private ScheduleEvent eventAgendamento = new DefaultScheduleEvent();
@@ -69,8 +69,6 @@ public class ControllerAgenda implements Serializable {
     public void setAgendamentoSelecionadoClone(Agendamento agendamentoSelecionadoClone) {
         this.agendamentoSelecionadoClone = agendamentoSelecionadoClone;
     }
-    
-    
 
     public String salvarAgendamento(Agendamento agendamento) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -159,23 +157,45 @@ public class ControllerAgenda implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
-        
+
         try {
-            agendaManager.remarcar(agendamento.getDataPrevista(), 
+            agendaManager.remarcar(agendamento.getDataPrevista(),
                     agendamento.getPeriodo(), agendamento);
             agendaManager.atualizar();
-            
-            fm = new FacesMessage("Sucesso!", 
+
+            fm = new FacesMessage("Sucesso!",
                     "O agendamento foi remarcado com sucesso!");
-            
+
             retorno = "/acoes/agendamentos_pendentes.xhtml?"
                     + "faces-redirect=true";
         } catch (IllegalArgumentException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     ex.getMessage());
         }
-        
+
         fc.addMessage(null, fm);
         return retorno;
+    }
+
+    public void remarcarAgendamentos(int diaAnterior, int diaNovo, 
+            Date horarioNovo, Medico medico) {
+        
+        System.out.println(diaAnterior + " y " + diaNovo);
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+
+        try {
+            agendaManager.remarcar(diaAnterior, diaNovo,
+                    horarioNovo, medico);
+            agendaManager.atualizar();
+            fm = new FacesMessage("Sucesso!", "Os agendamentos foram "
+                    + "remarcados com sucesso.");
+        } catch (IllegalArgumentException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+                    ex.getMessage());
+        }
+        
+        fc.addMessage(null, fm);
     }
 }

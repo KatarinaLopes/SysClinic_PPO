@@ -201,4 +201,10 @@ public class AgendaManager {
         }
         
     }
+    
+    public void remarcar(int diaAnterior, int diaNovo, Date
+            horarioNovo, Medico medico){
+        System.out.println(diaAnterior + " d " + diaNovo);
+        agenda.remarcarAgendamento(diaAnterior, diaNovo, horarioNovo, medico);
+    }
 }

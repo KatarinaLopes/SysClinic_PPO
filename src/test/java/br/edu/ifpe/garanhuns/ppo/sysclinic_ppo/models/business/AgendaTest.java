@@ -463,7 +463,7 @@ public class AgendaTest {
         assertEquals("Agendamento, data ou horário não podem estar vazios",
                 message);
     }
-
+/*
     @Test
     public void deveTestarRealizadosRetornarAgendamentos_int_Medico() {
         List retorno = agenda.retornarAgendamentos(1, medico, true);
@@ -487,31 +487,11 @@ public class AgendaTest {
         retorno = agenda.retornarAgendamentos(2, medico, false);
 
         assertEquals(0, retorno.size());
-    }
+    }*/
 
-    @Test
-    public void deveTestarValidarRemarcarAgendamento() {
-        Date anterior = null;
-        int diaAnterior = 4;
-        int diaNovo = 3;
-        Date horarioNovo = new Date();
-        Medico medico = new Medico();
-        String mensagem = "";
-
-        try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
-                    horarioNovo, medico);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            mensagem = ex.getMessage();
-        }
-
-        assertEquals("Os campos não podem estar vazios", mensagem);
-    }
-
+    
     @Test
     public void deveTestarValidarDiaA0RemarcarAgendamento() {
-        Date anterior = new Date();
         int diaAnterior = 0;
         int diaNovo = 3;
         Date horarioNovo = new Date();
@@ -519,7 +499,7 @@ public class AgendaTest {
         String mensagem = "";
 
         try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
+            agenda.remarcarAgendamento(diaAnterior, diaNovo,
                     horarioNovo, medico);
             fail();
         } catch (IllegalArgumentException ex) {
@@ -531,7 +511,6 @@ public class AgendaTest {
 
     @Test
     public void deveTestarValidarDN0RemarcarAgendamento() {
-        Date anterior = new Date();
         int diaAnterior = 4;
         int diaNovo = 0;
         Date horarioNovo = new Date();
@@ -539,7 +518,7 @@ public class AgendaTest {
         String mensagem = "";
 
         try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
+            agenda.remarcarAgendamento(diaAnterior, diaNovo,
                     horarioNovo, medico);
             fail();
         } catch (IllegalArgumentException ex) {
@@ -551,7 +530,6 @@ public class AgendaTest {
 
     @Test
     public void deveTestarValidarDateHNuloRemarcarAgendamento() {
-        Date anterior = new Date();
         int diaAnterior = 4;
         int diaNovo = 3;
         Date horarioNovo = null;
@@ -559,7 +537,7 @@ public class AgendaTest {
         String mensagem = "";
 
         try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
+            agenda.remarcarAgendamento(diaAnterior, diaNovo,
                     horarioNovo, medico);
             fail();
         } catch (IllegalArgumentException ex) {
@@ -571,7 +549,6 @@ public class AgendaTest {
 
     @Test
     public void deveTestarValidarMNRemarcarAgendamento() {
-        Date anterior = new Date();
         int diaAnterior = 4;
         int diaNovo = 3;
         Date horarioNovo = new Date();
@@ -579,8 +556,8 @@ public class AgendaTest {
         String mensagem = "";
 
         try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
-                    horarioNovo, medico);
+            agenda.remarcarAgendamento(diaAnterior, diaNovo, horarioNovo,
+                    medico);
             fail();
         } catch (IllegalArgumentException ex) {
             mensagem = ex.getMessage();
@@ -591,7 +568,6 @@ public class AgendaTest {
 
     @Test
     public void deveTestarValidarMRemarcarAgendamento() {
-        Date anterior = new Date();
         int diaAnterior = 7;
         int diaNovo = 3;
         Date horarioNovo = new Date();
@@ -599,8 +575,8 @@ public class AgendaTest {
         String mensagem = "";
 
         try {
-            agenda.remarcarAgendamento(anterior, diaAnterior, diaNovo,
-                    horarioNovo, medico);
+            agenda.remarcarAgendamento(diaAnterior, diaNovo, horarioNovo, 
+                    medico);
             fail();
         } catch (IllegalArgumentException ex) {
             mensagem = ex.getMessage();

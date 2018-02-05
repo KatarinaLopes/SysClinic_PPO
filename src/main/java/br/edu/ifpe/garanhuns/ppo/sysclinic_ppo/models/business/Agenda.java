@@ -245,9 +245,13 @@ public class Agenda implements Serializable {
         int diasDeIntervalo = diaAnterior < diaNovo ? diaNovo - diaAnterior
                 : diaAnterior - diaNovo;
 
+        if(diasDeIntervalo == 0){
+            return anterior;
+        }
+        
         long dataMilisegundos = diasDeIntervalo * diaMilisegundos;
 
-        Date dataInicial = new Date(dataMilisegundos);
+        Date dataInicial = new Date(anterior.getTime() + dataMilisegundos);
 
         boolean possivel = false;
         while (!possivel) {
@@ -255,7 +259,8 @@ public class Agenda implements Serializable {
 
             if (!possivel) {
 
-                dataInicial.setTime(dataInicial.getTime() + semanaMilisegundos);
+                dataInicial.setTime(dataInicial.getTime() + 
+                        semanaMilisegundos);
             }
         }
 
@@ -287,10 +292,10 @@ public class Agenda implements Serializable {
         return agendamentosDiaMedico;
     }
     
-    public void remarcarAgendamento(Date anterior, int diaAnterior, 
+    public void remarcarAgendamento(int diaAnterior, 
             int diaNovo, Date horarioNovo, Medico medico){
         
-        if(anterior == null || diaAnterior == 0 || diaNovo == 0 || 
+        if(diaAnterior == 0 || diaNovo == 0 || 
                 horarioNovo == null || medico == null){
             throw new IllegalArgumentException("Os campos não podem estar "
                     + "vazios");
@@ -307,8 +312,8 @@ public class Agenda implements Serializable {
         
         Date possivel;        
         for (Agendamento agendamento : agendamentosDiaMedico) {
-            possivel = retornarNovaDataPossivel(anterior, diaAnterior, 
-                    diaNovo, horarioNovo, medico);
+            possivel = retornarNovaDataPossivel(agendamento.getDataPrevista(),
+                    diaAnterior, diaNovo, horarioNovo, medico);
             atualizarDataAgendamento(agendamento.getId(), possivel, 
                     horarioNovo);
         }

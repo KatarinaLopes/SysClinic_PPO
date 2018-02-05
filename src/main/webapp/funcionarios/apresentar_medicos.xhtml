@@ -372,19 +372,26 @@
                              rows="5" 
                          value="#{controllerMedico.medicoSelecionado.horarios}"
                              var="horario">
-
+                    <p:ajax event="rowEdit"
+                            listener="#{controllerAgenda.
+                                        remarcarAgendamentos(horario.dia, 
+                                        builderHorario.diaDaSemana, 
+                                        builderHorario.horarioInicial, 
+                                        controllerMedico.
+                                        medicoSelecionado)}"/>
                     <p:ajax event="rowEdit" 
                             listener="#{controllerMedico.
                                         atualizarHorario(controllerMedico.
                                         medicoSelecionado,
                                         horario, builderHorario.build())}"
                             
-                            update="tabela-editar-horarios"/>
+                            />
                     <p:ajax event="rowEdit"
                             listener="#{controllerPaciente.
                                         incluirMensagemDeAlteracaoDeHorario(
                                         controllerMedico.medicoSelecionado, 
                                         builderHorario.horarioInicial)}"/>
+                    
 
                     <p:column headerText="Dia">
                         <p:cellEditor>
@@ -462,6 +469,7 @@
                     <p:column>
                         <p:rowEditor cancelTitle="Cancelar" editTitle="Editar"
                                      saveTitle="Salvar"/>
+                        <p:commandButton image="fa fa-close"/>
                     </p:column>
                 </p:dataTable>
 
