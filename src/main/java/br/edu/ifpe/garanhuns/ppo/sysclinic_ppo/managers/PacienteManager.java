@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.exception.ConstraintViolationException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -50,7 +51,7 @@ public class PacienteManager implements Serializable {
      * existe
      */
     public void validarCadastrar(Paciente paciente, String confirmacaoSenha) {
-        if(!Validacoes.validarCpf(paciente.getCpf())){
+        if (!Validacoes.validarCpf(paciente.getCpf())) {
             throw new IllegalArgumentException("CPF é inválido");
         }
 
@@ -117,12 +118,16 @@ public class PacienteManager implements Serializable {
      * @param paciente
      */
     public void atualizar(Paciente paciente) {
-        daoPaciente.atualizar(paciente);
+        try {
+            daoPaciente.atualizar(paciente);
+        } catch (ConstraintViolationException ex) {
+            throw new IllegalArgumentException("Este CPF já está cadastrado");
+        }
     }
 
     public void inserirMensagemDeExclusaoParaTodosPacientes(Medico excluido) {
         //List<Agendamento> agendamentos = excluido.getAgenda().
-          //      getAgendamentos();
+        //      getAgendamentos();
 
         Paciente anterior = null;
         Paciente atual = null;
@@ -172,20 +177,20 @@ public class PacienteManager implements Serializable {
 
         String antigaCriptografada = Operacoes.criptografarSenha(senhaAntiga);
 
-        if (!verificarCorrespondenciaSenha(paciente.getSenha(), 
+        if (!verificarCorrespondenciaSenha(paciente.getSenha(),
                 antigaCriptografada)) {
             throw new IllegalArgumentException("A senha antiga está "
                     + "incorreta");
         }
-        
-        if(!verificarCorrespondenciaSenha(senhaNova, confirmacao)){
+
+        if (!verificarCorrespondenciaSenha(senhaNova, confirmacao)) {
             throw new IllegalArgumentException("A senha nova e a confirmação "
                     + "não correspondem!");
         }
-        
+
         String novaCriptografada = Operacoes.criptografarSenha(senhaNova);
-        
+
         paciente.setSenha(novaCriptografada);
-        
+
     }
 }

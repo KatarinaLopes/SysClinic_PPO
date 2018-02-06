@@ -67,9 +67,10 @@
                                  retornarPacienteLogado().email}"/>
                 </p:panelGrid>
 
-                <p:commandButton icon="fa fa-search" 
+                <p:commandButton icon="fa fa-search" ajax="false"
                                  value="Atualizar suas informações"
-                                 action="#{beanPaginas.alterarPaciente}"
+                                 action="#{beanPaginas.alterarPaciente.
+                                           trim()}"
                                  update="@all"/>
             </p:panel>
             <p:panel>
