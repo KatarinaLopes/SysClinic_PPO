@@ -12,7 +12,9 @@
                          placeholder="Ex.: Maria da Silva" 
                          required="true"
                          requiredMessage="Campo obrigatório" 
-                         value="#{builderFuncionario.nome}">
+                         value="#{builderFuncionario.nome}"
+                         validatorMessage="#{beanValidacao.mensagemNome}">
+                <f:validateRegex pattern="#{beanValidacao.regexNome}"/>
             </p:inputText>
             <p:message for="nome"/>
 
@@ -32,7 +34,10 @@
             <h:outputText value="*Cargo"/>
             <p:inputText id="especialidade" required="true" 
                          requiredMessage="Campo obrigatório"
-                         value="#{builderFuncionario.cargo}"/>
+                         value="#{builderFuncionario.cargo}"
+                         validatorMessage="#{beanValidacao.mensagemNome}">
+                <f:validateRegex pattern="#{beanValidacao.regexNome}"/>
+            </p:inputText>
             <p:message for="especialidade"/>
 
             <h:outputText value="*Sexo"/>
@@ -48,12 +53,18 @@
             <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
                          value="#{builderFuncionario.telefone}"
                          placeholder="(99)9999-9999" required="true" 
-                         requiredMessage="Campo obrigatório"/>
+                         requiredMessage="Campo obrigatório"
+                         validatorMessage="#{beanValidacao.mensagemTelefone}">
+                <f:validateRegex pattern="#{beanValidacao.regexTelefone}"/>
+            </p:inputMask>
             <p:message for="telefoneContato"/>
 
             <h:outputText value="Email"/>
             <p:inputText id="email" value="#{builderFuncionario.email}"
-                         placeholder="email@email.com"/>
+                         placeholder="email@email.com"
+                         validatorMessage="#{beanValidacao.mensagemEmail}">
+                <f:validateRegex pattern="#{beanValidacao.regexEmail}"/>
+            </p:inputText>
             <p:message for="email"/>
 
             <p:selectBooleanCheckbox  id="administrador" 
@@ -83,7 +94,7 @@
                                    confirmeSenha)}"
                          update="@form"/>
         <p:commandButton value="Limpar campos" type="reset"
-                         update="@form"/>
+                         update="@form" ajax="false"/>
     </p:panel>
 </ui:composition>
 
