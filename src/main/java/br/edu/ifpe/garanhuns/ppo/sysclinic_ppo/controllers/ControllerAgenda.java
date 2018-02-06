@@ -175,28 +175,4 @@ public class ControllerAgenda implements Serializable {
         fc.addMessage(null, fm);
         return retorno;
     }
-
-    /*public void remarcarAgendamentos(int diaAnterior, int diaNovo, 
-            Date horarioNovo, Medico medico) {
-        
-        System.out.println(diaAnterior + " y " + diaNovo);
-
-        FacesContext fc = FacesContext.getCurrentInstance();
-        FacesMessage fm;
-
-        Fachada fachada = Fachada.getInstance();
-        
-        try {
-            fachada.getAgendaManager().remarcar(diaAnterior, horarioNovo, 
-                    medico);
-            fachada.getAgendaManager().atualizar();
-            fm = new FacesMessage("Sucesso!", "Os agendamentos foram "
-                    + "remarcados com sucesso.");
-        } catch (IllegalArgumentException ex) {
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
-                    ex.getMessage());
-        }
-        
-        fc.addMessage(null, fm);
-    }*/
 }

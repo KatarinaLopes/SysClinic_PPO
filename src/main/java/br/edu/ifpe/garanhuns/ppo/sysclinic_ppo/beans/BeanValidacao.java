@@ -5,16 +5,17 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Katarina
  */
 @ManagedBean
-@ViewScoped
-public class BeanValidacao {
+@RequestScoped
+public class BeanValidacao implements Serializable{
     
     private final String regexNome = "[aA-zZàÀ-úÚ\\s]{1,70}";
     

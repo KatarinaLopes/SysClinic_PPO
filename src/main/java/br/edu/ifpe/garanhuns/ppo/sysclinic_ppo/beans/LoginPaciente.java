@@ -29,7 +29,7 @@ public class LoginPaciente implements Serializable{
 
     private Paciente pacienteLogado;
     private final DaoGenerico daoPacientes;
-    private LoginSessionUtil loginSessionUtil;
+    private final LoginSessionUtil loginSessionUtil;
 
     public LoginPaciente(DaoPaciente daoPacientes, 
             LoginSessionUtil loginSessionUtil) {

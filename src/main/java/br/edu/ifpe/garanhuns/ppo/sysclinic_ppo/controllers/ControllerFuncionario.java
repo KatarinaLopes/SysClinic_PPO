@@ -11,9 +11,6 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import java.io.Serializable;
@@ -22,7 +19,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -37,7 +33,6 @@ public class ControllerFuncionario implements
 
     private final DaoFuncionario daoFuncionarios = new DaoFuncionario();
 
-    @ManagedProperty(value = "#{funcionarioSelecionado}")
     private Funcionario funcionarioSelecionado;
 
     private final LoginFuncionario loginFuncionario;
@@ -161,7 +156,8 @@ public class ControllerFuncionario implements
     public void deletar(Funcionario funcionario) {
 
         if (existeMaisDeUm(funcionario.isAdministrador())) {
-            daoFuncionarios.deletar(funcionario);
+            Fachada.getInstance().getFuncionarioManager().
+                    deletar(funcionario);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta",

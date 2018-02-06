@@ -29,7 +29,7 @@ public class LoginFuncionario implements Serializable{
 
     private Funcionario funcionarioLogado;
     private final DaoGenerico daoFuncionarios;
-    private LoginSessionUtil loginSessionUtil;
+    private final LoginSessionUtil loginSessionUtil;
 
     public LoginFuncionario(DaoFuncionario daoFuncionarios, 
             LoginSessionUtil loginSessionUtil){

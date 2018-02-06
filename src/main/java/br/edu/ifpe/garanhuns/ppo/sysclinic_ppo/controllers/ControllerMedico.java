@@ -9,12 +9,10 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -118,9 +116,6 @@ public class ControllerMedico implements Serializable {
      * mandada.
      *
      * @param medico
-     * @param conselho
-     * @param numero
-     * @return
      */
     public String cadastrar(Medico medico) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -197,8 +192,6 @@ public class ControllerMedico implements Serializable {
         Fachada.getInstance().getMedicoManager().atualizarHorario(medico,
                 antigo, novo);
         atualizar(medico);
-
-        System.out.println(diaAntigo + " dj " + diaNovo);
 
         Fachada.getInstance().getAgendaManager().
                 remarcar(diaAntigo, novo, medico);
