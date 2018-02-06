@@ -47,6 +47,12 @@ public class BeanPaginas implements Serializable{
     private final String informacoesPessoais = "/pacientes/"
             + "informacoes_pessoais.xhtml";
     
+    private final String cadastroFuncionarios = "/restricted/administrador/"
+            + "include_cadastro_funcionarios.xhtml";
+    
+    private final String alterarFuncionario = "/administrador/"
+            + "alterar_funcionario.xhtml";
+    
     private String paginaAtual = "";
     
     
@@ -102,5 +108,15 @@ public class BeanPaginas implements Serializable{
     public String getInformacoesPessoais() {
         return informacoesPessoais;
     }
+
+    public String getCadastroFuncionarios() {
+        return cadastroFuncionarios;
+    }
+
+    public String getAlterarFuncionario() {
+        return alterarFuncionario;
+    }
+    
+    
     
 }

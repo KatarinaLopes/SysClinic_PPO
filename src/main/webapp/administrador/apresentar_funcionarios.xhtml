@@ -34,8 +34,8 @@
                     <f:facet name="header">
                         <p:outputLabel>
                             <p:inputText id="global-filter" 
-                                 onkeyup="PF('tabela-apresentar-funcionarios').
-                                                 filter()"
+                                         onkeyup="PF('tabela-apresentar-funcionarios').
+                                                         filter()"
                                          placeholder="Pesquisar"/>
                         </p:outputLabel>
                     </f:facet>
@@ -94,32 +94,32 @@
                         <p:commandButton icon="fa fa-search"
                                          update=":form-apresentar-funcionarios 
                                          :dial-visualizar-funcionario"
-                             oncomplete="PF('wid-dial-visualizar-funcionario').
+                                         oncomplete="PF('wid-dial-visualizar-funcionario').
                                          show()">
                             <f:setPropertyActionListener value="#{funcionario}" 
-                                               target="#{controllerFuncionario.
-                                                     funcionarioSelecionado}"/>
+                                                         target="#{controllerFuncionario.
+                                                                   funcionarioSelecionado}"/>
                         </p:commandButton>
 
                         <p:commandButton icon="fa fa-pencil"
                                          update=":form-apresentar-funcionarios 
                                          :dial-form-alterar-funcionario"
-                                oncomplete="PF('wid-dial-alterar-funcionario').
+                                         oncomplete="PF('wid-dial-alterar-funcionario').
                                          show()">
                             <f:setPropertyActionListener value="#{funcionario}"
-                                               target="#{controllerFuncionario.
-                                                     funcionarioSelecionado}"/>
+                                                         target="#{controllerFuncionario.
+                                                                   funcionarioSelecionado}"/>
                         </p:commandButton>
 
                         <p:commandButton icon="fa fa-close" 
                                          disabled="#{!controllerFuncionario.
-                                    existeMaisDeUm(funcionario.administrador)}"
+                                                     existeMaisDeUm(funcionario.administrador)}"
                                          update=":form-apresentar-funcionarios
                                          dial-confirm"
-                                    oncomplete="PF('wid-dial-confirm').show()">
+                                         oncomplete="PF('wid-dial-confirm').show()">
                             <f:setPropertyActionListener value="#{funcionario}"
-                                               target="#{controllerFuncionario.
-                                                     funcionarioSelecionado}"/>
+                                                         target="#{controllerFuncionario.
+                                                                   funcionarioSelecionado}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -184,10 +184,10 @@
                 </p:panelGrid>
 
                 <p:commandButton value="Fechar" 
-                    oncomplete="PF('wid-dial-visualizar-funcionario').hide()"/>
+                                 oncomplete="PF('wid-dial-visualizar-funcionario').hide()"/>
                 <p:commandButton value="Editar"
-                         onclick="PF('wid-dial-visualizar-funcionario').hide()"
-                         oncomplete="PF('wid-dial-alterar-funcionario').show()"
+                                 onclick="PF('wid-dial-visualizar-funcionario').hide()"
+                                 oncomplete="PF('wid-dial-alterar-funcionario').show()"
                                  update=":dial-alterar-funcionario"/>
             </h:form>
         </p:dialog>
@@ -207,37 +207,49 @@
                 </h3>
 
                 <p:panelGrid columns="3">
-                    <h:outputText value="Matrícula"/>
-                    <p:inputText id="matricula" required="true" 
+                    <h:outputText value="*Nome"/> 
+                    <p:inputText id="nome" maxlength="70" 
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
+                                 requiredMessage="Campo obrigatório" 
+                                 value="#{controllerFuncionario.
+                                          funcionarioSelecionado.nome}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemNome}">
+                        <f:validateRegex pattern="#{beanValidacao.regexNome}"/>
+                    </p:inputText>
+                    <p:message for="nome"/>
+
+                    <h:outputText value="*Matrícula"/>
+                    <p:inputText id="matricula" type="number" required="true" 
                                  requiredMessage="Campo obrigatório"
                                  value="#{controllerFuncionario.
                                           funcionarioSelecionado.matricula}"/>
                     <p:message for="matricula"/>
 
-                    <h:outputText value="Data de admissão"/>
+                    <h:outputText value="*Data de Admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
-                                maxdate="today" required="true"
+                                maxdate="today" required="true" 
                                 requiredMessage="Campo obrigatório"
                                 value="#{controllerFuncionario.
-                                         funcionarioSelecionado.
-                                         dataAdmissao}"/>
+                                         funcionarioSelecionado.dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
 
-                    <h:outputText value="Nome"/> 
-                    <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" 
-                                 required="true"
-                                 requiredMessage="Campo obrigatório" 
-                                 value="#{
-                                 controllerFuncionario.funcionarioSelecionado.
-                                     nome}">
+                    <h:outputText value="*Cargo"/>
+                    <p:inputText id="especialidade" required="true" 
+                                 requiredMessage="Campo obrigatório"
+                                 value="#{controllerFuncionario.
+                                          funcionarioSelecionado.cargo}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemNome}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexNome}"/>
                     </p:inputText>
-                    <p:message for="nome"/>
+                    <p:message for="especialidade"/>
 
-                    <h:outputText value="Sexo"/>
-                    <p:selectOneRadio value="#{
-                                      controllerFuncionario.
-                                          funcionarioSelecionado.sexo}" 
+                    <h:outputText value="*Sexo"/>
+                    <p:selectOneRadio value="#{controllerFuncionario.
+                                               funcionarioSelecionado.sexo}" 
                                       id="sexo"
                                       required="true" 
                                       requiredMessage="Campo obrigatório">
@@ -246,45 +258,44 @@
                     </p:selectOneRadio>
                     <p:message for="sexo"/>
 
-                    <h:outputText value="Cargo"/>
-                    <p:inputText id="cargo" 
-                                 value="#{
-                                 controllerFuncionario.
-                                     funcionarioSelecionado.cargo}"
-                                 required="true" 
-                                 requiredMessage="Campo obrigatório"/>
-                    <p:message for="cargo"/>
-
-                    <h:outputText value="Telefone para contato"/>
+                    <h:outputText value="*Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
-                                 value="#{
-                                 controllerFuncionario.
-                                     funcionarioSelecionado.telefone}"
+                                 value="#{controllerFuncionario.
+                                          funcionarioSelecionado.telefone}"
                                  placeholder="(99)9999-9999" required="true" 
-                                 requiredMessage="Campo obrigatório"/>
+                                 requiredMessage="Campo obrigatório"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemTelefone}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexTelefone}"/>
+                    </p:inputMask>
                     <p:message for="telefoneContato"/>
 
                     <h:outputText value="Email"/>
-                    <p:inputText id="email" value="#{
-                                 controllerFuncionario.funcionarioSelecionado.
-                                     email}"
-                                 placeholder="email@email.com"/>
+                    <p:inputText id="email" value="#{controllerFuncionario.
+                                                     funcionarioSelecionado.
+                                                     email}"
+                                 placeholder="email@email.com"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemEmail}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexEmail}"/>
+                    </p:inputText>
                     <p:message for="email"/>
 
-                    <p:selectBooleanCheckbox id="administrador" 
-                                           disabled="#{!controllerFuncionario.
-                                         existeMaisDeUm(controllerFuncionario.
-                                         funcionarioSelecionado.
-                                         administrador)}"
-                                             itemLabel="É um administrador"
-                                             value="#{controllerFuncionario.
-                                                      funcionarioSelecionado.
-                                                      administrador}">
+                    <p:selectBooleanCheckbox  id="administrador" 
+                                              itemLabel="É um administrador"
+                                disabled="#{!controllerFuncionario.
+                                    existeMaisDeUm(controllerFuncionario.
+                                    funcionarioSelecionado.administrador)}"
+                                
+                                              value="#{controllerFuncionario.
+                                                  funcionarioSelecionado.
+                                                  administrador}">
                         <p:ajax event="change" 
                                 listener="#{controllerFuncionario.
                                             exibirAlertaDeMudanca()}"
                                 update=":form-apresentar-funcionarios:growl"/>
-
                     </p:selectBooleanCheckbox>
                     <p:spacer/><p:spacer/>
 
@@ -295,11 +306,13 @@
                                            atualizar
                                            (controllerFuncionario.
                                            funcionarioSelecionado)}"
-                                 update="form-apresentar-funcionarios"
+                                 update="form-apresentar-funcionarios
+                                 form-apresentar-funcionarios:growl"
+                                 validateClient="true"
                                  oncomplete="
                                  PF('wid-dial-alterar-funcionario').hide()"/>
                 <p:commandButton value="Cancelar"
-                       oncomplete="PF('wid-dial-alterar-funcionario').hide()"/>
+                    oncomplete="PF('wid-dial-alterar-funcionario').hide()"/>
             </h:form>
 
         </p:dialog>
@@ -318,8 +331,8 @@
                 <br/>
 
                 <p:commandButton value="Sim" action="#{controllerFuncionario.
-                                                 deletar(controllerFuncionario.
-                                                      funcionarioSelecionado)}"
+                                                       deletar(controllerFuncionario.
+                                                       funcionarioSelecionado)}"
                                  oncomplete="PF('wid-dial-confirm').hide()"
                                  update=":form-apresentar-funcionarios"/>
                 <p:commandButton value="Não" 

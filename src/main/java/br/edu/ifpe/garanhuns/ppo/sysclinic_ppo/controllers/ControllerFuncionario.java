@@ -8,12 +8,12 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginFuncionario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Funcionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
-        DaoFuncionario;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
-        exception.DaoException;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
-        exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoFuncionario;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.DaoException;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.exception.InternalException;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.utils.LoginSessionUtil;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
 import java.io.Serializable;
@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class ControllerFuncionario implements 
+public class ControllerFuncionario implements
         ControllerGenerico<Funcionario, Integer>, Serializable {
 
     private final DaoFuncionario daoFuncionarios = new DaoFuncionario();
@@ -41,8 +41,8 @@ public class ControllerFuncionario implements
     private Funcionario funcionarioSelecionado;
 
     private final LoginFuncionario loginFuncionario;
-    
-    public ControllerFuncionario(){
+
+    public ControllerFuncionario() {
         loginFuncionario = new LoginFuncionario(daoFuncionarios, 
                 new LoginSessionUtil());
         Fachada.getInstance().setDaoFuncionario(daoFuncionarios);
@@ -63,64 +63,58 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Cryptographes a password confirmation and send it with a Funcionario to
-     * be persisted in the database
-     * 
-     * PT-BR
-     * Criptografa uma confirmação de senha e a envia junto com um Funcionario
-     * para ser persistida na database
-     * 
-     * @param funcionario Funcionario to be saved | Funcionario que será 
+     * EN-US Cryptographes a password confirmation and send it with a
+     * Funcionario to be persisted in the database
+     *
+     * PT-BR Criptografa uma confirmação de senha e a envia junto com um
+     * Funcionario para ser persistida na database
+     *
+     * @param funcionario Funcionario to be saved | Funcionario que será
      * cadastrado
      * @param senhaConfirmacao Password confirmation | Confirmação de senha
      * @return apresentar_funcionarios.xhtml if succesful or null if not |
      * apresentar_funcionarios.xhtml se tiver sucesso ou null se não tiver
      */
-    public String cadastrar(Funcionario funcionario, String senhaConfirmacao){
-        
+    public String cadastrar(Funcionario funcionario, String senhaConfirmacao) {
+
         FacesContext fc = FacesContext.getCurrentInstance();
-        FacesMessage fm;       
+        FacesMessage fm;
         String retorno = null;
-       
-        
+
         try {
             String senhaCriptografada = Operacoes.
                     criptografarSenha(senhaConfirmacao);
             funcionario.setSenha(Operacoes.criptografarSenha(funcionario.
                     getSenha()));
-            
             Fachada.getInstance().getFuncionarioManager().
                     cadastrar(funcionario, senhaCriptografada);
-            
+
             fm = new FacesMessage("Sucesso!", "O funcionário foi cadastrado "
                     + "com sucesso!");
-            
+
             retorno = "/administrador/apresentar_funcionarios.xhtml?"
                     + "faces-redirect=true";
-            
-        } catch(IllegalArgumentException ex){
-            
-            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro", 
+
+        } catch (IllegalArgumentException ex) {
+
+            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro",
                     ex.getMessage());
-            
-        } catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
-            
-            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro", 
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+
+            fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro",
                     "Recarregue a página e tente novamente.");
         }
-        
+
         fc.addMessage(null, fm);
         return retorno;
     }
 
     /**
-     * EN-US
-     * Retrives the Funcionario with the given id from the database
-     * 
-     * PT-BR
-     * Recupera o Funcionario com a id dada.
-     * 
+     * EN-US Retrives the Funcionario with the given id from the database
+     *
+     * PT-BR Recupera o Funcionario com a id dada.
+     *
      * @param id id of the Funcionario | id do funcionario
      * @return O funcionario ou nulo, se este não exister
      */
@@ -131,27 +125,37 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Updates the given Funcionario in the DB
-     * 
-     * PT-BR
-     * Atualiza o dado funcionário no BD
+     * EN-US Updates the given Funcionario in the DB
+     *
+     * PT-BR Atualiza o dado funcionário no BD
+     *
      * @param funcionario The funcionario to be updated | O funcionario a ser
      * atualizado
      */
     public void atualizar(Funcionario funcionario) {
-        Fachada.getInstance().getFuncionarioManager().atualizar(funcionario);
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+
+        try {
+            Fachada.getInstance().getFuncionarioManager().
+                    atualizar(funcionario);
+            fm = new FacesMessage("Sucesso!",
+                    "O funcionário foi atualizado com sucesso");
+        } catch (IllegalArgumentException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    ex.getMessage());
+        }
+
+        fc.addMessage(null, fm);
     }
 
-    
     /**
-     * EN-US
-     * Deletes the Funcionario from the DB
-     * 
-     * PT-BR
-     * Exclui um funcionário do banco de dados
+     * EN-US Deletes the Funcionario from the DB
      *
-     * @param funcionario representing the funcionario to be deleted | 
+     * PT-BR Exclui um funcionário do banco de dados
+     *
+     * @param funcionario representing the funcionario to be deleted |
      * representando funcionário a ser excluído
      */
     public void deletar(Funcionario funcionario) {
@@ -168,11 +172,10 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Retrieves all the saved funcionario from the DB
-     * 
-     * PT-BR
-     * Recupera todos os funcionarios do BD
+     * EN-US Retrieves all the saved funcionario from the DB
+     *
+     * PT-BR Recupera todos os funcionarios do BD
+     *
      * @return all saved funcionarios | todos os funcionarios salvos
      */
     public List<Funcionario> recuperarTodos() {
@@ -180,38 +183,39 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Verifies if there's more than one funcionario whether it's an 
+     * EN-US Verifies if there's more than one funcionario whether it's an
      * administrador or not
-     * 
-     * PT-BR
-     * Verifica se tem mais de um funcionario, sendo ele administrador ou não
-     * @param admin defines if it's an administrador | define se é um 
+     *
+     * PT-BR Verifica se tem mais de um funcionario, sendo ele administrador ou
+     * não
+     *
+     * @param admin defines if it's an administrador | define se é um
      * administrador
-     * @return true if there is, false if there isn't | true, se tem, false, 
-     * se não tem
+     * @return true if there is, false if there isn't | true, se tem, false, se
+     * não tem
      */
-    public boolean existeMaisDeUm(boolean admin){
+    public boolean existeMaisDeUm(boolean admin) {
         return Fachada.getInstance().getFuncionarioManager().
                 existeMaisDeUm(admin);
+
     }
-    
+
     /**
-     * EN-US
-     * Sends the login and the cryptographed password given to the login method
-     * 
-     * PT-BR
-     * Envia o login e a senha criptografada dada para o método de login
+     * EN-US Sends the login and the cryptographed password given to the login
+     * method
+     *
+     * PT-BR Envia o login e a senha criptografada dada para o método de login
+     *
      * @param login representing the login | representando o login
      * @param senha representing the password | representando a senha
-     * @return home page if succesful, null if unsuccesful | página inicial se 
+     * @return home page if succesful, null if unsuccesful | página inicial se
      * sucedido, nulo se não sucedido
      */
     public String fazerLogin(Integer login, String senha) {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
-        
+
         try {
             String senhaCriptografada = Operacoes.criptografarSenha(senha);
             loginFuncionario.login(login, senhaCriptografada, fc);
@@ -219,12 +223,12 @@ public class ControllerFuncionario implements
             fm = new FacesMessage("Sucesso!", "Você será redirecionado em "
                     + "alguns instantes");
             retorno = pegarPaginaDeRedirecionamento();
-        } catch (DaoException | IllegalArgumentException | 
-                InternalException ex) {
+        } catch (DaoException | IllegalArgumentException
+                | InternalException ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Erro", ex.getMessage());
-        }catch(NoSuchAlgorithmException | UnsupportedEncodingException ex){
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     "Recarregue a página e tente novamente.");
         }
 
@@ -233,17 +237,15 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Returns the correct page for the logged funcionario, depending if it's 
-     * an administrado or not
-     * 
-     * PT-BR
-     * Retorna a página correta para o funcionário logado, dependente se este 
-     * é um administrador ou não
-     * 
-     * @return home_admin.xhtml if it's an administrador, 
-     * home_funcionario.xhtml if it isn't | home_admin.xhtml se o 
-     * funcionario é um administrador, home_funcionario.xhtml se não é
+     * EN-US Returns the correct page for the logged funcionario, depending if
+     * it's an administrado or not
+     *
+     * PT-BR Retorna a página correta para o funcionário logado, dependente se
+     * este é um administrador ou não
+     *
+     * @return home_admin.xhtml if it's an administrador, home_funcionario.xhtml
+     * if it isn't | home_admin.xhtml se o funcionario é um administrador,
+     * home_funcionario.xhtml se não é
      */
     private String pegarPaginaDeRedirecionamento() {
         if (loginFuncionario.existeLogadoAdministrador()) {
@@ -254,66 +256,62 @@ public class ControllerFuncionario implements
                     + "faces-redirect=true";
         }
     }
-    
+
     /**
-     * EN-US
-     * Returns the logged funcionario
-     * 
-     * PT-BR
-     * Retorna o funcionario logado
+     * EN-US Returns the logged funcionario
+     *
+     * PT-BR Retorna o funcionario logado
+     *
      * @return logged funcionario | funcionario logado
      */
-    public Funcionario pegarFuncionarioLogado(){
+    public Funcionario pegarFuncionarioLogado() {
         return loginFuncionario.getFuncionarioLogado();
     }
-    
+
     /**
-     * EN-US
-     * Verifies if there's a logged administrador
-     * 
-     * PT-BR
-     * Verifica se tem um administrador logado
+     * EN-US Verifies if there's a logged administrador
+     *
+     * PT-BR Verifica se tem um administrador logado
+     *
      * @return true if there is, false if there isn't | true se tem, false se
      * não
      */
-    public boolean existeLogadoAdministrador(){
+    public boolean existeLogadoAdministrador() {
         return loginFuncionario.existeLogadoAdministrador();
     }
 
     /**
-     * EN-US
-     * Verifies if there's a logged non administrador
-     * 
-     * PT-BR
-     * Verifica se tem um não administrador logado
-     * @return true, if there is, false if there isn't | true, se tem, false 
-     * se não tem
+     * EN-US Verifies if there's a logged non administrador
+     *
+     * PT-BR Verifica se tem um não administrador logado
+     *
+     * @return true, if there is, false if there isn't | true, se tem, false se
+     * não tem
      */
-    public boolean existeLogadoNaoAdministrador(){
+    public boolean existeLogadoNaoAdministrador() {
         return loginFuncionario.existeLogadoNaoAdministrador();
     }
-    
+
     /**
-     * EN-US
-     * Does the logout
-     * 
-     * PT-BR
-     * Faz logout
+     * EN-US Does the logout
+     *
+     * PT-BR Faz logout
+     *
      * @return login_intranet.xhtml
      */
     public String logout() {
         FacesContext fc = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
-        
+
         try {
             loginFuncionario.logout(fc);
-            fm = new FacesMessage("Sucesso!", 
+            fm = new FacesMessage("Sucesso!",
                     "Você saiu com sucesso da aplicação!");
             retorno = "/login/login_intranet.xhtml?"
                     + "faces-redirect=true";
         } catch (InternalException ex) {
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     ex.getMessage());
         }
 
@@ -322,19 +320,18 @@ public class ControllerFuncionario implements
     }
 
     /**
-     * EN-US
-     * Show an alert message when attempting to change a funcionario privilege
-     * 
-     * PT-BR
-     * Mostra uma mensagem de alerta quando se tenta mudar o privilégio de 
+     * EN-US Show an alert message when attempting to change a funcionario
+     * privilege
+     *
+     * PT-BR Mostra uma mensagem de alerta quando se tenta mudar o privilégio de
      * um funcionario
      */
     public void exibirAlertaDeMudanca() {
-        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, 
+        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN,
                 "Atenção", "Administradores podem cadastrar, alterar e "
-                        + "excluir médicos e funcionários, mas não têm acesso "
-                        + "ao sistema de agendamentos. Mude o privilégio "
-                        + "apenas se necessário");
+                + "excluir médicos e funcionários, mas não têm acesso "
+                + "ao sistema de agendamentos. Mude o privilégio "
+                + "apenas se necessário");
         FacesContext.getCurrentInstance().addMessage(null, fm);
     }
 
