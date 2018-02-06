@@ -208,7 +208,7 @@ public class Medico implements Serializable {
      * Retorna o horario correspondente à data
     */
     public Horario pegarHorario(Date data){
-        Calendar c = new GregorianCalendar();
+        Calendar c = Calendar.getInstance();
         
         c.setTime(data);
         
@@ -222,56 +222,6 @@ public class Medico implements Serializable {
         
         return null;
     }
-
-    /*public boolean verificarSeDataEstaLivre(Date data) {
-
-        if (data == null) {
-            return false;
-        }
-
-        if (!verificarSeDataEPossivel(data)) {
-            return false;
-        }
-
-        if (agendamento.isEmpty() || agendamento == null) {
-            return false;
-        }
-
-        int qtde = 0;
-        int qtdeDeAten = pegarHorario(data).getLimiteDeAgendamentos();
-        Date dia = agendamento.get(0).getPeriodo();
-        for (Agendamento agendamento1 : agendamento) {
-
-            if (!agendamento1.isRealizada()
-                    && agendamento1.getDataPrevista().equals(data)
-                    && agendamento1.getPeriodo().equals(dia)) {
-
-                qtde++;
-            }
-
-            dia = agendamento1.getPeriodo();
-        }
-        
-
-        return qtde < qtdeDeAten;
-
-    }
-
-    public boolean verificarSeDiaEstaLivre(int dia) {
-        int qtde = 0;
-        Calendar calendar = new GregorianCalendar();
-
-        for (Agendamento agendamento1 : agendamento) {
-            calendar.setTime(agendamento1.getDataPrevista());
-            if ((calendar.get(Calendar.DAY_OF_WEEK) - 1) == dia) {
-                qtde++;
-            }
-        }
-        
-        int limite = retornarHorario(dia).getLimiteDeAgendamentos();
-
-        return qtde < limite;
-    }*/
 
     public List<Integer> pegarDiasLivres() {
         List<Integer> dias = new ArrayList();
@@ -334,19 +284,11 @@ public class Medico implements Serializable {
     }
     
     public int retornarLimiteDeVagas(Date data, Date horarioInicial){
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(data);
+        Horario horario = pegarHorario(data);
         
-        int diaData = calendar.get(Calendar.DAY_OF_WEEK);
-        
-        for (Horario horario : horarios) {
-            if(horario.getDia() == diaData && horario.getHorarioInicial().
-                    equals(horarioInicial)){
-                return horario.getLimiteDeAgendamentos();
-            }
-        }
-        
-        return 0;
+        if(horario == null)
+            return 0;
+        return horario.getLimiteDeAgendamentos();
 
     }
 }

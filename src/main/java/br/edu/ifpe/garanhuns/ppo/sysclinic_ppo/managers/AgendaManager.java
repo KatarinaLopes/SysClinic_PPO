@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoAgenda;
@@ -196,15 +197,15 @@ public class AgendaManager {
                         agendamento.getMedico());
         
         if(dataDisponivel){
-            agenda.atualizarDataAgendamento(agendamento.getId(), novaData, 
+            agenda.atualizarDataAgendamento(agendamento, novaData, 
                     novoHorario);
         }
         
     }
     
-    public void remarcar(int diaAnterior, int diaNovo, Date
-            horarioNovo, Medico medico){
-        System.out.println(diaAnterior + " d " + diaNovo);
-        agenda.remarcarAgendamento(diaAnterior, diaNovo, horarioNovo, medico);
+    public void remarcar(int diaAnterior, Horario horarioNovo, 
+            Medico medico){
+        System.out.println(diaAnterior);
+        agenda.remarcarAgendamento(diaAnterior, horarioNovo, medico);
     }
 }

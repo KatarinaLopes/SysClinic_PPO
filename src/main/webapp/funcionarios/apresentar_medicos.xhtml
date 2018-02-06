@@ -372,27 +372,11 @@
                              rows="5" 
                          value="#{controllerMedico.medicoSelecionado.horarios}"
                              var="horario">
-                    <p:ajax event="rowEdit"
-                            listener="#{controllerAgenda.
-                                        remarcarAgendamentos(horario.dia, 
-                                        builderHorario.diaDaSemana, 
-                                        builderHorario.horarioInicial, 
-                                        controllerMedico.
-                                        medicoSelecionado)}"/>
                     <p:ajax event="rowEdit" 
                             listener="#{controllerMedico.
-                                        atualizarHorario(controllerAgenda.,
-                                        controllerMedico.
+                                        atualizarHorario(controllerMedico.
                                         medicoSelecionado,
-                                        horario, builderHorario.build())}"
-                            oncomplete="PF('wid-dial-confirm-ag').show()"
-                            />
-                    </p:ajax>
-                    <p:ajax event="rowEdit"
-                            listener="#{controllerPaciente.
-                                        incluirMensagemDeAlteracaoDeHorario(
-                                        controllerMedico.medicoSelecionado, 
-                                        builderHorario.horarioInicial)}"/>
+                                        horario, builderHorario.build())}"/>
                     
 
                     <p:column headerText="Dia">

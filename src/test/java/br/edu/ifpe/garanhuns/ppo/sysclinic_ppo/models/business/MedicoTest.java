@@ -115,7 +115,7 @@ public class MedicoTest {
         
         int vagas = medico.retornarLimiteDeVagas(data, horarioInicial);
         
-        assertEquals(12, vagas);
+        assertEquals(0, vagas);
         
     }
     
@@ -143,7 +143,7 @@ public class MedicoTest {
         
         int vagas = medico.retornarLimiteDeVagas(data, horarioInicial);
         
-        assertEquals(0, vagas);
+        assertEquals(12, vagas);
         
     }
 

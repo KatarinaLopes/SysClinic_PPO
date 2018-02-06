@@ -11,6 +11,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -174,9 +175,23 @@ public class ControllerMedico implements Serializable{
     }
 
     public void atualizarHorario(Medico medico, Horario antigo, Horario novo){  
+        int diaAntigo = antigo.getDia();
+        int diaNovo = novo.getDia();
+        
         Fachada.getInstance().getMedicoManager().atualizarHorario(medico, 
                 antigo, novo);
         atualizar(medico);
+        
+        System.out.println(diaAntigo + " dj " + diaNovo);
+        
+        Fachada.getInstance().getAgendaManager().
+                remarcar(diaAntigo, novo, medico);
+        
+        Fachada.getInstance().getAgendaManager().atualizar();
+        
+        Fachada.getInstance().getPacienteManager().
+                inserirMensagemDeAtualizacaoDeHorario(medico, 
+                        novo.getHorarioInicial());
     }
     
 }

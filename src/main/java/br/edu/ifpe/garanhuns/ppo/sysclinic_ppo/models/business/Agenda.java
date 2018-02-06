@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -20,6 +21,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -215,56 +217,49 @@ public class Agenda implements Serializable {
         return agendamentosDataAtual;
     }
 
-    public void atualizarDataAgendamento(int idAgendamento, Date novaData,
-            Date novoHorario) throws IllegalArgumentException {
+    public void atualizarDataAgendamento(Agendamento agendamento, 
+            Date novaData, Date novoHorario) 
+            throws IllegalArgumentException {
 
-        if (idAgendamento <= 0 || novaData == null || novoHorario == null) {
+        if (agendamento == null || novaData == null || novoHorario == null) {
             throw new IllegalArgumentException("Agendamento, data ou horário "
                     + "não podem estar vazios");
         }
 
-        for (Agendamento agendamento1 : agendamentos) {
-            if (agendamento1.getId() == idAgendamento) {
-                agendamento1.setDataPrevista(novaData);
-                agendamento1.setPeriodo(novoHorario);
+        int posicaoAgendamento = agendamentos.indexOf(agendamento);
+        Agendamento agendamentoRecuperado = agendamentos.
+                get(posicaoAgendamento);
+        
+        agendamentoRecuperado.setDataPrevista(novaData);
+        agendamentoRecuperado.setPeriodo(novoHorario);
 
-                return;
-            }
-        }
-
-        throw new IllegalArgumentException("Este agendamento não está "
-                + "cadastrado");
+        agendamentos.set(posicaoAgendamento, agendamentoRecuperado);
     }
 
-    public Date retornarNovaDataPossivel(Date anterior, int diaAnterior,
-            int diaNovo, Date horarioNovo, Medico medico) {
+    public List<Date> retornarDatasPossiveis(int qtdeDatas, int diaNovo) {
 
-        final long diaMilisegundos = 864 * 10 ^ 5;
-        final long semanaMilisegundos = 6048 * 10 ^ 5;
-
-        int diasDeIntervalo = diaAnterior < diaNovo ? diaNovo - diaAnterior
-                : diaAnterior - diaNovo;
-
-        if(diasDeIntervalo == 0){
-            return anterior;
-        }
+        List<Date> datas = new ArrayList<>(qtdeDatas);  
         
-        long dataMilisegundos = diasDeIntervalo * diaMilisegundos;
-
-        Date dataInicial = new Date(anterior.getTime() + dataMilisegundos);
-
-        boolean possivel = false;
-        while (!possivel) {
-            possivel = dataEstaDisponivel(dataInicial, horarioNovo, medico);
-
-            if (!possivel) {
-
-                dataInicial.setTime(dataInicial.getTime() + 
-                        semanaMilisegundos);
-            }
+        Calendar calendar = Calendar.getInstance();
+        int diaHoje = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        
+        int diasDeIntervalo = diaHoje < diaNovo ? diaNovo - diaHoje
+                : diaHoje - diaNovo;
+        
+        calendar.add(Calendar.DATE, diasDeIntervalo);
+        
+        Date dataInicial = calendar.getTime();
+        datas.add(dataInicial);
+        
+        for (int i = 1; i < qtdeDatas; i++) {
+            calendar.setTime(dataInicial);
+            calendar.add(Calendar.DATE, 7);
+            dataInicial = calendar.getTime();
+            
+            datas.add(dataInicial);
         }
-
-        return dataInicial;
+               
+        return datas;
 
     }
 
@@ -281,7 +276,7 @@ public class Agenda implements Serializable {
 
                 calendar.setTime(agendamento.getDataPrevista());
 
-                int diaAgendamento = calendar.get(Calendar.DAY_OF_WEEK);
+                int diaAgendamento = calendar.get(Calendar.DAY_OF_WEEK) - 1;
                 
                 if(diaAgendamento == dia){
                     agendamentosDiaMedico.add(agendamento);
@@ -292,30 +287,41 @@ public class Agenda implements Serializable {
         return agendamentosDiaMedico;
     }
     
-    public void remarcarAgendamento(int diaAnterior, 
-            int diaNovo, Date horarioNovo, Medico medico){
-        
-        if(diaAnterior == 0 || diaNovo == 0 || 
-                horarioNovo == null || medico == null){
-            throw new IllegalArgumentException("Os campos não podem estar "
-                    + "vazios");
-        }
-        
-        if(diaAnterior < 0 || diaAnterior > 7 || diaNovo < 0 || diaNovo > 7){
-            throw new IllegalArgumentException("O campo de dia da semana "
-                    + "está inválido. Recarregue a página e tente "
-                    + "novamente.");
-        }
-        
+    public void remarcarAgendamento(int diaAnterior, Horario horarioNovo, 
+            Medico medico){
+              
         List<Agendamento> agendamentosDiaMedico = retornarAgendamentos(
                 diaAnterior, medico, false);
         
-        Date possivel;        
+        if(agendamentosDiaMedico.size() == 0){
+            return;
+        }
+        
+        int qtde = agendamentosDiaMedico.size();
+        int limite = horarioNovo.getLimiteDeAgendamentos();
+        
+        int diasNecessarios = 0;
+        
+        if(qtde < limite){
+            diasNecessarios = 1;
+        }else if(qtde%limite == 0){
+            diasNecessarios = qtde/limite;
+        }else{
+            diasNecessarios = (int) (qtde/limite) + 1;
+        }
+        
+        List<Date> datas = retornarDatasPossiveis(qtde, horarioNovo.getDia());
+        
+        int posicao = 0;
+        int qtdeAgendada = 0;
         for (Agendamento agendamento : agendamentosDiaMedico) {
-            possivel = retornarNovaDataPossivel(agendamento.getDataPrevista(),
-                    diaAnterior, diaNovo, horarioNovo, medico);
-            atualizarDataAgendamento(agendamento.getId(), possivel, 
-                    horarioNovo);
+            atualizarDataAgendamento(agendamento, datas.get(posicao), 
+                    horarioNovo.getHorarioInicial());
+            qtdeAgendada++;
+            
+            if(qtdeAgendada == limite){
+                posicao++;
+            }
         }
     }
 }

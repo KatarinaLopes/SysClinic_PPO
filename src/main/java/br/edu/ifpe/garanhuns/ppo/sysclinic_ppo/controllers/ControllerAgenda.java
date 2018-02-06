@@ -176,7 +176,7 @@ public class ControllerAgenda implements Serializable {
         return retorno;
     }
 
-    public void remarcarAgendamentos(int diaAnterior, int diaNovo, 
+    /*public void remarcarAgendamentos(int diaAnterior, int diaNovo, 
             Date horarioNovo, Medico medico) {
         
         System.out.println(diaAnterior + " y " + diaNovo);
@@ -187,8 +187,8 @@ public class ControllerAgenda implements Serializable {
         Fachada fachada = Fachada.getInstance();
         
         try {
-            fachada.getAgendaManager().remarcar(diaAnterior, diaNovo,
-                    horarioNovo, medico);
+            fachada.getAgendaManager().remarcar(diaAnterior, horarioNovo, 
+                    medico);
             fachada.getAgendaManager().atualizar();
             fm = new FacesMessage("Sucesso!", "Os agendamentos foram "
                     + "remarcados com sucesso.");
@@ -198,5 +198,5 @@ public class ControllerAgenda implements Serializable {
         }
         
         fc.addMessage(null, fm);
-    }
+    }*/
 }

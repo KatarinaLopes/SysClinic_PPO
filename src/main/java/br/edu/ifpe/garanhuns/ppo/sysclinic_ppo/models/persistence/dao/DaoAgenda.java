@@ -30,4 +30,5 @@ public class DaoAgenda  {
     public void atualizar(Agenda agenda){
         HibernateUtil.getInstance().update(agenda);
     }
+    
 }
