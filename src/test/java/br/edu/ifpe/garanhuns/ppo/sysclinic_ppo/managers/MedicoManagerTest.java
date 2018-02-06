@@ -56,7 +56,7 @@ public class MedicoManagerTest {
     public void tearDown() {
     }
 
-    @Test
+    /*@Test
     public void deveTestarValidarPassandoNoTeste() {
         int matricula = 1234;
         String conselho = "CONS/1234";
