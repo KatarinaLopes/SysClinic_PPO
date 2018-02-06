@@ -121,9 +121,6 @@ public class Agendamento implements Serializable{
             return false;
         }
         final Agendamento other = (Agendamento) obj;
-        if (this.id != other.id) {
-            return false;
-        }
         if (this.realizada != other.realizada) {
             return false;
         }

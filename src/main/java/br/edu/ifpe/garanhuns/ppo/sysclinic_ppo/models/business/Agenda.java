@@ -88,6 +88,10 @@ public class Agenda implements Serializable {
     public boolean excluirAgendamento(Agendamento a) {
         return agendamentos.remove(a);
     }
+    
+    public boolean existeAgendamento(Agendamento agendamento){
+        return agendamentos.contains(agendamento);
+    }
 
     public List<Agendamento> retornarAgendamentosConcluidos() {
         List<Agendamento> agendamentosConcluidos = new ArrayList<>();

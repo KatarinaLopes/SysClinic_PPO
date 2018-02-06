@@ -59,6 +59,31 @@ public class AgendaManager {
         return daoAgenda.recuperar(id);
     }
 
+    public void validarAgendamento(Agendamento agendamento){
+        
+        if(agendamento.getDataPrevista() == null 
+                || agendamento.getDataPrevista().before(new Date())){
+            throw new IllegalArgumentException("Data está inválida.");
+        }
+        
+        if(agendamento.getMedico() == null){
+            throw new IllegalArgumentException("Médico está inválido.");
+        }
+        
+        if(agendamento.getPaciente() == null){
+            throw new IllegalArgumentException("Paciente está inválido.");
+        }
+        
+        if(agendamento.getPeriodo() == null){
+            throw new IllegalArgumentException("Horário está inválido.");
+        }
+            
+        if(agenda.existeAgendamento(agendamento)){
+            throw new IllegalArgumentException("Já existe um agendamento "
+                    + "igual a este");
+        }
+    }
+    
     /**
      *
      *
