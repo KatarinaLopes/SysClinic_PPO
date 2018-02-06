@@ -9,23 +9,21 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.
-        dao.DaoMedico;
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.
-        manager.DaoGenerico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
- * EN-US
- * Class to manage all operations related to Medico
- * 
- * PT-BR
- * Classe para gerenciar operações relacionadas a Medico
+ * EN-US Class to manage all operations related to Medico
+ *
+ * PT-BR Classe para gerenciar operações relacionadas a Medico
+ *
  * @author Katarina
  */
 public class MedicoManager {
@@ -38,17 +36,17 @@ public class MedicoManager {
 
     /**
      * EN-US
-     * 
-     * 
+     *
+     *
      * @param medico
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
     public void validar(Medico medico) throws IllegalArgumentException {
-        
-        if(medico.getHorarios().isEmpty()){
+
+        if (medico.getHorarios().isEmpty()) {
             throw new IllegalArgumentException("Adicione um horário");
         }
-        
+
         Medico existente = (Medico) daoMedicos.
                 recuperarPorAtributo("matricula", medico.getMatricula());
 
@@ -79,7 +77,12 @@ public class MedicoManager {
     }
 
     public void atualizar(Medico medico) {
-        daoMedicos.atualizar(medico);
+        try {
+            daoMedicos.atualizar(medico);
+        } catch (ConstraintViolationException ex) {
+            throw new IllegalArgumentException("Matrícula ou conselho "
+                    + "especificados já existe");
+        }
     }
 
     public void deletar(Medico medico) {
@@ -91,9 +94,9 @@ public class MedicoManager {
     }
 
     /**
-     * 
+     *
      * @param medico
-     * @return 
+     * @return
      */
     public String retornarDiasLivres(Medico medico) {
         String diasLivres = new Gson().toJson(medico.pegarDiasLivres());
@@ -102,10 +105,10 @@ public class MedicoManager {
     }
 
     /**
-     * 
+     *
      * @param medico
      * @param data
-     * @return 
+     * @return
      */
     public List<Horario> retornarHorariosLivres(Medico medico, Date data) {
         List<Horario> horarios = medico.pegarHorariosLivres(data);
@@ -113,10 +116,8 @@ public class MedicoManager {
         return horarios;
     }
 
-    
-    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){
+    public void atualizarHorario(Medico medico, Horario antigo, Horario novo) {
         medico.atualizarHorario(antigo, novo);
     }
-    
 
 }

@@ -10,6 +10,9 @@
     </h:head>
     <h:body>
         <h:form id="form-apresentar-medicos">
+            <p:growl id="growl"
+                     showDetail="true" showSummary="true" autoUpdate="true"/>
+            
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
 
@@ -123,6 +126,8 @@
                             <f:setPropertyActionListener value="#{medico}"
                                target="#{controllerMedico.medicoSelecionado}"/>
                         </p:commandButton>
+                        <p:commandButton icon="fa fa-plus" 
+                         oncomplete="PF('wid-dial-cadastrar-horario').show()"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>
@@ -131,7 +136,9 @@
                   widgetVar="wid-dial-visualizar-medico" visible="false"
                   modal="true" 
                   header="Visualizar médicos">
+           
             
+            <h:form id="form-dial-visualizar-medico"> 
             <h3>
                 Médico(a) <h:outputText value="#{controllerMedico.
                                               medicoSelecionado.nome}"/> - 
@@ -139,8 +146,6 @@
                                                 medicoSelecionado.matricula}"/>
             
             </h3>
-            
-            <h:form id="form-dial-visualizar-medico">
                 <p:panelGrid columns="2">
                     <h:outputText value="Matrícula"/>
                     <h:outputText 
@@ -206,34 +211,60 @@
                 </h3>
                 
                 <p:panelGrid columns="3">
-                    <h:outputText value="Matrícula"/>
-                    <p:inputText id="matricula" required="true" 
+                    <h:outputText value="*Nome"/> 
+                    <p:inputText id="nome" maxlength="70" 
+                                 placeholder="Ex.: Maria da Silva" 
+                                 required="true"
+                                 requiredMessage="Campo obrigatório" 
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          nome}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemNome}">
+                        <f:validateRegex pattern="#{beanValidacao.regexNome}"/>
+                    </p:inputText>
+                    <p:message for="nome"/>
+
+                    <h:outputText value="*Matrícula"/>
+                    <p:inputText id="matricula" type="number" required="true"
                                  requiredMessage="Campo obrigatório"
                                  value="#{controllerMedico.medicoSelecionado.
                                           matricula}"/>
                     <p:message for="matricula"/>
 
-                    <h:outputText value="Data de admissão"/>
+                    <h:outputText value="*Data de Admissão"/>
                     <p:calendar id="dataAdmissao" pattern="dd-MM-yyyy" 
-                                maxdate="today" required="true"
+                                maxdate="today" required="true" 
                                 requiredMessage="Campo obrigatório"
                                 value="#{controllerMedico.medicoSelecionado.
                                          dataAdmissao}"/>
                     <p:message for="dataAdmissao"/>
 
-                    <h:outputText value="Nome"/> 
-                    <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" 
-                                 required="true"
-                                 requiredMessage="Campo obrigatório" 
-                                 value="#{
-                                 controllerMedico.medicoSelecionado.nome}">
+                    <h:outputText value="*Especialidade"/>
+                    <p:inputText id="especialidade" required="true" 
+                                 requiredMessage="Campo obrigatório"
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          especialidade}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemNome}">
+                        <f:validateRegex pattern="#{beanValidacao.regexNome}"/>
                     </p:inputText>
-                    <p:message for="nome"/>
+                    <p:message for="especialidade"/>
 
-                    <h:outputText value="Sexo"/>
-                    <p:selectOneRadio value="#{
-                                      controllerMedico.medicoSelecionado.sexo}" 
+                    <h:outputText value="*Conselho"/>
+                    <p:inputText id="conselho" required="true" 
+                                 requiredMessage="Campo obrigatório"
+                                 placeholder="Ex.: CRM/PE 12345"
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          conselho}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemCrm}">
+                        <f:validateRegex pattern="#{beanValidacao.regexCrm}"/>
+                    </p:inputText>
+                    <p:message for="conselho"/>
+
+                    <h:outputText value="*Sexo"/>
+                    <p:selectOneRadio value="#{controllerMedico.
+                                               medicoSelecionado.sexo}" 
                                       id="sexo"
                                       required="true" 
                                       requiredMessage="Campo obrigatório">
@@ -242,34 +273,31 @@
                     </p:selectOneRadio>
                     <p:message for="sexo"/>
 
-                    <h:outputText value="Conselho"/>
-                    <p:inputText id="conselho" 
-                                 value="#{
-                                 controllerMedico.medicoSelecionado.conselho}"
-                                 required="true" 
-                                 requiredMessage="Campo obrigatório"/>
-                    <p:message for="conselho"/>
-
-
-                    <h:outputText value="Especialidade"/>
-                    <p:inputText id="especialidade" value="#{controllerMedico.
-                                                             medicoSelecionado.
-                                                             especialidade}"/>
-                    <p:message for="especialidade"/>
-
-                    <h:outputText value="Telefone para contato"/>
+                    <h:outputText value="*Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
-                                 value="#{
-                                 controllerMedico.medicoSelecionado.telefone}"
+                                 value="#{controllerMedico.medicoSelecionado.
+                                          telefone}"
                                  placeholder="(99)9999-9999" required="true" 
-                                 requiredMessage="Campo obrigatório"/>
+                                 requiredMessage="Campo obrigatório"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemTelefone}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexTelefone}"/>
+                    </p:inputMask>
                     <p:message for="telefoneContato"/>
 
-                    <h:outputText value="Email"/>
-                    <p:inputText id="email" value="#{
-                                 controllerMedico.medicoSelecionado.email}"
-                                 placeholder="email@email.com"/>
+                    <h:outputText value="*Email"/>
+                    <p:inputText id="email" value="#{controllerMedico.
+                                                     medicoSelecionado.email}"
+                                 placeholder="email@email.com"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemEmail}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexEmail}"/>
+                    </p:inputText>
                     <p:message for="email"/>
+
+                    <p:separator/>
 
                 </p:panelGrid>
 
@@ -277,8 +305,10 @@
                                  action="#{controllerMedico.
                                            atualizar(controllerMedico.
                                            medicoSelecionado)}"
+                                 validateClient="true"
                                  update=":form-apresentar-medicos 
-                                 :form-dial-alterar-medico"
+                                 :form-dial-alterar-medico
+                                 :form-apresentar-medicos:growl"
                                  oncomplete="
                                  PF('wid-dial-alterar-medico').hide()"/>
                 <p:commandButton value="Cancelar" icon="fa fa-close"
@@ -291,6 +321,7 @@
         <p:dialog id="dial-confirm-excluir-medico" visible="false" modal="true" 
                   dynamic="true"
                   widgetVar="wid-dial-confirm-excluir-medico">
+            <h:form>
             Deseja realmente excluir 
             <h:outputText value="#{controllerMedico.medicoSelecionado.nome}"/>,
             matrícula <h:outputText value="#{controllerMedico.
@@ -309,6 +340,7 @@
                   update=":form-apresentar-medicos:tabela-apresentar-medicos"/>
             <p:commandButton value="Não" 
                     oncomplete="PF('wid-dial-confirm-excluir-medico').hide()"/>
+            </h:form>
 
         </p:dialog>
 
@@ -458,13 +490,69 @@
                         <p:commandButton image="fa fa-close"/>
                     </p:column>
                 </p:dataTable>
-
+                
                 <p:commandButton 
                     oncomplete="PF('wid-dial-editar-horario').hide()"
                     value="Fechar"/>
             </h:form>
         </p:dialog>
         
+<<<<<<< HEAD
+=======
+        <p:dialog closable="true" draggable="false" dynamic="true" 
+                  header="Definir horários" id="dial-cadastrar-horario" 
+                  modal="true" resizable="false" responsive="true" 
+                  visible="false" 
+                  widgetVar="wid-dial-cadastrar-horario">
+            <h:form id="form-dial-cadastrar-horario">
+                <p:panelGrid columns="3">
+                    <h:outputText value="Dia da semana"/>
+                    <p:selectOneMenu id="dia" value="#{builderHorario.
+                                                       diaDaSemana}" >
+                        <f:selectItem itemDisabled="true" 
+                                      itemLabel="Selecione o dia"/>
+                        <f:selectItems value="#{builderMedico.diasDaSemana}"/>
+                        
+                    </p:selectOneMenu>
+                    <p:message for="dia"/>
+
+                    <h:outputText value="Início"/>
+                    <p:calendar id="inicio" value="#{builderHorario.
+                                                     horarioInicial}" 
+                                pattern="HH:mm"
+                                timeOnly="true">
+                        <f:convertDateTime type="time" timeStyle="short"/>
+                    </p:calendar>
+                    <p:message for="inicio"/>
+
+                    <h:outputText value="Fim"/>
+                    <p:calendar id="fim" value="#{builderHorario.horarioFinal}" 
+                                pattern="HH:mm"
+                                timeOnly="true">
+                        <f:convertDateTime type="time" timeStyle="short"/>
+                    </p:calendar>
+                    <p:message for="fim"/>
+                    
+                    <h:outputText value="Limite de agendamentos"/>
+                    <p:inputText id="numeroAgendamentos" type="number"
+                                 value="#{builderHorario.
+                                          limiteDeAgendamento}"/>
+                    <p:message for="numeroAgendamentos"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Salvar" 
+                                 action="#{controllerMedico.medicoSelecionado.
+                                           horarios.add(builderHorario.
+                                           build())}"
+                                 validateClient="true"
+                              update="@form"
+                        oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
+                <p:commandButton value="Cancelar"
+                                 update="dial-cadastrar-horario"
+                         oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
+            </h:form>
+        </p:dialog>
+>>>>>>> Alteração de dados do médico ok
     </h:body>
 </html>
 

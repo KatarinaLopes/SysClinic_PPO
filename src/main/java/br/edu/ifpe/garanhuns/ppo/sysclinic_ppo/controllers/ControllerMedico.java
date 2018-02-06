@@ -9,6 +9,9 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoMedico;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,8 +28,10 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class ControllerMedico implements Serializable{
-    
+public class ControllerMedico implements Serializable {
+
+    private final DaoGenerico daoMedico = new DaoMedico();
+
     private Medico medicoSelecionado;
 
     private List<Horario> horarios = new ArrayList();
@@ -40,8 +45,8 @@ public class ControllerMedico implements Serializable{
     private List<Agendamento> agendamentosPendentes = new ArrayList<>();
 
     private Agendamento agendamentoSelecionado;
-        
-    public ControllerMedico(){
+
+    public ControllerMedico() {
         horariosLivres = new ArrayList();
     }
 
@@ -52,7 +57,7 @@ public class ControllerMedico implements Serializable{
     public void setMedicoSelecionado(Medico medicoSelecionado) {
         this.medicoSelecionado = medicoSelecionado;
     }
-    
+
     public List<Horario> getHorarios() {
         return horarios;
     }
@@ -89,7 +94,7 @@ public class ControllerMedico implements Serializable{
 
     public List<Agendamento> getAgendamentosPendentes() {
         //agendamentosConcluidos = retornarAgendamentosConcluidos();
-        
+
         return agendamentosPendentes;
     }
 
@@ -106,33 +111,33 @@ public class ControllerMedico implements Serializable{
     }
 
     /**
-     * EN-US
-     * Persists the given Medico. If an error occurs, a message will be sent.
-     * 
-     * PT-BR
-     * Persiste o Medico dado. Se um erro ocorrer, uma mensagem será mandada.
-     * 
+     * EN-US Persists the given Medico. If an error occurs, a message will be
+     * sent.
+     *
+     * PT-BR Persiste o Medico dado. Se um erro ocorrer, uma mensagem será
+     * mandada.
+     *
      * @param medico
      * @param conselho
      * @param numero
-     * @return 
+     * @return
      */
     public String cadastrar(Medico medico) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
-        
-        try{
+
+        try {
             Fachada.getInstance().getMedicoManager().cadastrar(medico);
             fm = new FacesMessage("Sucesso", "O médico foi cadastrado com "
-                    + "sucesso!" );
+                    + "sucesso!");
             retorno = "/funcionarios/apresentar_medicos.xhtml?"
                     + "faces-redirect=true";
-        }catch(IllegalArgumentException ex){
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
+        } catch (IllegalArgumentException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
                     ex.getMessage());
         }
-        
+
         facesContext.addMessage(null, fm);
         return retorno;
     }
@@ -142,19 +147,30 @@ public class ControllerMedico implements Serializable{
     }
 
     public void atualizar(Medico c) {
-        Fachada.getInstance().getMedicoManager().atualizar(c);
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+        FacesMessage fm;
+
+        try {
+            Fachada.getInstance().getMedicoManager().atualizar(c);
+            fm = new FacesMessage("Sucesso!",
+                    "O médico foi atualizado com sucesso!");
+        } catch (IllegalArgumentException ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",
+                    ex.getMessage());
+        }
+
+        fc.addMessage(null, fm);
     }
 
     public void deletar(Medico c) {
 
-       Fachada.getInstance().getMedicoManager().deletar(c);
+        Fachada.getInstance().getMedicoManager().deletar(c);
     }
 
-      public List<Medico> recuperarTodos() {
+    public List<Medico> recuperarTodos() {
         return Fachada.getInstance().getMedicoManager().recuperarTodos();
-   }
-
-   
+    }
 
     /**
      * Adiciona ao atributo diasDisponiveis os dias da semana (representados por
@@ -173,24 +189,25 @@ public class ControllerMedico implements Serializable{
                 retornarHorariosLivres(medico, data);
     }
 
-    public void atualizarHorario(Medico medico, Horario antigo, Horario novo){  
+
+    public void atualizarHorario(Medico medico, Horario antigo, Horario novo) {
         int diaAntigo = antigo.getDia();
         int diaNovo = novo.getDia();
-        
-        Fachada.getInstance().getMedicoManager().atualizarHorario(medico, 
+
+        Fachada.getInstance().getMedicoManager().atualizarHorario(medico,
                 antigo, novo);
         atualizar(medico);
-        
+
         System.out.println(diaAntigo + " dj " + diaNovo);
-        
+
         Fachada.getInstance().getAgendaManager().
                 remarcar(diaAntigo, novo, medico);
-        
+
         Fachada.getInstance().getAgendaManager().atualizar();
-        
+
         Fachada.getInstance().getPacienteManager().
-                inserirMensagemDeAtualizacaoDeHorario(medico, 
-                        novo.getHorarioInicial());
+                inserirMensagemDeAtualizacaoDeHorario(medico,
+                        novo.getHorarioInicial());   
     }
-    
+
 }
