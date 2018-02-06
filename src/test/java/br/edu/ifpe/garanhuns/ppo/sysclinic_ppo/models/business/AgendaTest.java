@@ -385,102 +385,18 @@ public class AgendaTest {
                 message);
     }
 
-    /*
     @Test
     public void deveTestarRealizadosRetornarAgendamentos_int_Medico() {
-        List retorno = agenda.retornarAgendamentos(1, medico, true);
+        List retorno = agenda.retornarAgendamentos(2, medico, true);
 
         assertEquals(2, retorno.size());
     }
 
     @Test
     public void deveTestarNaoRealizadosRetornarAgendamento_int_Medico() {
-        List retorno = agenda.retornarAgendamentos(1, medico, false);
+        List retorno = agenda.retornarAgendamentos(2, medico, false);
 
         assertEquals(2, retorno.size());
-    }
-
-    @Test
-    public void deveTestarDiaNaoCadastradoRetornarAgendamento_int_Medico() {
-        List retorno = agenda.retornarAgendamentos(2, medico, true);
-
-        assertEquals(0, retorno.size());
-
-        retorno = agenda.retornarAgendamentos(2, medico, false);
-
-        assertEquals(0, retorno.size());
-*/
-
-    @Test
-    public void testDataEstaDisponivel() {
-    }
-
-    @Test
-    public void testRetornarAgendamentos_3args_1() {
-    }
-
-    @Test
-    public void testAdicionarAgendamento() {
-    }
-
-    @Test
-    public void testExcluirAgendamento() {
-    }
-
-    @Test
-    public void testExisteAgendamento() {
-    }
-
-    @Test
-    public void testRetornarAgendamentosConcluidosPacientes() {
-    }
-
-    @Test
-    public void testRetornarAgendamentosNaoConcluidos() {
-    }
-
-    @Test
-    public void testAtualizarAgendamentoHorario() {
-    }
-
-    @Test
-    public void testRetornarAgendamentos_Medico() {
-    }
-
-    @Test
-    public void testListarPacientesAgendados_0args() {
-    }
-
-    @Test
-    public void testListarPacientesAgendados_Date() {
-    }
-
-    @Test
-    public void testRetornarAgendamentosPendentesPacientes() {
-    }
-
-    @Test
-    public void testRetornarAgendamentosPendentes() {
-    }
-
-    @Test
-    public void testRetornarAgendamentosDataAtual() {
-    }
-
-    @Test
-    public void testAtualizarDataAgendamento() {
-    }
-
-    @Test
-    public void testRetornarDatasPossiveis() {
-    }
-
-    @Test
-    public void testRetornarAgendamentos_3args_2() {
-    }
-
-    @Test
-    public void testRemarcarAgendamento() {
     }
 
     @Test
