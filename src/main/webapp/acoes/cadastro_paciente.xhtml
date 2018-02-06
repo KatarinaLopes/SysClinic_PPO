@@ -7,13 +7,15 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamento online</title>
     </h:head>
     <h:body>
 
         <h:form id="form-cadastro-pacientes">
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
-
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
+            
             <h1>Página de cadastro de pacientes</h1>
 
             <p:panel>
@@ -37,10 +39,6 @@
                         outcome="/index.xhtml"/>
                 </p:panelGrid>
             </p:panel>
-
-            <p:poll>
-                <p:messages/>
-            </p:poll>
 
             <p:panel>
                 Os campos com asterisco são obrigatórios.

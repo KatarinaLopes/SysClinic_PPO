@@ -15,8 +15,9 @@
 
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
 
-
-            <h1>Olá, sr(a). 
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
+            <h1 style="font-family: sans-serif">Olá, sr(a). 
                 <h:outputText value="#{controllerPaciente.
                                        retornarPacienteLogado().nome}"/>!</h1>
 

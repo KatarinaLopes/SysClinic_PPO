@@ -7,8 +7,6 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 /**

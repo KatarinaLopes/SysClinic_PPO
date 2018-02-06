@@ -14,7 +14,9 @@
 
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
 
-            <h1>Bem vindo(a), <h:outputText 
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
+            <h1 style="font-family: sans-serif">Bem vindo(a), <h:outputText 
                     value="#{controllerFuncionario.pegarFuncionarioLogado().
                              nome}"/>!
             </h1>

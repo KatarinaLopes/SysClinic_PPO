@@ -6,15 +6,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamento online</title>
     </h:head>
     <h:body>
-
+       
         <h:form>
-            <p:poll>
-                <p:messages showDetail="true"/>
-            </p:poll>
-
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
+            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+            <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
+            
             <h1><h:outputText value="#{controllerPaciente.pacienteSelecionado.
                                        nome}"/> - CPF 
                 <h:outputText value="#{controllerPaciente.pacienteSelecionado.

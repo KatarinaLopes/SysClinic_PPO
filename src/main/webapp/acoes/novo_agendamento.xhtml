@@ -16,14 +16,13 @@
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
 
-            <p:messages>
-                <p:poll/>
-            </p:messages>
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
+            <h1 style="font-family: sans-serif">
+                Fazer novo agendamento para consulta</h1>
 
-
-            <h1>Fazer novo agendamento para consulta</h1>
-
-            <h3>Os campos com asterisco são obrigatórios</h3>
+            <h3 style="font-family: sans-serif">
+                Os campos com asterisco são obrigatórios</h3>
 
 
             <p:panel id="panel-novo-agendamento">

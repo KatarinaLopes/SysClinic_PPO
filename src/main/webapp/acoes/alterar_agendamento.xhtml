@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -14,7 +15,15 @@
                           carregarDiasLivres(controllerAgenda.
                           agendamentoSelecionado.medico)}"/>
         </f:metadata>
+
         <h:form id="form-agendamento-consultas">
+            <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
+            <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
+
+            <p:growl autoUpdate="true" showDetail="true"/>
+
+            <h1 style="font-family: sans-serif">Alterar agendamento</h1>
+
             <p:panel id="panel-novo-agendamento">
                 <p:panelGrid columns="3">                    
                     <h:outputText value="Paciente" 

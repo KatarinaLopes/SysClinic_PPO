@@ -6,17 +6,17 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>SysClinic - </title>
+        <title>SysClinic - Sistema de agendamentos online</title>
         <f:metadata>
             <f:viewAction action="#{beanPaginas.setPaginaAtual(beanPaginas.
                                     pendenteSchedule)}"/>
         </f:metadata>
     </h:head>
-    <h:body id="body">
-
+    <h:body>
 
         <h:form id="form-inicial">
-
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
 

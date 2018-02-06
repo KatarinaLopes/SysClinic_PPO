@@ -5,13 +5,8 @@
  */
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans;
 
-import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
-import java.util.Date;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -21,149 +16,93 @@ import javax.faces.validator.ValidatorException;
 @ViewScoped
 public class BeanValidacao {
     
-    private String regexNome = "[aA-zZàÀ-úÚ\\s]{1,70}";
+    private final String regexNome = "[aA-zZàÀ-úÚ\\s]{1,70}";
     
-    private String mensagemNome = "Nome não aceito";
+    private final String mensagemNome = "Nome não aceito";
     
-    private String regexSexo = "[F|M]{1}";
+    private final String regexSexo = "[F|M]{1}";
     
-    private String regexDate = "(0[1-9]|(1|2)[0-9]|3[0-1])\\(0[1-9]|1[0-2])"
+    private final String regexDate = "(0[1-9]|(1|2)[0-9]|3[0-1])\\(0[1-9]|1[0-2])"
             + "\\(2|1)[0-9]{3}";
     
-    private String mensagemData = "Data não aceita";
+    private final String mensagemData = "Data não aceita";
     
-    private String regexTelefone = "\\([0-9]{2}\\)[2-9][0-9]{3,4}\\-[0-9]{4}";
+    private final String regexTelefone = "\\([0-9]{2}\\)[2-9][0-9]{3,4}\\-[0-9]{4}";
     
-    private String mensagemTelefone = "Telefone não aceito";
+    private final String mensagemTelefone = "Telefone não aceito";
     
-    private String regexEmail = "[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.]{1,}"
+    private final String regexEmail = "[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.]{1,}"
             + "[a-zA-Z0-9]{1,}";
     
-    private String mensagemEmail = "Email inválido";
+    private final String mensagemEmail = "Email inválido";
     
-    private String mensagemCpf = "CPF inválido";
+    private final String mensagemCpf = "CPF inválido";
     
-    private String regexCrm = "CRM\\/((S[P,C,E])|BA|(M[G,A,S,T])|(A[M,L,C,P])|(P[R,A,E,B,I])|DF|(R[S,J,N,R,O])|GO|ES|CE|TO)\\s[0-9]{4,}";
+    private final String regexCrm = "CRM\\/((S[P,C,E])|BA|(M[G,A,S,T])|(A[M,L,C,P])|(P[R,A,E,B,I])|DF|(R[S,J,N,R,O])|GO|ES|CE|TO)\\s[0-9]{4,}";
     
-    private String mensagemCrm = "CRM inválido";
+    private final String mensagemCrm = "CRM inválido";
     
-    private String regexMatricula = "[0-9]{1,}";
+    private final String regexMatricula = "[0-9]{1,}";
     
-    private String mensagemMatricula = "Matrícula inválida";
-    
+    private final String mensagemMatricula = "Matrícula inválida";
+
     public String getRegexNome() {
         return regexNome;
     }
 
-    public void setRegexNome(String regexNome) {
-        this.regexNome = regexNome;
+    public String getMensagemNome() {
+        return mensagemNome;
     }
 
     public String getRegexSexo() {
         return regexSexo;
     }
 
-    public void setRegexSexo(String regexSexo) {
-        this.regexSexo = regexSexo;
-    }
-
     public String getRegexDate() {
         return regexDate;
-    }
-
-    public void setRegexDate(String regexDate) {
-        this.regexDate = regexDate;
-    }
-
-    public String getRegexTelefone() {
-        return regexTelefone;
-    }
-
-    public void setRegexTelefone(String regexTelefone) {
-        this.regexTelefone = regexTelefone;
-    }
-
-    public String getMensagemTelefone() {
-        return mensagemTelefone;
-    }
-
-    public void setMensagemTelefone(String mensagemTelefone) {
-        this.mensagemTelefone = mensagemTelefone;
-    }
-
-    public String getRegexEmail() {
-        return regexEmail;
-    }
-
-    public void setRegexEmail(String regexEmail) {
-        this.regexEmail = regexEmail;
-    }
-
-    public String getMensagemEmail() {
-        return mensagemEmail;
-    }
-
-    public void setMensagemEmail(String mensagemEmail) {
-        this.mensagemEmail = mensagemEmail;
-    }
-    
-    public String getMensagemNome() {
-        return mensagemNome;
-    }
-
-    public void setMensagemNome(String mensagemNome) {
-        this.mensagemNome = mensagemNome;
     }
 
     public String getMensagemData() {
         return mensagemData;
     }
 
-    public void setMensagemData(String mensagemData) {
-        this.mensagemData = mensagemData;
+    public String getRegexTelefone() {
+        return regexTelefone;
+    }
+
+    public String getMensagemTelefone() {
+        return mensagemTelefone;
+    }
+
+    public String getRegexEmail() {
+        return regexEmail;
+    }
+
+    public String getMensagemEmail() {
+        return mensagemEmail;
     }
 
     public String getMensagemCpf() {
         return mensagemCpf;
     }
 
-    public void setMensagemCpf(String mensagemCpf) {
-        this.mensagemCpf = mensagemCpf;
-    }
-
     public String getRegexCrm() {
         return regexCrm;
-    }
-
-    public void setRegexCrm(String regexCrm) {
-        this.regexCrm = regexCrm;
     }
 
     public String getMensagemCrm() {
         return mensagemCrm;
     }
 
-    public void setMensagemCrm(String mensagemCrm) {
-        this.mensagemCrm = mensagemCrm;
-    }
-
     public String getRegexMatricula() {
         return regexMatricula;
-    }
-
-    public void setRegexMatricula(String regexMatricula) {
-        this.regexMatricula = regexMatricula;
     }
 
     public String getMensagemMatricula() {
         return mensagemMatricula;
     }
-
-    public void setMensagemMatricula(String mensagemMatricula) {
-        this.mensagemMatricula = mensagemMatricula;
-    }
     
-        
+   
     
 }
 

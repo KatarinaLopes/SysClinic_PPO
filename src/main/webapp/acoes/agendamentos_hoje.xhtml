@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamentos online</title>
     </h:head>
     <h:body>
         <f:metadata>
@@ -15,15 +15,17 @@
                           hojeSchedule)}"/>
         </f:metadata>
         <h:form>
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
 
-            <h1>Agendamentos para hoje</h1>
+            <h1 style="font-family: sans-serif">Agendamentos para hoje</h1>
 
             <h:link value="Voltar à página principal" 
-                    outcome="home_paciente.xhtml"/>
+                    outcome="/funcionarios/home_funcionario.xhtml"/>
 
             <h:link value="Fazer novo agendamento" 
-                    outcome="novo_agendamento.xhtml"/>
+                    outcome="/acoes/novo_agendamento.xhtml"/>
         </h:form>
         <ui:include src="#{beanPaginas.paginaAtual}"/>
     </h:body>

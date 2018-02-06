@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamentos online</title>
     </h:head>
     <h:body>
         <h:form id="form-apresentar-medicos">
@@ -16,7 +16,7 @@
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
 
-            <h1>Médicos cadastrados</h1>
+            <h1 style="font-family: sans-serif">Médicos cadastrados</h1>
 
             <p:panel id="panel-medicos">
                 <p:dataTable id="tabela-apresentar-medicos" var="medico" 
@@ -497,8 +497,6 @@
             </h:form>
         </p:dialog>
 
-        <<<<<<< HEAD
-        =======
         <p:dialog closable="true" draggable="false" dynamic="true" 
                   header="Definir horários" id="dial-cadastrar-horario" 
                   modal="true" resizable="false" responsive="true" 

@@ -6,12 +6,14 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SysClinic - Sistema de agendamentos online</title>
     </h:head>
     <h:body>
         <h:form id="form-informacoes-pessoais">           
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
 
+            <p:growl autoUpdate="true" showDetail="true"/>
+            
             <h1>Página de informações pessoais</h1>
 
             <h:link value="Voltar à página principal" 
@@ -86,7 +88,7 @@
                     você troque sua senha em seu primeiro acesso. Assim, evitará 
                     que outras pessoas tenham acesso às suas informações.</p>
 
-                <p:commandButton value="Alterar a senha" ajax="false"
+                <p:commandButton value="Alterar a senha"
                                  action="#{controllerPaciente.
                                            setPacienteSelecionado(
                                            controllerPaciente.
