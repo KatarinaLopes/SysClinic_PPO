@@ -8,6 +8,7 @@ import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Operacoes;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.validators.Validacoes;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -49,6 +50,10 @@ public class PacienteManager implements Serializable {
      * existe
      */
     public void validarCadastrar(Paciente paciente, String confirmacaoSenha) {
+        if(!Validacoes.validarCpf(paciente.getCpf())){
+            throw new IllegalArgumentException("CPF é inválido");
+        }
+
         String senha = paciente.getSenha();
 
         if (!senha.equals(confirmacaoSenha)) {

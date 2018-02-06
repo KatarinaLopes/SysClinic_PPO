@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.validator.ValidatorException;
 
 /**
@@ -17,7 +18,7 @@ import javax.faces.validator.ValidatorException;
  * @author Katarina
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BeanValidacao {
     
     private String regexNome = "[aA-zZàÀ-úÚ\\s]{1,70}";
@@ -35,8 +36,8 @@ public class BeanValidacao {
     
     private String mensagemTelefone = "Telefone não aceito";
     
-    private String regexEmail = "[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.].["
-                    + "a-zA-Z0-9]{1,}";
+    private String regexEmail = "[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.]{1,}"
+            + "[a-zA-Z0-9]{1,}";
     
     private String mensagemEmail = "Email inválido";
     
@@ -124,7 +125,6 @@ public class BeanValidacao {
     
     public void validarCPF(String cpf){
         if(!Validacoes.validarCpf(cpf)){
-            System.out.println(Validacoes.validarCpf(cpf));
             throw new ValidatorException(new FacesMessage("CPF inválido"));
         }
     }

@@ -138,8 +138,12 @@
                     ou datas importantes (ex.: seu aniversário)</p>
 
                 <p:commandButton value="Cadastrar"
-                                 ajax="false"
-                                 update="@form" validateClient="true"/>
+                                 ajax="false" 
+                                 action="#{controllerPaciente.
+                                           cadastrar(builderPaciente.build(), 
+                                           confirmeSenha)}"
+                                 update="@form" validateClient="true">
+                </p:commandButton>
                 <p:commandButton value="Limpar campos"
                                  type="reset"
                                  title="Apaga os dados já preenchidos"
