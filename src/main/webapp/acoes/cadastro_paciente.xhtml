@@ -48,53 +48,77 @@
                     <h:outputText value="*Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
                                  placeholder="Ex.: Maria da Silva" 
-                                 required="true"
+                                 required="true" 
+                                 validatorMessage="Nome não aceito"
                                  requiredMessage="Campo obrigatório" 
                                  value="#{builderPaciente.nome}">
+                        <f:validateRegex 
+                            pattern="#{beanValidacao.regexNome}"/>
                     </p:inputText>
                     <p:message id="messageNome" for="nome"/>
 
                     <h:outputText value="*Sexo"/>
                     <p:selectOneRadio value="#{builderPaciente.sexo}" id="sexo"
                                       required="true" 
+                                      validatorMessage="Valor não aceito"
                                       requiredMessage="Campo obrigatório">
                         <f:selectItem itemValue="F" itemLabel="Feminino"/>
                         <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                   
                     </p:selectOneRadio>
                     <p:message for="sexo"/>
 
                     <h:outputText value="*Data de nascimento"/>
                     <p:calendar id="dataNascimento" 
                                 value="#{builderPaciente.dataNascimento}"
-                                pattern="dd-MM-yyyy" 
-                                placeholder="dd-mm-aaaa" required="true" 
+                                pattern="dd/MM/yyyy"
+                                readonlyInput="true"
+                                placeholder="dd/mm/aaaa" required="true" 
                                 requiredMessage="Campo obrigatório"
-                                maxdate="today"/>
+                                maxdate="today">
+                    </p:calendar>
                     <p:message for="dataNascimento"/>
 
                     <h:outputText value="*Telefone para contato"/>
                     <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
                                  value="#{builderPaciente.telefoneContato}"
-                                 placeholder="(99)9999-9999" required="true" 
-                                 requiredMessage="Campo obrigatório"/>
+                                 placeholder="(87)3000-9999" required="true" 
+                                 requiredMessage="Campo obrigatório"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemTelefone}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexTelefone}"/>
+                    </p:inputMask>
                     <p:message for="telefoneContato"/>
 
                     <h:outputText value="Celular"/>
-                    <p:inputMask id="celular" mask="(99)9999-9999"
-                                 placeholder="(99)99999-9999" 
-                                 value="#{builderPaciente.celular}"/>
+                    <p:inputMask id="celular" mask="(99)99999-9999"
+                                 placeholder="(87)99999-9999" 
+                                 value="#{builderPaciente.celular}"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemTelefone}">
+                        <f:validateRegex
+                             pattern="#{beanValidacao.regexTelefone}"/>
+                    </p:inputMask>
                     <p:message for="celular"/>
 
                     <h:outputText value="Email"/>
                     <p:inputText id="email" value="#{builderPaciente.email}"
-                                 placeholder="email@email.com"/>
+                                 placeholder="email@email.com"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemEmail}">
+                        <f:validateRegex pattern="#{beanValidacao.
+                                                    regexEmail}"/>
+                    </p:inputText>
                     <p:message for="email"/>
 
                     <h:outputText value="*CPF"/>
                     <p:inputMask id="cpf" mask="999.999.999-99"
                                  value="#{builderPaciente.cpf}"
                                  required="true"
-                                 requiredMessage="Campo obrigatório"/>
+                                 requiredMessage="Campo obrigatório"
+                                 validatorMessage="#{beanValidacao.
+                                                     mensagemCpf}"/>
                     <p:message id="message-cpf" for="cpf"/>
 
                     <h:outputText value="*Escolha uma senha"/>

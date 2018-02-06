@@ -111,8 +111,8 @@ public class Validacoes {
 
     public static boolean validarEmail(String email) {
         try {
-            return email.matches("[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.].[a-zA-"
-                    + "Z0-9.]{1,}");
+            return email.matches("[a-zA-Z0-9\\s-_.]{1,}@[a-zA-Z0-9\\s-_.].["
+                    + "a-zA-Z0-9.]{1,}");
         } catch (NullPointerException ex) {
             return false;
         }
