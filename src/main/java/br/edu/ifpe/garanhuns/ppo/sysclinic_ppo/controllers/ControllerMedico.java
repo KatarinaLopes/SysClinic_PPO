@@ -202,7 +202,8 @@ public class ControllerMedico implements Serializable {
 
         Fachada.getInstance().getPacienteManager().
                 inserirMensagemDeAtualizacaoDeHorario(agendamentos, medico,
-                        novo.getHorarioInicial());   
+                        novo.getHorarioInicial());
+        
     }
 
 }

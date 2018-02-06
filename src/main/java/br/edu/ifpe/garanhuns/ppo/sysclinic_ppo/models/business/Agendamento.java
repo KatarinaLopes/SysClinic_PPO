@@ -33,7 +33,7 @@ public class Agendamento implements Serializable{
     private Date dataPrevista;
     @OneToOne
     private Paciente paciente;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Medico medico;
     @Temporal(TemporalType.TIME)
     private Date periodo;
