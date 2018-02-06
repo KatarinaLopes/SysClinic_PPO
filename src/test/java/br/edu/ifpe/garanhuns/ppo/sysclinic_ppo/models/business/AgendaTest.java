@@ -447,6 +447,5 @@ public class AgendaTest {
         retorno = agenda.retornarAgendamentos(2, medico, false);
 
         assertEquals(0, retorno.size());
-    }*/
-
+*/
 }

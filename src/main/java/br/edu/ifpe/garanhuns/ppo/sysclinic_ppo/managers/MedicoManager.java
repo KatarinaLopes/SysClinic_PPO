@@ -64,9 +64,8 @@ public class MedicoManager {
 
     }
 
-    public void cadastrar(Medico medico, String conselho, int numeroConselho)
+    public void cadastrar(Medico medico)
             throws IllegalArgumentException {
-        medico.setConselho(conselho + "/" + numeroConselho);
         validar(medico);
         daoMedicos.persistir(medico);
     }

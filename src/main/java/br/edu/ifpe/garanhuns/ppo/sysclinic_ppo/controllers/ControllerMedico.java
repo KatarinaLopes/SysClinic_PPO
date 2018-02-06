@@ -123,8 +123,7 @@ public class ControllerMedico implements Serializable{
         String retorno = null;
         
         try{
-            Fachada.getInstance().getMedicoManager().cadastrar(medico, 
-                    conselho, numero);
+            Fachada.getInstance().getMedicoManager().cadastrar(medico);
             fm = new FacesMessage("Sucesso", "O médico foi cadastrado com "
                     + "sucesso!" );
             retorno = "/funcionarios/apresentar_medicos.xhtml?"

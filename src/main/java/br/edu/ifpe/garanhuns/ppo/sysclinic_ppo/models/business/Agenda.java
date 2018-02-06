@@ -81,15 +81,15 @@ public class Agenda implements Serializable {
     }
 
     public void adicionarAgendamento(Agendamento a) {
-
+        validarAgendamento(a);
         agendamentos.add(a);
     }
 
     public boolean excluirAgendamento(Agendamento a) {
         return agendamentos.remove(a);
     }
-    
-    public boolean existeAgendamento(Agendamento agendamento){
+
+    public boolean existeAgendamento(Agendamento agendamento) {
         return agendamentos.contains(agendamento);
     }
 
@@ -221,8 +221,8 @@ public class Agenda implements Serializable {
         return agendamentosDataAtual;
     }
 
-    public void atualizarDataAgendamento(Agendamento agendamento, 
-            Date novaData, Date novoHorario) 
+    public void atualizarDataAgendamento(Agendamento agendamento,
+            Date novaData, Date novoHorario)
             throws IllegalArgumentException {
 
         if (agendamento == null || novaData == null || novoHorario == null) {
@@ -233,7 +233,7 @@ public class Agenda implements Serializable {
         int posicaoAgendamento = agendamentos.indexOf(agendamento);
         Agendamento agendamentoRecuperado = agendamentos.
                 get(posicaoAgendamento);
-        
+
         agendamentoRecuperado.setDataPrevista(novaData);
         agendamentoRecuperado.setPeriodo(novoHorario);
 
@@ -242,32 +242,32 @@ public class Agenda implements Serializable {
 
     public List<Date> retornarDatasPossiveis(int qtdeDatas, int diaNovo) {
 
-        List<Date> datas = new ArrayList<>(qtdeDatas);  
-        
+        List<Date> datas = new ArrayList<>(qtdeDatas);
+
         Calendar calendar = Calendar.getInstance();
         int diaHoje = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        
+
         int diasDeIntervalo = diaHoje < diaNovo ? diaNovo - diaHoje
                 : diaHoje - diaNovo;
-        
+
         calendar.add(Calendar.DATE, diasDeIntervalo);
-        
+
         Date dataInicial = calendar.getTime();
         datas.add(dataInicial);
-        
+
         for (int i = 1; i < qtdeDatas; i++) {
             calendar.setTime(dataInicial);
             calendar.add(Calendar.DATE, 7);
             dataInicial = calendar.getTime();
-            
+
             datas.add(dataInicial);
         }
-               
+
         return datas;
 
     }
 
-    public List<Agendamento> retornarAgendamentos(int dia, Medico medico, 
+    public List<Agendamento> retornarAgendamentos(int dia, Medico medico,
             boolean realizada) {
         List<Agendamento> agendamentosDiaMedico = new ArrayList<>();
 
@@ -275,57 +275,83 @@ public class Agenda implements Serializable {
 
         for (Agendamento agendamento : agendamentos) {
 
-            if (agendamento.getMedico().equals(medico) 
+            if (agendamento.getMedico().equals(medico)
                     && agendamento.isRealizada() == realizada) {
 
                 calendar.setTime(agendamento.getDataPrevista());
 
                 int diaAgendamento = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-                
-                if(diaAgendamento == dia){
+
+                if (diaAgendamento == dia) {
                     agendamentosDiaMedico.add(agendamento);
                 }
             }
         }
-        
+
         return agendamentosDiaMedico;
     }
-    
-    public void remarcarAgendamento(int diaAnterior, Horario horarioNovo, 
-            Medico medico){
-              
+
+    public void remarcarAgendamento(int diaAnterior, Horario horarioNovo,
+            Medico medico) {
+
         List<Agendamento> agendamentosDiaMedico = retornarAgendamentos(
                 diaAnterior, medico, false);
-        
-        if(agendamentosDiaMedico.size() == 0){
+
+        if (agendamentosDiaMedico.size() == 0) {
             return;
         }
-        
+
         int qtde = agendamentosDiaMedico.size();
         int limite = horarioNovo.getLimiteDeAgendamentos();
-        
+
         int diasNecessarios = 0;
-        
-        if(qtde < limite){
+
+        if (qtde < limite) {
             diasNecessarios = 1;
-        }else if(qtde%limite == 0){
-            diasNecessarios = qtde/limite;
-        }else{
-            diasNecessarios = (int) (qtde/limite) + 1;
+        } else if (qtde % limite == 0) {
+            diasNecessarios = qtde / limite;
+        } else {
+            diasNecessarios = (int) (qtde / limite) + 1;
         }
-        
+
         List<Date> datas = retornarDatasPossiveis(qtde, horarioNovo.getDia());
-        
+
         int posicao = 0;
         int qtdeAgendada = 0;
         for (Agendamento agendamento : agendamentosDiaMedico) {
-            atualizarDataAgendamento(agendamento, datas.get(posicao), 
+            atualizarDataAgendamento(agendamento, datas.get(posicao),
                     horarioNovo.getHorarioInicial());
             qtdeAgendada++;
-            
-            if(qtdeAgendada == limite){
+
+            if (qtdeAgendada == limite) {
                 posicao++;
             }
+        }
+    }
+    
+
+    public void validarAgendamento(Agendamento agendamento) {
+
+        if (agendamento.getDataPrevista() == null
+                || agendamento.getDataPrevista().before(new Date())) {
+            throw new IllegalArgumentException("Data está inválida.");
+        }
+
+        if (agendamento.getMedico() == null) {
+            throw new IllegalArgumentException("Médico está inválido.");
+        }
+
+        if (agendamento.getPaciente() == null) {
+            throw new IllegalArgumentException("Paciente está inválido.");
+        }
+
+        if (agendamento.getPeriodo() == null) {
+            throw new IllegalArgumentException("Horário está inválido.");
+        }
+
+        if (existeAgendamento(agendamento)) {
+            throw new IllegalArgumentException("Já existe um agendamento "
+                    + "igual a este");
         }
     }
 }
