@@ -126,56 +126,31 @@ public class AgendaTest {
     public void testSetAgendamentos() {
     }
 
-    /*@Test
+    @Test
     public void deveTestarAdicionarAgendamento() {
         Agenda agenda = new Agenda(new ArrayList<Agendamento>());
 
-        agenda.adicionarAgendamento(mock(Agendamento.class));
-        agenda.adicionarAgendamento(mock(Agendamento.class));
+        Agendamento agendamento1 = new Agendamento(1, data, new Paciente(), 
+                medico, horario, true);
+        Agendamento agendamento2 = new Agendamento(2, new Date(210),
+                new Paciente(), medico, horario, true);
+        
+        agenda.adicionarAgendamento(agendamento1);
+        agenda.adicionarAgendamento(agendamento2);
 
         int tamanho = agenda.getAgendamentos().size();
-
+        boolean retorno = agenda.getAgendamentos().contains(agendamento1) &&
+                agenda.getAgendamentos().contains(agendamento2);
+        
+        assertTrue(retorno);
         assertEquals(2, tamanho);
     }
 
     @Test
     public void testRetornarAgendamentosConcluidos() {
-        Agenda a = new Agenda(new ArrayList<Agendamento>());
+        List<Agendamento> recuperados = agenda.retornarAgendamentosConcluidos();
 
-        Paciente p = mock(Paciente.class);
-        Medico medico = new Medico();
-
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p, medico,
-                new Date(), true));
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p, medico,
-                new Date(), false));
-
-        List<Agendamento> recuperados = a.retornarAgendamentosConcluidos();
-
-        assertEquals(1, recuperados.size());
-    }
-
-    @Test
-    public void testRetornarAgendamentosConcluidos2Pacientes() {
-        Agenda a = new Agenda(new ArrayList<Agendamento>());
-
-        Paciente p = mock(Paciente.class);
-        Paciente paciente2 = mock(Paciente.class);
-
-        Medico medico = new Medico();
-
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p, medico,
-                new Date(), true));
-        a.getAgendamentos().add(new Agendamento(0, new Date(), p, medico,
-                new Date(), false));
-        a.getAgendamentos().add(new Agendamento(0, new Date(), paciente2,
-                medico, new Date(), true));
-        a.getAgendamentos().add(new Agendamento(0, new Date(), paciente2,
-                medico, new Date(), false));
-
-        List<Agendamento> recuperados = a.retornarAgendamentosConcluidos();
-
-        assertEquals(2, recuperados.size());
+        assertEquals(8, recuperados.size());
     }
 
     @Test
@@ -203,26 +178,11 @@ public class AgendaTest {
         assertEquals(1, recuperados.size());
     }
 
-    /*@Test
+    @Test
     public void devePassarAtualizarAgendamentoHorario(){
-        Date horario1 = new Date();
-        Date horario2 = new Date(120);
-        Date horario3 = new Date(200);
         Date horarioAtualizado = new Date(300);
-        
-        Agenda agenda = new Agenda(new ArrayList<Agendamento>());
-        
-        Agendamento agendamento1 = new Agendamento(1, null, null, null, 
-                horario1, false);
-        Agendamento agendamento2 = new Agendamento(2, null, null, null, 
-                horario2, false);
-        Agendamento agendamento3 = new Agendamento(3, null, null, null, 
-                horario3, false);
-        agenda.getAgendamentos().add(agendamento1);
-        agenda.getAgendamentos().add(agendamento2);
-        agenda.getAgendamentos().add(agendamento3);
-        
-        agenda.atualizarAgendamentoHorario(horario1, horarioAtualizado);
+                
+        agenda.atualizarAgendamentoHorario(horario, horarioAtualizado,medico);
         
         Agendamento atualizado = agenda.getAgendamentos().get(0);
         
@@ -230,25 +190,27 @@ public class AgendaTest {
         assertEquals(horarioAtualizado, atualizado.getPeriodo());
         
     }
-    
+   
     @Test
     public void devePassarAtualizarAgendamentoHorarioConcluido(){
         Date horario1 = new Date();
         Date horario2 = new Date(200);
         Date horarioAtualizado = new Date(300);
+        Medico medico = new Medico();
         
         Agenda agenda = new Agenda(new ArrayList<Agendamento>());
-        Agendamento agendamento1 = new Agendamento(1, null, null, horario1, 
-                false);
-        Agendamento agendamento2 = new Agendamento(2, null, null, horario1, 
-                true);
-        Agendamento agendamento3 = new Agendamento(3, null, null, horario2, 
-                false);
+        Agendamento agendamento1 = new Agendamento(1, null, null, medico,
+                horario1, false);
+        Agendamento agendamento2 = new Agendamento(2, null, null, medico,
+                horario1, true);
+        Agendamento agendamento3 = new Agendamento(3, null, null, medico, 
+                horario2, false);
         agenda.getAgendamentos().add(agendamento1);
         agenda.getAgendamentos().add(agendamento2);
         agenda.getAgendamentos().add(agendamento3);
         
-        agenda.atualizarAgendamentoHorario(horario1, horarioAtualizado);
+        agenda.atualizarAgendamentoHorario(horario1, horarioAtualizado, 
+                medico);
         
         Agendamento atualizado = agenda.getAgendamentos().get(0);
         Agendamento naoAtualizado = agenda.getAgendamentos().get(1);
@@ -259,7 +221,7 @@ public class AgendaTest {
         assertEquals(horario1, naoAtualizado.getPeriodo());
         
     }
-     */
+    
     @Test
     public void deveTestarListarPacientesAgendados() {
         Paciente paciente = mock(Paciente.class);
@@ -448,4 +410,122 @@ public class AgendaTest {
 
         assertEquals(0, retorno.size());
 */
+
+    @Test
+    public void testDataEstaDisponivel() {
+    }
+
+    @Test
+    public void testRetornarAgendamentos_3args_1() {
+    }
+
+    @Test
+    public void testAdicionarAgendamento() {
+    }
+
+    @Test
+    public void testExcluirAgendamento() {
+    }
+
+    @Test
+    public void testExisteAgendamento() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosConcluidosPacientes() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosNaoConcluidos() {
+    }
+
+    @Test
+    public void testAtualizarAgendamentoHorario() {
+    }
+
+    @Test
+    public void testRetornarAgendamentos_Medico() {
+    }
+
+    @Test
+    public void testListarPacientesAgendados_0args() {
+    }
+
+    @Test
+    public void testListarPacientesAgendados_Date() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosPendentesPacientes() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosPendentes() {
+    }
+
+    @Test
+    public void testRetornarAgendamentosDataAtual() {
+    }
+
+    @Test
+    public void testAtualizarDataAgendamento() {
+    }
+
+    @Test
+    public void testRetornarDatasPossiveis() {
+    }
+
+    @Test
+    public void testRetornarAgendamentos_3args_2() {
+    }
+
+    @Test
+    public void testRemarcarAgendamento() {
+    }
+
+    @Test
+    public void devePassarValidarAgendamento() {
+        Paciente paciente = new Paciente();
+        paciente.setNome("Nome1");
+        
+        Agendamento agendamento = new Agendamento(20, new Date(), paciente, 
+                medico, horario, true);
+        
+        agenda.validarAgendamento(agendamento);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deveFalharValidarAgendamentoNull() {
+        
+        agenda.validarAgendamento(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deveFalharValidarAgendamentoDataNull() {
+        Agendamento agendamento = new Agendamento(20, null, new Paciente(), 
+                medico, horario, true);
+        agenda.validarAgendamento(agendamento);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deveFalharValidarAgendamentoPacienteNull() {
+        Agendamento agendamento = new Agendamento(20, data, null, 
+                medico, horario, true);
+        agenda.validarAgendamento(agendamento);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deveFalharValidarAgendamentoMedicoNull() {
+        Agendamento agendamento = new Agendamento(20, data, new Paciente(), 
+                null, horario, true);
+        agenda.validarAgendamento(agendamento);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deveFalharValidarAgendamentoHorarioNull() {
+        Agendamento agendamento = new Agendamento(20, data, new Paciente(), 
+                medico, null, true);
+        
+        agenda.validarAgendamento(null);
+    }
 }

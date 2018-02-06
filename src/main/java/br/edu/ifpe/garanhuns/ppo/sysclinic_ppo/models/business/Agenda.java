@@ -132,9 +132,9 @@ public class Agenda implements Serializable {
 
     public void atualizarAgendamentoHorario(Date antigo, Date novo,
             Medico medico) {
-        List<Agendamento> porMedico = retornarAgendamentos(medico);
-        for (Agendamento agendamento : porMedico) {
-            if (agendamento.getPeriodo().equals(antigo)
+        for (Agendamento agendamento : agendamentos) {
+            if (agendamento.getMedico().equals(medico)
+                    && agendamento.getPeriodo().equals(antigo)
                     && !agendamento.isRealizada()) {
                 agendamento.setPeriodo(novo);
             }
@@ -331,9 +331,12 @@ public class Agenda implements Serializable {
     
 
     public void validarAgendamento(Agendamento agendamento) {
-
-        if (agendamento.getDataPrevista() == null
-                || agendamento.getDataPrevista().before(new Date())) {
+        
+        if(agendamento == null){
+            throw new IllegalArgumentException("Agendamento inválido");
+        }
+        
+        if (agendamento.getDataPrevista() == null) {
             throw new IllegalArgumentException("Data está inválida.");
         }
 
