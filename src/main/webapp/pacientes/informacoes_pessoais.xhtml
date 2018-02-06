@@ -69,12 +69,8 @@
 
                 <p:commandButton icon="fa fa-search" 
                                  value="Atualizar suas informações"
-                                 action="#{controllerPaciente.
-                                           setPacienteSelecionado
-                                           (controllerPaciente.
-                                           retornarPacienteLogado())}"
-                                 update="@all"
-                                 oncomplete="PF('wid-panel-alterar').show()"/>
+                                 action="#{beanPaginas.alterarPaciente}"
+                                 update="@all"/>
             </p:panel>
             <p:panel>
                 <h3>Alteração de senha</h3>
@@ -91,66 +87,6 @@
                                  oncomplete="PF('wid-dial-senha').show()"/>
             </p:panel>
         </h:form>
-        <p:dialog closable="true" id="dial-alterar-info"
-                  header="Alterar suas informações" visible="false" 
-                  widgetVar="wid-panel-alterar" modal="true" 
-                  responsive="true">
-            <h:form id="form-dial-alterar">
-                <p:panelGrid columns="2">
-                    <h:outputText value="Id"/>
-                    <p:inputText disabled="true" 
-                                 value="#{controllerPaciente.
-                                          pacienteSelecionado.id}"/>
-
-                    <h:outputText value="Nome"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          nome}"/>
-
-                    <h:outputText value="Data de admissão"/>
-                    <p:inputText disabled="true" 
-                                 value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          dataAdmissao}"/>
-
-                    <h:outputText value="Data de nascimento"/>
-                    <p:calendar maxdate="today" 
-                                value="#{controllerPaciente.
-                                         pacienteSelecionado.
-                                         dataNascimento}"/>
-
-                    <h:outputText value="Sexo"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.sexo}"/>
-
-                    <h:outputText value="CPF"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.cpf}"/>
-
-                    <h:outputText value="Celular"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          celular}"/>
-
-                    <h:outputText value="Telefone"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          telefoneContato}"/>
-
-                    <h:outputText value="Email"/>
-                    <p:inputText value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          email}"/>
-                </p:panelGrid>
-
-                <p:commandButton value="Alterar" 
-                                 action="#{controllerPaciente.
-                                           atualizar(controllerPaciente.
-                                           pacienteSelecionado)}"
-                                 update="@form" ajax="false"
-                                 oncomplete="PF('wid-panel-alterar').hide()"/>
-            </h:form>
-        </p:dialog>
         <p:dialog closable="true" dynamic="false" id="dial-senha"
                   header="Alterar sua senha" 
                   modal="true" responsive="true" visible="false" 

@@ -77,11 +77,11 @@
 
                         <p:commandButton id="btn-alterar-paciente"
                                          icon="fa fa-pencil"
-                                         update=":form-apresentar-pacientes 
-                                         :form-dial-alterar-paciente"
-                           oncomplete="PF('wid-dial-alterar-paciente').show()">
+                                         action="#{beanPaginas.
+                                                   alterarPaciente.trim()}"
+                                         update=":form-apresentar-pacientes">
                             <f:setPropertyActionListener value="#{paciente}"
-                                                  target="#{controllerPaciente.
+                                                target="#{controllerPaciente.
                                                         pacienteSelecionado}"/>
                         </p:commandButton>
                     </p:column>
@@ -153,109 +153,9 @@
                 <p:commandButton value="Fechar" 
                        oncomplete="PF('wid-dial-visualizar-paciente').hide()"/>
                 <p:commandButton value="Editar"
-                            onclick="PF('wid-dial-visualizar-paciente').hide()"
-                            oncomplete="PF('wid-dial-alterar-paciente').show()"
-                                 update=":dial-alterar-paciente"/>
+                                 action="#{beanPaginas.alterarPaciente}"/>
             </h:form>
         </p:dialog>
-
-        <p:dialog id="dial-alterar-paciente" 
-                  header="Alterar paciente"
-                  modal="true" visible="false" 
-                  widgetVar="wid-dial-alterar-paciente">
-            <h:form id='form-dial-alterar-paciente'>
-
-                <h3>Paciente <h:outputText value="#{controllerPaciente.
-                                                    pacienteSelecionado.
-                                                    nome}"/> - id 
-                    <h:outputText value="#{controllerPaciente.
-                                           pacienteSelecionado.id}"/>
-                </h3>
-
-                <p:panelGrid columns="3">
-                    <h:outputText value="Nome"/> 
-                    <p:inputText id="nome" maxlength="70" 
-                                 placeholder="Ex.: Maria da Silva" 
-                                 required="true"
-                                 requiredMessage="Campo obrigatório" 
-                                 value="#{
-                                 controllerPaciente.
-                                     pacienteSelecionado.nome}">
-                    </p:inputText>
-                    <p:message for="nome"/>
-
-                    <h:outputText value="Sexo"/>
-                    <p:selectOneRadio value="#{
-                                      controllerPaciente.
-                                          pacienteSelecionado.sexo}" 
-                                      id="sexo"
-                                      required="true" 
-                                      requiredMessage="Campo obrigatório">
-                        <f:selectItem itemValue="F" itemLabel="Feminino"/>
-                        <f:selectItem itemValue="M" itemLabel="Masculino"/>
-                    </p:selectOneRadio>
-                    <p:message for="sexo"/>
-
-                    <h:outputText value="Data de nascimento"/>
-                    <p:calendar id="dataNascimento" 
-                                value="#{
-                                controllerPaciente.
-                                    pacienteSelecionado.dataNascimento}"
-                                pattern="dd-MM-yyyy" 
-                                placeholder="dd-mm-aaaa" required="true" 
-                                requiredMessage="Campo obrigatório"
-                                maxdate="today"/>
-                    <p:message for="dataNascimento"/>
-
-                    <h:outputText value="Telefone para contato"/>
-                    <p:inputMask id="telefoneContato" mask="(99)9999-9999" 
-                                 value="#{
-                                 controllerPaciente.
-                                     pacienteSelecionado.
-                                     telefoneContato}"
-                                 placeholder="(99)9999-9999" required="true" 
-                                 requiredMessage="Campo obrigatório"/>
-                    <p:message for="telefoneContato"/>
-
-                    <h:outputText value="Celular"/>
-                    <p:inputMask id="celular" mask="(99)9-9999-9999"
-                                 placeholder="(99)9-9999-9999" 
-                                 value="#{controllerPaciente.
-                                          pacienteSelecionado.
-                                          celular}"/>
-                    <p:message for="celular"/>
-
-                    <h:outputText value="Email"/>
-                    <p:inputText id="email" value="#{
-                                 controllerPaciente.
-                                     pacienteSelecionado.email}"
-                                 placeholder="email@email.com"/>
-                    <p:message for="email"/>
-
-                    <h:outputText value="CPF"/>
-                    <p:inputMask id="cpf" mask="999.999.999-99"
-                                 value="#{controllerPaciente.
-                                          pacienteSelecionado.cpf}"
-                                 required="true"
-                                 requiredMessage="Campo obrigatório"/>
-                    <p:message for="cpf"/>
-
-                </p:panelGrid>
-
-                <p:commandButton value="Alterar" 
-                                 action="#{controllerPaciente.
-                                           atualizar
-                                           (controllerPaciente.
-                                           pacienteSelecionado)}"
-                                 update=":form-apresentar-pacientes"
-                                 oncomplete="
-                                 PF('wid-dial-alterar-paciente').hide()"/>
-                <p:commandButton value="Cancelar"
-                          oncomplete="PF('wid-dial-alterar-paciente').hide()"/>
-            </h:form>
-
-        </p:dialog>
-
     </h:body>
 </html>
 

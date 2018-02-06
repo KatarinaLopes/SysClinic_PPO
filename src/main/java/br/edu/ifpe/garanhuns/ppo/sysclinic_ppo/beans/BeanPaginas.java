@@ -36,6 +36,17 @@ public class BeanPaginas implements Serializable{
     private final String concluidosSchedule = 
             "/restricted/acoes/include_concluidos_schedule.xhtml";
     
+    private final String pacientesCadastrados = "/funcionarios/"
+            + "pacientes_cadastrados.xhtml";
+    
+    private final String alterarPaciente = "/acoes/alterar_paciente.xhtml";
+    
+    private final String includeAlterarPaciente = "/restricted/pacientes/"
+            + "include_alterar_pacientes.xhtml";
+    
+    private final String informacoesPessoais = "/pacientes/"
+            + "informacoes_pessoais.xhtml";
+    
     private String paginaAtual = "";
     
     
@@ -75,6 +86,21 @@ public class BeanPaginas implements Serializable{
     public String getConcluidosSchedule() {
         return concluidosSchedule;
     }
-    
+
+    public String getPacientesCadastrados() {
+        return pacientesCadastrados;
+    }
+
+    public String getAlterarPaciente() {
+        return alterarPaciente;
+    }
+
+    public String getIncludeAlterarPaciente() {
+        return includeAlterarPaciente;
+    }
+
+    public String getInformacoesPessoais() {
+        return informacoesPessoais;
+    }
     
 }
