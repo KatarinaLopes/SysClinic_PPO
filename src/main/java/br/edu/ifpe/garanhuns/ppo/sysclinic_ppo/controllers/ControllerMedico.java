@@ -189,6 +189,8 @@ public class ControllerMedico implements Serializable {
         int diaAntigo = antigo.getDia();
         int diaNovo = novo.getDia();
 
+        List<Agendamento> agendamentos = Fachada.getInstance().getAgendaManager().retornarAgendamentos(medico);
+        
         Fachada.getInstance().getMedicoManager().atualizarHorario(medico,
                 antigo, novo);
         atualizar(medico);
@@ -199,7 +201,7 @@ public class ControllerMedico implements Serializable {
         Fachada.getInstance().getAgendaManager().atualizar();
 
         Fachada.getInstance().getPacienteManager().
-                inserirMensagemDeAtualizacaoDeHorario(medico,
+                inserirMensagemDeAtualizacaoDeHorario(agendamentos, medico,
                         novo.getHorarioInicial());   
     }
 

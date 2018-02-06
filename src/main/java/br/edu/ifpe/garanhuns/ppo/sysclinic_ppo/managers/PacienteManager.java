@@ -1,5 +1,6 @@
 package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers;
 
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agenda;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Horario;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Medico;
@@ -125,37 +126,32 @@ public class PacienteManager implements Serializable {
         }
     }
 
-    public void inserirMensagemDeExclusaoParaTodosPacientes(Medico excluido) {
-        //List<Agendamento> agendamentos = excluido.getAgenda().
-        //      getAgendamentos();
+    public void inserirMensagemDeExclusaoParaTodosPacientes(List<Agendamento> agendamentos,
+            Medico excluido) {
 
-        Paciente anterior = null;
         Paciente atual = null;
 
-        /*for (Agendamento agendamento : agendamentos) {
+        for (Agendamento agendamento : agendamentos) {
 
             atual = agendamento.getPaciente();
 
             atual.getFeed().incluirMensagensExclusaoDeAgendamento(excluido,
                     agendamento.getDataPrevista());
             atualizar(atual);
-        }*/
+        }
     }
 
-    public void inserirMensagemDeAtualizacaoDeHorario(Medico medico,
-            Date novoHorario) {
+    public void inserirMensagemDeAtualizacaoDeHorario(List<Agendamento> agendamentos,
+            Medico medico, Date novoHorario) {
 
-        /*List<Agendamento> agendamentos = medico.getAgenda().
-          //      listarPacientesAgendados(novoHorario);
-
-        //for (Agendamento agendamento : agendamentos) {
+        for (Agendamento agendamento : agendamentos) {
 
             Paciente paciente = agendamento.getPaciente();
 
-            paciente.getFeed().incluirMensagensAlteracaoDeHorario(agendamento.getDataPrevista(), novoHorario, medico);
+            paciente.getFeed().incluirMensagensAlteracaoDeHorario(agendamento.getDataPrevista(), novoHorario, agendamento.getMedico());
             atualizar(paciente);
 
-        }*/
+        }
     }
 
     public List<Mensagem> exibirMensagens(Paciente paciente) {

@@ -7,6 +7,7 @@ package br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.controllers;
 
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.beans.LoginPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.managers.Fachada;
+import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Agendamento;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.business.Paciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.DaoPaciente;
 import br.edu.ifpe.garanhuns.ppo.sysclinic_ppo.models.persistence.dao.manager.DaoGenerico;
@@ -254,16 +255,20 @@ public class ControllerPaciente implements
 
     public void incluirMensagensDeExclusaoDeAgendamento(Medico excluido) {
 
+        List<Agendamento> agendamentos = Fachada.getInstance().getAgendaManager().retornarAgendamentos(excluido);
+        
         Fachada.getInstance().getPacienteManager().
-                inserirMensagemDeExclusaoParaTodosPacientes(excluido);
+                inserirMensagemDeExclusaoParaTodosPacientes(agendamentos, excluido);
 
     }
 
     public void incluirMensagemDeAlteracaoDeHorario(Medico medico,
             Date novoHorario) {
         
+        List<Agendamento> agendamentos = Fachada.getInstance().getAgendaManager().retornarAgendamentos(medico);
+        
         Fachada.getInstance().getPacienteManager().
-                inserirMensagemDeAtualizacaoDeHorario(medico, novoHorario);
+                inserirMensagemDeAtualizacaoDeHorario(agendamentos, medico, novoHorario);
     }
 
     public List<Mensagem> exibirMensagens() {

@@ -205,4 +205,12 @@ public final class AgendaManager {
         System.out.println(diaAnterior);
         agenda.remarcarAgendamento(diaAnterior, horarioNovo, medico);
     }
+    
+    public List<Agendamento> retornarAgendamentos(Medico medico){
+        return agenda.retornarAgendamentos(medico);
+    }
+    
+     public List<Agendamento> retornarAgendamentos(Medico medico, Date horario){
+        return agenda.retornarAgendamentos(medico);
+    }
 }
