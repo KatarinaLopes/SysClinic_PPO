@@ -81,11 +81,11 @@
             </p:panel>
             <p:panel>
                 <h3>Alteração de senha</h3>
-                
+
                 <p>Se seu cadastro foi feito por terceiros, recomenda-se que 
-                você troque sua senha em seu primeiro acesso. Assim, evitará 
-                que outras pessoas tenham acesso às suas informações.</p>
-                
+                    você troque sua senha em seu primeiro acesso. Assim, evitará 
+                    que outras pessoas tenham acesso às suas informações.</p>
+
                 <p:commandButton value="Alterar a senha" ajax="false"
                                  action="#{controllerPaciente.
                                            setPacienteSelecionado(
@@ -99,9 +99,9 @@
                   modal="true" responsive="true" visible="false" 
                   widgetVar="wid-dial-senha">
             <h:form id="form-dial-alterar-senha">
-                
+
                 <p:poll>
-                <p:messages id="msgs"/>
+                    <p:messages id="msgs"/>
                 </p:poll>
                 <p:panelGrid columns="3">
                     <h:outputText value="Senha antiga"/>
@@ -109,13 +109,13 @@
                                  required="true"
                                  requiredMessage="Campo obrigatório"/>
                     <p:message id="msg-antiga" for="senhaAntiga"/>
-                    
+
                     <h:outputText value="Senha nova"/>
                     <p:inputText value="#{senhaNova}" id="senhaNova"
                                  required="true" 
                                  requiredMessage="Campo obrigatório"/>
                     <p:message for="senhaNova"/>
-                    
+
                     <h:outputText value="Confirme a senha nova"/>
                     <p:inputText value="#{confirmacao}" 
                                  id="confirmacao" required="true"

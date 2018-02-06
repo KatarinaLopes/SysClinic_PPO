@@ -11,18 +11,18 @@
     <h:body>
         <h:form id="form-cadastro-medicos">
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
-            
+
             <h1>Cadastro de médico</h1>
-            
+
             <h3>Os campos com asterisco são obrigatórios</h3>
-            
+
             <p:poll>
                 <p:messages showDetail="true"/>
             </p:poll>
             <p:panel id="panel-info-medico">
-                
+
                 <h4>Passo 1 de 2: Cadastro de informações</h4>
-                
+
                 <p:panelGrid columns="3">
                     <h:outputText value="*Nome"/> 
                     <p:inputText id="nome" maxlength="70" 
@@ -104,7 +104,7 @@
                     <p:separator/>
 
                 </p:panelGrid>
-                
+
                 <p:commandButton value="Limpar campos" type="reset" 
                                  update="@form"/>
             </p:panel>
@@ -139,24 +139,24 @@
                     <p:column headerText="Operações">
                         <p:commandButton icon="fa fa-close"
                                          update="dial-confirmar-excluir"
-                          oncomplete="PF('wid-dial-confirmar-excluir').show()">
+                                         oncomplete="PF('wid-dial-confirmar-excluir').show()">
                             <f:setPropertyActionListener value="#{horario}"
-                                 target="#{builderMedico.horarioSelecionado}"/>
+                                                         target="#{builderMedico.horarioSelecionado}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
 
 
                 <p:commandButton icon="fa fa-plus"
-                        oncomplete="PF('wid-dial-cadastrar-horario').show()"/>
+                                 oncomplete="PF('wid-dial-cadastrar-horario').show()"/>
 
-                </p:panel>
-                
-                <p:commandButton value="Cadastrar" ajax="false"
-                                 action="#{controllerMedico.cadastrar(
-                                           builderMedico.build())}"
-                                 update="@all"
-                                 validateClient="true"/>
+            </p:panel>
+
+            <p:commandButton value="Cadastrar" ajax="false"
+                             action="#{controllerMedico.cadastrar(
+                                       builderMedico.build())}"
+                             update="@all"
+                             validateClient="true"/>
         </h:form>
         <p:dialog closable="true" draggable="false" dynamic="true" 
                   header="Definir horários" id="dial-cadastrar-horario" 
@@ -171,7 +171,7 @@
                         <f:selectItem itemDisabled="true" 
                                       itemLabel="Selecione o dia"/>
                         <f:selectItems value="#{builderMedico.diasDaSemana}"/>
-                        
+
                     </p:selectOneMenu>
                     <p:message for="dia"/>
 
@@ -191,7 +191,7 @@
                         <f:convertDateTime type="time" timeStyle="short"/>
                     </p:calendar>
                     <p:message for="fim"/>
-                    
+
                     <h:outputText value="Limite de agendamentos"/>
                     <p:inputText id="numeroAgendamentos" type="number"
                                  value="#{builderHorario.
@@ -204,12 +204,12 @@
                                            adicionarHorarios(builderHorario.
                                            build())}"
                                  validateClient="true"
-                              update="dial-cadastrar-horario
-                               form-cadastro-medicos:tabela-cadastrar-horarios"
-                         oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
+                                 update="dial-cadastrar-horario
+                                 form-cadastro-medicos:tabela-cadastrar-horarios"
+                                 oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
                 <p:commandButton value="Cancelar"
                                  update="dial-cadastrar-horario"
-                         oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
+                                 oncomplete="PF('wid-dial-cadastrar-horario').hide()"/>
             </h:form>
         </p:dialog>
         <p:dialog id="dial-confirmar-excluir" modal="true" closable="true"
@@ -221,14 +221,14 @@
                 <br/>
 
                 <p:commandButton value="Sim" action="#{builderMedico.
-                                                   excluirHorario(
-                                                   builderMedico.
-                                                   horarioSelecionado)}"
-                       update="form-cadastro-medicos"
-                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+                                                       excluirHorario(
+                                                       builderMedico.
+                                                       horarioSelecionado)}"
+                                 update="form-cadastro-medicos"
+                                 oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
 
                 <p:commandButton value="Não" 
-                         oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
+                                 oncomplete="PF('wid-dial-confirmar-excluir').hide()"/>
             </h:form>
         </p:dialog>
     </h:body>

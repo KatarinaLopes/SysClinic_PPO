@@ -15,7 +15,7 @@
 
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
-            
+
             <p:messages>
                 <p:poll/>
             </p:messages>
@@ -24,22 +24,22 @@
             <h1>Fazer novo agendamento para consulta</h1>
 
             <h3>Os campos com asterisco são obrigatórios</h3>
-            
-            
+
+
             <p:panel id="panel-novo-agendamento">
                 <p:panelGrid columns="4">                    
                     <h:outputText value="Paciente" 
                                   rendered="#{!controllerPaciente.
                                               existePacienteLogado()}"/>
                     <h:outputText id="paciente-selecionado" 
-                                 rendered="#{!controllerPaciente.
-                                             existePacienteLogado()}"
-                                 value="#{builderAgendamento.paciente.nome}"/>
+                                  rendered="#{!controllerPaciente.
+                                              existePacienteLogado()}"
+                                  value="#{builderAgendamento.paciente.nome}"/>
 
                     <p:commandButton icon="fa fa-search" 
-                            oncomplete="PF('wid-dial-listar-pacientes').show()"
-                            rendered="#{!controllerPaciente.
-                                        existePacienteLogado()}"/>                 
+                                     oncomplete="PF('wid-dial-listar-pacientes').show()"
+                                     rendered="#{!controllerPaciente.
+                                                 existePacienteLogado()}"/>                 
                     <p:message for="paciente-selecionado" 
                                rendered="#{!controllerPaciente.
                                            existePacienteLogado()}"/>
@@ -48,7 +48,7 @@
                     <h:outputText id="idMedico" 
                                   value="#{builderAgendamento.medico.nome}"/>
                     <p:commandButton icon="fa fa-search"
-                            oncomplete="PF('wid-dial-listar-medicos').show()"/>
+                                     oncomplete="PF('wid-dial-listar-medicos').show()"/>
                     <p:message for="idMedico"/>
 
                     <h:outputText value="Data prevista"/>
@@ -87,22 +87,22 @@
 
                 <p:commandButton value="Incluir" 
                                  action="#{controllerAgenda.
-                                    salvarAgendamento(builderAgendamento.
-                                    build())}"
+                                           salvarAgendamento(builderAgendamento.
+                                           build())}"
                                  update=":form-agendamento-consultas"
                                  rendered="#{controllerFuncionario.
-                                            existeLogadoNaoAdministrador()}"/>
+                                             existeLogadoNaoAdministrador()}"/>
                 <p:commandButton value="Incluir" 
                                  action="#{controllerAgenda.
-                                    salvarAgendamento(builderAgendamento.
-                                    build())}"
+                                           salvarAgendamento(builderAgendamento.
+                                           build())}"
                                  update=":form-agendamento-consultas"
                                  rendered="#{controllerPaciente.
                                              existePacienteLogado()}">
                     <f:setPropertyActionListener 
                         target="#{builderAgendamento.paciente}"
-                         value="#{controllerPaciente.
-                                  retornarPacienteLogado()}"/>
+                        value="#{controllerPaciente.
+                                 retornarPacienteLogado()}"/>
                 </p:commandButton>
 
                 <h:outputText id="horarios" 
@@ -139,24 +139,24 @@
                     </p:column>
                     <p:column>
                         <p:commandButton icon="fa fa-selected"
-                           oncomplete="PF('wid-dial-listar-pacientes').hide()"
-                           update="form-agendamento-consultas:paciente-selecionado">
+                                         oncomplete="PF('wid-dial-listar-pacientes').hide()"
+                                         update="form-agendamento-consultas:paciente-selecionado">
                             <f:setPropertyActionListener 
                                 target="#{builderAgendamento.paciente}"
                                 value="#{paciente}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
-                
+
                 <p:commandButton value="Fechar" 
-                          oncomplete="PF('wid-dial-listar-pacientes').hide()"/>
+                                 oncomplete="PF('wid-dial-listar-pacientes').hide()"/>
             </h:form>
         </p:dialog>
-        
+
         <p:dialog closable="true" draggable="true" dynamic="true" 
                   header="Médicos cadastrados" id="dial-listar-medicos" 
                   modal="true" responsive="true" visible="false" 
-            widgetVar="wid-dial-listar-medicos">
+                  widgetVar="wid-dial-listar-medicos">
             <h:form id="form-dial-listar-medicos">          
                 <p:dataTable disabledSelection="true" 
                              emptyMessage="Ainda não há médicos cadastrados"
@@ -183,21 +183,21 @@
                     </p:column>
                     <p:column>
                         <p:commandButton icon="fa fa-select"
-                            oncomplete="PF('wid-dial-listar-medicos').hide()"
-                            actionListener="#{controllerMedico.
-                                              carregarDiasLivres(medico)}"
-                            update=":form-agendamento-consultas:idMedico
-                            :form-agendamento-consultas:dataPrevista
-                            :form-agendamento-consultas:horarios">
+                                         oncomplete="PF('wid-dial-listar-medicos').hide()"
+                                         actionListener="#{controllerMedico.
+                                                           carregarDiasLivres(medico)}"
+                                         update=":form-agendamento-consultas:idMedico
+                                         :form-agendamento-consultas:dataPrevista
+                                         :form-agendamento-consultas:horarios">
                             <f:setPropertyActionListener 
                                 target="#{builderAgendamento.medico}" 
                                 value="#{medico}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
-                
+
                 <p:commandButton value="Fechar" 
-                            oncomplete="PF('wid-dial-listar-medicos').hide()"/>
+                                 oncomplete="PF('wid-dial-listar-medicos').hide()"/>
             </h:form>
         </p:dialog>
 

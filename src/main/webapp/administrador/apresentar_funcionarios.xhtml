@@ -285,13 +285,13 @@
 
                     <p:selectBooleanCheckbox  id="administrador" 
                                               itemLabel="É um administrador"
-                                disabled="#{!controllerFuncionario.
-                                    existeMaisDeUm(controllerFuncionario.
-                                    funcionarioSelecionado.administrador)}"
-                                
+                                              disabled="#{!controllerFuncionario.
+                                                          existeMaisDeUm(controllerFuncionario.
+                                                          funcionarioSelecionado.administrador)}"
+
                                               value="#{controllerFuncionario.
-                                                  funcionarioSelecionado.
-                                                  administrador}">
+                                                       funcionarioSelecionado.
+                                                       administrador}">
                         <p:ajax event="change" 
                                 listener="#{controllerFuncionario.
                                             exibirAlertaDeMudanca()}"
@@ -312,7 +312,7 @@
                                  oncomplete="
                                  PF('wid-dial-alterar-funcionario').hide()"/>
                 <p:commandButton value="Cancelar"
-                    oncomplete="PF('wid-dial-alterar-funcionario').hide()"/>
+                                 oncomplete="PF('wid-dial-alterar-funcionario').hide()"/>
             </h:form>
 
         </p:dialog>

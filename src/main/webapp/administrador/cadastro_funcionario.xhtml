@@ -12,15 +12,15 @@
         <h:form id="form-cadastro-funcionarios">
 
             <ui:include src="/restricted/administrador/include_menu.xhtml"/>
-            
+
             <h1>Cadastro de funcionários</h1>
-            
+
             <h3>Os campos com asterisco são obrigatórios</h3>
-            
+
             <p:poll>
                 <p:messages showDetail="true"/>
             </p:poll>
-            
+
             <ui:include src="#{beanPaginas.cadastroFuncionarios}"/>
         </h:form>
     </h:body>

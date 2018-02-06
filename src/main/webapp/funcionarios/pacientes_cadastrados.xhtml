@@ -30,7 +30,7 @@
                     <f:facet name="header">
                         <p:outputPanel>
                             <p:inputText id="global-filter"
-                                    onkeyup="PF('tabela-apresentar-pacientes').
+                                         onkeyup="PF('tabela-apresentar-pacientes').
                                                     filter()"
                                          placeholder="Pesquisar"/>
                         </p:outputPanel>
@@ -69,10 +69,10 @@
                                          icon="fa fa-search" 
                                          update=":form-apresentar-pacientes 
                                          :dial-visualizar-paciente"
-                        oncomplete="PF('wid-dial-visualizar-paciente').show()">
+                                         oncomplete="PF('wid-dial-visualizar-paciente').show()">
                             <f:setPropertyActionListener value="#{paciente}" 
-                                                  target="#{controllerPaciente.
-                                                        pacienteSelecionado}"/>
+                                                         target="#{controllerPaciente.
+                                                                   pacienteSelecionado}"/>
                         </p:commandButton>
 
                         <p:commandButton id="btn-alterar-paciente"
@@ -81,8 +81,8 @@
                                                    alterarPaciente.trim()}"
                                          update=":form-apresentar-pacientes">
                             <f:setPropertyActionListener value="#{paciente}"
-                                                target="#{controllerPaciente.
-                                                        pacienteSelecionado}"/>
+                                                         target="#{controllerPaciente.
+                                                                   pacienteSelecionado}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -151,7 +151,7 @@
                 </p:panelGrid>
 
                 <p:commandButton value="Fechar" 
-                       oncomplete="PF('wid-dial-visualizar-paciente').hide()"/>
+                                 oncomplete="PF('wid-dial-visualizar-paciente').hide()"/>
                 <p:commandButton value="Editar"
                                  action="#{beanPaginas.alterarPaciente}"/>
             </h:form>

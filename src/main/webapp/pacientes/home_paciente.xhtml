@@ -14,12 +14,12 @@
         <h:form id="form-principal-paciente">
 
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
-            
-            
+
+
             <h1>Olá, sr(a). 
                 <h:outputText value="#{controllerPaciente.
                                        retornarPacienteLogado().nome}"/>!</h1>
-            
+
             <p:panel header="Feed" toggleOrientation="vertical"
                      toggleable="true">
                 <p:repeat id="mensagem-feed" 
@@ -42,8 +42,8 @@
 
                             <p:commandButton icon="fa fa-close" 
                                              action="#{controllerPaciente.
-                                                    excluirMensagem(mensagem)}"
-                                         update="form-principal:mensagens-feed"
+                                                       excluirMensagem(mensagem)}"
+                                             update="form-principal:mensagens-feed"
                                              ajax="false"/>
                         </p:panelGrid>
                     </p:outputPanel>

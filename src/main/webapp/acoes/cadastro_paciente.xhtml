@@ -41,7 +41,7 @@
             <p:poll>
                 <p:messages/>
             </p:poll>
-            
+
             <p:panel>
                 Os campos com asterisco são obrigatórios.
                 <p:panelGrid columns="3">
@@ -64,7 +64,7 @@
                                       requiredMessage="Campo obrigatório">
                         <f:selectItem itemValue="F" itemLabel="Feminino"/>
                         <f:selectItem itemValue="M" itemLabel="Masculino"/>
-                   
+
                     </p:selectOneRadio>
                     <p:message for="sexo"/>
 
@@ -98,7 +98,7 @@
                                  validatorMessage="#{beanValidacao.
                                                      mensagemTelefone}">
                         <f:validateRegex
-                             pattern="#{beanValidacao.regexTelefone}"/>
+                            pattern="#{beanValidacao.regexTelefone}"/>
                     </p:inputMask>
                     <p:message for="celular"/>
 
@@ -133,7 +133,7 @@
                                 requiredMessage="Campo obrigatório"/>
                     <p:message id="mConfirmeSenha" for="confirmeSenha"/>
                 </p:panelGrid>
-                
+
                 <p>Dica: Não utilize senhas fáceis, como sequencias (ex.: 1234) 
                     ou datas importantes (ex.: seu aniversário)</p>
 

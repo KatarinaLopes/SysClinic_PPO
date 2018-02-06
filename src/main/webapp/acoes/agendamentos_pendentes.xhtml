@@ -9,17 +9,17 @@
         <title>SysClinic - </title>
         <f:metadata>
             <f:viewAction action="#{beanPaginas.setPaginaAtual(beanPaginas.
-                            pendenteSchedule)}"/>
+                                    pendenteSchedule)}"/>
         </f:metadata>
     </h:head>
     <h:body id="body">
-        
-        
+
+
         <h:form id="form-inicial">
 
             <ui:include src="/restricted/funcionarios/include_menu.xhtml"/>
             <ui:include src="/restricted/pacientes/include_menu.xhtml"/>
-            
+
             <h1>Agendamentos pendentes</h1>
 
             <h:link rendered="#{!controllerPaciente.existePacienteLogado()}"
