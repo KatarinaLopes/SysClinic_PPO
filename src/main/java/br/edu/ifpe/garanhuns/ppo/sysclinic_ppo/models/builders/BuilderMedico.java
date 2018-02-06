@@ -15,11 +15,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -181,23 +183,19 @@ public class BuilderMedico implements BuilderGenerico<Medico>, Serializable {
         this.diasDaSemana = diasDaSemana;
     }
 
-    public void adicionarHorarios(int dia, Date horarioInicial,
-            Date horarioFinal, int agendamentos) {
-
-        System.out.println("dnjfr");
-
-        horarios.add(new Horario(dia, horarioInicial, horarioFinal,
-                agendamentos));
+    public void adicionarHorarios(Horario horario) {
+        if(horarios.contains(horario)){
+            throw new ValidatorException(new FacesMessage(FacesMessage.
+                    SEVERITY_ERROR, "Erro", 
+                    "Este horário já está cadastrado"));
+        }
+        
+        horarios.add(horario);
     }
 
-    public void excluirHorario(Horario h) {
-        for (Horario horario : horarios) {
-            System.out.println("dnhf");
-            if (horario.equals(h)) {
-                System.out.println("1");
-                horarios.remove(h);
-                break;
-            }
+    public void excluirHorario(Horario horario) {
+        if(horarios.contains(horario)){
+            horarios.remove(horario);
         }
     }
     

@@ -43,6 +43,14 @@ public class BeanValidacao {
     
     private String mensagemCpf = "CPF inválido";
     
+    private String regexCrm = "CRM\\/((S[P,C,E])|BA|(M[G,A,S,T])|(A[M,L,C,P])|(P[R,A,E,B,I])|DF|(R[S,J,N,R,O])|GO|ES|CE|TO)\\s[0-9]{4,}";
+    
+    private String mensagemCrm = "CRM inválido";
+    
+    private String regexMatricula = "[0-9]{1,}";
+    
+    private String mensagemMatricula = "Matrícula inválida";
+    
     public String getRegexNome() {
         return regexNome;
     }
@@ -122,12 +130,40 @@ public class BeanValidacao {
     public void setMensagemCpf(String mensagemCpf) {
         this.mensagemCpf = mensagemCpf;
     }
-    
-    public void validarCPF(String cpf){
-        if(!Validacoes.validarCpf(cpf)){
-            throw new ValidatorException(new FacesMessage("CPF inválido"));
-        }
+
+    public String getRegexCrm() {
+        return regexCrm;
+    }
+
+    public void setRegexCrm(String regexCrm) {
+        this.regexCrm = regexCrm;
+    }
+
+    public String getMensagemCrm() {
+        return mensagemCrm;
+    }
+
+    public void setMensagemCrm(String mensagemCrm) {
+        this.mensagemCrm = mensagemCrm;
+    }
+
+    public String getRegexMatricula() {
+        return regexMatricula;
+    }
+
+    public void setRegexMatricula(String regexMatricula) {
+        this.regexMatricula = regexMatricula;
+    }
+
+    public String getMensagemMatricula() {
+        return mensagemMatricula;
+    }
+
+    public void setMensagemMatricula(String mensagemMatricula) {
+        this.mensagemMatricula = mensagemMatricula;
     }
     
+        
     
 }
+

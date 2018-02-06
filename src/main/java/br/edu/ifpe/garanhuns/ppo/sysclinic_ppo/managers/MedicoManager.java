@@ -44,6 +44,11 @@ public class MedicoManager {
      * @throws IllegalArgumentException 
      */
     public void validar(Medico medico) throws IllegalArgumentException {
+        
+        if(medico.getHorarios().isEmpty()){
+            throw new IllegalArgumentException("Adicione um horário");
+        }
+        
         Medico existente = (Medico) daoMedicos.
                 recuperarPorAtributo("matricula", medico.getMatricula());
 
@@ -64,8 +69,7 @@ public class MedicoManager {
 
     }
 
-    public void cadastrar(Medico medico)
-            throws IllegalArgumentException {
+    public void cadastrar(Medico medico) throws IllegalArgumentException {
         validar(medico);
         daoMedicos.persistir(medico);
     }

@@ -117,7 +117,7 @@ public class ControllerMedico implements Serializable{
      * @param numero
      * @return 
      */
-    public String cadastrar(Medico medico, String conselho, int numero) {
+    public String cadastrar(Medico medico) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage fm;
         String retorno = null;
